@@ -52,7 +52,7 @@ function Login() {
   };
 
   return (
-    <form onSubmit={onSubmit} className="w-full p-6 grid">
+    <form onSubmit={onSubmit} className="w-full grid">
       <div className="grid mb-[32px]">
         <div className="grid gap-[10px]">
         <Input value={email} onChange={emailHandler} type="email" placeholder="이메일" />
