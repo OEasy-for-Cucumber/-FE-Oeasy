@@ -1,10 +1,13 @@
 import { Outlet } from "react-router-dom";
 import "./App.css";
+import Layout from "./Layout";
 
-function App() {
+function App(): React.JSX.Element {
   return (
     <>
-      <Outlet />
+      <Layout>
+        <Outlet />
+      </Layout>
     </>
   );
 }
