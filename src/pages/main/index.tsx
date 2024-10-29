@@ -9,7 +9,7 @@ function Main() {
       <h1>수미님 바보</h1>
       <Button type="submit">클릭</Button>
       <br />
-      <Input type={"email"} placeholder="email" />
+      <Input type="email" placeholder="email" />
     </>
   );
 }

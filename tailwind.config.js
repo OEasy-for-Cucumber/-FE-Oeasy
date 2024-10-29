@@ -20,10 +20,13 @@ module.exports = {
           950: "#1C1C1C"
         }
       }
-    },
+    }
     // fontFamily: {
     //   PretendardRegular: ["Pretendard-Regular"]
     // }
+  },
+  screens: {
+    xl: "1440px"
   },
   plugins: [
     plugin(function ({ addUtilities }) {
