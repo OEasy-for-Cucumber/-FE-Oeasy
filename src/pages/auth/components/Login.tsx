@@ -1,35 +1,37 @@
 import React, { useState, useEffect } from "react";
 import Button from "../../../components/Button";
+import Input from "../../../components/Input";
+import { useActiveStore } from "../../../zustand/isActiveStore";
 
 function Login() {
   const [inputValue, setInputValue] = useState("");
-  const [isButtonActive, setIsButtonActive] = useState(false);
+  const { isActive, setIsActive} = useActiveStore();
 
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setInputValue(event.target.value);
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInputValue(e.target.value);
   };
 
   useEffect(() => {
-    setIsButtonActive(inputValue.trim() !== "");
+    if(inputValue) {
+      setIsActive(true);
+    } else {
+      setIsActive(false);
+    }
   }, [inputValue]);
 
   const onSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    if (isButtonActive) {
-      // 로그인 로직 수행 
-    }
   };
 
   return (
     <form onSubmit={onSubmit} className="w-full p-6 grid gap-4">
-      <input 
-        type="text" 
-        value={inputValue} 
-        onChange={handleInputChange} 
-        className="border p-2"
-        placeholder="아이디를 입력하세요"
-      />
-      <Button type="submit" isActive={isButtonActive}>로그인</Button>
+      <div className="grid">
+        <Input value={inputValue} onChange={handleInputChange} type="email" placeholder="이메일" />
+        {/* <Input type="password" placeholder="비밀번호" /> */}
+        <Button type="submit" isActive={isActive}>
+          로그인
+        </Button>
+      </div>
     </form>
   );
 }
