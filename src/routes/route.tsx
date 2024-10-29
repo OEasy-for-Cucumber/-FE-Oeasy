@@ -4,8 +4,7 @@ import Main from "../pages/main";
 
 const router = createBrowserRouter([
   {
-    path: "/",
-    element: <App />, // 최상위 경로로 App 설정
+    element: <App />,
     children: [
       {
         path: "/",
