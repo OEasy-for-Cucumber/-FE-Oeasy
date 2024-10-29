@@ -1,7 +1,5 @@
 function index() {
-  return (
-    <div>index</div>
-  )
+  return <div>index</div>;
 }
 
-export default index
+export default index;
