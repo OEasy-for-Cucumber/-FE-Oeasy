@@ -1,7 +1,7 @@
-function index() {
+function Auth() {
   return (
     <div>index</div>
   )
 }
 
-export default index
+export default Auth;
