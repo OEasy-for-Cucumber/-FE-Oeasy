@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Input from "../../../components/Input";
-import Button from "../../../components/Button";
+import EmailStep from "./EmailStep";
+import PasswordStep from "./PasswordStep";
+import Nickname from "./Nickname";
 import { useActiveStore } from "../../../zustand/isActiveStore";
+import Complete from "./Complete";
 
 function Signup() {
   const [email, setEmail] = useState<string>("");
@@ -22,11 +24,9 @@ function Signup() {
   const [confirmPasswordMsg, setConfirmPasswordMsg] = useState<string>("");
 
   const navigate = useNavigate();
-  const { isActive, setIsActive } = useActiveStore();
+  const [step, setStep] = useState("이메일");
+  // const { isActive, setIsActive } = useActiveStore();
 
-  const baseLabelClass = "transition-all duration-300 text-[13px]";
-  const visibleLabelClass = "opacity-100 translate-y-0";
-  const hiddenLabelClass = "opacity-0 -translate-1";
 
   const emailChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
@@ -52,7 +52,7 @@ function Signup() {
     }
   };
 
-  const confirmChangePasswordHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const confirmPasswordChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
     setConfirmPassword(value);
     if (password === value) {
@@ -80,97 +80,53 @@ function Signup() {
     setIsCheckedAccept(e.target.checked);
   };
 
-  useEffect(() => {
-    if (isEmail && isPassword && isConfirmPassword && isNickname && isCheckedAccept) {
-      setIsActive(true);
-    } else {
-      setIsActive(false);
-    }
-  }, [isEmail, isPassword, isConfirmPassword, isNickname, isCheckedAccept]);
+  // useEffect(() => {
+  //   if (isEmail || isPassword || isConfirmPassword || isNickname || isCheckedAccept) {
+  //     setIsActive(true);
+  //   } else {
+  //     setIsActive(false);
+  //   }
+  // }, [isEmail, isPassword, isConfirmPassword, isNickname, isCheckedAccept]);
 
   return (
     <div className="w-full h-svh relative">
       <h1 className="py-4 text-sm text-center">회원가입</h1>
       <div className="text-center my-[40px]">인풋 넘길때 바뀌는 bar</div>
       <form className="grid">
-        <p className="text-lg mb-4">이메일을 입력해주세요</p>
+        {step === "이메일" && (
+          <EmailStep
+            email={email}
+            isEmail={isEmail}
+            emailMsg={emailMsg}
+            emailChangeHandler={emailChangeHandler}
+            setStep={setStep}
+          />
+        )}
+        {step === "비밀번호" && (
+          <PasswordStep
+            password={password}
+            isPassword={isPassword}
+            passwordMsg={passwordMsg}
+            passwordChangeHandler={passwordChangeHandler}
+            confirmPassword={confirmPassword}
+            isConfirmPassword={isConfirmPassword}
+            confirmPasswordMsg={confirmPasswordMsg}
+            confirmPasswordChangeHandler={confirmPasswordChangeHandler}
+            setStep={setStep}
+          />)}
+        {step === "닉네임" && (
+          <Nickname
+            nickname={nickname}
+            isNickname={isNickname}
+            nicknameMsg={nicknameMsg}
+            nicknameChangeHandler={nicknameChangeHandler}
+            checkedChangeHandler={checkedChangeHandler}
+            isCheckedAccept={isCheckedAccept}
+            setStep={setStep}
+          />
+        )}
+        {step === "가입완료" && <Complete/>}
 
-        <p
-          className={`${!isEmail ? "redoe" : "text-grayoe-300"} ${
-            email ? visibleLabelClass : hiddenLabelClass
-          } ${baseLabelClass}`}
-        >
-          이메일
-        </p>
-        <Input value={email} onChange={emailChangeHandler} type="email" placeholder="이메일" />
-        <p
-          className={`${"redoe"} ${
-            isEmail === false && email !== "" ? visibleLabelClass : hiddenLabelClass
-          } ${baseLabelClass}`}
-        >
-          {emailMsg}
-        </p>
-
-        <p
-          className={`${!isPassword ? "redoe" : "text-grayoe-300"} ${
-            password ? visibleLabelClass : hiddenLabelClass
-          } ${baseLabelClass}`}
-        >
-          비밀번호
-        </p>
-        <Input value={password} onChange={passwordChangeHandler} type="password" placeholder="비밀번호" />
-        <p
-          className={`${"redoe"} ${
-            isPassword === false && password !== "" ? visibleLabelClass : hiddenLabelClass
-          } ${baseLabelClass}`}
-        >
-          {passwordMsg}
-        </p>
-
-        <p
-          className={`${!isConfirmPassword ? "redoe" : "text-grayoe-300"} ${
-            confirmPassword ? visibleLabelClass : hiddenLabelClass
-          } ${baseLabelClass}`}
-        >
-          비밀번호 재입력
-        </p>
-        <Input
-          value={confirmPassword}
-          onChange={confirmChangePasswordHandler}
-          type="password"
-          placeholder="비밀번호 재입력"
-        />
-        <p
-          className={`${"redoe"} ${
-            isConfirmPassword === false && confirmPassword !== "" ? visibleLabelClass : hiddenLabelClass
-          } ${baseLabelClass}`}
-        >
-          {confirmPasswordMsg}
-        </p>
-
-        <p
-          className={`${!isNickname ? "redoe" : "text-grayoe-300"} ${
-            nickname ? visibleLabelClass : hiddenLabelClass
-          } ${baseLabelClass}`}
-        >
-          닉네임
-        </p>
-        <Input value={nickname} onChange={nicknameChangeHandler} type="text" placeholder="닉네임" />
-        <p
-          className={`${"redoe"} ${
-            isNickname === false && nickname !== "" ? visibleLabelClass : hiddenLabelClass
-          } ${baseLabelClass}`}
-        >
-          {nicknameMsg}
-        </p>
-
-        <div className="absolute w-full bottom-6">
-          <span className="mx-auto text-sm">
-            <input type="checkbox" checked={isCheckedAccept} onChange={checkedChangeHandler} className="mr-2 mb-6" />
-            개인정보 수집 및 이용에 대한 동의(필수)
-          </span>
-          <Button isActive={isActive}>가입완료</Button>
-        </div>
       </form>
     </div>
   );
