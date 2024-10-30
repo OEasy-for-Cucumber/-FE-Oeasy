@@ -18,6 +18,19 @@ module.exports = {
           800: "#2E2E2E",
           900: "#262626",
           950: "#1C1C1C"
+        },
+        greenoe: {
+          50: "#eefff4",
+          100: "#d7ffe7",
+          200: "#b2ffd1",
+          300: "#76ffad",
+          400: "#33f583",
+          500: "#09de61",
+          600: "#00c853",
+          700: "#049140",
+          800: "#0a7136",
+          900: "#0a5d2f",
+          950: "#052210"
         }
       }
     }
@@ -26,7 +39,7 @@ module.exports = {
     // }
   },
   screens: {
-    xl: "1440px"
+    xl: { min: "1440px" }
   },
   plugins: [
     plugin(function ({ addUtilities }) {
@@ -100,6 +113,7 @@ module.exports = {
         ".blueoe": { color: "#0a84ff" },
         ".blue-light": { color: "#edf9ff" }
       });
-    })
+    }),
+    require("@tailwindcss/line-clamp")
   ]
 };
