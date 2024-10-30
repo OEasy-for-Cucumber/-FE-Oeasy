@@ -33,10 +33,10 @@ module.exports = {
           950: "#052210"
         }
       }
+    },
+    fontFamily: {
+      LuckiestGuy: ["Luckiest Guy", "cursive"]
     }
-    // fontFamily: {
-    //   PretendardRegular: ["Pretendard-Regular"]
-    // }
   },
   screens: {
     xl: { min: "1440px" }
