@@ -42,9 +42,9 @@ function Login() {
   useEffect(() => {
     if (isEmail && isPassword) {
       setIsActive(true);
-    } else{
+    } else {
       setIsActive(false);
-    } 
+    }
   }, [isEmail, isPassword]);
 
   const onSubmit = (event: React.FormEvent) => {
@@ -53,19 +53,22 @@ function Login() {
 
   return (
     <form onSubmit={onSubmit} className="w-full grid">
-      <div className="grid mb-[32px]">
-        <div className="grid gap-[10px]">
-        <Input value={email} onChange={emailHandler} type="email" placeholder="이메일" />
-        {isEmail === false && email !== "" && <p className="text-[12px] pl-2 redoe">{emailMsg}</p>}
-        <Input value={password} onChange={passwordHandler} type="password" placeholder="비밀번호" />
-        {isPassword === false && password !== "" && <p className="text-[12px] pl-2 redoe">{passwordMsg}</p>}
+      <div className="mt-[150px] grid">
+        <div className="grid mb-[32px]">
+          <p className={`text-grayoe-300 ${email ? "opacity-100 translate-y-0" : "opacity-0 -translate-1"} transition-all duration-300 text-[13px]`}>이메일</p>
+          <Input value={email} onChange={emailHandler} type="email" placeholder="이메일" />
+          {isEmail === false && email !== "" && <p className="text-[12px] pl-2 redoe">{emailMsg}</p>}
+          
+          <p className={`text-grayoe-300 ${password ? "opacity-100 translate-y-0" : "opacity-0 -translate-1"} transition-all duration-300 text-[13px]`}>비밀번호</p>
+          <Input value={password} onChange={passwordHandler} type="password" placeholder="비밀번호" />
+          {isPassword === false && password !== "" && <p className="text-[12px] pl-2 redoe">{passwordMsg}</p>}
         </div>
         <Button type="submit" isActive={isActive}>
           로그인
         </Button>
-        <div className="flex gap-[24px] mx-auto text-grayoe-300">
+        <div className="flex mx-auto text-grayoe-300 items-center space-x-6 text-[12px] py-4">
           <button>회원가입</button>
-          <span>|</span>
+          <p>|</p>
           <button>계정찾기</button>
         </div>
       </div>
