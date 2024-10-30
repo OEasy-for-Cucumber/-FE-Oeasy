@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Button from "../../../components/Button";
 import Input from "../../../components/Input";
 import { useActiveStore } from "../../../zustand/isActiveStore";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
   const [email, setEmail] = useState<string>("");
@@ -14,6 +15,7 @@ function Login() {
   const [passwordMsg, setPasswordMsg] = useState<string>("");
 
   const { isActive, setIsActive } = useActiveStore();
+  const navigate = useNavigate();
 
   const emailHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
@@ -51,6 +53,10 @@ function Login() {
     event.preventDefault();
   };
 
+  const goToSignup = () => {
+    navigate("/signup")
+  }
+
   return (
     <form onSubmit={onSubmit} className="w-full grid">
       <div className="mt-[150px] grid">
@@ -67,7 +73,7 @@ function Login() {
           로그인
         </Button>
         <div className="flex mx-auto text-grayoe-300 items-center space-x-6 text-[12px] py-4">
-          <button>회원가입</button>
+          <button onClick={goToSignup}>회원가입</button>
           <p>|</p>
           <button>계정찾기</button>
         </div>
