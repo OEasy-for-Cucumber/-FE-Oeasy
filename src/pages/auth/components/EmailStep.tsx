@@ -11,11 +11,11 @@ function EmailStep({ email, isEmail, emailMsg, setStep, emailChangeHandler = () 
   const visibleLabelClass = "opacity-100 translate-y-0";
   const hiddenLabelClass = "opacity-0 -translate-1";
 
-  useEffect(()=>{
-    if(isEmail) {
+  useEffect(() => {
+    if (isEmail) {
       setIsActive(true);
     }
-  },[isEmail])
+  }, [isEmail]);
 
   const nextStepHandler = () => {
     if (isEmail) {
@@ -35,7 +35,7 @@ function EmailStep({ email, isEmail, emailMsg, setStep, emailChangeHandler = () 
         >
           이메일
         </p>
-        <Input value={email} onChange={emailChangeHandler} type="email" placeholder="이메일" />
+        <Input value={email} onChange={emailChangeHandler} type="email" placeholder="이메일" isValid={isEmail}/>
         <p
           className={`${"redoe"} ${
             isEmail === false && email !== "" ? visibleLabelClass : hiddenLabelClass

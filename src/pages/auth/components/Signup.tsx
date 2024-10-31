@@ -3,6 +3,7 @@ import EmailStep from "./EmailStep";
 import PasswordStep from "./PasswordStep";
 import Nickname from "./Nickname";
 import Complete from "./Complete";
+import ProgressBar from "./ProgressBar";
 
 function Signup() {
   const [email, setEmail] = useState<string>("");
@@ -22,7 +23,6 @@ function Signup() {
   const [confirmPasswordMsg, setConfirmPasswordMsg] = useState<string>("");
 
   const [step, setStep] = useState("이메일");
-
 
   const emailChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
@@ -79,8 +79,8 @@ function Signup() {
   return (
     <div className="w-full h-svh relative">
       <h1 className="py-4 text-sm text-center">회원가입</h1>
-      <div className="text-center my-[40px]">인풋 넘길때 바뀌는 bar</div>
-      <form className="grid">
+      <ProgressBar step={step}/>
+      <form className="grid mt-4">
         {step === "이메일" && (
           <EmailStep
             email={email}

@@ -72,7 +72,8 @@ function Login() {
           >
             이메일
           </p>
-          <Input value={email} onChange={emailHandler} type="email" placeholder="이메일" />
+          <Input value={email} onChange={emailHandler} type="email" placeholder="이메일"
+          isValid={isEmail} />
           {isEmail === false && email !== "" && <p className={"text-[12px] redoe"}>{emailMsg}</p>}
   
           <p
@@ -82,7 +83,7 @@ function Login() {
           >
             비밀번호
           </p>
-          <Input value={password} onChange={passwordHandler} type="password" placeholder="비밀번호" />
+          <Input value={password} onChange={passwordHandler} type="password" placeholder="비밀번호" isValid={isPassword}/>
           {isPassword === false && password !== "" && <p className={"text-[12px] redoe"}>{passwordMsg}</p>}
         </div>
   

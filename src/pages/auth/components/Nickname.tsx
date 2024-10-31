@@ -42,7 +42,7 @@ function Nickname({
         >
           닉네임
         </p>
-        <Input value={nickname} onChange={nicknameChangeHandler} type="text" placeholder="닉네임" />
+        <Input value={nickname} onChange={nicknameChangeHandler} type="text" placeholder="닉네임" isValid={isNickname}/>
         <p
           className={`${"redoe"} ${
             isNickname === false && nickname !== "" ? visibleLabelClass : hiddenLabelClass
