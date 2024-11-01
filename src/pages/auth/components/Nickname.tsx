@@ -35,6 +35,7 @@ function Nickname({
   return (
     <>
       <div>
+      <p className="text-lg mb-4">닉네임을 입력해주세요</p>
         <p
           className={`${!isNickname ? "redoe" : "text-grayoe-300"} ${
             nickname ? visibleLabelClass : hiddenLabelClass
