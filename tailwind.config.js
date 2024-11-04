@@ -35,7 +35,8 @@ module.exports = {
       }
     },
     fontFamily: {
-      LuckiestGuy: ["Luckiest Guy", "cursive"]
+      LuckiestGuy: ["Luckiest Guy", "cursive"],
+      SBAggroB: ["SBAggroB"]
     }
   },
   screens: {
