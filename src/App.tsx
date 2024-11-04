@@ -7,17 +7,16 @@ import WebHeader from "./components/headers/WebHeader";
 function App(): React.JSX.Element {
   const { pathname } = useLocation();
 
-  const hideHeader = pathname === "/login" || pathname === "/signup"
+  const hideHeader = pathname === "/login" || pathname === "/signup";
+
   return (
     <>
       <Layout>
-        <div className="xl:hidden">
-      {!hideHeader && <MobileHeader/>}
-      </div>
-      <div className="hidden xl:block">
-      {!hideHeader && <WebHeader/>}
-      </div>
-        <Outlet />
+        <div className="xl:hidden w-full flex justify-center">{!hideHeader && <MobileHeader />}</div>
+        <div className="hidden w-full xl:flex justify-center">{!hideHeader && <WebHeader />}</div>
+        <div className="pt-[56px] xl:pt-[80px]">
+          <Outlet />
+        </div>
       </Layout>
     </>
   );

@@ -1,4 +1,4 @@
-import LocationIcon from "../../../public/icons/Location.png"
+import LocationIcon from "../../../../public/icons/Location.png"
 
 function OEIndex() {
   return (
