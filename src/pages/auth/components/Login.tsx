@@ -3,6 +3,7 @@ import Button from "../../../components/Button";
 import Input from "../../../components/Input";
 import { useActiveStore } from "../../../zustand/isActiveStore";
 import { useNavigate } from "react-router-dom";
+import kakaologo from "../../../../public/icons/kakaologo.png";
 
 function Login() {
   const [email, setEmail] = useState<string>("");
@@ -63,6 +64,7 @@ function Login() {
 
   return (
     <form onSubmit={onSubmit} className="w-full grid">
+      <div className="mt-[50px] mx-auto"></div>
       <div className="mt-[150px] grid">
         <div className="grid mb-[32px]">
           <p
@@ -96,6 +98,8 @@ function Login() {
           <p>|</p>
           <button>계정찾기</button>
         </div>
+        <button className="flex w-full xl:w-[89px] xl:h-[40px] py-4 justify-center items-center rounded-md bg-[#FEE500] text-[#1C1C1C] font-b1-regular mt-[40px]">
+          <img src={kakaologo} alt="kakaologo" className="w-[18px] mr-[15px]"/>카카오 로그인</button>
       </div>
     </form>
   );
