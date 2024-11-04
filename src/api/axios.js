@@ -2,7 +2,7 @@ import axios from "axios";
 
 // axios 인스턴스 생성
 const instance = axios.create({
-  baseURL: "http://http://54.180.153.36:8080/", // 기본 URL 설정
+  baseURL: "http://localhost:3000/", // 기본 URL 설정
   timeout: 5000, // 요청 타임아웃 설정 (5초)
   headers: { "Content-Type": "application/json" } // 기본 헤더 설정
 });
