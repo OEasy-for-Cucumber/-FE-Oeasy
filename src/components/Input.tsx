@@ -3,15 +3,19 @@ interface InputProps {
   value?: string;
   placeholder?: string;
   onChange: React.ChangeEventHandler<HTMLInputElement>;
+  isValid?: boolean;
 }
 
-const Input: React.FC<InputProps> = ({ type, value, onChange, placeholder }) => {
+const Input: React.FC<InputProps> = ({ type, value, onChange, placeholder, isValid }) => {
+  const borderColorClass = value === "" ? "border-grayoe-700" : isValid ? "border-[#008CCC]" : "border-[#FF453A]";
+  
   return (
     <input
       type={type}
       value={value}
       onChange={onChange}
-      className="w-full h-[48px] placeholder-grayoe-400 bg-grayoe-950 outline-none border-b-[1.5px] border-grayoe-700"
+      className={`w-full h-[48px] placeholder-grayoe-400 bg-grayoe-950 outline-none border-b-[1.5px] ${borderColorClass}`}
+
       placeholder={placeholder}
     />
   );

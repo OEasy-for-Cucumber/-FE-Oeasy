@@ -45,7 +45,7 @@ function PasswordStep({
         >
           비밀번호
         </p>
-        <Input value={password} onChange={passwordChangeHandler} type="password" placeholder="비밀번호" />
+        <Input value={password} onChange={passwordChangeHandler} type="password" placeholder="비밀번호" isValid={isPassword}/>
         <p
           className={`${"redoe"} ${
             isPassword === false && password !== "" ? visibleLabelClass : hiddenLabelClass
@@ -66,6 +66,7 @@ function PasswordStep({
           onChange={confirmPasswordChangeHandler}
           type="password"
           placeholder="비밀번호 재입력"
+          isValid={isConfirmPassword}
         />
         <p
           className={`${"redoe"} ${
