@@ -15,7 +15,7 @@ function Complete() {
       <h4 className="font-h4">가입을 환영합니다!</h4>
       
       <div className="w-full absolute bottom-6">
-        <Button type="button" onClick={goToMain}>시작하기</Button>
+        <Button size="large" type="button" onClick={goToMain}>시작하기</Button>
       </div>
     </div>
   )

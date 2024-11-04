@@ -58,7 +58,7 @@ function Nickname({
           <input type="checkbox" checked={isCheckedAccept} onChange={checkedChangeHandler} className="mr-2 mb-6" />
           개인정보 수집 및 이용에 대한 동의(필수)
         </span>
-        <Button onClick={nextStep} isActive={isActive}>
+        <Button size="large" onClick={nextStep} isActive={isActive}>
           가입완료
         </Button>
       </div>

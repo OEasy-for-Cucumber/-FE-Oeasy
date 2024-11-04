@@ -78,7 +78,7 @@ function PasswordStep({
       </div>
 
       <div className="w-full absolute bottom-6">
-        <Button type="button" onClick={nextStepHandler} isActive={isActive}>
+        <Button size="large" type="button" onClick={nextStepHandler} isActive={isActive}>
           다음
         </Button>
       </div>

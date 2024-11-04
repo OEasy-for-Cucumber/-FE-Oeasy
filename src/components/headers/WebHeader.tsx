@@ -9,7 +9,7 @@ function WebHeader() {
   }
   
   return (
-    <div className="w-full h-[80px] bg-transparent flex items-center px-8">
+    <div className="w-full h-[80px] bg-transparent flex items-center px-8 fixed">
       <div className="flex items-center">
         <p className="text-white text-xl mr-8">logo</p>
       </div>
