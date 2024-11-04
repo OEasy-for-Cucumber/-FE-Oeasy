@@ -1,7 +1,5 @@
-function index() {
-  return (
-    <div>index</div>
-  )
+function Recipe() {
+  return <div className="border border-red-700 h-screen">index</div>;
 }
 
-export default index
+export default Recipe;

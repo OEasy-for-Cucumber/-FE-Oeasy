@@ -1,10 +1,9 @@
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 import EmailStep from "./EmailStep";
 import PasswordStep from "./PasswordStep";
 import Nickname from "./Nickname";
-import { useActiveStore } from "../../../zustand/isActiveStore";
 import Complete from "./Complete";
+import ProgressBar from "./ProgressBar";
 
 function Signup() {
   const [email, setEmail] = useState<string>("");
@@ -23,10 +22,7 @@ function Signup() {
   const [passwordMsg, setPasswordMsg] = useState<string>("");
   const [confirmPasswordMsg, setConfirmPasswordMsg] = useState<string>("");
 
-  const navigate = useNavigate();
   const [step, setStep] = useState("이메일");
-  // const { isActive, setIsActive } = useActiveStore();
-
 
   const emailChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
@@ -80,19 +76,11 @@ function Signup() {
     setIsCheckedAccept(e.target.checked);
   };
 
-  // useEffect(() => {
-  //   if (isEmail || isPassword || isConfirmPassword || isNickname || isCheckedAccept) {
-  //     setIsActive(true);
-  //   } else {
-  //     setIsActive(false);
-  //   }
-  // }, [isEmail, isPassword, isConfirmPassword, isNickname, isCheckedAccept]);
-
   return (
     <div className="w-full h-svh relative">
       <h1 className="py-4 text-sm text-center">회원가입</h1>
-      <div className="text-center my-[40px]">인풋 넘길때 바뀌는 bar</div>
-      <form className="grid">
+      <ProgressBar step={step}/>
+      <form className="grid mt-4">
         {step === "이메일" && (
           <EmailStep
             email={email}
