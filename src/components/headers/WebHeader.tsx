@@ -1,15 +1,15 @@
 import { useNavigate } from "react-router-dom";
-import Button from "../Button"
+import Button from "../Button";
 
 function WebHeader() {
   const navigate = useNavigate();
 
   const goToLogin = () => {
     navigate("/login");
-  }
-  
+  };
+
   return (
-    <div className="w-full h-[80px] bg-transparent flex items-center px-8">
+    <div className="w-full h-[80px] bg-transparent px-6 flex items-center fixed">
       <div className="flex items-center">
         <p className="text-white text-xl mr-8">logo</p>
       </div>
@@ -23,7 +23,6 @@ function WebHeader() {
       </div>
     </div>
   );
-  
 }
 
-export default WebHeader
+export default WebHeader;

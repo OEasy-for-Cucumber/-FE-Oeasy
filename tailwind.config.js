@@ -113,7 +113,6 @@ module.exports = {
         ".blueoe": { color: "#0a84ff" },
         ".blue-light": { color: "#edf9ff" }
       });
-    }),
-    require("@tailwindcss/line-clamp")
+    })
   ]
 };
