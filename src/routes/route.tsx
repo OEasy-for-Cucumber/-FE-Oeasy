@@ -3,7 +3,7 @@ import App from "../App";
 import Home from "../pages/home";
 import Login from "../pages/auth/components/Login";
 import Signup from "../pages/auth/components/Signup";
-import Recipe from "../pages/recipes";
+import Recipes from "../pages/recipes";
 
 const router = createBrowserRouter([
   {
@@ -23,7 +23,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/recipe",
-        element: <Recipe />
+        element: <Recipes />
       }
     ]
   }
