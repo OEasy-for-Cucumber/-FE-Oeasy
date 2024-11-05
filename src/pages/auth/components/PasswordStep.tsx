@@ -36,7 +36,8 @@ function PasswordStep({
 
   return (
     <>
-      <div className="w-full">
+      <div className="w-full flex-col flex h-[73vh]">
+        <div className="flex-grow">
       <p className="text-lg mb-4">비밀번호롤 입력해주세요</p>
         <p
           className={`${!isPassword ? "redoe" : "text-grayoe-300"} ${
@@ -76,8 +77,9 @@ function PasswordStep({
           {confirmPasswordMsg}
         </p>
       </div>
+      </div>
 
-      <div className="w-full">
+      <div className="w-full mt-auto">
         <Button size="large" type="button" onClick={nextStepHandler} isActive={isActive}>
           다음
         </Button>

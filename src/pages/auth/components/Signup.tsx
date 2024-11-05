@@ -77,10 +77,9 @@ function Signup() {
   };
 
   return (
-    <div className="w-full">
-      <h1 className="py-4 text-sm text-center">회원가입</h1>
+    <div className="w-full h-[calc(100vh-56px)] xl:h-[calc(100vh-80px)]">
       <ProgressBar step={step}/>
-      <form className="grid mt-4">
+      <form className="mt-4">
         {step === "이메일" && (
           <EmailStep
             email={email}

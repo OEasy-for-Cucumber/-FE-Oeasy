@@ -26,7 +26,8 @@ function EmailStep({ email, isEmail, emailMsg, setStep, emailChangeHandler = () 
 
   return (
     <>
-      <div className="w-full">
+      <div className="w-full flex-col flex h-[80vh]">
+        <div className="flex-grow">
         <p className="text-lg mb-4">이메일을 입력해주세요</p>
         <p
           className={`${!isEmail ? "redoe" : "text-grayoe-300"} ${
@@ -43,11 +44,13 @@ function EmailStep({ email, isEmail, emailMsg, setStep, emailChangeHandler = () 
         >
           {emailMsg}
         </p>
-      </div>
-      <div className="w-full">
+        </div>
+      
+      <div className="w-full mt-auto">
         <Button size="large" type="button" onClick={nextStepHandler} isActive={isActive}>
           다음
         </Button>
+      </div>
       </div>
     </>
   );
