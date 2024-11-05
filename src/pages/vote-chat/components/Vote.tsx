@@ -1,6 +1,10 @@
 import { useState } from "react";
 
-function Vote({ active }) {
+interface VoteProps {
+  active: "vote" | "chat";
+}
+
+function Vote({ active }: VoteProps) {
   const [hateVotes, setHateVotes] = useState(10);
   const [likeVotes, setLikeVotes] = useState(10);
   const [isHateClicked, setIsHateClicked] = useState(false);
