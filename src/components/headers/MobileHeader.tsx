@@ -27,9 +27,10 @@ function MobileHeader() {
   };
 
   return (
-    <div className="w-full min-w-[360px] max-w-[500px] xl:max-w-none px-6 bg-transparent h-[56px] flex justify-between items-center fixed">
+    <div className={`w-full min-w-[360px] max-w-[500px] xl:max-w-none px-6 h-[56px] flex justify-between items-center fixed
+    ${pathname === "/" ? "bg-greenoe-950" : "bg-grayoe-950"}`}>
       {SIGNUP ? (
-        <p className="mx-auto">{headerTitle}</p>
+        <p className="text-center">{headerTitle}</p>
       ) : (
         <>
           <button>

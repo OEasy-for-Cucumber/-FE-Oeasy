@@ -1,14 +1,14 @@
 import LocationIcon from "../../../../public/icons/Location.png";
 import { useEffect, useState } from "react";
 import { OEIndexType } from "../../../types/oeIndexTypes";
-import instance from "../../../api/axios";
+import axios from "axios";
 
 function OEIndex() {
   const [oeIndexData, setOeIndexData] = useState<OEIndexType>();
 
   const getOEIndexData = async () => {
     try {
-      const res = await instance.get("http://54.180.153.36:8080/api/index")
+      const res = await axios.get("http://54.180.153.36:8080/api/index")
       setOeIndexData(res.data);
     } catch (error) {
       console.log(error);
