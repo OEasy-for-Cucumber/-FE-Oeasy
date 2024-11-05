@@ -27,7 +27,7 @@ function Vote() {
 
   return (
     <>
-      <div>
+      <div className="h-[306px] border border-red-600">
         <div className=" w-[182px] h-[56px] flex flex-col justify-center items-center mx-auto pt-[32px] gap-[8px]">
           <p className="font-h4">오이 좋아하세요?</p>
           <p className="font-c2 text-grayoe-200">투표는 ID당 하루에 한 번만 가능합니다</p>
