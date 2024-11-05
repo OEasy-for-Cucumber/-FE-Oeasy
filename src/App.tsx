@@ -7,7 +7,7 @@ import WebHeader from "./components/headers/WebHeader";
 function App(): React.JSX.Element {
   const { pathname } = useLocation();
 
-  const hideHeader = pathname === "/login" || pathname === "/signup";
+  const hideHeader = pathname === "/login";
 
   return (
     <>
