@@ -77,7 +77,7 @@ function Signup() {
   };
 
   return (
-    <div className="w-full h-svh relative">
+    <div className="w-full">
       <h1 className="py-4 text-sm text-center">회원가입</h1>
       <ProgressBar step={step}/>
       <form className="grid mt-4">

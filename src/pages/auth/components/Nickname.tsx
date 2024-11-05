@@ -53,7 +53,7 @@ function Nickname({
         </p>
       </div>
 
-      <div className="absolute w-full bottom-6">
+      <div className="w-full">
         <span className="mx-auto text-sm">
           <input type="checkbox" checked={isCheckedAccept} onChange={checkedChangeHandler} className="mr-2 mb-6" />
           개인정보 수집 및 이용에 대한 동의(필수)

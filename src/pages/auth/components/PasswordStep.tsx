@@ -36,7 +36,7 @@ function PasswordStep({
 
   return (
     <>
-      <div className="w-full relative">
+      <div className="w-full">
       <p className="text-lg mb-4">비밀번호롤 입력해주세요</p>
         <p
           className={`${!isPassword ? "redoe" : "text-grayoe-300"} ${
@@ -77,7 +77,7 @@ function PasswordStep({
         </p>
       </div>
 
-      <div className="w-full absolute bottom-6">
+      <div className="w-full">
         <Button size="large" type="button" onClick={nextStepHandler} isActive={isActive}>
           다음
         </Button>
