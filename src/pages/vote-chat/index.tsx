@@ -3,7 +3,7 @@ import Chat from "./components/Chat";
 import Vote from "./components/Vote";
 
 function Votechat() {
-  const [activeComponent, setActiveComponent] = useState("vote"); // 초기에는 Vote의 비율이 큼
+  const [activeComponent, setActiveComponent] = useState<"vote" | "chat">("vote"); // 초기에는 Vote의 비율이 큼
 
   const handleVoteClick = () => {
     if (activeComponent !== "vote") {
