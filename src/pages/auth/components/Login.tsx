@@ -63,7 +63,7 @@ function Login() {
   }
 
   const kakaoLoginHandler = () => {
-    
+    window.location.href = "https://kauth.kakao.com/oauth/authorize?client_id=9d0f8b32ee577d8830b4a174ef9a5f30&redirect_uri=http://54.180.153.36:8080/kakao/callback&response_type=code";
   }
 
   return (
