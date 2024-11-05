@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-function Vote() {
+function Vote({ active }) {
   const [hateVotes, setHateVotes] = useState(10);
   const [likeVotes, setLikeVotes] = useState(10);
   const [isHateClicked, setIsHateClicked] = useState(false);
@@ -27,12 +27,19 @@ function Vote() {
 
   return (
     <>
-      <div className="h-[306px] border border-red-600">
-        <div className=" w-[182px] h-[56px] flex flex-col justify-center items-center mx-auto pt-[32px] gap-[8px]">
-          <p className="font-h4">오이 좋아하세요?</p>
-          <p className="font-c2 text-grayoe-200">투표는 ID당 하루에 한 번만 가능합니다</p>
-        </div>
-        <div className="flex w-[296px] h-[48px] mx-auto mt-10 rounded-lg ">
+      <div className="h-full border border-red-600 ">
+        {active === "chat" ? (
+          <div className=" w-[182px] h-[20px] flex flex-col justify-center items-center mx-auto pt-[24px]">
+            <p className="font-b2-regular">오이려 싫어 VS 오이려 좋아</p>
+          </div>
+        ) : (
+          <div className="w-[182px] h-[56px] flex flex-col justify-center items-center mx-auto pt-[32px] gap-[8px]">
+            <p className="font-h4">오이 좋아하세요?</p>
+            <p className="font-c2 text-grayoe-200">투표는 ID당 하루에 한 번만 가능합니다</p>
+          </div>
+        )}
+
+        <div className="flex w-[296px] h-[48px] mx-auto mt-7 rounded-lg ">
           <div
             className={`p-4 bg-redoe-50 roun flex justify-start items-center cursor-pointer transition-shadow rounded-l-[8px] ${
               isHateClicked ? "shadow-hate-custom" : ""
