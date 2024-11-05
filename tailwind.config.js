@@ -5,6 +5,11 @@ module.exports = {
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
     extend: {
+      boxShadow: {
+        "like-custom": "1px 1px 14px 2px rgba(255, 69, 58, 0.64)",
+        "hate-custom": "1px 1px 14px 0px rgba(255, 69, 58, 0.64);"
+      },
+
       colors: {
         grayoe: {
           50: "#D9D9D9",
@@ -31,6 +36,10 @@ module.exports = {
           800: "#0a7136",
           900: "#0a5d2f",
           950: "#052210"
+        },
+        redoe: {
+          50: "#fff2f1",
+          500: "#ff453a"
         }
       }
     },
@@ -107,10 +116,8 @@ module.exports = {
         },
         ".primary": { color: "#00c853" },
         ".primary-light": { color: "#eefff4" },
-
         ".redoe": { color: "#ff453a" },
         ".red-light": { color: "#fff2f1" },
-
         ".blueoe": { color: "#0a84ff" },
         ".blue-light": { color: "#edf9ff" }
       });

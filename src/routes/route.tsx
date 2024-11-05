@@ -4,6 +4,7 @@ import Home from "../pages/home";
 import Login from "../pages/auth/components/Login";
 import Signup from "../pages/auth/components/Signup";
 import Recipes from "../pages/recipes";
+import Votechat from "../pages/vote-chat";
 
 const router = createBrowserRouter([
   {
@@ -24,6 +25,10 @@ const router = createBrowserRouter([
       {
         path: "/recipe",
         element: <Recipes />
+      },
+      {
+        path: "/vote-chat",
+        element: <Votechat />
       }
     ]
   }

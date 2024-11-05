@@ -1,5 +1,11 @@
-function index() {
-  return <div>index</div>;
+import Vote from "./components/Vote";
+
+function Votechat() {
+  return (
+    <>
+      <Vote />
+    </>
+  );
 }
 
-export default index;
+export default Votechat;
