@@ -42,15 +42,17 @@ function Chat() {
   };
 
   return (
-    <div className="flex flex-col h-auto ">
-      <div className="flex-1 py-[8px] overflow-y-auto">
+    <div className="flex flex-col h-auto p-[16px]">
+      <div className="flex flex-col py-[8px] overflow-y-auto gap-4">
         {messages.map((chat) => (
-          <div key={chat.id} className="flex items-start mb-4">
+          <div key={chat.id} className="flex items-start">
             <img src={chat.profileImg} alt="Profile" className="w-10 h-10 rounded-full mr-[8px] border border-white" />
             <div className="flex flex-col gap-[4px]">
               <p className="font-semibold">{chat.username}</p>
-              <div className="relative bg-[url('/img/speechBubble.png')] bg-no-repeat bg-cover rounded-r-lg max-w-fit min-w-[20px] w-auto">
-                <p className="text-white font-b2-regular break-words p-[8px]">{chat.content}</p>
+              <div className="relative bg-[url('/img/speechBubble.png')] bg-no-repeat bg-cover rounded-r-lg  max-w-[280px] min-w-[20px] w-auto">
+                <p className="text-white font-b2-regular break-words px-[12px] py-[8px] whitespace-pre-wrap">
+                  {chat.content}
+                </p>
               </div>
             </div>
           </div>

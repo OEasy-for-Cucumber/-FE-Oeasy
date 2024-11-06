@@ -33,46 +33,48 @@ function Vote({ active }: VoteProps) {
 
   return (
     <>
-      <div className="h-full ">
-        {active === "chat" ? (
-          <div className=" w-[182px] h-[20px] flex flex-col justify-center items-center mx-auto mb-6 pt-[24px]">
-            <p className="font-b2-regular">오이려 싫어 VS 오이려 좋아</p>
-          </div>
-        ) : (
-          <div className="w-[182px] h-[56px] flex flex-col justify-center items-center mx-auto pt-[32px] gap-[8px]">
-            <p className="font-h4">오이 좋아하세요?</p>
-            <p className="font-c2 text-grayoe-200">투표는 ID당 하루에 한 번만 가능합니다</p>
-          </div>
-        )}
-        {active === "vote" && (
-          <div className="flex justify-between mt-4 px-4">
-            <img src={voteOE} alt="voteOE" className="w-[80px] h-[160px]" />
-            <img src={voteO2} alt="voteOE" className="w-[80px] h-[160px]" />
-          </div>
-        )}
-
-        <div className="flex w-[296px] h-[48px] mx-auto rounded-lg ">
-          <div
-            className={`p-4 bg-redoe-50 roun flex justify-start items-center cursor-pointer transition-shadow rounded-l-[8px] ${
-              isHateClicked ? "shadow-hate-custom" : ""
-            }`}
-            style={{ width: `${hateWidth}%`, transition: "width 0.3s" }}
-            onClick={() => handleVote("hate")}
-          >
-            <div className={`text-left ${hateFont}`}>
-              <p className="text-grayoe-200">{hateVotes.toLocaleString()}</p>
+      <div className="h-full overflow-y-auto flex justify-center items-center">
+        <div>
+          {active === "chat" ? (
+            <div className=" w-[182px] h-[20px] flex flex-col justify-center items-center mx-auto mb-6 ">
+              <p className="font-b2-regular">오이려 싫어 VS 오이려 좋아</p>
             </div>
-          </div>
+          ) : (
+            <div className="w-[182px] min-h-[56px] flex flex-col justify-center items-center mx-auto gap-[8px]">
+              <p className="font-h4 text-center">오이 좋아하세요?</p>
+              <p className="font-c2 text-grayoe-200 text-center">투표는 ID당 하루에 한 번만 가능합니다</p>
+            </div>
+          )}
+          {active === "vote" && (
+            <div className="flex justify-between  px-4">
+              <img src={voteOE} alt="voteOE" className="w-[80px] h-[150px]" />
+              <img src={voteO2} alt="voteOE" className="w-[80px] h-[150px]" />
+            </div>
+          )}
 
-          <div
-            className={`p-4 bg-redoe-500 flex justify-end items-center cursor-pointer transition-shadow rounded-r-[8px] ${
-              isLikeClicked ? "shadow-like-custom" : ""
-            }`}
-            style={{ width: `${likeWidth}%`, transition: "width 0.3s" }}
-            onClick={() => handleVote("like")}
-          >
-            <div className={`text-left ${likeFont}`}>
-              <p>{likeVotes.toLocaleString()}</p>
+          <div className="flex w-[296px] h-[48px] mx-auto rounded-lg ">
+            <div
+              className={`p-4 bg-redoe-50 roun flex justify-start items-center cursor-pointer transition-shadow rounded-l-[8px] ${
+                isHateClicked ? "shadow-hate-custom" : ""
+              }`}
+              style={{ width: `${hateWidth}%`, transition: "width 0.3s" }}
+              onClick={() => handleVote("hate")}
+            >
+              <div className={`text-left ${hateFont}`}>
+                <p className="text-grayoe-200">{hateVotes.toLocaleString()}</p>
+              </div>
+            </div>
+
+            <div
+              className={`p-4 bg-redoe-500 flex justify-end items-center cursor-pointer transition-shadow rounded-r-[8px] ${
+                isLikeClicked ? "shadow-like-custom" : ""
+              }`}
+              style={{ width: `${likeWidth}%`, transition: "width 0.3s" }}
+              onClick={() => handleVote("like")}
+            >
+              <div className={`text-left ${likeFont}`}>
+                <p>{likeVotes.toLocaleString()}</p>
+              </div>
             </div>
           </div>
         </div>
