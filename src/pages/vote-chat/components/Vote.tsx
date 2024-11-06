@@ -1,4 +1,6 @@
 import { useState } from "react";
+import voteOE from "../../../../public/img/voteOE.png";
+import voteO2 from "../../../../public/img/voteOE*.png";
 
 interface VoteProps {
   active: "vote" | "chat";
@@ -31,9 +33,9 @@ function Vote({ active }: VoteProps) {
 
   return (
     <>
-      <div className="h-full border border-red-600 ">
+      <div className="h-full ">
         {active === "chat" ? (
-          <div className=" w-[182px] h-[20px] flex flex-col justify-center items-center mx-auto pt-[24px]">
+          <div className=" w-[182px] h-[20px] flex flex-col justify-center items-center mx-auto mb-6 pt-[24px]">
             <p className="font-b2-regular">오이려 싫어 VS 오이려 좋아</p>
           </div>
         ) : (
@@ -42,8 +44,14 @@ function Vote({ active }: VoteProps) {
             <p className="font-c2 text-grayoe-200">투표는 ID당 하루에 한 번만 가능합니다</p>
           </div>
         )}
+        {active === "vote" && (
+          <div className="flex justify-between mt-4 px-4">
+            <img src={voteOE} alt="voteOE" className="w-[80px] h-[160px]" />
+            <img src={voteO2} alt="voteOE" className="w-[80px] h-[160px]" />
+          </div>
+        )}
 
-        <div className="flex w-[296px] h-[48px] mx-auto mt-7 rounded-lg ">
+        <div className="flex w-[296px] h-[48px] mx-auto rounded-lg ">
           <div
             className={`p-4 bg-redoe-50 roun flex justify-start items-center cursor-pointer transition-shadow rounded-l-[8px] ${
               isHateClicked ? "shadow-hate-custom" : ""

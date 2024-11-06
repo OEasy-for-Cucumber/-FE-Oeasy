@@ -3,31 +3,33 @@ import Chat from "./components/Chat";
 import Vote from "./components/Vote";
 
 function Votechat() {
-  const [activeComponent, setActiveComponent] = useState<"vote" | "chat">("vote"); // 초기에는 Vote의 비율이 큼
+  const [active, setActive] = useState<"vote" | "chat">("vote");
 
   const handleVoteClick = () => {
-    if (activeComponent !== "vote") {
-      setActiveComponent("vote");
+    if (active !== "vote") {
+      setActive("vote");
     }
   };
 
   const handleChatClick = () => {
-    if (activeComponent !== "chat") {
-      setActiveComponent("chat");
+    if (active !== "chat") {
+      setActive("chat");
     }
   };
 
   return (
-    <div className="flex flex-col h-[calc(100vh-56px)] xl:h-[calc(100vh-80px)] overflow-hidden">
+    <div className="flex flex-col h-[calc(100vh-56px)] xl:h-[calc(100vh-80px)] overflow-hidden transition-all duration-500 ease-in-out">
       <div
-        className={`flex-shrink-0 ${activeComponent === "vote" ? "flex-[6]" : "flex-[2]"}`}
+        className={`transition-all duration-500 ease-in-out overflow-hidden`}
+        style={{ height: active === "vote" ? "50%" : "20%" }}
         onClick={handleVoteClick}
       >
-        <Vote active={activeComponent} />
+        <Vote active={active} />
       </div>
       <div className="border-gray-900 border-[6px] w-full" />
       <div
-        className={`flex-1 overflow-auto ${activeComponent === "chat" ? "flex-[8]" : "flex-[4]"}`}
+        className={`flex-1 transition-all duration-500 ease-in-out overflow-auto`}
+        style={{ height: active === "chat" ? "80%" : "50%" }}
         onClick={handleChatClick}
       >
         <Chat />
