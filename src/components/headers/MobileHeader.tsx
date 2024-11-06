@@ -12,14 +12,14 @@ function MobileHeader() {
 
   //페이지 이름
   let headerTitle;
-  if(MAIN) {
+  if (MAIN) {
     headerTitle = "Oeasy";
-  } else if(LOGIN) {
+  } else if (LOGIN) {
     headerTitle = "로그인";
-  } else if(SIGNUP) {
+  } else if (SIGNUP) {
     headerTitle = "회원가입";
-  } else if(MYPAGE) {
-    headerTitle = "마이페이지"
+  } else if (MYPAGE) {
+    headerTitle = "마이페이지";
   }
 
   const goToLogin = () => {
@@ -27,8 +27,10 @@ function MobileHeader() {
   };
 
   return (
-    <div className={`w-full min-w-[360px] max-w-[500px] xl:max-w-none px-6 h-[56px] flex justify-between items-center fixed
-    ${pathname === "/" ? "bg-greenoe-950" : "bg-grayoe-950"}`}>
+    <div
+      className={`w-[360px] px-6 h-[56px] flex justify-between items-center fixed
+    ${pathname === "/" ? "bg-greenoe-950" : "bg-grayoe-950"}`}
+    >
       {SIGNUP ? (
         <p className="text-center mx-auto">{headerTitle}</p>
       ) : (
