@@ -7,6 +7,8 @@ import ProgressBar from "./ProgressBar";
 import { useActiveStore } from "../../../zustand/isActiveStore";
 import Button from "../../../components/Button";
 import { useNavigate } from "react-router-dom";
+import FullSquare from "../../../../public/icons/full-Square.png";
+import EmptySquare from "../../../../public/icons/empty-Square.png";
 
 function Signup() {
   const [email, setEmail] = useState<string>("");
@@ -77,8 +79,8 @@ function Signup() {
     }
   };
 
-  const checkedChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setIsCheckedAccept(e.target.checked);
+  const checkedChangeHandler = () => {
+    setIsCheckedAccept((prev) => !prev);
   };
 
   useEffect(() => {
@@ -92,30 +94,29 @@ function Signup() {
       setIsActive(false);
     }
   }, [step, isEmail, isPassword, isConfirmPassword, isNickname, isCheckedAccept]);
-  
 
   const nextStepHandler = () => {
     if (isEmail) {
       setStep("비밀번호");
       setIsActive(false);
     }
-    if(isPassword && isConfirmPassword) {
+    if (isPassword && isConfirmPassword) {
       setStep("닉네임");
       setIsActive(false);
     }
-    if(isNickname && isCheckedAccept) {
+    if (isNickname && isCheckedAccept) {
       setStep("가입완료");
       setIsActive(false);
     }
   };
 
-    const goToMain = () => {
+  const goToMain = () => {
     navigate("/");
-  }
+  };
 
   return (
     <div className="w-full xl:w-[360px] mx-auto h-[calc(100vh-56px)] xl:h-[calc(100vh-80px)] flex-col flex">
-      <ProgressBar step={step}/>
+      <ProgressBar step={step} />
       <form className="mt-4 flex-grow flex flex-col">
         {step === "이메일" && (
           <EmailStep
@@ -137,7 +138,8 @@ function Signup() {
             confirmPasswordMsg={confirmPasswordMsg}
             confirmPasswordChangeHandler={confirmPasswordChangeHandler}
             setStep={setStep}
-          />)}
+          />
+        )}
         {step === "닉네임" && (
           <Nickname
             nickname={nickname}
@@ -149,27 +151,40 @@ function Signup() {
             setStep={setStep}
           />
         )}
-        {step === "가입완료" && <Complete/>}
-      <div className="w-full mt-auto mb-6">
-        {step !== "가입완료" ? step === "닉네임" ? 
-        <div className="w-full">
-        <span className="mx-auto text-sm">
+        {step === "가입완료" && <Complete />}
+        <div className="w-full mt-auto mb-6">
+          {step !== "가입완료" ? (
+            step === "닉네임" ? (
+              <div className="w-full">
+                {/* <span className="mx-auto text-sm">
           <input type="checkbox" checked={isCheckedAccept} onChange={checkedChangeHandler} className="mr-2 mb-6" />
           개인정보 수집 및 이용에 대한 동의(필수)
-        </span>
-        <Button size="large" type="button" onClick={nextStepHandler} isActive={isActive}>
-          가입완료
-        </Button>
+        </span> */}
+                <p className="mx-auto text-sm flex items-center mb-6">
+                  <span onClick={checkedChangeHandler} className="mr-3 mt-1 cursor-pointer">
+                    {isCheckedAccept ? (
+                      <img src={FullSquare} alt="checked" />
+                    ) : (
+                      <img src={EmptySquare} alt="unchecked" />
+                    )}
+                  </span>
+                  개인정보 수집 및 이용에 대한 동의(필수)
+                </p>
+                <Button size="large" type="button" onClick={nextStepHandler} isActive={isActive}>
+                  가입완료
+                </Button>
+              </div>
+            ) : (
+              <Button size="large" type="button" onClick={nextStepHandler} isActive={isActive}>
+                다음
+              </Button>
+            )
+          ) : (
+            <Button size="large" type="button" onClick={goToMain}>
+              시작하기
+            </Button>
+          )}
         </div>
-        :
-        <Button size="large" type="button" onClick={nextStepHandler} isActive={isActive}>
-          다음
-        </Button>
-        :   
-        <Button size="large" type="button" onClick={goToMain}>시작하기</Button>
-    }
-        
-      </div>
       </form>
     </div>
   );
