@@ -42,7 +42,7 @@ function Chat() {
   };
 
   return (
-    <div className="flex flex-col h-auto ">
+    <div className="flex flex-col h-auto p-[16px]">
       <div className="flex-1 py-[8px] overflow-y-auto">
         {messages.map((chat) => (
           <div key={chat.id} className="flex items-start mb-4">
@@ -50,7 +50,7 @@ function Chat() {
             <div className="flex flex-col gap-[4px]">
               <p className="font-semibold">{chat.username}</p>
               <div className="relative bg-[url('/img/speechBubble.png')] bg-no-repeat bg-cover rounded-r-lg max-w-fit min-w-[20px] w-auto">
-                <p className="text-white font-b2-regular break-words p-[8px]">{chat.content}</p>
+                <p className="text-white font-b2-regular break-words px-[12px] py-[8px]">{chat.content}</p>
               </div>
             </div>
           </div>
