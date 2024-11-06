@@ -25,4 +25,5 @@ export interface StepProps {
 export interface User {
     email : string;
     nickname: string;
+    accessToken: string;
 }
