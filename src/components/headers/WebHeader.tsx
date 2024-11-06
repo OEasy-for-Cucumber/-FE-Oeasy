@@ -1,15 +1,16 @@
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Button from "../Button";
 
 function WebHeader() {
   const navigate = useNavigate();
+  const { pathname } = useLocation();
 
   const goToLogin = () => {
     navigate("/login");
   };
 
   return (
-    <div className="w-full h-[80px] bg-transparent px-6 flex items-center fixed">
+    <div className={`w-full h-[80px] px-6 flex items-center fixed ${pathname === "/" ? "bg-greenoe-950" : "bg-grayoe-950"}`}>
       <div className="flex items-center">
         <p className="text-white text-xl mr-8">logo</p>
       </div>
