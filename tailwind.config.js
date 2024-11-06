@@ -41,11 +41,38 @@ module.exports = {
           50: "#fff2f1",
           500: "#ff453a"
         }
+      },
+      fontFamily: {
+        LuckiestGuy: ["Luckiest Guy", "cursive"],
+        SBAggroB: ["SBAggroB"]
+      },
+      backgroundImage: {
+        main_cucumber: "url(./public/img/main_cucumber.png)",
+        piece_1: "url(./public/img/piece_1.png)",
+        piece_2: "url(./public/img/piece_2.png)",
+        recipes_btn_bg: "url(./public/img/button_bg_cucumber.png)",
+        noisy_gradients: "url(./public/img/noisy-gradients.png)",
+      },
+      backgroundSize: {
+        "18%": "18%",
+        "75%": "75%"
+      },
+      backgroundPosition: {
+        main_cucumber: "-40% 10%",
+        piece_1: "10% 5%",
+        piece_2: "25% 85%"
       }
     },
-    fontFamily: {
-      LuckiestGuy: ["Luckiest Guy", "cursive"],
-      SBAggroB: ["SBAggroB"]
+    keyframes: {
+      backgroundMove: {
+        "0%": { backgroundPositionY: "10%" },
+        "50%": { backgroundPositionY: "19%" },
+        "100%": { backgroundPositionY: "10%" }
+      }
+    },
+    animation: {
+      "background-move": "backgroundMove 6s ease-in-out infinite"
+      // linear
     }
   },
   screens: {

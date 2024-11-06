@@ -1,19 +1,22 @@
 function Landing() {
   return (
     <section className="h-[calc(100vh-56px)] xl:h-[calc(100vh-80px)] flex justify-end items-center bg-greenoe-950 pr-6">
-      <div className="w-[309px] xl:w-[95%] h-[210px] xl:h-[60%] flex justify-end items-center leading-none text-right font-LuckiestGuy">
-        <div className="hidden xl:block text-[120px]">
-          <div>EVERYTHING</div>
-          <div>YOU NEVER KNEW</div>
-          <div className="flex flex-row">
-            ABOUT<p className="ml-1 text-green-600">CUCUMBER</p>
+      <div className="h-[600px] bg-main_cucumber bg-no-repeat bg-75% animate-background-move">
+        <div className="border h-[600px] flex justify-end items-center leading-none text-right font-LuckiestGuy bg-piece_1 bg-no-repeat bg-18%">
+          <div className="hidden xl:block text-[120px]">
+            <div>EVERYTHING</div>
+            <div>YOU NEVER KNEW</div>
+            <div className="flex flex-row">
+              ABOUT<p className="ml-1 text-green-600">CUCUMBER</p>
+            </div>
+          </div>
+
+          <div className="block xl:hidden text-[50px] bg-piece_2 bg-no-repeat bg-18%">
+            EVERYTHING
+            <br /> YOU NEVER
+            <br /> KNEW ABOUT <span className="text-green-600">CUCUMBER</span>
           </div>
         </div>
-        <h1 className="block xl:hidden text-[50px]">
-          EVERYTHING
-          <br /> YOU NEVER
-          <br /> KNEW ABOUT <span className="text-green-600">CUCUMBER</span>
-        </h1>
       </div>
     </section>
   );
