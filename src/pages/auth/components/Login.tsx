@@ -63,7 +63,9 @@ function Login() {
   }
 
   const kakaoLoginHandler = () => {
-    window.location.href = "https://kauth.kakao.com/oauth/authorize?client_id=9d0f8b32ee577d8830b4a174ef9a5f30&redirect_uri=http://localhost:3000/kakao/callback&response_type=code";
+    const clientId = import.meta.env.VITE_KAKAO_CLIENT_ID;
+    const redirectUri = "http://localhost:3000/kakao/callback";
+    window.location.href = `https://kauth.kakao.com/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code`
   }
 
   return (
