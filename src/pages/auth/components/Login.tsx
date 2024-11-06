@@ -67,7 +67,7 @@ function Login() {
   }
 
   return (
-    <form onSubmit={onSubmit} className="w-full grid">
+    <form onSubmit={onSubmit} className="w-full xl:w-[500px] grid mx-auto">
       <div className="mt-[50px] mx-auto"></div>
       <div className="mt-[150px] grid">
         <div className="grid mb-[32px]">

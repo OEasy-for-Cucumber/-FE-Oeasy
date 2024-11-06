@@ -1,28 +1,12 @@
 import Input from "../../../components/Input";
-// import Button from "../../../components/Button";
 import { StepProps } from "../../../types/authPropsTypes";
-// import { useActiveStore } from "../../../zustand/isActiveStore";
-// import { useEffect } from "react";
+
 
 function EmailStep({ email, isEmail, emailMsg, emailChangeHandler = () => {} }: StepProps) {
-  // const { isActive, setIsActive } = useActiveStore();
 
   const baseLabelClass = "transition-all duration-300 text-[13px]";
   const visibleLabelClass = "opacity-100 translate-y-0";
   const hiddenLabelClass = "opacity-0 -translate-1";
-
-  // useEffect(() => {
-  //   if (isEmail) {
-  //     setIsActive(true);
-  //   }
-  // }, [isEmail]);
-
-  // const nextStepHandler = () => {
-  //   if (isEmail) {
-  //     setStep("비밀번호");
-  //     setIsActive(false);
-  //   }
-  // };
 
   return (
     <>
@@ -45,12 +29,6 @@ function EmailStep({ email, isEmail, emailMsg, emailChangeHandler = () => {} }: 
           {emailMsg}
         </p>
         </div>
-      
-      {/* <div className="w-full mt-auto">
-        <Button size="large" type="button" onClick={nextStepHandler} isActive={isActive}>
-          다음
-        </Button>
-      </div> */}
       </div>
     </>
   );
