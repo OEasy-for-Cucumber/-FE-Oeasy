@@ -50,7 +50,8 @@ module.exports = {
         main_cucumber: "url(./public/img/main_cucumber.png)",
         piece_1: "url(./public/img/piece_1.png)",
         piece_2: "url(./public/img/piece_2.png)",
-        recipes_btn_bg: "url(./public/img/button_bg_cucumber.png)"
+        recipes_btn_bg: "url(./public/img/button_bg_cucumber.png)",
+        noisy_gradients: "url(./public/img/noisy-gradients.png)",
       },
       backgroundSize: {
         "18%": "18%",

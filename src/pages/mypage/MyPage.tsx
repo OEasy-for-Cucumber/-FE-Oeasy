@@ -1,5 +1,4 @@
 import Button from "../../components/Button";
-import OEIndex from "../home/components/OEIndex";
 
 function MyPage() {
   return (
@@ -11,7 +10,6 @@ function MyPage() {
         </div>
         <Button size="small">프로필 편집</Button>
       </div>
-      <OEIndex/>
     </div>
   );
 }

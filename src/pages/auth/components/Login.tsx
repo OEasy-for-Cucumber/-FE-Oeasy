@@ -59,55 +59,80 @@ function Login() {
   };
 
   const goToSignup = () => {
-    navigate("/signup")
-  }
+    navigate("/signup");
+  };
 
   const kakaoLoginHandler = () => {
     const clientId = import.meta.env.VITE_KAKAO_CLIENT_ID;
     const redirectUri = import.meta.env.VITE_APP_KAKAO_REDIRECT_URI;
     window.location.href = `https://kauth.kakao.com/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code`;
-  }
+  };
 
   return (
-    <form onSubmit={onSubmit} className="w-full xl:w-[360px] mx-auto">
-      <div className="mt-[50px] mx-auto"></div>
-      <div className="mt-[150px] grid">
-        <div className="grid mb-[32px]">
-          <p
-            className={`${!isEmail ? "redoe" : "text-grayoe-300"} ${
-              email ? visibleLabelClass : hiddenLabelClass
-            } ${baseLabelClass}`}
-          >
-            이메일
-          </p>
-          <Input value={email} onChange={emailHandler} type="email" placeholder="이메일"
-          isValid={isEmail} />
-          {isEmail === false && email !== "" && <p className={"text-[12px] redoe"}>{emailMsg}</p>}
-  
-          <p
-            className={`${!isPassword ? "redoe" : "text-grayoe-300"} ${
-              password ? visibleLabelClass : hiddenLabelClass
-            } ${baseLabelClass} mt-2`}
-          >
-            비밀번호
-          </p>
-          <Input value={password} onChange={passwordHandler} type="password" placeholder="비밀번호" isValid={isPassword}/>
-          {isPassword === false && password !== "" && <p className={"text-[12px] redoe"}>{passwordMsg}</p>}
+    <div className="flex h-[calc(100vh-56px)] xl:h-[calc(100vh-80px)] w-full xl:px-[194px]">
+
+      <div className="hidden xl:flex w-1/2 items-center justify-center">
+        <div className="w-[600px] h-[500px] bg-noisy_gradients from-green-300 to-blue-500 p-10 rounded-lg m-10 flex items-center justify-center">
+          <div className="text-white text-3xl font-bold">
+            <h1 className="font-h1 w-[360px] text-center">전세계 97.24%가 모르는 오이의 진실</h1>
+            <h4 className="font-h4 mt-[40px]">- Oeasy</h4>
+          </div>
         </div>
-  
-        <Button type="submit" isActive={isActive}>
-          로그인
-        </Button>
-  
-        <div className="flex mx-auto text-grayoe-300 items-center space-x-6 text-[12px] py-4">
-          <button onClick={goToSignup}>회원가입</button>
-          <p>|</p>
-          <button>계정찾기</button>
-        </div>
-        <button onClick={kakaoLoginHandler} className="flex w-full py-4 justify-center items-center rounded-md bg-[#FEE500] text-[#1C1C1C] font-b1-regular mt-[40px]">
-          <img src={kakaologo} alt="kakaologo" className="w-[18px] mr-[15px]"/>카카오 로그인</button>
       </div>
-    </form>
+
+      <form onSubmit={onSubmit} className="w-full xl:w-1/2 flex flex-col justify-center p-10">
+        <div className="w-full xl:w-[360px] mx-auto">
+
+          <div className="grid mb-[16px]">
+            <p
+              className={`${!isEmail ? "redoe" : "text-grayoe-300"} ${
+                email ? visibleLabelClass : hiddenLabelClass
+              } ${baseLabelClass}`}
+            >
+              이메일
+            </p>
+            <Input value={email} onChange={emailHandler} type="email" placeholder="이메일" isValid={isEmail} />
+            {isEmail === false && email !== "" && <p className="text-[12px] redoe">{emailMsg}</p>}
+          </div>
+
+          <div className="grid mb-[32px]">
+            <p
+              className={`${!isPassword ? "redoe" : "text-grayoe-300"} ${
+                password ? visibleLabelClass : hiddenLabelClass
+              } ${baseLabelClass}`}
+            >
+              비밀번호
+            </p>
+            <Input
+              value={password}
+              onChange={passwordHandler}
+              type="password"
+              placeholder="비밀번호"
+              isValid={isPassword}
+            />
+            {isPassword === false && password !== "" && <p className="text-[12px] redoe">{passwordMsg}</p>}
+          </div>
+
+          <Button type="submit" isActive={isActive} size="large">
+            로그인
+          </Button>
+
+          <div className="flex justify-center text-grayoe-300 space-x-6 text-[12px] py-4">
+            <button onClick={goToSignup}>
+              회원가입
+            </button>
+          </div>
+
+          <button
+            onClick={kakaoLoginHandler}
+            className="flex w-full py-4 justify-center items-center rounded-md bg-[#FEE500] text-[#1C1C1C] font-b1-regular mt-[20px] hover:bg-yellow-500"
+          >
+            <img src={kakaologo} alt="kakaologo" className="w-[18px] mr-[15px]" />
+            카카오 로그인
+          </button>
+        </div>
+      </form>
+    </div>
   );
 }
 
