@@ -4,7 +4,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { useUserStore } from "../../zustand/authStore";
 
 function KakaoCallback() {
-    const { setUser } = useUserStore.getState();
+    const { setUser } = useUserStore.getState()
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -32,7 +32,7 @@ function KakaoCallback() {
             }
         };
         fetchData();
-    }, [location.search, navigate]);
+    }, [location.search]);
 
     return (
         <div>카카오 로그인 중...</div>
