@@ -28,7 +28,7 @@ function Votechat() {
       </div>
       <div className="border-gray-900 border-[6px] w-full" />
       <div
-        className={`flex-1 transition-all duration-500 ease-in-out overflow-auto`}
+        className={`flex-1 transition-all mb-[40px] duration-500 ease-in-out overflow-auto`}
         style={{ height: active === "chat" ? "80%" : "50%" }}
         onClick={handleChatClick}
       >

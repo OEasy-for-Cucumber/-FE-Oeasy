@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import sendIcon from "../../../../public/icons/send.png";
 import profileImage from "../../../../public/img/귀여운행복오이.png";
 
@@ -13,11 +13,19 @@ function Chat() {
     { id: 2, username: "샛별", content: "새벽이보다 오이를 더 사랑해", profileImg: profileImage }
   ]);
 
+  const [isComposing, setComposing] = useState(false);
+
+  const messageEndRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    messageEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
+
   const handleSendMessage = () => {
     if (message.trim()) {
       const newMessage = {
         id: messages.length + 1,
-        username: "Me",
+        username: "현아",
         content: message,
         profileImg: profileImage
       };
@@ -26,20 +34,28 @@ function Chat() {
     }
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter" && !isComposing) {
+      e.preventDefault();
+      handleSendMessage();
+    }
+  };
+
   return (
-    <div className="flex flex-col h-screen ">
+    <div className="flex flex-col h-auto ">
       <div className="flex-1 py-[8px] overflow-y-auto">
         {messages.map((chat) => (
           <div key={chat.id} className="flex items-start mb-4">
             <img src={chat.profileImg} alt="Profile" className="w-10 h-10 rounded-full mr-[8px] border border-white" />
             <div className="flex flex-col gap-[4px]">
               <p className="font-semibold">{chat.username}</p>
-              <div className="relative bg-[url('/img/speechBubble.png')] bg-no-repeat bg-cover rounded-r-lg max-w-fit min-w-[100px] w-auto">
-                <p className="text-white font-b2-regular break-words px-4 py-2">{chat.content}</p>
+              <div className="relative bg-[url('/img/speechBubble.png')] bg-no-repeat bg-cover rounded-r-lg max-w-fit min-w-[20px] w-auto">
+                <p className="text-white font-b2-regular break-words p-[8px]">{chat.content}</p>
               </div>
             </div>
           </div>
         ))}
+        <div ref={messageEndRef} />
       </div>
 
       <div className="h-[52px] flex justify-center items-center px-[16px] py-[8px] bg-gray-800 fixed bottom-0 left-0 right-0">
@@ -48,6 +64,9 @@ function Chat() {
             type="text"
             value={message}
             onChange={(e) => setMessage(e.target.value)}
+            onKeyDown={handleKeyDown}
+            onCompositionStart={() => setComposing(true)}
+            onCompositionEnd={() => setComposing(false)}
             placeholder="메시지를 입력해주세요"
             className="w-full h-[36px] p-2 pl-[24px] pr-[54px] rounded-[999px] focus:outline-none bg-grayoe-400 placeholder-grayoe-200"
           />

@@ -7,8 +7,8 @@ interface VoteProps {
 }
 
 function Vote({ active }: VoteProps) {
-  const [hateVotes, setHateVotes] = useState(10);
-  const [likeVotes, setLikeVotes] = useState(10);
+  const [hateVotes, setHateVotes] = useState(10000);
+  const [likeVotes, setLikeVotes] = useState(10000);
   const [isHateClicked, setIsHateClicked] = useState(false);
   const [isLikeClicked, setIsLikeClicked] = useState(false);
 
