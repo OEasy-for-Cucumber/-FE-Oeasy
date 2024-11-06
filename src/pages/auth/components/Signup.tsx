@@ -29,8 +29,6 @@ function Signup() {
   const { isActive, setIsActive } = useActiveStore();
   const navigate = useNavigate();
 
-
-
   const emailChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -84,11 +82,11 @@ function Signup() {
   };
 
   useEffect(() => {
-    if (isEmail || isConfirmPassword || isNickname) {
+    if (isEmail || isConfirmPassword || isCheckedAccept) {
       setIsActive(true);
     }
 
-  }, [isEmail, isConfirmPassword, isNickname]);
+  }, [isEmail, isConfirmPassword, isCheckedAccept]);
 
   const nextStepHandler = () => {
     if (isEmail) {
