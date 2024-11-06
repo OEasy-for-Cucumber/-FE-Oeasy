@@ -63,11 +63,11 @@ function Login() {
   }
 
   const kakaoLoginHandler = () => {
-    window.location.href = "https://kauth.kakao.com/oauth/authorize?client_id=9d0f8b32ee577d8830b4a174ef9a5f30&redirect_uri=http://54.180.153.36:8080/kakao/callback&response_type=code";
+    window.location.href = "https://kauth.kakao.com/oauth/authorize?client_id=9d0f8b32ee577d8830b4a174ef9a5f30&redirect_uri=http://localhost:3000/kakao/callback&response_type=code";
   }
 
   return (
-    <form onSubmit={onSubmit} className="w-full xl:w-[500px] grid mx-auto">
+    <form onSubmit={onSubmit} className="w-full xl:w-[360px] mx-auto">
       <div className="mt-[50px] mx-auto"></div>
       <div className="mt-[150px] grid">
         <div className="grid mb-[32px]">
@@ -102,7 +102,7 @@ function Login() {
           <p>|</p>
           <button>계정찾기</button>
         </div>
-        <button onClick={kakaoLoginHandler} className="flex w-full xl:w-[89px] xl:h-[40px] py-4 justify-center items-center rounded-md bg-[#FEE500] text-[#1C1C1C] font-b1-regular mt-[40px]">
+        <button onClick={kakaoLoginHandler} className="flex w-full py-4 justify-center items-center rounded-md bg-[#FEE500] text-[#1C1C1C] font-b1-regular mt-[40px]">
           <img src={kakaologo} alt="kakaologo" className="w-[18px] mr-[15px]"/>카카오 로그인</button>
       </div>
     </form>

@@ -30,7 +30,7 @@ function MobileHeader() {
     <div className={`w-full min-w-[360px] max-w-[500px] xl:max-w-none px-6 h-[56px] flex justify-between items-center fixed
     ${pathname === "/" ? "bg-greenoe-950" : "bg-grayoe-950"}`}>
       {SIGNUP ? (
-        <p className="text-center">{headerTitle}</p>
+        <p className="text-center mx-auto">{headerTitle}</p>
       ) : (
         <>
           <button>
