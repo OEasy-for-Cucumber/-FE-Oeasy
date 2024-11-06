@@ -6,6 +6,7 @@ import Signup from "../pages/auth/components/Signup";
 import Recipes from "../pages/recipes";
 import MyPage from "../pages/mypage/MyPage";
 import KakaoCallback from "../pages/auth/KakaoCallback";
+import Votechat from "../pages/vote-chat";
 
 const router = createBrowserRouter([
   {
@@ -21,11 +22,11 @@ const router = createBrowserRouter([
       },
       {
         path: "/signup",
-        element: <Signup/>
+        element: <Signup />
       },
       {
         path: "/mypage",
-        element: <MyPage/>
+        element: <MyPage />
       },
       {
         path: "/recipe",
@@ -33,7 +34,11 @@ const router = createBrowserRouter([
       },
       {
         path: "/kakao/callback",
-        element: <KakaoCallback/>
+        element: <KakaoCallback />
+      },
+      {
+        path: "/vote-chat",
+        element: <Votechat />
       }
     ]
   }
