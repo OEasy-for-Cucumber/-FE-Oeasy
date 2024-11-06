@@ -5,6 +5,11 @@ module.exports = {
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
     extend: {
+      boxShadow: {
+        "like-custom": "1px 1px 14px 2px rgba(255, 69, 58, 0.64)",
+        "hate-custom": "1px 1px 14px 0px rgba(255, 69, 58, 0.64);"
+      },
+
       colors: {
         grayoe: {
           50: "#D9D9D9",
@@ -31,15 +36,42 @@ module.exports = {
           800: "#0a7136",
           900: "#0a5d2f",
           950: "#052210"
+        },
+        redoe: {
+          50: "#fff2f1",
+          500: "#ff453a"
         }
       },
+      fontFamily: {
+        LuckiestGuy: ["Luckiest Guy", "cursive"],
+        SBAggroB: ["SBAggroB"]
+      },
       backgroundImage: {
+        main_cucumber: "url(./public/img/main_cucumber.png)",
+        piece_1: "url(./public/img/piece_1.png)",
+        piece_2: "url(./public/img/piece_2.png)",
         recipes_btn_bg: "url(./public/img/button_bg_cucumber.png)"
+      },
+      backgroundSize: {
+        "18%": "18%",
+        "75%": "75%"
+      },
+      backgroundPosition: {
+        main_cucumber: "-40% 10%",
+        piece_1: "10% 5%",
+        piece_2: "25% 85%"
       }
     },
-    fontFamily: {
-      LuckiestGuy: ["Luckiest Guy", "cursive"],
-      SBAggroB: ["SBAggroB"]
+    keyframes: {
+      backgroundMove: {
+        "0%": { backgroundPositionY: "10%" },
+        "50%": { backgroundPositionY: "19%" },
+        "100%": { backgroundPositionY: "10%" }
+      }
+    },
+    animation: {
+      "background-move": "backgroundMove 6s ease-in-out infinite"
+      // linear
     }
   },
   screens: {
@@ -110,10 +142,8 @@ module.exports = {
         },
         ".primary": { color: "#00c853" },
         ".primary-light": { color: "#eefff4" },
-
         ".redoe": { color: "#ff453a" },
         ".red-light": { color: "#fff2f1" },
-
         ".blueoe": { color: "#0a84ff" },
         ".blue-light": { color: "#edf9ff" }
       });
