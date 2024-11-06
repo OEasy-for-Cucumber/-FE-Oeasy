@@ -21,7 +21,6 @@ function OeTip() {
       try {
         const res = await instance.get("/api/tip");
         setTipList(res?.data);
-        console.log(tipList);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -43,14 +42,7 @@ function OeTip() {
             {tipList.oeTipTitleDTOList.map((list, index) => (
               <div key={index} className="text-center text-[48px] xl:text-[130px] font-SBAggroB xl:leading-[120%]">
                 {/* justify-center text-center 이거 왜 따로 적용되지? 왜?? */}
-                <div
-                  className={`text-center font-SBAggroB xl:leading-[120%] border border-red-700 ${
-                    list.order === 0 ? "w-[300px]" : list.order === 1 ? "w-[300px]" : "w-[300px]"
-                  }`}
-                  style={{ color: list.color }}
-                >
-                  {list.content}
-                </div>
+                <div style={{ color: list.color }}>{list.content}</div>
               </div>
             ))}
             <div className="text-center text-grayoe-50 text-sm">{tipList.content}</div>

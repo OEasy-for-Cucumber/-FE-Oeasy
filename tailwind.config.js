@@ -32,6 +32,9 @@ module.exports = {
           900: "#0a5d2f",
           950: "#052210"
         }
+      },
+      backgroundImage: {
+        recipes_btn_bg: "url(./public/img/button_bg_cucumber.png)"
       }
     },
     fontFamily: {
