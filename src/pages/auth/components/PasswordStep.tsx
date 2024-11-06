@@ -1,8 +1,5 @@
-// import { useEffect } from "react";
-// import Button from "../../../components/Button";
 import Input from "../../../components/Input";
 import { StepProps } from "../../../types/authPropsTypes";
-// import { useActiveStore } from "../../../zustand/isActiveStore";
 
 function PasswordStep({
   password,
@@ -15,24 +12,10 @@ function PasswordStep({
   confirmPasswordChangeHandler=()=>{},
 
 }: StepProps) {
-  // const { isActive, setIsActive } = useActiveStore();
 
   const baseLabelClass = "transition-all duration-300 text-[13px]";
   const visibleLabelClass = "opacity-100 translate-y-0";
   const hiddenLabelClass = "opacity-0 -translate-1";
-
-  // useEffect(()=>{
-  //   if(isPassword && isConfirmPassword) {
-  //     setIsActive(true);
-  //   }
-  // },[isPassword, isConfirmPassword])
-
-  // const nextStepHandler = () => {
-  //   if (isPassword && isConfirmPassword) {
-  //     setStep("닉네임");
-  //     setIsActive(false);
-  //   }
-  // };
 
   return (
     <>

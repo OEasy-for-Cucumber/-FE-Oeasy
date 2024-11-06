@@ -32,7 +32,7 @@ function MobileHeader() {
     ${pathname === "/" ? "bg-greenoe-950" : "bg-grayoe-950"}`}
     >
       {SIGNUP ? (
-        <p className="text-center">{headerTitle}</p>
+        <p className="text-center mx-auto">{headerTitle}</p>
       ) : (
         <>
           <button>

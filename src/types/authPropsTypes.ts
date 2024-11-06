@@ -21,3 +21,8 @@ export interface StepProps {
     nicknameChangeHandler?: (event: React.ChangeEvent<HTMLInputElement>) => void;
     checkedChangeHandler?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
+
+export interface User {
+    email : string;
+    nickname: string;
+}
