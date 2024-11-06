@@ -1,29 +1,26 @@
 import LocationIcon from "../../../../public/icons/Location.png";
 import { useEffect, useState } from "react";
 import { OEIndexType } from "../../../types/oeIndexTypes";
-import axios from "axios";
+import instance from "../../../api/axios";
 
 function OEIndex() {
   const [oeIndexData, setOeIndexData] = useState<OEIndexType>();
 
   const getOEIndexData = async () => {
     try {
-      const res = await axios.get("http://54.180.153.36:8080/api/index")
+      const res = await instance.get("/api/index");
       setOeIndexData(res.data);
     } catch (error) {
       console.log(error);
     }
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     getOEIndexData();
-  },[])
-
-  console.log(oeIndexData);
-  
+  }, []);
 
   return (
-    <div>
+    <div className="w-full grid justify-center">
       <h3 className="font-h3">오늘의 OE지수</h3>
       <div className="flex gap-2 items-center py-1">
         <img src={LocationIcon} alt="locationIcon" />
@@ -39,7 +36,10 @@ function OEIndex() {
           <p>28</p>
         </div>
       </div>
-      </div>
+
+      <div className="w-full my-[100px]">일러스트</div>
+      <p className="w-full mb-[100px]">오이 한마디</p>
+    </div>
   );
 }
 

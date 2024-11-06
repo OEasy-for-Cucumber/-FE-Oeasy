@@ -110,7 +110,7 @@ function Signup() {
   }
 
   return (
-    <div className="w-full h-[calc(100vh-56px)] xl:h-[calc(100vh-80px)] flex-col flex">
+    <div className="w-full xl:w-[360px] mx-auto h-[calc(100vh-56px)] xl:h-[calc(100vh-80px)] flex-col flex">
       <ProgressBar step={step}/>
       <form className="mt-4 flex-grow flex flex-col">
         {step === "이메일" && (

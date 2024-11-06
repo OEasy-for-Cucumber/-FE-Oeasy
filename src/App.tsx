@@ -13,7 +13,7 @@ function App(): React.JSX.Element {
     <>
       <Layout>
         <div className="xl:hidden w-full flex justify-center">{!hideHeader && <MobileHeader />}</div>
-        <div className="hidden w-full xl:flex justify-center">{!hideHeader && <WebHeader />}</div>
+        <div className="hidden w-full xl:flex justify-center"><WebHeader /></div>
         <div className="pt-[56px] xl:pt-[80px]">
           <Outlet />
         </div>
