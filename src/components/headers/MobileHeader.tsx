@@ -28,7 +28,7 @@ function MobileHeader() {
 
   return (
     <div
-      className={`w-[360px] px-6 h-[56px] flex justify-between items-center fixed
+      className={`w-full min-w-[360px] max-w-[500px] xl:max-w-none px-6 h-[56px] flex justify-between items-center fixed
     ${pathname === "/" ? "bg-greenoe-950" : "bg-grayoe-950"}`}
     >
       {SIGNUP ? (
