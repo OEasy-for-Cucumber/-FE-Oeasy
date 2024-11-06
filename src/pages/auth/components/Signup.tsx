@@ -82,11 +82,17 @@ function Signup() {
   };
 
   useEffect(() => {
-    if (isEmail || isConfirmPassword || isCheckedAccept) {
+    if (step === "이메일" && isEmail) {
       setIsActive(true);
+    } else if (step === "비밀번호" && isPassword && isConfirmPassword) {
+      setIsActive(true);
+    } else if (step === "닉네임" && isNickname && isCheckedAccept) {
+      setIsActive(true);
+    } else {
+      setIsActive(false);
     }
-
-  }, [isEmail, isConfirmPassword, isCheckedAccept]);
+  }, [step, isEmail, isPassword, isConfirmPassword, isNickname, isCheckedAccept]);
+  
 
   const nextStepHandler = () => {
     if (isEmail) {

@@ -80,7 +80,7 @@ function Login() {
         </div>
       </div>
 
-      <form onSubmit={onSubmit} className="w-full xl:w-1/2 flex flex-col justify-center p-10">
+      <form onSubmit={onSubmit} className="w-full xl:w-1/2 flex flex-col justify-center">
         <div className="w-full xl:w-[360px] mx-auto">
 
           <div className="grid mb-[16px]">
