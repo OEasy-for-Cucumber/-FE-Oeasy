@@ -2,7 +2,7 @@ function Landing() {
   return (
     <section className="h-[calc(100vh-56px)] xl:h-[calc(100vh-80px)] flex justify-end items-center bg-greenoe-950 pr-6">
       <div className="h-[600px] bg-main_cucumber bg-no-repeat bg-75% animate-background-move">
-        <div className="border h-[600px] flex justify-end items-center leading-none text-right font-LuckiestGuy bg-piece_1 bg-no-repeat bg-18%">
+        <div className="h-[600px] flex justify-end items-center leading-none text-right font-LuckiestGuy bg-piece_1 bg-no-repeat bg-18%">
           <div className="hidden xl:block text-[120px]">
             <div>EVERYTHING</div>
             <div>YOU NEVER KNEW</div>
