@@ -5,7 +5,7 @@ function useWebActive() {
 
   useEffect(() => {
     const handleActive = () => {
-      setWebActive(window.innerWidth >= 1440);
+      setWebActive(window.innerWidth >= 991);
     };
 
     handleActive();

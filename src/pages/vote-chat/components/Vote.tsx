@@ -33,7 +33,7 @@ function Vote({ active }: VoteProps) {
 
   return (
     <>
-      <div className="h-full xl:h-[686px] overflow-y-auto flex justify-center items-center xl:px-[40px]">
+      <div className="h-full xl:h-[686px] overflow-y-auto flex justify-center items-center xl:pr-[40px]">
         <div>
           <div className="w-[182px] min-h-[56px] xl:w-[273px] xl:h-[76px] flex flex-col justify-center items-center mx-auto gap-[8px] ">
             <p className="font-h4 xl:font-h2 text-center">오이 좋아하세요?</p>
