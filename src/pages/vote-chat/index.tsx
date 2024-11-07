@@ -1,35 +1,39 @@
 import { useState } from "react";
 import Chat from "./components/Chat";
 import Vote from "./components/Vote";
+import useWebActive from "./hooks/WebActive";
 
 function Votechat() {
   const [active, setActive] = useState<"vote" | "chat">("vote");
+  const webActive = useWebActive();
 
   const handleVoteClick = () => {
-    if (active !== "vote") {
+    if (!webActive && active !== "vote") {
       setActive("vote");
     }
   };
 
   const handleChatClick = () => {
-    if (active !== "chat") {
+    if (!webActive && active !== "chat") {
       setActive("chat");
     }
   };
 
   return (
-    <div className="flex flex-col h-[calc(100vh-56px)] xl:h-[calc(100vh-80px)] overflow-hidden transition-all duration-500 ease-in-out">
+    <div className="flex flex-col xl:flex-row xl:justify-center xl:items-center h-[calc(100vh-56px)] xl:h-[calc(100vh-80px)] overflow-hidden transition-all duration-500 ease-in-out">
       <div
-        className={`transition-all duration-500 ease-in-out overflow-hidden`}
-        style={{ height: active === "vote" ? "40%" : "20%" }}
+        className={`transition-all duration-500 ease-in-out overflow-hidden ${
+          active === "vote" ? "h-[40%] " : "h-[20%] "
+        }`}
         onClick={handleVoteClick}
       >
         <Vote active={active} />
       </div>
-      <div className="border-grayoe-900 border-[6px] w-full" />
+      <div className="border-grayoe-900 border-[6px] w-full xl:hidden" />
       <div
-        className={`flex-1 transition-all mb-[40px] duration-500 ease-in-out overflow-auto`}
-        style={{ height: active === "chat" ? "80%" : "60%" }}
+        className={`flex transition-all duration-500 ease-in-out overflow-auto ${
+          active === "chat" ? "h-[80%] " : "h-[60%] "
+        }`}
         onClick={handleChatClick}
       >
         <Chat />

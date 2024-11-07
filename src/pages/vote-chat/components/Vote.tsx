@@ -35,14 +35,14 @@ function Vote({ active }: VoteProps) {
     <>
       <div className="h-full overflow-y-auto flex justify-center items-center">
         <div>
-          {active === "chat" ? (
-            <div className=" w-[182px] h-[20px] flex flex-col justify-center items-center mx-auto mb-6 ">
+          <div className="w-[182px] min-h-[56px] flex flex-col justify-center items-center mx-auto gap-[8px] ">
+            <p className="font-h4 text-center">오이 좋아하세요?</p>
+            <p className="font-c2 text-grayoe-200 text-center">투표는 ID당 하루에 한 번만 가능합니다</p>
+          </div>
+
+          {active === "chat" && (
+            <div className="w-[182px] h-[20px] flex flex-col justify-center items-center mx-auto mb-6 xl:hidden">
               <p className="font-b2-regular">오이려 싫어 VS 오이려 좋아</p>
-            </div>
-          ) : (
-            <div className="w-[182px] min-h-[56px] flex flex-col justify-center items-center mx-auto gap-[8px]">
-              <p className="font-h4 text-center">오이 좋아하세요?</p>
-              <p className="font-c2 text-grayoe-200 text-center">투표는 ID당 하루에 한 번만 가능합니다</p>
             </div>
           )}
           {active === "vote" && (
