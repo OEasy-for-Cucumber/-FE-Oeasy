@@ -58,15 +58,20 @@ module.exports = {
         main_cucumber: "-65% 0%"
       }
     },
+    animation: {
+      "background-move": "backgroundMove 6s linear infinite",
+      "move-left": "moveLeft 40s linear infinite"
+    },
     keyframes: {
       backgroundMove: {
         "0%": { backgroundPositionY: "10%" },
         "50%": { backgroundPositionY: "19%" },
         "100%": { backgroundPositionY: "10%" }
+      },
+      moveLeft: {
+        "0%": { transform: "translateX(0)" },
+        "100%": { transform: "translateX(-50%)" }
       }
-    },
-    animation: {
-      "background-move": "backgroundMove 6s linear infinite"
     }
   },
   screens: {
