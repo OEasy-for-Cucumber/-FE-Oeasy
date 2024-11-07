@@ -47,20 +47,15 @@ module.exports = {
         SBAggroB: ["SBAggroB"]
       },
       backgroundImage: {
-        main_cucumber: "url(./public/img/main_cucumber.png)",
-        piece_1: "url(./public/img/piece_1.png)",
-        piece_2: "url(./public/img/piece_2.png)",
+        main_cucumber: "url(./public/img/main_group.png)",
         recipes_btn_bg: "url(./public/img/button_bg_cucumber.png)",
-        noisy_gradients: "url(./public/img/noisy-gradients.png)",
+        noisy_gradients: "url(./public/img/noisy-gradients.png)"
       },
       backgroundSize: {
-        "18%": "18%",
-        "75%": "75%"
+        "75%": "81%"
       },
       backgroundPosition: {
-        main_cucumber: "-40% 10%",
-        piece_1: "10% 5%",
-        piece_2: "25% 85%"
+        main_cucumber: "-65% 0%"
       }
     },
     keyframes: {
@@ -71,8 +66,7 @@ module.exports = {
       }
     },
     animation: {
-      "background-move": "backgroundMove 6s ease-in-out infinite"
-      // linear
+      "background-move": "backgroundMove 6s linear infinite"
     }
   },
   screens: {
