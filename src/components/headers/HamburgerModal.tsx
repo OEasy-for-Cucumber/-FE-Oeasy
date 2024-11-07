@@ -53,7 +53,7 @@ function HamburgerModal({ toggleModal, setIsModalOpen }: { toggleModal: boolean;
               </div>
             </div>
           </div>,
-          document.body
+          document.body // `body` 태그에 모달을 렌더링
         )}
     </>
   );
