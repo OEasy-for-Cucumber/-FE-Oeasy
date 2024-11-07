@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import instance from "../../../api/axios";
+import instance from "../../../../api/axios";
 
 function RecipeCarousel() {
   const [topImage, setTopImage] = useState<string[]>([]);

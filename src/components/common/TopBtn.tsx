@@ -13,7 +13,7 @@ function TopBtn() {
   };
 
   const handleShowBtn = () => {
-    setShowBtn(window.scrollY > 200 ? true : false);
+    setShowBtn(window.scrollY > 1 ? true : false);
   };
 
   useScrollEvent(handleShowBtn);
