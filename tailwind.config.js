@@ -9,7 +9,10 @@ module.exports = {
         "like-custom": "1px 1px 14px 2px rgba(255, 69, 58, 0.64)",
         "hate-custom": "1px 1px 14px 0px rgba(255, 69, 58, 0.64);"
       },
-
+      zIndex: {
+        "50": "50",
+        "10" : "10"
+      },
       colors: {
         grayoe: {
           50: "#D9D9D9",

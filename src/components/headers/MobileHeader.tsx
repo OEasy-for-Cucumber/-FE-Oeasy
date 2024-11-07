@@ -1,16 +1,19 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import HamburgerIcon from "../../assets/Icon.svg";
+import { useState } from "react";
+import HamburgerModal from "./HamburgerModal";
 
 function MobileHeader() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const MAIN = pathname === "/";
   const LOGIN = pathname === "/login";
   const SIGNUP = pathname === "/signup";
   const MYPAGE = pathname === "/mypage";
 
-  //페이지 이름
+  // 페이지 이름
   let headerTitle;
   if (MAIN) {
     headerTitle = "Oeasy";
@@ -26,6 +29,10 @@ function MobileHeader() {
     navigate("/login");
   };
 
+  const toggleModal = () => {
+    setIsModalOpen(true);
+  }
+
   return (
     <div
       className={`w-full min-w-[360px] max-w-[500px] xl:max-w-none px-6 h-[56px] flex justify-between items-center fixed
@@ -35,9 +42,10 @@ function MobileHeader() {
         <p className="text-center mx-auto">{headerTitle}</p>
       ) : (
         <>
-          <button>
+          <button onClick={toggleModal}>
             <img src={HamburgerIcon} alt="메뉴아이콘" />
           </button>
+          {isModalOpen && <HamburgerModal toggleModal={isModalOpen} onClose={toggleModal} setIsModalOpen={setIsModalOpen}/>}
           <p>{headerTitle}</p>
           <button onClick={goToLogin} className="text-xs">
             login
