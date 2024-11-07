@@ -1,6 +1,6 @@
 function Landing() {
   return (
-    <section className="h-[calc(100vh-56px)] xl:h-[calc(100vh-80px)] flex justify-end items-center bg-greenoe-950 pr-6">
+    <section className="h-[calc(100vh-56px)] xl:h-[calc(100vh-80px)] flex justify-end items-center bg-greenoe-950 pr-6 animate-main-title-move">
       <div className="w-full h-[600px] bg-main_cucumber bg-no-repeat bg-75% animate-background-move">
         <div className="h-[600px] flex justify-end items-center leading-none text-right font-LuckiestGuy">
           <div className="hidden xl:block text-[120px]">

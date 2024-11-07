@@ -43,7 +43,7 @@ module.exports = {
         }
       },
       fontFamily: {
-        LuckiestGuy: ["Luckiest Guy", "cursive"],
+        LuckiestGuy: ["Luckiest Guy"],
         SBAggroB: ["SBAggroB"]
       },
       backgroundImage: {
@@ -60,7 +60,8 @@ module.exports = {
     },
     animation: {
       "background-move": "backgroundMove 6s linear infinite",
-      "move-left": "moveLeft 40s linear infinite"
+      "move-left": "moveLeft 40s linear infinite",
+      "main-title-move": "mainTitle 0.9s ease-in-out"
     },
     keyframes: {
       backgroundMove: {
@@ -71,6 +72,10 @@ module.exports = {
       moveLeft: {
         "0%": { transform: "translateX(0)" },
         "100%": { transform: "translateX(-50%)" }
+      },
+      mainTitle: {
+        "0%": { opacity: 0.8, transform: "translateY(50%)" },
+        "100%": { opacity: 1, transform: "translateY(0)" }
       }
     }
   },
