@@ -2,16 +2,23 @@ import { useLocation, useNavigate } from "react-router-dom";
 import HamburgerIcon from "../../assets/Icon.svg";
 import { useState } from "react";
 import HamburgerModal from "./HamburgerModal";
+import { useUserStore } from "../../zustand/authStore";
 
 function MobileHeader() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const {user, isLoggedIn} = useUserStore.getState();
 
   const MAIN = pathname === "/";
   const LOGIN = pathname === "/login";
   const SIGNUP = pathname === "/signup";
   const MYPAGE = pathname === "/mypage";
+
+  const loggedInPath = pathname === "/" || pathname === "/login"
+
+  console.log(isLoggedIn);
+  
 
   // 페이지 이름
   let headerTitle;
@@ -29,6 +36,10 @@ function MobileHeader() {
     navigate("/login");
   };
 
+  const goToMypage = () => {
+    navigate("/mypage");
+  }
+
   const toggleModal = () => {
     setIsModalOpen(true);
   }
@@ -45,11 +56,17 @@ function MobileHeader() {
           <button onClick={toggleModal}>
             <img src={HamburgerIcon} alt="메뉴아이콘" />
           </button>
-          {isModalOpen && <HamburgerModal toggleModal={isModalOpen} onClose={toggleModal} setIsModalOpen={setIsModalOpen}/>}
+          {isModalOpen && 
+          <HamburgerModal 
+          toggleModal={isModalOpen} 
+          onClose={toggleModal} 
+          setIsModalOpen={setIsModalOpen}/>}
           <p>{headerTitle}</p>
-          <button onClick={goToLogin} className="text-xs">
+          {!isLoggedIn && loggedInPath
+          ? <button onClick={goToLogin} className="text-xs">
             login
-          </button>
+          </button> 
+          :<button onClick={goToMypage}>My</button>}
         </>
       )}
     </div>
