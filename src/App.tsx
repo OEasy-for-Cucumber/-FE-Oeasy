@@ -3,11 +3,20 @@ import "./App.css";
 import Layout from "./Layout";
 import MobileHeader from "./components/headers/MobileHeader";
 import WebHeader from "./components/headers/WebHeader";
+import { useUserStore } from "./zustand/authStore";
+import useUserInitialize from "./utils/initAuth";
 
 function App(): React.JSX.Element {
   const { pathname } = useLocation();
+  const isInitialize = useUserStore((state)=> state.isInitialized);
 
   const hideHeader = pathname === "/login";
+
+  useUserInitialize();
+
+  if(!isInitialize) {
+    return <div>로딩중...</div>
+  }
 
   return (
     <>

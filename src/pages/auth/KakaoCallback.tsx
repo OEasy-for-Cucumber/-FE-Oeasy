@@ -25,7 +25,7 @@ function KakaoCallback() {
     try {
       setAccessTokenFetching(true);
 
-      const res = await instance.get(`/kakao/callback?code=${code}`);
+      const res = await instance.get(`/login/kakao/callback?code=${code}`);
       console.log(res.data);
 
       // localStorage.setItem("accessToken", res.data.accessToken);

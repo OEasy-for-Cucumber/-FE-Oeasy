@@ -17,7 +17,7 @@ function PasswordStep({
 
   return (
     <>
-      <div className="w-full flex-col flex h-[73vh]">
+      <div className="w-full flex-col flex">
         <div className="flex-grow">
           <p className="text-lg mb-4">비밀번호롤 입력해주세요</p>
           <p
