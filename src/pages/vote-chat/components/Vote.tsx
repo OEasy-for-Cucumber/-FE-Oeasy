@@ -16,6 +16,10 @@ function Vote({ active }: VoteProps) {
   const updateLastVoteTime = useUserStore((state) => state.updateLastVoteTime);
 
   const handleVote = (side: "hate" | "like") => {
+    if (!user) {
+      alert("로그인 후 투표해주세요");
+      return;
+    }
     const now = Date.now();
 
     if (user?.lastVoteTime) {
@@ -50,7 +54,6 @@ function Vote({ active }: VoteProps) {
 
   const hateFont = hateVotes > likeVotes ? "font-h4 xl:font-h3" : "font-b1-semibold xl:font-h4";
   const likeFont = likeVotes > hateVotes ? "font-h4 xl:font-h3" : "font-b1-semibold xl:font-h4";
-
   const isVoteAllowed =
     !user?.lastVoteTime || new Date(user.lastVoteTime).setHours(0, 0, 0, 0) !== new Date().setHours(0, 0, 0, 0);
 
