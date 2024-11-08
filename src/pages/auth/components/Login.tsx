@@ -99,7 +99,7 @@ function Login() {
       // const url = res.data.replace("redirect:", "");
       console.log(res.data);
 
-      // window.location.href = res.data;
+      window.location.href = res.data;
     } catch (error) {
       console.log(error);
     }

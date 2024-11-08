@@ -8,17 +8,12 @@ function MobileHeader() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const {user, isLoggedIn} = useUserStore.getState();
+  const { user, isLoggedIn} = useUserStore.getState();
 
   const MAIN = pathname === "/";
   const LOGIN = pathname === "/login";
   const SIGNUP = pathname === "/signup";
   const MYPAGE = pathname === "/mypage";
-
-  const loggedInPath = pathname === "/" || pathname === "/login"
-
-  console.log(isLoggedIn);
-  
 
   // 페이지 이름
   let headerTitle;
@@ -62,7 +57,7 @@ function MobileHeader() {
           onClose={toggleModal} 
           setIsModalOpen={setIsModalOpen}/>}
           <p>{headerTitle}</p>
-          {!isLoggedIn && loggedInPath
+          {!isLoggedIn
           ? <button onClick={goToLogin} className="text-xs">
             login
           </button> 
