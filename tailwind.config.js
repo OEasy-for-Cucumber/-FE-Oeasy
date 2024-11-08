@@ -9,7 +9,10 @@ module.exports = {
         "like-custom": "1px 1px 14px 2px rgba(255, 69, 58, 0.64)",
         "hate-custom": "1px 1px 14px 0px rgba(255, 69, 58, 0.64);"
       },
-
+      zIndex: {
+        "50": "50",
+        "10" : "10"
+      },
       colors: {
         grayoe: {
           50: "#D9D9D9",
@@ -43,36 +46,40 @@ module.exports = {
         }
       },
       fontFamily: {
-        LuckiestGuy: ["Luckiest Guy", "cursive"],
+        LuckiestGuy: ["Luckiest Guy"],
         SBAggroB: ["SBAggroB"]
       },
       backgroundImage: {
-        main_cucumber: "url(./public/img/main_cucumber.png)",
-        piece_1: "url(./public/img/piece_1.png)",
-        piece_2: "url(./public/img/piece_2.png)",
+        main_cucumber: "url(./public/img/main_group.png)",
         recipes_btn_bg: "url(./public/img/button_bg_cucumber.png)",
-        noisy_gradients: "url(./public/img/noisy-gradients.png)",
+        noisy_gradients: "url(./public/img/noisy-gradients.png)"
       },
       backgroundSize: {
-        "18%": "18%",
-        "75%": "75%"
+        "75%": "81%"
       },
       backgroundPosition: {
-        main_cucumber: "-40% 10%",
-        piece_1: "10% 5%",
-        piece_2: "25% 85%"
+        main_cucumber: "-65% 0%"
       }
+    },
+    animation: {
+      "background-move": "backgroundMove 6s linear infinite",
+      "move-left": "moveLeft 40s linear infinite",
+      "main-title-move": "mainTitle 0.9s ease-in-out"
     },
     keyframes: {
       backgroundMove: {
         "0%": { backgroundPositionY: "10%" },
         "50%": { backgroundPositionY: "19%" },
         "100%": { backgroundPositionY: "10%" }
+      },
+      moveLeft: {
+        "0%": { transform: "translateX(0)" },
+        "100%": { transform: "translateX(-50%)" }
+      },
+      mainTitle: {
+        "0%": { opacity: 0.8, transform: "translateY(50%)" },
+        "100%": { opacity: 1, transform: "translateY(0)" }
       }
-    },
-    animation: {
-      "background-move": "backgroundMove 6s ease-in-out infinite"
-      // linear
     }
   },
   screens: {

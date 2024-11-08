@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
-import Button from "../../../components/Button";
-import Input from "../../../components/Input";
+import Button from "../../../components/common/Button";
+import Input from "../../../components/common/Input";
 import { useActiveStore } from "../../../zustand/isActiveStore";
 import { useNavigate } from "react-router-dom";
 import kakaologo from "../../../../public/icons/kakaologo.png";
+import instance from "../../../api/axios";
+import { useUserStore } from "../../../zustand/authStore";
 
 function Login() {
   const [email, setEmail] = useState<string>("");
@@ -15,6 +17,7 @@ function Login() {
   const [emailMsg, setEmailMsg] = useState<string>("");
   const [passwordMsg, setPasswordMsg] = useState<string>("");
 
+  const { user, setUser, setIsLoggedIn } = useUserStore.getState();
   const { isActive, setIsActive } = useActiveStore();
   const navigate = useNavigate();
 
@@ -54,23 +57,56 @@ function Login() {
     }
   }, [isEmail, isPassword]);
 
-  const onSubmit = (event: React.FormEvent) => {
+  const loginHandler = async (event: React.FormEvent) => {
     event.preventDefault();
+    try {
+      const response = await instance.post(
+        "/login/oeasy",
+        {
+          email,
+          password
+        },
+        {
+          headers: {
+            "Content-Type": "application/json"
+          }
+        }
+      );
+      console.log(response.data);
+      localStorage.setItem("accessToken", response.data.accessToken);
+      setUser(response.data);
+      setIsLoggedIn(true);
+      alert("로그인 성공");
+      navigate("/");
+    } catch (error) {
+      console.log("Error:", error);
+    }
   };
 
   const goToSignup = () => {
     navigate("/signup");
   };
 
-  const kakaoLoginHandler = () => {
-    const clientId = import.meta.env.VITE_KAKAO_CLIENT_ID;
-    const redirectUri = import.meta.env.VITE_APP_KAKAO_REDIRECT_URI;
-    window.location.href = `https://kauth.kakao.com/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code`;
+  // const kakaoLoginHandler = () => {
+  //   const clientId = import.meta.env.VITE_KAKAO_CLIENT_ID;
+  //   const redirectUri = import.meta.env.VITE_APP_KAKAO_REDIRECT_URI;
+  //   window.location.href = `https://kauth.kakao.com/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code`;
+  // };
+
+  const kakaoLoginHandler = async () => {
+    try {
+      const res = await instance.get("/login/kakao");
+      const url = res.data.replace("redirect:", "");
+      console.log(url);
+
+      window.location.href = url;
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
     <div className="flex h-[calc(100vh-56px)] xl:h-[calc(100vh-80px)] w-full xl:px-[194px]">
-
       <div className="hidden xl:flex w-1/2 items-center justify-center">
         <div className="w-[600px] h-[500px] bg-noisy_gradients from-green-300 to-blue-500 p-10 rounded-lg m-10 flex items-center justify-center">
           <div className="text-white text-3xl font-bold">
@@ -80,9 +116,8 @@ function Login() {
         </div>
       </div>
 
-      <form onSubmit={onSubmit} className="w-full xl:w-1/2 flex flex-col justify-center p-10">
+      <form onSubmit={loginHandler} className="w-full xl:w-1/2 flex flex-col justify-center">
         <div className="w-full xl:w-[360px] mx-auto">
-
           <div className="grid mb-[16px]">
             <p
               className={`${!isEmail ? "redoe" : "text-grayoe-300"} ${
@@ -118,7 +153,7 @@ function Login() {
           </Button>
 
           <div className="flex justify-center text-grayoe-300 space-x-6 text-[12px] py-4">
-            <button onClick={goToSignup}>
+            <button type="button" onClick={goToSignup}>
               회원가입
             </button>
           </div>
