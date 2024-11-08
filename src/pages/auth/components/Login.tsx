@@ -72,14 +72,17 @@ function Login() {
           }
         }
       );
-      console.log(response.data);
       localStorage.setItem("accessToken", response.data.accessToken);
       setUser(response.data);
       setIsLoggedIn(true);
       alert("로그인 성공");
       navigate("/");
-    } catch (error) {
-      console.log("Error:", error);
+    } catch (error: any) {
+      if (error.response && error.response.status === 401) {
+        alert("아이디와 비밀번호를 확인해 주세요.");
+      } else {
+        console.log("Error:", error);
+      }
     }
   };
 
@@ -87,22 +90,15 @@ function Login() {
     navigate("/signup");
   };
 
-  // const kakaoLoginHandler = () => {
-  //   const clientId = import.meta.env.VITE_KAKAO_CLIENT_ID;
-  //   const redirectUri = import.meta.env.VITE_APP_KAKAO_REDIRECT_URI;
-  //   window.location.href = `https://kauth.kakao.com/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code`;
-  // };
-
   const kakaoLoginHandler = async () => {
-    try {
-      const res = await instance.get("/login/kakao");
-      const url = res.data.replace("redirect:", "");
-      console.log(url);
+    const clientId = import.meta.env.VITE_KAKAO_CLIENT_ID;
+    const redirectUri = import.meta.env.VITE_APP_KAKAO_REDIRECT_URI;
+    window.location.href = `https://kauth.kakao.com/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code`;
 
-      window.location.href = url;
-    } catch (error) {
-      console.log(error);
-    }
+    // const url = await instance.get("/login/kakao");
+    // console.log(url.data);
+    // window.location.href = url.data;
+    
   };
 
   return (
