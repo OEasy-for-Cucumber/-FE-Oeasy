@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Chat from "./components/Chat";
 import Vote from "./components/Vote";
-import useWebActive from "./hooks/useWebActive";
+import useWebActive from "../../hooks/useWebActive";
 
 function Votechat() {
   const [active, setActive] = useState<"vote" | "chat">("vote");

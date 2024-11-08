@@ -13,10 +13,10 @@ function useUserInitialize() {
         try {
           const { data } = await instance.get("/member/profile", {
             headers: {
-              Authorization: `Bearer ${token}`,
-            },
+              Authorization: `Bearer ${token}`
+            }
           });
-          
+
           if (data) {
             setUser(data);
             setIsLoggedIn(true);
@@ -25,7 +25,7 @@ function useUserInitialize() {
           console.error("사용자 초기화 오류:", error);
         }
       }
-      setIsInitialized(true);  // 초기화 완료 상태를 설정
+      setIsInitialized(true); // 초기화 완료 상태를 설정
     };
 
     initUser();
