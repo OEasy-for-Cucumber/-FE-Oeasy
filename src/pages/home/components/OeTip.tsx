@@ -1,17 +1,7 @@
 import { useEffect, useState } from "react";
 import quotes from "../../../../public/img/quotes.png";
 import instance from "../../../api/axios";
-
-interface OeTip {
-  content: string;
-  color: string;
-  order: number;
-}
-
-interface OeData {
-  content: string;
-  oeTipTitleDTOList: OeTip[];
-}
+import { OeData } from "../../../types/oeTip";
 
 function OeTip() {
   const [tipList, setTipList] = useState<OeData | null>(null);

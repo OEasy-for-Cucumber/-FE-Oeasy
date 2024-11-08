@@ -5,7 +5,7 @@ import Nickname from "./Nickname";
 import Complete from "./Complete";
 import ProgressBar from "./ProgressBar";
 import { useActiveStore } from "../../../zustand/isActiveStore";
-import Button from "../../../components/Button";
+import Button from "../../../components/common/Button";
 import { useNavigate } from "react-router-dom";
 import FullSquare from "../../../../public/icons/full-Square.png";
 import EmptySquare from "../../../../public/icons/empty-Square.png";
