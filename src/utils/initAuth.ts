@@ -7,22 +7,25 @@ function useUserInitialize() {
 
   useEffect(() => {
     const initUser = async () => {
-      try {
-        const { data } = await instance.get("/member/profile");
-        const token = localStorage.getItem("accessToken");
+      const token = localStorage.getItem("accessToken");
 
-        if (data) {
-          setUser(data);
+      if (token) {
+        try {
+          const { data } = await instance.get("/member/profile", {
+            headers: {
+              Authorization: `Bearer ${token}`
+            }
+          });
+
+          if (data) {
+            setUser(data);
+            setIsLoggedIn(true);
+          }
+        } catch (error) {
+          console.error("사용자 초기화 오류:", error);
         }
-
-        setIsInitialized(true);
-
-        if (token) {
-          setIsLoggedIn(true);
-        }
-      } catch (error) {
-        console.error("사용자 초기화 오류:", error);
       }
+      setIsInitialized(true); // 초기화 완료 상태를 설정
     };
 
     initUser();

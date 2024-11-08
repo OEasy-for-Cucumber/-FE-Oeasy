@@ -8,17 +8,15 @@ function MobileHeader() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const {user, isLoggedIn} = useUserStore.getState();
+  const { user, isLoggedIn} = useUserStore.getState();
 
   const MAIN = pathname === "/";
   const LOGIN = pathname === "/login";
   const SIGNUP = pathname === "/signup";
   const MYPAGE = pathname === "/mypage";
-
-  const loggedInPath = pathname === "/" || pathname === "/login"
-
-  console.log(isLoggedIn);
-  
+  const VOTE = pathname === "/vote-chat";
+  const COMMUNITY = pathname === "/community";
+  const RECIPE = pathname === "/recipe";
 
   // 페이지 이름
   let headerTitle;
@@ -30,6 +28,12 @@ function MobileHeader() {
     headerTitle = "회원가입";
   } else if (MYPAGE) {
     headerTitle = "마이페이지";
+  } else if (VOTE) {
+    headerTitle = "오이 투표";
+  } else if (COMMUNITY) {
+    headerTitle = "오이 커뮤니티";
+  } else if (RECIPE) {
+    headerTitle = "오이 레시피";
   }
 
   const goToLogin = () => {
@@ -62,7 +66,7 @@ function MobileHeader() {
           onClose={toggleModal} 
           setIsModalOpen={setIsModalOpen}/>}
           <p>{headerTitle}</p>
-          {!isLoggedIn && loggedInPath
+          {!isLoggedIn
           ? <button onClick={goToLogin} className="text-xs">
             login
           </button> 

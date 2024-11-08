@@ -1,9 +1,11 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import Button from "../common/Button";
+import { useUserStore } from "../../zustand/authStore";
 
 function WebHeader() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
+  const { user, isLoggedIn } = useUserStore.getState();
 
   const goToLogin = () => {
     navigate("/login");
@@ -12,6 +14,22 @@ function WebHeader() {
   const goToHome = () => {
     navigate("/");
   };
+
+  const goToCommunity = () => {
+    navigate("/community");
+  }
+
+  const goToVote = () => {
+    navigate("/vote-chat");
+  }
+
+  const goToRecipes = () => {
+    navigate("/recipe")
+  }
+
+  const goToMypage = () => {
+    navigate("/mypage");
+  }
 
   return (
     <div
@@ -23,12 +41,17 @@ function WebHeader() {
         </button>
       </div>
       <div className="flex flex-1 justify-end items-center space-x-8">
-        <button className="text-white">오이커뮤니티</button>
-        <button className="text-white">오이투표</button>
-        <button className="text-white">오이레시피</button>
+        <button onClick={goToCommunity} className="text-white">오이커뮤니티</button>
+        <button onClick={goToVote} className="text-white">오이투표</button>
+        <button onClick={goToRecipes} className="text-white">오이레시피</button>
+        {!isLoggedIn 
+        ? 
         <Button onClick={goToLogin} isActive={true}>
           Login
         </Button>
+        : <button onClick={goToMypage}>My</button>}
+        
+        
       </div>
     </div>
   );

@@ -13,6 +13,8 @@ function MyPage() {
     navigate("/");
   }
 
+  console.log(user);
+  
   return (
     <div>
       <div className="w-full flex py-4">
