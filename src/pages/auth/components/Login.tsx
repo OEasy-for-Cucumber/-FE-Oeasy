@@ -96,10 +96,10 @@ function Login() {
   const kakaoLoginHandler = async () => {
     try {
       const res = await instance.get("/login/kakao");
-      const url = res.data.replace("redirect:", "");
-      console.log(url);
+      // const url = res.data.replace("redirect:", "");
+      console.log(res.data);
 
-      window.location.href = url;
+      // window.location.href = res.data;
     } catch (error) {
       console.log(error);
     }
