@@ -68,7 +68,7 @@ module.exports = {
       "mobile-move": "backgroundMove 6s linear infinite",
       "web-move": "webMove 5s linear infinite",
       "move-left": "moveLeft 40s linear infinite",
-      "move-top": "moveTop 60s linear infinite",
+      "move-top": "moveTop 70s linear infinite",
       "main-title-move": "mainTitle 0.9s ease-in-out"
     },
     keyframes: {
