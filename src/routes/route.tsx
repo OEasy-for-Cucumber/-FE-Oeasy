@@ -1,8 +1,14 @@
 import { createBrowserRouter } from "react-router-dom";
 import App from "../App";
-import Main from "../pages/main";
+import Home from "../pages/home";
 import Login from "../pages/auth/components/Login";
 import Signup from "../pages/auth/components/Signup";
+import Recipes from "../pages/recipes";
+import MyPage from "../pages/mypage/MyPage";
+import KakaoCallback from "../pages/auth/KakaoCallback";
+import Votechat from "../pages/vote-chat";
+import Community from "../pages/community";
+import PrivatePage from "./PrivatePage";
 
 const router = createBrowserRouter([
   {
@@ -10,15 +16,37 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <Main />
+        element: <Home />
       },
       {
         path: "/login",
-        element: <Login/>
+        element: <Login />
       },
       {
         path: "/signup",
-        element: <Signup/>
+        element: <Signup />
+      },
+      {
+        path: "/recipe",
+        element: <Recipes />
+      },
+      {
+        path: "/kakao/callback",
+        element: <KakaoCallback />
+      },
+      {
+        path: "/vote-chat",
+        element: <Votechat />
+      },
+      {
+        path: "/community",
+        element: <Community/>
+      },
+      {
+        element: <PrivatePage/>,
+        children: [
+          { path: "/mypage", element: <MyPage/>}
+        ]
       }
     ]
   }
