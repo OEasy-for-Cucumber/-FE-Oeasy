@@ -72,7 +72,6 @@ function Login() {
           }
         }
       );
-      console.log(response.data);
       localStorage.setItem("accessToken", response.data.accessToken);
       setUser(response.data);
       setIsLoggedIn(true);
