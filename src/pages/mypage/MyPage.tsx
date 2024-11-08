@@ -12,8 +12,6 @@ function MyPage() {
     setIsLoggedIn(false);
     navigate("/");
   }
-
-  console.log(user);
   
   return (
     <div>

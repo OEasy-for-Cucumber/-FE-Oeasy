@@ -9,13 +9,15 @@ import useUserInitialize from "./utils/initAuth";
 function App(): React.JSX.Element {
   const { pathname } = useLocation();
   const isInitialize = useUserStore((state)=> state.isInitialized);
-
+  useUserInitialize();
   const hideHeader = pathname === "/login";
 
-  useUserInitialize();
+  
+  console.log(isInitialize);
+  
 
   if(!isInitialize) {
-    return <div>로딩중...</div>
+    return <div className="text-black">로딩중...</div>
   }
 
   return (
