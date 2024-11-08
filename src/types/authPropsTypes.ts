@@ -26,5 +26,5 @@ export interface User {
   email: string;
   nickname: string;
   accessToken: string;
-  lastVoteTime: number | null;
+  lastVoteTime?: number | null;
 }
