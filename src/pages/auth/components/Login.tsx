@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import Button from "../../../components/Button";
-import Input from "../../../components/Input";
+import Button from "../../../components/common/Button";
+import Input from "../../../components/common/Input";
 import { useActiveStore } from "../../../zustand/isActiveStore";
 import { useNavigate } from "react-router-dom";
 import kakaologo from "../../../../public/icons/kakaologo.png";
@@ -70,7 +70,6 @@ function Login() {
 
   return (
     <div className="flex h-[calc(100vh-56px)] xl:h-[calc(100vh-80px)] w-full xl:px-[194px]">
-
       <div className="hidden xl:flex w-1/2 items-center justify-center">
         <div className="w-[600px] h-[500px] bg-noisy_gradients from-green-300 to-blue-500 p-10 rounded-lg m-10 flex items-center justify-center">
           <div className="text-white text-3xl font-bold">
@@ -82,7 +81,6 @@ function Login() {
 
       <form onSubmit={onSubmit} className="w-full xl:w-1/2 flex flex-col justify-center p-10">
         <div className="w-full xl:w-[360px] mx-auto">
-
           <div className="grid mb-[16px]">
             <p
               className={`${!isEmail ? "redoe" : "text-grayoe-300"} ${
@@ -118,9 +116,7 @@ function Login() {
           </Button>
 
           <div className="flex justify-center text-grayoe-300 space-x-6 text-[12px] py-4">
-            <button onClick={goToSignup}>
-              회원가입
-            </button>
+            <button onClick={goToSignup}>회원가입</button>
           </div>
 
           <button
