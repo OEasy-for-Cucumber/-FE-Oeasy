@@ -11,14 +11,14 @@ function Recipe() {
 
   return (
     <section className="h-[calc(100vh-56px)] xl:h-[calc(100vh-80px)] flex flex-col xl:flex-row justify-center xl:justify-between">
-      <div>
-        <div className="font-h3 xl:font-h1 pl-6">
+      <div className="xl:h-[300px] mt-[160px]">
+        <div className="font-h3 xl:font-h1 pl-6 xl:pl-0">
           Oeasy에서
           <br /> 다양한 오이의
           <br /> 레시피를 만나보세요
         </div>
 
-        <div className="p-6">
+        <div className="p-6 xl:pl-0">
           <Button size="small" onClick={recipePage}>
             레시피 바로가기
           </Button>
