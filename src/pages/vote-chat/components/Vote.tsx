@@ -28,36 +28,37 @@ function Vote({ active }: VoteProps) {
   const hateWidth = totalVotes === 0 ? 50 : (hateVotes / totalVotes) * 100;
   const likeWidth = totalVotes === 0 ? 50 : (likeVotes / totalVotes) * 100;
 
-  const hateFont = hateVotes > likeVotes ? "font-h4" : "font-b1-semibold";
-  const likeFont = likeVotes > hateVotes ? "font-h4 " : "font-b1-semibold";
+  const hateFont = hateVotes > likeVotes ? "font-h4 xl:font-h3" : "font-b1-semibold xl:font-h4";
+  const likeFont = likeVotes > hateVotes ? "font-h4 xl:font-h3" : "font-b1-semibold xl:font-h4";
 
   return (
     <>
-      <div className="h-full overflow-y-auto flex justify-center items-center">
+      <div className="h-full xl:h-[686px] overflow-y-auto flex justify-center items-center xl:pr-[40px]">
         <div>
-          {active === "chat" ? (
-            <div className=" w-[182px] h-[20px] flex flex-col justify-center items-center mx-auto mb-6 ">
+          <div className="w-[182px] min-h-[56px] xl:w-[273px] xl:h-[76px] flex flex-col justify-center items-center mx-auto gap-[8px] ">
+            <p className="font-h4 xl:font-h2 text-center">오이 좋아하세요?</p>
+            <p className="font-c2 xl:font-b2-regular text-grayoe-200 text-center">
+              투표는 ID당 하루에 한 번만 가능합니다
+            </p>
+          </div>
+
+          {active === "chat" && (
+            <div className="w-[182px] h-[20px] flex flex-col justify-center items-center mx-auto mb-6 xl:hidden">
               <p className="font-b2-regular">오이려 싫어 VS 오이려 좋아</p>
-            </div>
-          ) : (
-            <div className="w-[182px] min-h-[56px] flex flex-col justify-center items-center mx-auto gap-[8px]">
-              <p className="font-h4 text-center">오이 좋아하세요?</p>
-              <p className="font-c2 text-grayoe-200 text-center">투표는 ID당 하루에 한 번만 가능합니다</p>
             </div>
           )}
           {active === "vote" && (
-            <div className="flex justify-between  px-4">
-              <img src={voteOE} alt="voteOE" className="w-[80px] h-[150px]" />
-              <img src={voteO2} alt="voteOE" className="w-[80px] h-[150px]" />
+            <div className="flex justify-between px-4 xl:px-8">
+              <img src={voteOE} alt="voteOE" className="w-[80px] h-[150px] xl:w-[100px] xl:h-[220px]" />
+              <img src={voteO2} alt="voteOE" className="w-[80px] h-[150px] xl:w-[100px] xl:h-[220px]" />
             </div>
           )}
 
-          <div className="flex w-[296px] h-[48px] mx-auto rounded-lg ">
+          <div className="flex w-[296px] h-[48px] xl:w-[512px] xl:h-[124px] mx-auto rounded-lg px-[40px]">
             <div
-              className={`p-4 bg-redoe-50 roun flex justify-start items-center cursor-pointer transition-shadow rounded-l-[8px] ${
+              className={`p-4 bg-red-50 flex justify-start items-center xl:items-end cursor-pointer transition-shadow rounded-l-[8px] ${
                 isHateClicked ? "shadow-hate-custom" : ""
-              }`}
-              style={{ width: `${hateWidth}%`, transition: "width 0.3s" }}
+              } ${hateWidth === 100 ? "w-full" : hateWidth === 75 ? "w-3/4" : "w-1/2"} transition-all duration-300`}
               onClick={() => handleVote("hate")}
             >
               <div className={`text-left ${hateFont}`}>
@@ -66,10 +67,9 @@ function Vote({ active }: VoteProps) {
             </div>
 
             <div
-              className={`p-4 bg-redoe-500 flex justify-end items-center cursor-pointer transition-shadow rounded-r-[8px] ${
+              className={`p-4 bg-red-500 flex justify-end items-center xl:items-end  cursor-pointer transition-shadow rounded-r-[8px] ${
                 isLikeClicked ? "shadow-like-custom" : ""
-              }`}
-              style={{ width: `${likeWidth}%`, transition: "width 0.3s" }}
+              } ${likeWidth === 100 ? "w-full" : likeWidth === 75 ? "w-3/4" : "w-1/2"} transition-all duration-300`}
               onClick={() => handleVote("like")}
             >
               <div className={`text-left ${likeFont}`}>
