@@ -1,9 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import sendIcon from "../../../../public/icons/send.png";
 import profileImage from "../../../../public/img/귀여운행복오이.png";
+import { useUserStore } from "../../../zustand/authStore";
 
 function Chat() {
   const [message, setMessage] = useState("");
+  const user = useUserStore((state) => state.user);
   const [messages, setMessages] = useState([
     { id: 1, username: "현아", content: "오이 짱조아 룰루 랄라", profileImg: profileImage },
     { id: 2, username: "수미", content: "으 오이 개극혐", profileImg: profileImage },
@@ -24,7 +26,7 @@ function Chat() {
     if (message.trim()) {
       const newMessage = {
         id: messages.length + 1,
-        username: "현아",
+        username: user?.nickname || "익명",
         content: message,
         profileImg: profileImage
       };

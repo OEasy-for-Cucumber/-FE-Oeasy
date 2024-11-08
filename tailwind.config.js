@@ -68,6 +68,7 @@ module.exports = {
       "mobile-move": "backgroundMove 6s linear infinite",
       "web-move": "webMove 5s linear infinite",
       "move-left": "moveLeft 40s linear infinite",
+      "move-top": "moveTop 60s linear infinite",
       "main-title-move": "mainTitle 0.9s ease-in-out"
     },
     keyframes: {
@@ -84,6 +85,10 @@ module.exports = {
       moveLeft: {
         "0%": { transform: "translateX(0)" },
         "100%": { transform: "translateX(-50%)" }
+      },
+      moveTop: {
+        "0%": { transform: "translateY(0)" },
+        "100%": { transform: "translateY(-50%)" }
       },
       mainTitle: {
         "0%": { opacity: 0.8, transform: "translateY(50%)" },
