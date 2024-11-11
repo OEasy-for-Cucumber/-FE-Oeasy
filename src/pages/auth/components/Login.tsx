@@ -17,7 +17,7 @@ function Login() {
   const [emailMsg, setEmailMsg] = useState<string>("");
   const [passwordMsg, setPasswordMsg] = useState<string>("");
 
-  const { user, setUser, setIsLoggedIn } = useUserStore.getState();
+  const { /* user, */ setUser, setIsLoggedIn } = useUserStore.getState();
   const { isActive, setIsActive } = useActiveStore();
   const navigate = useNavigate();
 
@@ -98,7 +98,6 @@ function Login() {
     // const url = await instance.get("/login/kakao");
     // console.log(url.data);
     // window.location.href = url.data;
-    
   };
 
   return (
