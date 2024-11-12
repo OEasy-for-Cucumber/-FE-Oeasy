@@ -9,6 +9,7 @@ import KakaoCallback from "../pages/auth/KakaoCallback";
 import Votechat from "../pages/vote-chat";
 import Community from "../pages/community";
 import PrivatePage from "./PrivatePage";
+import Test from "../pages/test";
 
 const router = createBrowserRouter([
   {
@@ -40,13 +41,15 @@ const router = createBrowserRouter([
       },
       {
         path: "/community",
-        element: <Community/>
+        element: <Community />
       },
       {
-        element: <PrivatePage/>,
-        children: [
-          { path: "/mypage", element: <MyPage/>}
-        ]
+        element: <PrivatePage />,
+        children: [{ path: "/mypage", element: <MyPage /> }]
+      },
+      {
+        path: "/test",
+        element: <Test />
       }
     ]
   }

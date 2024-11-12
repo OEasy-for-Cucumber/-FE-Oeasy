@@ -19,10 +19,10 @@ function KakaoCallback() {
       setAccessTokenFetching(true);
 
       // GET 요청으로 code를 쿼리 파라미터로 전달
-      const res = await instance.post("/login/kakao/callback",{
-        params: code,
+      const res = await instance.post("/login/kakao/callback", {
+        params: code
       });
-      
+
       const { accessToken, email, nickname } = res.data;
       console.log("accessToken:", accessToken);
 
@@ -49,12 +49,11 @@ function KakaoCallback() {
       const timer = setTimeout(() => {
         fetchData();
       }, 5000); // 5초 (5000ms) 후에 fetchData 실행
-  
+
       // 클린업 함수로 타이머 정리
       return () => clearTimeout(timer);
     }
   }, [code, user]);
-  
 
   return <div>카카오 로그인 중...</div>;
 }
