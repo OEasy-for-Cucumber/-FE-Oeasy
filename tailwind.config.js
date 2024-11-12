@@ -10,8 +10,8 @@ module.exports = {
         "hate-custom": "1px 1px 14px 0px rgba(255, 69, 58, 0.64);"
       },
       zIndex: {
-        "50": "50",
-        "10" : "10"
+        50: "50",
+        10: "10"
       },
       colors: {
         grayoe: {
@@ -50,20 +50,25 @@ module.exports = {
         SBAggroB: ["SBAggroB"]
       },
       backgroundImage: {
-        main_cucumber: "url(./public/img/main_group.png)",
+        mobile_cucumber: "url(./public/img/mobile_group.png)",
+        web_cucumber: "url(./public/img/web_group.png)",
         recipes_btn_bg: "url(./public/img/button_bg_cucumber.png)",
         noisy_gradients: "url(./public/img/noisy-gradients.png)"
       },
       backgroundSize: {
-        "75%": "81%"
+        "81%": "81%",
+        "50%": "58%"
       },
       backgroundPosition: {
-        main_cucumber: "-65% 0%"
+        mobile_cucumber: "-65% 0%",
+        web_cucumber: "-10% 0%"
       }
     },
     animation: {
-      "background-move": "backgroundMove 6s linear infinite",
+      "mobile-move": "backgroundMove 6s linear infinite",
+      "web-move": "webMove 5s linear infinite",
       "move-left": "moveLeft 40s linear infinite",
+      "move-top": "moveTop 70s linear infinite",
       "main-title-move": "mainTitle 0.9s ease-in-out"
     },
     keyframes: {
@@ -72,9 +77,18 @@ module.exports = {
         "50%": { backgroundPositionY: "19%" },
         "100%": { backgroundPositionY: "10%" }
       },
+      webMove: {
+        "0%": { backgroundPositionY: "10%" },
+        "50%": { backgroundPositionY: "24%" },
+        "100%": { backgroundPositionY: "10%" }
+      },
       moveLeft: {
         "0%": { transform: "translateX(0)" },
         "100%": { transform: "translateX(-50%)" }
+      },
+      moveTop: {
+        "0%": { transform: "translateY(0)" },
+        "100%": { transform: "translateY(-50%)" }
       },
       mainTitle: {
         "0%": { opacity: 0.8, transform: "translateY(50%)" },
