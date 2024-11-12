@@ -1,9 +1,15 @@
 import { useEffect, useRef, useState } from "react";
+import { Client } from "@stomp/stompjs";
+import SockJS from "sockjs-client";
 import sendIcon from "../../../../public/icons/send.png";
 import profileImage from "../../../../public/img/cuteOE.png";
 import { useUserStore } from "../../../zustand/authStore";
 
 function Chat() {
+  if (typeof global === "undefined") {
+    window.global = window; // 브라우저 환경에서 `global`이 없는 경우 `window`로 설정
+  }
+  const [client, setClient] = useState<Client | null>(null);
   const [message, setMessage] = useState("");
   const user = useUserStore((state) => state.user);
   const [messages, setMessages] = useState([
@@ -19,19 +25,58 @@ function Chat() {
   const messageEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    // WebSocket 클라이언트 설정
+    const stompClient = new Client({
+      webSocketFactory: () => new SockJS("http://54.180.153.36:8080/ws"), // Spring Boot 서버의 WebSocket 엔드포인트
+      reconnectDelay: 5000,
+      heartbeatIncoming: 4000,
+      heartbeatOutgoing: 4000
+    });
+
+    stompClient.onConnect = () => {
+      console.log("Connected to WebSocket");
+
+      // 메시지 구독
+      stompClient.subscribe("/topic/messages", (msg) => {
+        const receivedMessage = JSON.parse(msg.body);
+        setMessages((prevMessages) => [...prevMessages, receivedMessage]);
+      });
+      setClient(stompClient);
+    };
+
+    stompClient.onDisconnect = () => {
+      console.log("Disconnected from WebSocket");
+      setClient(null);
+    };
+
+    stompClient.activate();
+
+    // 컴포넌트가 언마운트될 때 WebSocket 연결 해제
+    return () => {
+      if (stompClient) {
+        stompClient.deactivate();
+      }
+    };
+  }, []);
+
+  useEffect(() => {
     messageEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
   const handleSendMessage = () => {
-    if (message.trim()) {
-      const newMessage = {
-        id: messages.length + 1,
-        username: user?.nickname || "익명",
-        content: message,
-        profileImg: profileImage
-      };
-      setMessages([...messages, newMessage]);
+    if (client && message.trim()) {
+      client.publish({
+        destination: "/app/send", // Spring Boot의 @MessageMapping("/send") 경로
+        body: JSON.stringify({
+          content: message,
+          username: user?.nickname || "익명",
+          profileImg: profileImage
+        })
+      });
+
       setMessage("");
+    } else {
+      console.log("Client is not connected");
     }
   };
 
