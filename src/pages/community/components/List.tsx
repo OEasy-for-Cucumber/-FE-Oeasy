@@ -1,25 +1,32 @@
 import defaultImg from "../../../../public/img/defaultOe.png";
 import postHeart from "../../../../public/img/heart.png";
 import commentIcon from "../../../../public/img/comment.png";
+import { Link } from "react-router-dom";
+
+const generateId = () => `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+
 function List() {
   const posts = [
     {
+      id: generateId(),
       title: "제목",
       nickname: "오이좋아현",
       date: "2024-11-12",
       likes: 10,
       comments: 2,
-      image: "../../../../public/img/귀여운행복오이.png"
+      image: "../../../../public/img/cuteOE.png"
     },
     {
+      id: generateId(),
       title: "제목이 두줄인 경우는 이렇게 보입니다 제목이 두줄인 경우는 이렇게 보입니다",
       nickname: "크림이는 오이싫어",
       date: "2024.11.11",
       likes: 5,
       comments: 1,
-      image: "../../../../public/img/귀여운행복오이.png"
+      image: "../../../../public/img/cuteOE.png"
     },
     {
+      id: generateId(),
       title:
         "제목이 세줄이상인 경우는 이렇게 보입니다 제목이 세줄이상인 경우는 이렇게 보입니다 제목이 세줄이상인 경우는 이렇게 보입니다",
       nickname: "오이불호",
@@ -29,6 +36,7 @@ function List() {
       image: ""
     },
     {
+      id: generateId(),
       title:
         "제목이 세줄이상인 경우는 이렇게 보입니다 제목이 세줄이상인 경우는 이렇게 보입니다 제목이 세줄이상인 경우는 이렇게 보입니다",
       nickname: "오이불호",
@@ -38,6 +46,7 @@ function List() {
       image: ""
     },
     {
+      id: generateId(),
       title: "오이 솔직히 왜 싫어하십니까?",
       nickname: "오이셀럽",
       date: "2024.11.10",
@@ -46,6 +55,7 @@ function List() {
       image: ""
     },
     {
+      id: generateId(),
       title: "오이소박이 레시피 공유해드립니다",
       nickname: "오이소박이",
       date: "2024.11.09",
@@ -65,7 +75,9 @@ function List() {
           {posts.map((post, index) => (
             <div key={index} className="flex justify-between py-4 px-6 gap-2">
               <div className="flex flex-col gap-[8px] flex-[8.5]">
-                <p className="truncate-title font-b2-semibold">{post.title}</p>
+                <Link to={`/detail/${post.id}`} className="truncate-title font-b2-semibold">
+                  {post.title}
+                </Link>
                 <div className="flex gap-2 font-c2">
                   <p className="text-grayoe-300">
                     {post.nickname} ・ {post.date}
