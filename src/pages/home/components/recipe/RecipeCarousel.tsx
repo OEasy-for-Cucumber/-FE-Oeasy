@@ -17,7 +17,6 @@ function RecipeCarousel() {
         const firstHalf = images.slice(0, middleIndex);
         const secondHalf = images.slice(middleIndex);
         setTopImage(firstHalf);
-        console.log(topImage);
         setButtonImage(secondHalf);
       } catch (error) {
         console.error("Error fetching data:", error);
