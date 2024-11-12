@@ -48,10 +48,10 @@ module.exports = {
         SBAggroB: ["SBAggroB"]
       },
       backgroundImage: {
-        mobile_cucumber: "url(./public/img/mobile_group.png)",
-        web_cucumber: "url(./public/img/web_group.png)",
-        recipes_btn_bg: "url(./public/img/button_bg_cucumber.png)",
-        noisy_gradients: "url(./public/img/noisy-gradients.png)"
+        mobile_cucumber: "url(/img/mobile_group.png)",
+        web_cucumber: "url(/img/web_group.png)",
+        recipes_btn_bg: "url(/img/button_bg_cucumber.png)",
+        noisy_gradients: "url(/img/noisy-gradients.png)"
       },
       backgroundSize: {
         "81%": "81%",
