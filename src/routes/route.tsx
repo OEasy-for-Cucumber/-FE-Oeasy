@@ -7,7 +7,7 @@ import Recipes from "../pages/recipes";
 import MyPage from "../pages/mypage/MyPage";
 import KakaoCallback from "../pages/auth/KakaoCallback";
 import Votechat from "../pages/vote-chat";
-import Community from "../pages/community";
+import Community from "../pages/community/list";
 import PrivatePage from "./PrivatePage";
 
 const router = createBrowserRouter([
@@ -40,13 +40,11 @@ const router = createBrowserRouter([
       },
       {
         path: "/community",
-        element: <Community/>
+        element: <Community />
       },
       {
-        element: <PrivatePage/>,
-        children: [
-          { path: "/mypage", element: <MyPage/>}
-        ]
+        element: <PrivatePage />,
+        children: [{ path: "/mypage", element: <MyPage /> }]
       }
     ]
   }
