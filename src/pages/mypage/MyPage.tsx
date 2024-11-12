@@ -1,10 +1,14 @@
 import { useNavigate } from "react-router-dom";
 import { useUserStore } from "../../zustand/authStore";
 import instance from "../../api/axios";
+import { useState } from "react";
+import EditProfile from "./components/EditProfile";
 
 function MyPage() {
-  const { user, setUser, clearUser, setIsLoggedIn } = useUserStore.getState();
+  const { user, setUser } = useUserStore.getState();
   const navigate = useNavigate();
+
+  const [ isEditModalOpen, setEditModalOpen ] = useState<boolean>(false);
 
   const getUserData = async () => {
     const token = getCookie("accessToken"); // 쿠키에서 토큰을 가져오는 함수
@@ -34,8 +38,8 @@ function MyPage() {
   
   getUserData();
 
-  const goToEdit = () => {
-    navigate("/edit-profile")
+  const handleEditModal = () => {
+    setEditModalOpen((prev)=>!prev);
   }
 
   return (
@@ -46,8 +50,9 @@ function MyPage() {
           </div>
           <h6 className="font-h6 ml-2">닉네임</h6>
         </div>
-        <button onClick={goToEdit} className="h-[32px] px-3 whitespace-nowrap bg-grayoe-400 rounded font-c2">계정 설정</button>
+        <button onClick={handleEditModal} className="h-[32px] px-3 whitespace-nowrap bg-grayoe-400 rounded font-c2">계정 설정</button>
       </div>
+      {isEditModalOpen && <EditProfile handleEditModal={handleEditModal}/>}
     </div>
   );
 }

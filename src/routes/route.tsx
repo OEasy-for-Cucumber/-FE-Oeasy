@@ -49,7 +49,6 @@ const router = createBrowserRouter([
         element: <PrivatePage />,
         children: [
           { path: "/mypage", element: <MyPage /> },
-          { path: "/edit-profile", element: <EditProfile /> }
         ]
       },
       {

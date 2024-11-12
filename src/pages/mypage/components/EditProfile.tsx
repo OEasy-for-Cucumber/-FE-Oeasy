@@ -9,18 +9,18 @@ import ReactDOM from "react-dom";
 import EditPassword from "./EditPassword";
 
 
-function EditProfile() {
+function EditProfile({ handleEditModal }: {handleEditModal: ()=>void}) {
   const { user, setUser, clearUser, setIsLoggedIn } = useUserStore.getState();
   const navigate = useNavigate();
 
   const [nickname, setNickname] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-  const [confirmPassword, setConfirmPassword] = useState<string>("");
+  const [newPassword, setNewPassword] = useState<string>("");
 
   const [ isNickname, setIsNickname ] = useState<boolean>(false);
   const [ nicknameMsg, setNicknameMsg ] = useState<string>(""); 
 
-  const [ isModalOpen, setIsModalOpen ] = useState<boolean>(false);
+  const [ isNewPasswordModalOpen, setIsNewPasswordModalOpen ] = useState<boolean>(false);
+
   const baseLabelClass = "transition-all duration-300 text-[13px]";
   const visibleLabelClass = "opacity-100 translate-y-0";
   const hiddenLabelClass = "opacity-0 -translate-1";
@@ -44,19 +44,17 @@ function EditProfile() {
     }
   };
 
-  const goToMypage = () => {
-    navigate("/mypage")
+  const handleNewPasswordModal = () => {
+    setIsNewPasswordModalOpen((prev)=>!prev)
   }
 
-  const openModal = () => setIsModalOpen(true);
-  const closeModal = () => setIsModalOpen(false);
 
   return (
     <div className="fixed inset-0 flex flex-col items-center justify-center">
       <div className="bg-grayoe-950 text-white w-full min-w-[360px] max-w-[500px] xl:w-full py-4 relative h-svh">
         <div className="relative flex justify-center items-center mt-3 mb-[64px]">
           <h1 className="font-b2-semibold absolute left-1/2 transform -translate-x-1/2">계정 설정</h1>
-          <button onClick={goToMypage} className="text-xl absolute right-3">
+          <button type="button" onClick={handleEditModal} className="text-xl absolute right-3">
             <img src={Xicon} alt="닫기버튼" />
           </button>
         </div>
@@ -94,7 +92,7 @@ function EditProfile() {
               <label className="block text-grayoe-300 text-sm mb-1">비밀번호</label>
               <div className="flex justify-between items-center">
                 <div className="text-grayoe-300">●●●●●●●●</div>
-                <button onClick={openModal} className="bg-grayoe-500 text-sm py-1 px-2 rounded font-c2">비밀번호 변경</button>
+                <button type="button" onClick={handleNewPasswordModal} className="bg-grayoe-500 text-sm py-1 px-2 rounded font-c2">비밀번호 변경</button>
               </div>
             </div>
             <hr className="border-grayoe-700 mt-3" />
@@ -107,9 +105,9 @@ function EditProfile() {
           <button>회원탈퇴</button>
         </div>
       </div>
-      {isModalOpen &&
+      {isNewPasswordModalOpen &&
         ReactDOM.createPortal(
-          <EditPassword closeModal={closeModal} />, 
+          <EditPassword handleNewPasswordModal={handleNewPasswordModal} newPassword={newPassword} setNewPassword={setNewPassword}/>, 
           document.body
         )}
     </div>
