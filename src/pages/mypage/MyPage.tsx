@@ -9,6 +9,7 @@ function MyPage() {
   const navigate = useNavigate();
 
   const [ isEditModalOpen, setEditModalOpen ] = useState<boolean>(false);
+  const [ isClicked, setIsClicked ] = useState<boolean>(false);
 
   const getUserData = async () => {
     const token = getCookie("accessToken"); // 쿠키에서 토큰을 가져오는 함수
@@ -42,6 +43,10 @@ function MyPage() {
     setEditModalOpen((prev)=>!prev);
   }
 
+  const handlePostClicked = () => setIsClicked(true);
+  const handleLikedClicked = () => setIsClicked(false);
+  
+
   return (
     <div>
       <div className="w-full flex p-4 bg-grayoe-900 rounded-lg items-center my-6">
@@ -53,6 +58,11 @@ function MyPage() {
         <button onClick={handleEditModal} className="h-[32px] px-3 whitespace-nowrap bg-grayoe-400 rounded font-c2">계정 설정</button>
       </div>
       {isEditModalOpen && <EditProfile handleEditModal={handleEditModal}/>}
+
+      <div className="w-full flex mt-[50px]">
+        <button onClick={handlePostClicked} className={`w-1/2 p-2 border-b-2 ${isClicked ? "border-greenoe-600" : "border-grayoe-950"} text-center`}>게시글</button>
+        <button onClick={handleLikedClicked} className={`w-1/2 p-2 border-b-2 ${!isClicked ? "border-greenoe-600" : "border-grayoe-950"} text-center`}>좋아요</button>
+      </div>
     </div>
   );
 }
