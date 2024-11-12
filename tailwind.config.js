@@ -5,10 +5,6 @@ module.exports = {
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
     extend: {
-      boxShadow: {
-        "like-custom": "1px 1px 14px 2px rgba(255, 69, 58, 0.64)",
-        "hate-custom": "1px 1px 14px 0px rgba(255, 69, 58, 0.64);"
-      },
       zIndex: {
         50: "50",
         10: "10"
@@ -42,7 +38,9 @@ module.exports = {
         },
         redoe: {
           50: "#fff2f1",
-          500: "#ff453a"
+          100: "#FFE1DF",
+          500: "#ff453a",
+          600: "#ED2115"
         }
       },
       fontFamily: {

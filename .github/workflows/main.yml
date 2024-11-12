@@ -19,9 +19,13 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_S3_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
 
+      - name: 의존성 설치
+        run: yarn install
+
       - name: 리액트 빌드
-        run: |
-          yarn build
+        run: yarn build
+        env:
+          VITE_APP_BASE_URL: ${{ secrets.VITE_APP_BASE_URL }}
 
       - name: 빌드한 파일 S3에 업로드
         run: aws s3 sync build/ s3://${{ secrets.AWS_S3_BUCKET_NAME }} --acl public-read
