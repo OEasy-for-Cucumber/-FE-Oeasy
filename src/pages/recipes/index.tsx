@@ -1,3 +1,5 @@
+import OeRecipes from "./components/OeRecipes";
+
 function Recipes() {
   return (
     <section className="h-[calc(100vh-56px)] xl:h-[calc(100vh-80px)]">
@@ -7,6 +9,8 @@ function Recipes() {
           오늘의 <span className="text-greenoe-600">오이요리</span> 추천 받기
         </div>
       </button>
+
+      <OeRecipes />
     </section>
   );
 }

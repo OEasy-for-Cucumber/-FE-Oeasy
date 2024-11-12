@@ -57,11 +57,11 @@ module.exports = {
       },
       backgroundSize: {
         "81%": "81%",
-        "50%": "50%"
+        "50%": "58%"
       },
       backgroundPosition: {
         mobile_cucumber: "-65% 0%",
-        web_cucumber: "-7% 0%"
+        web_cucumber: "-10% 0%"
       }
     },
     animation: {

@@ -11,7 +11,7 @@ function Recipe() {
 
   return (
     <section className="h-[calc(100vh-56px)] xl:h-[calc(100vh-80px)] flex flex-col xl:flex-row justify-center xl:justify-between">
-      <div className="xl:h-[300px] mt-[160px]">
+      <div className="xl:h-[300px] xl:mt-[160px]">
         <div className="font-h3 xl:font-h1 pl-6 xl:pl-0">
           Oeasy에서
           <br /> 다양한 오이의
