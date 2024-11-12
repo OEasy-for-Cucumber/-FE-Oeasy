@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import React, { useState, useEffect } from "react";
 import Button from "../../../components/common/Button";
 import Input from "../../../components/common/Input";
@@ -18,6 +19,7 @@ function Login() {
   const [emailMsg, setEmailMsg] = useState<string>("");
   const [passwordMsg, setPasswordMsg] = useState<string>("");
 
+  //@ts-expect-error
   const { user, setUser, setIsLoggedIn } = useUserStore.getState();
   const { isActive, setIsActive } = useActiveStore();
   const navigate = useNavigate();
@@ -103,7 +105,6 @@ function Login() {
     // const url = await instance.get("/login/kakao");
     // console.log(url.data);
     // window.location.href = url.data;
-    
   };
 
   return (

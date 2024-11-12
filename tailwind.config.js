@@ -5,13 +5,9 @@ module.exports = {
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
     extend: {
-      boxShadow: {
-        "like-custom": "1px 1px 14px 2px rgba(255, 69, 58, 0.64)",
-        "hate-custom": "1px 1px 14px 0px rgba(255, 69, 58, 0.64);"
-      },
       zIndex: {
-        "50": "50",
-        "10" : "10"
+        50: "50",
+        10: "10"
       },
       colors: {
         grayoe: {
@@ -42,7 +38,9 @@ module.exports = {
         },
         redoe: {
           50: "#fff2f1",
-          500: "#ff453a"
+          100: "#FFE1DF",
+          500: "#ff453a",
+          600: "#ED2115"
         }
       },
       fontFamily: {
@@ -50,21 +48,26 @@ module.exports = {
         SBAggroB: ["SBAggroB"]
       },
       backgroundImage: {
-        main_cucumber: "url(./public/img/main_group.png)",
-        recipes_btn_bg: "url(./public/img/button_bg_cucumber.png)",
-        noisy_gradients: "url(./public/img/noisy-gradients.png)",
+        mobile_cucumber: "url(/img/mobile_group.png)",
+        web_cucumber: "url(/img/web_group.png)",
+        recipes_btn_bg: "url(/img/button_bg_cucumber.png)",
+        noisy_gradients: "url(/img/noisy-gradients.png)",
         profile_sample: "url(./public/img/profilesample.jpg)"
       },
       backgroundSize: {
-        "75%": "81%"
+        "81%": "81%",
+        "50%": "58%"
       },
       backgroundPosition: {
-        main_cucumber: "-65% 0%"
+        mobile_cucumber: "-65% 0%",
+        web_cucumber: "-10% 0%"
       }
     },
     animation: {
-      "background-move": "backgroundMove 6s linear infinite",
+      "mobile-move": "backgroundMove 6s linear infinite",
+      "web-move": "webMove 5s linear infinite",
       "move-left": "moveLeft 40s linear infinite",
+      "move-top": "moveTop 70s linear infinite",
       "main-title-move": "mainTitle 0.9s ease-in-out"
     },
     keyframes: {
@@ -73,9 +76,18 @@ module.exports = {
         "50%": { backgroundPositionY: "19%" },
         "100%": { backgroundPositionY: "10%" }
       },
+      webMove: {
+        "0%": { backgroundPositionY: "10%" },
+        "50%": { backgroundPositionY: "24%" },
+        "100%": { backgroundPositionY: "10%" }
+      },
       moveLeft: {
         "0%": { transform: "translateX(0)" },
         "100%": { transform: "translateX(-50%)" }
+      },
+      moveTop: {
+        "0%": { transform: "translateY(0)" },
+        "100%": { transform: "translateY(-50%)" }
       },
       mainTitle: {
         "0%": { opacity: 0.8, transform: "translateY(50%)" },

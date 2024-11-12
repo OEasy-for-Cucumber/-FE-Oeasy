@@ -1,19 +1,10 @@
 import { useNavigate } from "react-router-dom";
-import Button from "../../components/common/Button";
 import { useUserStore } from "../../zustand/authStore";
 import instance from "../../api/axios";
-import ProfileSample from "../../../public/img/profilesample.jpg"
 
 function MyPage() {
   const { user, setUser, clearUser, setIsLoggedIn } = useUserStore.getState();
   const navigate = useNavigate();
-
-  const logoutHandler = () => {
-    localStorage.removeItem("accessToken");
-    clearUser();
-    setIsLoggedIn(false);
-    navigate("/");
-  }
 
   const getUserData = async () => {
     const token = getCookie("accessToken"); // 쿠키에서 토큰을 가져오는 함수
@@ -42,19 +33,21 @@ function MyPage() {
   };
   
   getUserData();
-  
-  
+
+  const goToEdit = () => {
+    navigate("/edit-profile")
+  }
+
   return (
     <div>
-      <div className="w-full flex py-4">
-        <div className="w-full flex gap-2 items-center">
-          <div className="w-[48px] h-[48px] rounded-full bg-profile_sample bg-cover p-2 text-black">
+      <div className="w-full flex p-4 bg-grayoe-900 rounded-lg items-center my-6">
+        <div className="w-full flex items-center">
+          <div className="w-[48px] h-[48px] rounded-full bg-profile_sample bg-cover text-black">
           </div>
-          <h6 className="font-h6">{user?.nickname}</h6>
+          <h6 className="font-h6 ml-2">닉네임</h6>
         </div>
-        <Button size="small">프로필 편집</Button>
+        <button onClick={goToEdit} className="h-[32px] px-3 whitespace-nowrap bg-grayoe-400 rounded font-c2">계정 설정</button>
       </div>
-      <button onClick={logoutHandler}>로그아웃</button>
     </div>
   );
 }

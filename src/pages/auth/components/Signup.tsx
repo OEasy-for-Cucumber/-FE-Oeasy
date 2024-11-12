@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { useEffect, useState } from "react";
 import EmailStep from "./EmailStep";
 import PasswordStep from "./PasswordStep";
@@ -29,7 +30,8 @@ function Signup() {
   const [passwordMsg, setPasswordMsg] = useState<string>("");
   const [confirmPasswordMsg, setConfirmPasswordMsg] = useState<string>("");
 
-  const { user, setUser} = useUserStore.getState();
+  //@ts-expect-error
+  const { user, setUser } = useUserStore.getState();
   const [step, setStep] = useState("이메일");
   const { isActive, setIsActive } = useActiveStore();
   const navigate = useNavigate();
@@ -141,14 +143,17 @@ function Signup() {
   return (
     <div className="w-full xl:w-[360px] mx-auto h-[calc(100vh-56px)] xl:h-[calc(100vh-80px)] flex-col flex">
       <ProgressBar step={step} />
-      <form onSubmit={(e) => {
-  e.preventDefault();
-  if (step === "닉네임" && isNickname && isCheckedAccept) {
-    registerHandler();
-  } else {
-    nextStepHandler();
-  }
-}} className="mt-4 flex-grow flex flex-col">
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          if (step === "닉네임" && isNickname && isCheckedAccept) {
+            registerHandler();
+          } else {
+            nextStepHandler();
+          }
+        }}
+        className="mt-4 flex-grow flex flex-col"
+      >
         {step === "이메일" && (
           <EmailStep
             email={email}

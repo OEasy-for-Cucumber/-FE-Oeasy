@@ -1,6 +1,6 @@
 import { useState } from "react";
 import voteOE from "../../../../public/img/voteOE.png";
-import voteO2 from "../../../../public/img/voteOE*.png";
+import voteO2 from "../../../../public/img/voteOE2.png";
 import { useUserStore } from "../../../zustand/authStore";
 
 interface VoteProps {
@@ -12,37 +12,37 @@ function Vote({ active }: VoteProps) {
   const [likeVotes, setLikeVotes] = useState(10000);
   const [isHateClicked, setIsHateClicked] = useState(false);
   const [isLikeClicked, setIsLikeClicked] = useState(false);
-  const user = useUserStore((state) => state.user);
+  // const user = useUserStore((state) => state.user);
   const updateLastVoteTime = useUserStore((state) => state.updateLastVoteTime);
 
   const handleVote = (side: "hate" | "like") => {
-    if (!user) {
-      alert("로그인 후 투표해주세요");
-      return;
-    }
+    // if (!user) {
+    //   alert("로그인 후 투표해주세요");
+    //   return;
+    // }
     const now = Date.now();
 
-    if (user?.lastVoteTime) {
-      const lastVoteDate = new Date(user.lastVoteTime);
-      const currentDate = new Date(now);
+    // if (user?.lastVoteTime) {
+    //   const lastVoteDate = new Date(user.lastVoteTime);
+    //   const currentDate = new Date(now);
 
-      lastVoteDate.setHours(0, 0, 0, 0);
-      currentDate.setHours(0, 0, 0, 0);
+    //   lastVoteDate.setHours(0, 0, 0, 0);
+    //   currentDate.setHours(0, 0, 0, 0);
 
-      if (lastVoteDate.getTime() === currentDate.getTime()) {
-        alert("하루에 한 번만 투표할 수 있습니다.");
-        return;
-      }
-    }
+    //   if (lastVoteDate.getTime() === currentDate.getTime()) {
+    //     alert("하루에 한 번만 투표할 수 있습니다.");
+    //     return;
+    //   }
+    // }
 
     if (side === "hate") {
       setHateVotes(hateVotes + 1);
       setIsHateClicked(true);
-      setTimeout(() => setIsHateClicked(false), 1000);
+      setTimeout(() => setIsHateClicked(false), 300);
     } else {
       setLikeVotes(likeVotes + 1);
       setIsLikeClicked(true);
-      setTimeout(() => setIsLikeClicked(false), 1000);
+      setTimeout(() => setIsLikeClicked(false), 300);
     }
 
     updateLastVoteTime(now);
@@ -52,10 +52,14 @@ function Vote({ active }: VoteProps) {
   const hateWidth = totalVotes === 0 ? 50 : (hateVotes / totalVotes) * 100;
   const likeWidth = totalVotes === 0 ? 50 : (likeVotes / totalVotes) * 100;
 
-  const hateFont = hateVotes > likeVotes ? "font-h4 xl:font-h3" : "font-b1-semibold xl:font-h4";
-  const likeFont = likeVotes > hateVotes ? "font-h4 xl:font-h3" : "font-b1-semibold xl:font-h4";
-  const isVoteAllowed =
-    !user?.lastVoteTime || new Date(user.lastVoteTime).setHours(0, 0, 0, 0) !== new Date().setHours(0, 0, 0, 0);
+  const hateFont =
+    hateVotes > likeVotes ? "font-h4 xl:font-h3 text-white" : "font-b1-semibold xl:font-h4 text-grayoe-200";
+  const likeFont =
+    likeVotes > hateVotes ? "font-h4 xl:font-h3 text-white" : "font-b1-semibold xl:font-h4 text-grayoe-200";
+  const hateBg = hateVotes > likeVotes ? "bg-redoe-500 " : "bg-redoe-50";
+  const likeBg = likeVotes > hateVotes ? "bg-redoe-500" : "bg-redoe-50";
+  // const isVoteAllowed =
+  //   !user?.lastVoteTime || new Date(user.lastVoteTime).setHours(0, 0, 0, 0) !== new Date().setHours(0, 0, 0, 0);
 
   return (
     <>
@@ -82,32 +86,34 @@ function Vote({ active }: VoteProps) {
 
           <div className="flex w-[296px] h-[48px] xl:w-[512px] xl:h-[124px] mx-auto rounded-lg px-[40px]">
             <div
-              className={`p-4 bg-red-50 flex justify-start items-center xl:items-end cursor-pointer transition-shadow rounded-l-[8px] ${
-                isHateClicked ? "shadow-hate-custom" : ""
+              className={`p-4 flex justify-start items-center xl:items-end cursor-pointer rounded-l-[8px] ${hateBg} ${
+                isHateClicked ? "shadow-inset-down" : "shadow-3d"
               } ${hateWidth === 100 ? "w-full" : hateWidth === 75 ? "w-3/4" : "w-1/2"} transition-all duration-300`}
               onClick={() => {
-                if (isVoteAllowed) {
-                  handleVote("hate");
-                } else {
-                  alert("하루에 한 번만 투표할 수 있습니다.");
-                }
+                // if (isVoteAllowed) {
+                //   handleVote("hate");
+                // } else {
+                //   alert("하루에 한 번만 투표할 수 있습니다.");
+                // }
+                handleVote("hate");
               }}
             >
               <div className={`text-left ${hateFont}`}>
-                <p className="text-grayoe-200">{hateVotes.toLocaleString()}</p>
+                <p>{hateVotes.toLocaleString()}</p>
               </div>
             </div>
 
             <div
-              className={`p-4 bg-red-500 flex justify-end items-center xl:items-end cursor-pointer transition-shadow rounded-r-[8px] ${
-                isLikeClicked ? "shadow-like-custom" : ""
+              className={`p-4 flex justify-end items-center xl:items-end cursor-pointer  rounded-r-[8px] ${likeBg} ${
+                isLikeClicked ? "shadow-inset-down" : "shadow-3d"
               } ${likeWidth === 100 ? "w-full" : likeWidth === 75 ? "w-3/4" : "w-1/2"} transition-all duration-300`}
               onClick={() => {
-                if (isVoteAllowed) {
-                  handleVote("like");
-                } else {
-                  alert("하루에 한 번만 투표할 수 있습니다.");
-                }
+                // if (isVoteAllowed) {
+                //   handleVote("like");
+                // } else {
+                //   alert("하루에 한 번만 투표할 수 있습니다.");
+                // }
+                handleVote("like");
               }}
             >
               <div className={`text-left ${likeFont}`}>

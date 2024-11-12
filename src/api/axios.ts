@@ -7,17 +7,13 @@ const instance = axios.create({
   timeout: 5000, // 요청 타임아웃 설정 (5초)
   headers: { 
     "Content-Type": "application/json",
-    'Access-Control-Allow-Origin': "http://localhost:3000/",
-    'Access-Control-Allow-Credentials': true,
   } // 기본 헤더 설정
 });
 
 // 요청 인터셉터 설정
 instance.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem("accessToken"); // 인증 토큰 가져오기
-    console.log(token);
-    
+    const token = localStorage.getItem("accessToken"); // 인증 토큰 가져오기  
     if (token) {
       config.headers['Authorization'] = `Bearer ${token}`; // 토큰이 있을 경우 헤더에 추가
     }

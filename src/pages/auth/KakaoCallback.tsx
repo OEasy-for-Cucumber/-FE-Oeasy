@@ -49,7 +49,6 @@ function KakaoCallback() {
       fetchData();
     }
   }, [code, user]);
-  
 
   return <div>카카오 로그인 중...</div>;
 }

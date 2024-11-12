@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { useLocation, useNavigate } from "react-router-dom";
 import HamburgerIcon from "../../assets/Icon.svg";
 import { useState } from "react";
@@ -8,7 +9,8 @@ function MobileHeader() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { user, isLoggedIn} = useUserStore.getState();
+  //@ts-expect-error
+  const { user, isLoggedIn } = useUserStore.getState();
 
   const MAIN = pathname === "/";
   const LOGIN = pathname === "/login";
@@ -42,15 +44,15 @@ function MobileHeader() {
 
   const goToMypage = () => {
     navigate("/mypage");
-  }
+  };
 
   const toggleModal = () => {
     setIsModalOpen(true);
-  }
+  };
 
   return (
     <div
-      className={`w-full min-w-[360px] max-w-[500px] xl:max-w-none px-6 h-[56px] flex justify-between items-center fixed
+      className={`w-full min-w-[360px] max-w-[520px] xl:max-w-none px-6 h-[56px] flex justify-between items-center fixed
     ${pathname === "/" ? "bg-greenoe-950" : "bg-grayoe-950"}`}
     >
       {SIGNUP ? (
@@ -60,17 +62,17 @@ function MobileHeader() {
           <button onClick={toggleModal}>
             <img src={HamburgerIcon} alt="메뉴아이콘" />
           </button>
-          {isModalOpen && 
-          <HamburgerModal 
-          toggleModal={isModalOpen} 
-          onClose={toggleModal} 
-          setIsModalOpen={setIsModalOpen}/>}
+          {isModalOpen && (
+            <HamburgerModal toggleModal={isModalOpen} onClose={toggleModal} setIsModalOpen={setIsModalOpen} />
+          )}
           <p>{headerTitle}</p>
-          {!isLoggedIn
-          ? <button onClick={goToLogin} className="text-xs">
-            login
-          </button> 
-          :<button onClick={goToMypage}>My</button>}
+          {!isLoggedIn ? (
+            <button onClick={goToLogin} className="text-xs">
+              login
+            </button>
+          ) : (
+            <button onClick={goToMypage}>My</button>
+          )}
         </>
       )}
     </div>
