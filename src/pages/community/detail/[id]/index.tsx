@@ -1,5 +1,5 @@
-function detail() {
+function Detail() {
   return <div>detail</div>;
 }
 
-export default detail;
+export default Detail;
