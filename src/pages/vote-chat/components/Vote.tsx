@@ -1,6 +1,6 @@
 import { useState } from "react";
 import voteOE from "../../../../public/img/voteOE.png";
-import voteO2 from "../../../../public/img/voteOE*.png";
+import voteO2 from "../../../../public/img/voteOE2.png";
 import { useUserStore } from "../../../zustand/authStore";
 
 interface VoteProps {

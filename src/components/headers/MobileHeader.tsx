@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { useLocation, useNavigate } from "react-router-dom";
 import HamburgerIcon from "../../assets/Icon.svg";
 import { useState } from "react";
@@ -8,6 +9,7 @@ function MobileHeader() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  //@ts-expect-error
   const { user, isLoggedIn } = useUserStore.getState();
 
   const MAIN = pathname === "/";
