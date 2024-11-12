@@ -5,8 +5,8 @@ function RecipeCarousel() {
   const [topImage, setTopImage] = useState<string[]>([]);
   const [buttonImage, setButtonImage] = useState<string[]>([]);
 
-  const ulSt = "w-full h-[140px] flex flex-row gap-4";
-  const imgSt = "w-[130px] h-[130px] rounded-xl";
+  const ulSt = "w-full h-[140px] xl:w-[200px] xl:h-full flex flex-row xl:flex-col gap-4 xl:gap-8";
+  const sizeSt = "w-[130px] xl:w-[200px] h-[130px] xl:h-[240px]";
 
   useEffect(() => {
     const fetchData = async () => {
@@ -25,23 +25,23 @@ function RecipeCarousel() {
     fetchData();
   }, []);
   return (
-    <div className="slider-container overflow-hidden">
-      <div className="h-[285px] flex">
-        <div className="flex flex-col justify-between">
-          <div className="flex pr-4 animate-move-left">
+    <div className="overflow-hidden">
+      <div className="h-[285px] xl:h-full xl:w-[425px] flex xl:flex-col">
+        <div className="flex flex-col xl:flex-row justify-between">
+          <div className="flex animate-move-left xl:animate-move-top">
             <ul className={ulSt}>
               {[...topImage, ...topImage]?.map((top, index) => (
-                <li key={index} className="w-[130px] h-[130px]">
-                  <img src={top} className={imgSt} />
+                <li key={index} className={sizeSt}>
+                  <img src={top} className={`${sizeSt} rounded-lg xl:rounded-xl`} />
                 </li>
               ))}
             </ul>
           </div>
-          <div className="flex pr-4 animate-move-left">
-            <ul className={`${ulSt} -translate-x-[75px]`}>
+          <div className="flex animate-move-left xl:animate-move-top">
+            <ul className={`${ulSt} -translate-x-[75px] xl:translate-x-0 xl:-translate-y-[75px]`}>
               {[...buttonImage, ...buttonImage]?.map((button, index) => (
-                <li key={index} className="w-[130px] h-[130px]">
-                  <img src={button} className={imgSt} />
+                <li key={index} className={sizeSt}>
+                  <img src={button} className={`${sizeSt} rounded-lg xl:rounded-xl`} />
                 </li>
               ))}
             </ul>

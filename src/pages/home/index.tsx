@@ -9,9 +9,11 @@ function Home() {
     <>
       <TopBtn />
       <Landing />
-      <OEIndex />
-      <OeTip />
-      <Recipe />
+      <div className="xl:px-[200px]">
+        <OEIndex />
+        <OeTip />
+        <Recipe />
+      </div>
     </>
   );
 }

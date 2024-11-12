@@ -40,7 +40,7 @@ function HamburgerModal({
     <>
       {toggleModal &&
         ReactDOM.createPortal(
-          <div className="w-full min-w-[360px] max-w-[500px] mx-auto fixed inset-0 flex items-center justify-center z-50">
+          <div className="w-full min-w-[360px] max-w-[520px] mx-auto fixed inset-0 flex items-center justify-center z-50">
             <div className="bg-grayoe-950 p-6 w-full h-screen">
               <button className="text-white text-2xl absolute top-3 right-6" onClick={closeHandler}>
                 <img src={Xicon} alt="닫기버튼" />
