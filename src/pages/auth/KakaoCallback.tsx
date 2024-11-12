@@ -10,17 +10,18 @@ function KakaoCallback() {
   const location = useLocation();
   const params = new URLSearchParams(location.search);
   const code = params.get("code");
+  const encodedCode = encodeURIComponent(code as string);
   const [accessTokenFetching, setAccessTokenFetching] = useState(false);
 
+  console.log(encodedCode);
+  
   const fetchData = async () => {
     if (accessTokenFetching) return;
 
     try {
       setAccessTokenFetching(true);
-
-      // GET 요청으로 code를 쿼리 파라미터로 전달
-      const res = await instance.post("/login/kakao/callback",{
-        params: code,
+      const res = await instance.post("/login/kakao/callback?code=${encodedCode}",{
+        headers: { "Content-Type": "application/json", }
       })
       const { accessToken, email, nickname } = res.data;
       console.log("accessToken:", accessToken);

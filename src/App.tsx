@@ -12,10 +12,6 @@ function App(): React.JSX.Element {
   useUserInitialize();
   const hideHeader = pathname === "/login";
 
-  
-  console.log(isInitialize);
-  
-
   if(!isInitialize) {
     return <div className="text-black">로딩중...</div>
   }

@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import kakaologo from "../../../../public/icons/kakaologo.png";
 import instance from "../../../api/axios";
 import { useUserStore } from "../../../zustand/authStore";
+import Cookies from "js-cookie";
 
 function Login() {
   const [email, setEmail] = useState<string>("");
@@ -66,14 +67,18 @@ function Login() {
           email,
           password
         },
-        {
-          headers: {
-            "Content-Type": "application/json"
-          }
-        }
       );
+
+      console.log(response);
+      
+
+      Cookies.set('accessToken', response.data.accessToken, {
+        expires: 1,  // 쿠키 만료 시간을 1일로 설정
+        path: '/',   // 전체 경로에서 접근 가능// 프로덕션에서만 HTTPS로 전송
+        httpOnly: false  // 클라이언트에서 접근 가능하도록 설정
+      });
+
       localStorage.setItem("accessToken", response.data.accessToken);
-      setUser(response.data);
       setIsLoggedIn(true);
       alert("로그인 성공");
       navigate("/");

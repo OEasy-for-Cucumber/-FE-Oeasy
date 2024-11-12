@@ -52,7 +52,8 @@ module.exports = {
       backgroundImage: {
         main_cucumber: "url(./public/img/main_group.png)",
         recipes_btn_bg: "url(./public/img/button_bg_cucumber.png)",
-        noisy_gradients: "url(./public/img/noisy-gradients.png)"
+        noisy_gradients: "url(./public/img/noisy-gradients.png)",
+        profile_sample: "url(./public/img/profilesample.jpg)"
       },
       backgroundSize: {
         "75%": "81%"
