@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { useLocation, useNavigate } from "react-router-dom";
 import Button from "../common/Button";
 import { useUserStore } from "../../zustand/authStore";
@@ -5,7 +6,8 @@ import { useUserStore } from "../../zustand/authStore";
 function WebHeader() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
-  const { /* user, */ isLoggedIn } = useUserStore.getState();
+  //@ts-expect-error
+  const { user, isLoggedIn } = useUserStore.getState();
 
   const goToLogin = () => {
     navigate("/login");
