@@ -64,6 +64,10 @@ function Chat() {
   }, [messages]);
 
   const handleSendMessage = () => {
+    // if (!user) {
+    //   alert("로그인 후 이용해주세요");
+    //   return;
+    // }
     if (client && message.trim()) {
       client.publish({
         destination: "/app/send", // Spring Boot의 @MessageMapping("/send") 경로
