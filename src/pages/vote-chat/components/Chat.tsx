@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import sendIcon from "../../../../public/icons/send.png";
-import profileImage from "../../../../public/img/귀여운행복오이.png";
+import profileImage from "../../../../public/img/cuteOE.png";
 import { useUserStore } from "../../../zustand/authStore";
 
 function Chat() {
