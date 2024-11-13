@@ -111,6 +111,8 @@ function List() {
                     };
                     navigate(`/detail/${post.id}`, { state: detailPost });
                   }}
+                  onMouseEnter={(e) => e.currentTarget.classList.add("underline")}
+                  onMouseLeave={(e) => e.currentTarget.classList.remove("underline")}
                   className="truncate-title font-b2-semibold cursor-pointer"
                 >
                   {post.title}
@@ -130,7 +132,16 @@ function List() {
                   </div>
                 </div>
               </div>
-              <div className="flex flex-col flex-[1.5] justify-start items-end">
+              <div
+                className="flex flex-col flex-[1.5] justify-start items-end cursor-pointer"
+                onClick={() => {
+                  const detailPost = {
+                    ...post,
+                    postDate: formatDate(post.date)
+                  };
+                  navigate(`/detail/${post.id}`, { state: detailPost });
+                }}
+              >
                 {post.images.length > 0 ? (
                   <img className="w-[48px] h-[48px] rounded-md" src={post.images[0]} alt="post 첫번째 이미지" />
                 ) : (

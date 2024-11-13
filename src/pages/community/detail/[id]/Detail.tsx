@@ -2,8 +2,10 @@ import { useLocation } from "react-router-dom";
 import profileImg from "../../../../../public/img/profilesample.jpg";
 import show from "../../../../../public/icons/show.png";
 import commentIcon from "../../../../../public/icons/comment.png";
+import emptyHeart from "../../../../../public/icons/heart.png";
 import fullHeart from "../../../../../public/icons/fullHeart.png";
 import Comment from "../../components/Comment";
+import { useState } from "react";
 
 interface Post {
   title: string;
@@ -17,6 +19,13 @@ interface Post {
 function Detail() {
   const location = useLocation();
   const post = location.state as Post;
+  const [liked, setLiked] = useState(false);
+  const [likedCount, setLikedCount] = useState(post.likes);
+
+  const toggleLike = () => {
+    setLiked(!liked);
+    setLikedCount((prevCount) => (liked ? prevCount - 1 : prevCount + 1));
+  };
   return (
     <>
       <div className="px-6 py-6 divide-y divide-grayoe-800">
@@ -72,8 +81,13 @@ function Detail() {
           )}
 
           <div className="flex justify-start items-center gap-1 pt-6">
-            <img src={fullHeart} alt="찬하트" className="w-[15px] h-[15px]" />
-            <p className="font-b2-regular">{post.likes}</p>
+            <img
+              src={liked ? fullHeart : emptyHeart}
+              alt={liked ? "꽉 찬 하트" : "빈 하트"}
+              className="w-5 h-5 cursor-pointer"
+              onClick={toggleLike}
+            />
+            <p className="font-b2-regular">{likedCount}</p>
           </div>
         </div>
       </div>
