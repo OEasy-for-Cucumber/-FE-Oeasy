@@ -9,7 +9,7 @@ function OeRecipes() {
   return (
     <>
       {recipes?.pages.map((page) => (
-        <div key={page.nowPage} className="grid grid-cols-2 gap-4 place-items-center mb-4">
+        <div key={page.nowPage} className="grid grid-cols-2 xl:grid-cols-4 gap-4 justify-items-center mb-4">
           {page.list.map((recipe) => (
             <Link to={`/recipe-detail/${recipe.id}`} key={recipe.id}>
               <div className="w-[148px] bg-white rounded-lg">
