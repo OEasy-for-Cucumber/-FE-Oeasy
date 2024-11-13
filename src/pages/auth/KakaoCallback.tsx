@@ -13,8 +13,6 @@ function KakaoCallback() {
   const code = params.get("code");
   const encodedCode = encodeURIComponent(code as string);
 
-  console.log(encodedCode);
-
   const fetchData = async () => {
     try {
         const res = await instance.post(
