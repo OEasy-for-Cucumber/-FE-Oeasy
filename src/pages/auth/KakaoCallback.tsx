@@ -3,46 +3,51 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { useUserStore } from "../../zustand/authStore";
 import instance from "../../api/axios";
 import axios, { AxiosError } from "axios";
+import Cookies from "js-cookie";
 
 function KakaoCallback() {
-  const { user, setUser } = useUserStore.getState();
+  const { user, setUser, setIsLoggedIn } = useUserStore.getState();
   const navigate = useNavigate();
   const location = useLocation();
   const params = new URLSearchParams(location.search);
   const code = params.get("code");
   const encodedCode = encodeURIComponent(code as string);
-  const [accessTokenFetching, setAccessTokenFetching] = useState(false);
 
   console.log(encodedCode);
-  
+
   const fetchData = async () => {
-    if (accessTokenFetching) return;
-
     try {
-      setAccessTokenFetching(true);
-      const res = await instance.post("/login/kakao/callback?code=${encodedCode}",{
-        headers: { "Content-Type": "application/json", }
-      })
-      const { accessToken, email, nickname } = res.data;
-      console.log("accessToken:", accessToken);
+        const res = await instance.post(
+            `/login/kakao/callback?code=${encodedCode}`,// query parameter 없이 요청
+            {
+                headers: { "Content-Type": "application/json" }
+            }
+        );
+        const { accessToken, refreshToken, email, nickname } = res.data;
+        Cookies.set("accessToken", res.data.accessToken);
+        Cookies.set("refreshToken", res.data.refreshToken);
 
-      // 로그인 정보를 상태에 저장
-      setUser({ email, nickname, accessToken });
-      setAccessTokenFetching(false);
-      navigate("/");
+
+
+        if (accessToken && refreshToken && email && nickname ) {
+            setUser({ accessToken, refreshToken, email, nickname });
+            setIsLoggedIn(true);
+            navigate("/");
+        } else {
+            throw new Error("카카오 로그인에서 받은 응답 데이터가 올바르지 않습니다.");
+        }
     } catch (error) {
-      if (error instanceof AxiosError) {
-        console.error("Kakao login failed:", {
-          status: error.response?.status,
-          data: error.response?.data,
-          headers: error.response?.headers
-        });
-      } else {
-        console.error("Unknown error occurred:", error);
-      }
-      setAccessTokenFetching(false);
+        if (error instanceof AxiosError) {
+            console.error("Kakao login failed:", {
+                status: error.response?.status,
+                data: error.response?.data,
+                headers: error.response?.headers
+            });
+        } else {
+            console.error("Unknown error occurred:", error);
+        }
     }
-  };
+};
 
   useEffect(() => {
     if (code && !user?.accessToken) {
