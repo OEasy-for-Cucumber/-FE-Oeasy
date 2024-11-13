@@ -1,4 +1,4 @@
-import { formatDistanceToNow, parseISO } from "date-fns";
+import { formatDistanceToNow, parseISO, format } from "date-fns";
 import { ko } from "date-fns/locale";
 import defaultImg from "../../../../public/img/defaultOe.png";
 import postHeart from "../../../../public/icons/heart.png";
@@ -15,7 +15,7 @@ function List() {
       id: generateId(),
       title: "제목",
       nickname: "오이좋아현",
-      date: "2024-11-12T12:00:00Z",
+      date: "2024-11-12T12:00:00",
       likes: 10,
       comments: 2,
       images: ["../../../../public/img/cuteOE.png", "../../../../public/img/defaultOe.png"]
@@ -24,7 +24,7 @@ function List() {
       id: generateId(),
       title: "제목이 두줄인 경우는 이렇게 보입니다 제목이 두줄인 경우는 이렇게 보입니다",
       nickname: "크림이는 오이싫어",
-      date: "2024.11.11",
+      date: "2024-11-12T12:00:00",
       likes: 5,
       comments: 1,
       images: ["../../../../public/img/postFakeImg.png"]
@@ -34,7 +34,7 @@ function List() {
       title:
         "제목이 세줄이상인 경우는 이렇게 보입니다 제목이 세줄이상인 경우는 이렇게 보입니다 제목이 세줄이상인 경우는 이렇게 보입니다",
       nickname: "오이불호",
-      date: "2024.11.11",
+      date: "2024-11-12T20:00:00",
       likes: 5,
       comments: 1,
       images: []
@@ -44,7 +44,7 @@ function List() {
       title:
         "제목이 세줄이상인 경우는 이렇게 보입니다 제목이 세줄이상인 경우는 이렇게 보입니다 제목이 세줄이상인 경우는 이렇게 보입니다",
       nickname: "오이불호",
-      date: "2024.11.11",
+      date: "2024-04-18T20:00:00",
       likes: 5,
       comments: 1,
       images: [
@@ -57,7 +57,7 @@ function List() {
       id: generateId(),
       title: "오이 솔직히 왜 싫어하십니까?",
       nickname: "오이셀럽",
-      date: "2024.11.10",
+      date: "2024-11-13T15:00:00",
       likes: 234,
       comments: 200,
       images: [
@@ -71,7 +71,7 @@ function List() {
       id: generateId(),
       title: "오이소박이 레시피 공유해드립니다",
       nickname: "오이소박이",
-      date: "2024.11.09",
+      date: "2024-11-13T19:00:00",
       likes: 214,
       comments: 143,
       images: []
@@ -86,7 +86,7 @@ function List() {
     if (differenceInHours < 24) {
       return formatDistanceToNow(date, { addSuffix: true, locale: ko });
     } else {
-      return dateString;
+      return format(date, "yy.MM.dd");
     }
   }
   return (

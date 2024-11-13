@@ -1,6 +1,6 @@
 import { useLocation } from "react-router-dom";
 import profileImg from "../../../../../public/img/profilesample.jpg";
-import postHeart from "../../../../../public/icons/heart.png";
+import show from "../../../../../public/icons/show.png";
 import commentIcon from "../../../../../public/icons/comment.png";
 import fullHeart from "../../../../../public/icons/fullHeart.png";
 import Comment from "../../components/Comment";
@@ -32,7 +32,7 @@ function Detail() {
             </div>
             <div className="flex gap-2 justify-center items-end font-c2">
               <div className="flex justify-center items-center gap-1">
-                <img src={postHeart} alt="빈하트" className="w-[14px] h-[14px]" />
+                <img src={show} alt="조회수" className="w-[14px] h-[14px]" />
                 <p>{post.likes}</p>
               </div>
               <div className="flex justify-center items-center gap-1">
@@ -72,7 +72,7 @@ function Detail() {
           )}
 
           <div className="flex justify-start items-center gap-1 pt-6">
-            <img src={fullHeart} alt="찬하트" className="w-[14px] h-[14px]" />
+            <img src={fullHeart} alt="찬하트" className="w-[15px] h-[15px]" />
             <p className="font-b2-regular">{post.likes}</p>
           </div>
         </div>
