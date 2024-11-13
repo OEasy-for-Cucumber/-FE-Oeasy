@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { useLocation, useNavigate } from "react-router-dom";
 import HamburgerIcon from "../../assets/Icon.svg";
 import { useState } from "react";
@@ -9,7 +8,6 @@ function MobileHeader() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  //@ts-expect-error
   const { user, isLoggedIn } = useUserStore.getState();
 
   const MAIN = pathname === "/";
@@ -59,7 +57,7 @@ function MobileHeader() {
         <p className="text-center mx-auto">{headerTitle}</p>
       ) : (
         <>
-          <button onClick={toggleModal}>
+         <button onClick={toggleModal}> 
             <img src={HamburgerIcon} alt="메뉴아이콘" />
           </button>
           {isModalOpen && (
@@ -70,7 +68,7 @@ function MobileHeader() {
             <button onClick={goToLogin} className="text-xs">
               login
             </button>
-          ) : (
+          ) : pathname === "/mypage" ?  <div className="w-5"></div> : (
             <button onClick={goToMypage}>My</button>
           )}
         </>
