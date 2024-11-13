@@ -132,9 +132,9 @@ function List() {
               </div>
               <div className="flex flex-col flex-[1.5] justify-start items-end">
                 {post.images.length > 0 ? (
-                  <img className="w-[48px] h-[48px]" src={post.images[0]} alt="post 첫번째 이미지" />
+                  <img className="w-[48px] h-[48px] rounded-md" src={post.images[0]} alt="post 첫번째 이미지" />
                 ) : (
-                  <img className="w-[48px] h-[48px]" src={defaultImg} alt="기본 이미지" />
+                  <img className="w-[48px] h-[48px] rounded-md" src={defaultImg} alt="기본 이미지" />
                 )}
               </div>
             </div>
