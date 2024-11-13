@@ -106,7 +106,7 @@ function Signup() {
         "/member/signup",
         {
           email,
-          password,
+          pw: password,
           nickname,
           memberImage: ""
         },
