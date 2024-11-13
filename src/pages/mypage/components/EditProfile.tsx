@@ -7,26 +7,26 @@ import Input from "../../../components/common/Input";
 import { useState } from "react";
 import ReactDOM from "react-dom";
 import EditPassword from "./EditPassword";
+import Cookies from "js-cookie";
 
-
-function EditProfile({ handleEditModal }: {handleEditModal: ()=>void}) {
+function EditProfile({ handleEditModal }: { handleEditModal: () => void }) {
   const { user, setUser, clearUser, setIsLoggedIn } = useUserStore.getState();
   const navigate = useNavigate();
 
   const [nickname, setNickname] = useState<string>("");
   const [newPassword, setNewPassword] = useState<string>("");
 
-  const [ isNickname, setIsNickname ] = useState<boolean>(false);
-  const [ nicknameMsg, setNicknameMsg ] = useState<string>(""); 
+  const [isNickname, setIsNickname] = useState<boolean>(false);
+  const [nicknameMsg, setNicknameMsg] = useState<string>("");
 
-  const [ isNewPasswordModalOpen, setIsNewPasswordModalOpen ] = useState<boolean>(false);
+  const [isNewPasswordModalOpen, setIsNewPasswordModalOpen] = useState<boolean>(false);
 
   const baseLabelClass = "transition-all duration-300 text-[13px]";
   const visibleLabelClass = "opacity-100 translate-y-0";
   const hiddenLabelClass = "opacity-0 -translate-1";
 
   const logoutHandler = () => {
-    localStorage.removeItem("accessToken");
+    Cookies.remove("accessToken");
     clearUser();
     setIsLoggedIn(false);
     navigate("/");
@@ -45,9 +45,8 @@ function EditProfile({ handleEditModal }: {handleEditModal: ()=>void}) {
   };
 
   const handleNewPasswordModal = () => {
-    setIsNewPasswordModalOpen((prev)=>!prev)
-  }
-
+    setIsNewPasswordModalOpen((prev) => !prev);
+  };
 
   return (
     <div className="fixed inset-0 flex flex-col items-center justify-center">
@@ -72,18 +71,22 @@ function EditProfile({ handleEditModal }: {handleEditModal: ()=>void}) {
 
         <form className="px-6 grid gap-3">
           <div className="mb-4">
-          <p
-          className={`text-sm ${!isNickname ? "redoe" : "text-grayoe-300"}`}
-        >
-          닉네임
-        </p>
-            <Input onChange={changeNicknameHandler} isValid={isNickname}/>
-            {isNickname === false && nickname !== "" ? <p className={`redoe ${visibleLabelClass} ${baseLabelClass}`}>{nicknameMsg}</p> : <p className={`${hiddenLabelClass} ${baseLabelClass}`}></p>}
+            <p className={`text-sm ${nickname === "" || isNickname ? "text-grayoe-300" : "redoe"}`}>닉네임</p>
+            <Input
+              onChange={changeNicknameHandler}
+              isValid={nickname === "" || isNickname}
+              defaultValue={user?.nickname}
+            />
+            {isNickname === false && nickname !== "" ? (
+              <p className={`redoe ${visibleLabelClass} ${baseLabelClass}`}>{nicknameMsg}</p>
+            ) : (
+              <p className={`${hiddenLabelClass} ${baseLabelClass}`}></p>
+            )}
           </div>
 
           <div className="mb-4">
             <label className="block text-grayoe-300 text-sm mb-1">이메일</label>
-            <p className="text-grayoe-300">ninegeurim@gmail.com</p>
+            <p className="text-grayoe-300">{user?.email}</p>
             <hr className="border-grayoe-700 mt-2" />
           </div>
 
@@ -92,7 +95,13 @@ function EditProfile({ handleEditModal }: {handleEditModal: ()=>void}) {
               <label className="block text-grayoe-300 text-sm mb-1">비밀번호</label>
               <div className="flex justify-between items-center">
                 <div className="text-grayoe-300">●●●●●●●●</div>
-                <button type="button" onClick={handleNewPasswordModal} className="bg-grayoe-500 text-sm py-1 px-2 rounded font-c2">비밀번호 변경</button>
+                <button
+                  type="button"
+                  onClick={handleNewPasswordModal}
+                  className="bg-grayoe-500 text-sm py-1 px-2 rounded font-c2"
+                >
+                  비밀번호 변경
+                </button>
               </div>
             </div>
             <hr className="border-grayoe-700 mt-3" />
@@ -107,7 +116,11 @@ function EditProfile({ handleEditModal }: {handleEditModal: ()=>void}) {
       </div>
       {isNewPasswordModalOpen &&
         ReactDOM.createPortal(
-          <EditPassword handleNewPasswordModal={handleNewPasswordModal} newPassword={newPassword} setNewPassword={setNewPassword}/>, 
+          <EditPassword
+            handleNewPasswordModal={handleNewPasswordModal}
+            newPassword={newPassword}
+            setNewPassword={setNewPassword}
+          />,
           document.body
         )}
     </div>

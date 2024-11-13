@@ -12,6 +12,7 @@ import FullSquare from "../../../../public/icons/full-Square.png";
 import EmptySquare from "../../../../public/icons/empty-Square.png";
 import instance from "../../../api/axios";
 import { useUserStore } from "../../../zustand/authStore";
+import Cookies from "js-cookie";
 
 function Signup() {
   const [email, setEmail] = useState<string>("");
@@ -31,7 +32,7 @@ function Signup() {
   const [confirmPasswordMsg, setConfirmPasswordMsg] = useState<string>("");
 
   //@ts-expect-error
-  const { user, setUser } = useUserStore.getState();
+  const { user, setUser, setIsLoggedIn } = useUserStore.getState();
   const [step, setStep] = useState("이메일");
   const { isActive, setIsActive } = useActiveStore();
   const navigate = useNavigate();
@@ -119,6 +120,16 @@ function Signup() {
       alert("회원가입성공");
       console.log(response.data);
       setUser(response.data);
+
+      const data = await instance.post("/login/oeasy", {
+        email,
+        pw: password
+      });
+
+      Cookies.set("accessToken", data.data.accessToken);
+      Cookies.set("refreshToken", data.data.refreshToken);
+
+      setIsLoggedIn(true);
       setStep("가입완료");
     } catch (error) {
       console.error("Error:", error);
