@@ -1,8 +1,10 @@
 import edit from "../../../../public/icons/moreIcon.png";
 import { formatDistanceToNow, parseISO, format } from "date-fns";
 import { ko } from "date-fns/locale";
+import { useState } from "react";
 
 function Comment() {
+  const [showEdit, setShowEdit] = useState<number | null>(null);
   const comments = [
     {
       id: 1,
@@ -45,6 +47,9 @@ function Comment() {
       return format(date, "yy.MM.dd");
     }
   }
+  const handleToggleMenu = (id: number) => {
+    setShowEdit((prevId) => (prevId === id ? null : id));
+  };
   return (
     <>
       <div className="flex flex-col">
@@ -61,11 +66,18 @@ function Comment() {
                 </div>
               </div>
               <div className="flex flex-col items-end font-c2">
-                <img src={edit} alt="" className="w-4 h-4" />
-                <div className="w-[45px] h-14 bg-grayoe-400 rounded-md flex flex-col justify-center items-center ">
-                  <p className="py-[6px]">수정</p>
-                  <p className="py-[6px]">삭제</p>
-                </div>
+                <img
+                  src={edit}
+                  alt="Edit icon"
+                  className="w-4 h-4 cursor-pointer"
+                  onClick={() => handleToggleMenu(com.id)}
+                />
+                {showEdit === com.id && (
+                  <div className="w-[45px] h-14 bg-grayoe-400 rounded-md flex flex-col justify-center items-center">
+                    <p className="py-[6px] cursor-pointer">수정</p>
+                    <p className="py-[6px] cursor-pointer">삭제</p>
+                  </div>
+                )}
               </div>
             </div>
           ))}
