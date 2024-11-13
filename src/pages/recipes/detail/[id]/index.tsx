@@ -1,11 +1,12 @@
 import { useParams } from "react-router-dom";
 import useRecipesData from "../../../../hooks/useRecipesData";
 import { useEffect, useState } from "react";
+import { Recipe } from "../../../../types/recipes";
 
 function RecipeDetail() {
   const { id } = useParams();
   const { data: recipes } = useRecipesData();
-  const [storedRecipe, setStoredRecipe] = useState(null);
+  const [storedRecipe, setStoredRecipe] = useState<Recipe>();
 
   const recipe = recipes?.pages.flatMap((page) => page.list).find((recipe) => String(recipe.id) == id);
 
@@ -24,7 +25,13 @@ function RecipeDetail() {
 
   return (
     <section>
-      <div></div>
+      {storedRecipe ? (
+        <>
+          <img src={storedRecipe.imgUrl} alt={storedRecipe.title} />
+        </>
+      ) : (
+        <p>Loading...</p>
+      )}
     </section>
   );
 }
