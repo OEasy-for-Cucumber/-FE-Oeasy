@@ -44,7 +44,7 @@ function MyPage() {
 
   return (
     <div>
-      <div className="w-full flex p-4 bg-grayoe-900 rounded-lg items-center my-6">
+      <div className="flex p-4 bg-grayoe-900 rounded-lg items-center my-6 mx-4">
         <div className="w-full flex items-center">
           <div className="w-[48px] h-[48px] rounded-full bg-profile_sample bg-cover text-black"></div>
           <h6 className="font-h6 ml-2">{user?.nickname}</h6>

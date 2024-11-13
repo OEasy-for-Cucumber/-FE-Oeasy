@@ -1,29 +1,39 @@
-// import { useInfiniteQuery } from "@tanstack/react-query";
-// import instance from "../../../api/axios";
+import { Link } from "react-router-dom";
+import useRecipesData from "../../../hooks/useRecipesData";
 
 function OeRecipes() {
-  //   const [recipes, setRecipes] = useState([]);
+  const { data: recipes, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } = useRecipesData();
+  console.log(recipes);
 
-  //   const { data, fetchNextPage, hasNextPage } = useInfiniteQuery({
-  //     queryKey: ["recipes"],
-  //     queryFn: async ({ pageParam = 1 }) => {
-  //       const res = await instance.get(`api/recipe/board?refId=${100}&view=${10}`);
-  //       return res.data;
-  //     },
-  //     getNextPageParam: (lastPage, pages): number | false => {
-  //       const nextPage = pages.length + 1;
-  //       return lastPage.length === 0 ? false : nextPage;
-  //     },
-  //     initialPageParam: 1
-  //   });
+  if (isLoading) return <p>Loading...</p>;
 
-  return <div>OeRecipes</div>;
+  return (
+    <>
+      {recipes?.pages.map((page) => (
+        <div key={page.nowPage} className="grid grid-cols-2 gap-4 place-items-center mb-4">
+          {page.list.map((recipe) => (
+            <Link to={`/recipe-detail/${recipe.id}`} key={recipe.id}>
+              <div className="w-[148px] bg-white rounded-lg">
+                <img src={recipe.imgUrl} alt={recipe.title} className="w-[148px] h-[148px] rounded-t-lg" />
+                <div className="flex justify-center items-center px-4 py-2 font-b2-semibold text-black text-center">
+                  {recipe.title}
+                </div>
+              </div>
+            </Link>
+          ))}
+        </div>
+      ))}
+      {hasNextPage && (
+        <button
+          onClick={() => fetchNextPage()}
+          disabled={isFetchingNextPage}
+          className="w-full bg-grayoe-600 rounded-lg h-[56px] mb-4"
+        >
+          {isFetchingNextPage ? "Loading..." : "더보기"}
+        </button>
+      )}
+    </>
+  );
 }
 
 export default OeRecipes;
-
-// const res = await instance.get(`/api/recipe/board`, {
-//     params: {
-//       view: 10,
-//       page: pageParam
-//     }

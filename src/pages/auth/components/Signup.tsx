@@ -14,7 +14,6 @@ import instance from "../../../api/axios";
 import { useUserStore } from "../../../zustand/authStore";
 import Cookies from "js-cookie";
 
-
 function Signup() {
   const [email, setEmail] = useState<string>("");
   const [nickname, setNickname] = useState<string>("");
@@ -108,7 +107,7 @@ function Signup() {
         "/member/signup",
         {
           email,
-          pw:password,
+          pw: password,
           nickname,
           memberImage: ""
         },
@@ -122,24 +121,20 @@ function Signup() {
       console.log(response.data);
       setUser(response.data);
 
-      const data = await instance.post(
-            "/login/oeasy",
-            {
-              email,
-              pw: password,
-            }
-          );
-    
-      Cookies.set('accessToken', data.data.accessToken);
-      Cookies.set('refreshToken', data.data.refreshToken);
-    
+      const data = await instance.post("/login/oeasy", {
+        email,
+        pw: password
+      });
+
+      Cookies.set("accessToken", data.data.accessToken);
+      Cookies.set("refreshToken", data.data.refreshToken);
+
       setIsLoggedIn(true);
       setStep("가입완료");
-      
     } catch (error) {
       console.error("Error:", error);
     }
-  }
+  };
 
   const nextStepHandler = () => {
     if (isEmail) {
@@ -157,7 +152,7 @@ function Signup() {
   };
 
   return (
-    <div className="w-full xl:w-[360px] mx-auto h-[calc(100vh-56px)] xl:h-[calc(100vh-80px)] flex-col flex">
+    <div className="w-full xl:w-[360px] mx-auto h-[calc(100vh-56px)] xl:h-[calc(100vh-80px)] flex-col flex px-4">
       <ProgressBar step={step} />
       <form
         onSubmit={(e) => {

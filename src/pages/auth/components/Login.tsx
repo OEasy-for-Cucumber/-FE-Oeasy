@@ -95,7 +95,7 @@ function Login() {
   };
 
   return (
-    <div className="flex h-[calc(100vh-56px)] xl:h-[calc(100vh-80px)] w-full xl:px-[194px]">
+    <div className="flex h-[calc(100vh-56px)] xl:h-[calc(100vh-80px)] w-full xl:px-[194px] px-4">
       <div className="hidden xl:flex w-1/2 items-center justify-center">
         <div className="w-[600px] h-[500px] bg-noisy_gradients from-green-300 to-blue-500 p-10 rounded-lg m-10 flex items-center justify-center">
           <div className="text-white text-3xl font-bold">
