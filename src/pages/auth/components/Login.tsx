@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
 import React, { useState, useEffect } from "react";
 import Button from "../../../components/common/Button";
 import Input from "../../../components/common/Input";
@@ -19,7 +18,6 @@ function Login() {
   const [emailMsg, setEmailMsg] = useState<string>("");
   const [passwordMsg, setPasswordMsg] = useState<string>("");
 
-  //@ts-expect-error
   const { user, setUser, setIsLoggedIn } = useUserStore.getState();
   const { isActive, setIsActive } = useActiveStore();
   const navigate = useNavigate();
@@ -60,33 +58,26 @@ function Login() {
     }
   }, [isEmail, isPassword]);
 
-  const loginHandler = async (event: React.FormEvent) => {
-    event.preventDefault();
+  const loginHandler = async (e: React.FormEvent) => {
+    e.preventDefault();
     try {
       const response = await instance.post(
         "/login/oeasy",
         {
           email,
-          password
-        },
+          pw: password,
+        }
       );
 
-      console.log(response);
-      
+      Cookies.set('accessToken', response.data.accessToken);
+      Cookies.set('refreshToken', response.data.refreshToken);
 
-      Cookies.set('accessToken', response.data.accessToken, {
-        expires: 1,  // 쿠키 만료 시간을 1일로 설정
-        path: '/',   // 전체 경로에서 접근 가능// 프로덕션에서만 HTTPS로 전송
-        httpOnly: false  // 클라이언트에서 접근 가능하도록 설정
-      });
-
-      localStorage.setItem("accessToken", response.data.accessToken);
       setIsLoggedIn(true);
       alert("로그인 성공");
       navigate("/");
     } catch (error: any) {
       if (error.response && error.response.status === 401) {
-        alert("아이디와 비밀번호를 확인해 주세요.");
+        console.log("아이디와 비밀번호를 확인해 주세요.");
       } else {
         console.log("Error:", error);
       }
@@ -101,10 +92,6 @@ function Login() {
     const clientId = import.meta.env.VITE_KAKAO_CLIENT_ID;
     const redirectUri = import.meta.env.VITE_APP_KAKAO_REDIRECT_URI;
     window.location.href = `https://kauth.kakao.com/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code`;
-
-    // const url = await instance.get("/login/kakao");
-    // console.log(url.data);
-    // window.location.href = url.data;
   };
 
   return (
@@ -161,6 +148,7 @@ function Login() {
           </div>
 
           <button
+            type="button"
             onClick={kakaoLoginHandler}
             className="flex w-full py-4 justify-center items-center rounded-md bg-[#FEE500] text-[#1C1C1C] font-b1-regular mt-[20px] hover:bg-yellow-500"
           >
