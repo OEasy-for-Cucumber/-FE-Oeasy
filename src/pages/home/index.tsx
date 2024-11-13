@@ -11,7 +11,7 @@ function Home() {
       <Landing />
       <div className="xl:px-[200px]">
         <OEIndex />
-        <OeTip />
+        {/* <OeTip /> */}
         <Recipe />
       </div>
     </>
