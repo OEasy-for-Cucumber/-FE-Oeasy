@@ -51,7 +51,8 @@ module.exports = {
         mobile_cucumber: "url(/img/mobile_group.png)",
         web_cucumber: "url(/img/web_group.png)",
         recipes_btn_bg: "url(/img/button_bg_cucumber.png)",
-        noisy_gradients: "url(/img/noisy-gradients.png)"
+        noisy_gradients: "url(/img/noisy-gradients.png)",
+        profile_sample: "url(./public/img/profilesample.jpg)"
       },
       backgroundSize: {
         "81%": "81%",

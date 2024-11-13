@@ -11,6 +11,7 @@ import Community from "../pages/community/list";
 import PrivatePage from "./PrivatePage";
 import Test from "../pages/test";
 import Detail from "../pages/community/detail/[id]";
+import EditProfile from "../pages/mypage/components/EditProfile";
 
 const router = createBrowserRouter([
   {
@@ -46,7 +47,9 @@ const router = createBrowserRouter([
       },
       {
         element: <PrivatePage />,
-        children: [{ path: "/mypage", element: <MyPage /> }]
+        children: [
+          { path: "/mypage", element: <MyPage /> },
+        ]
       },
       {
         path: "/test",

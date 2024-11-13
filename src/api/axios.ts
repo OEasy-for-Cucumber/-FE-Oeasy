@@ -5,15 +5,17 @@ const instance = axios.create({
   // baseURL: "http://54.180.153.36:8080", // 기본 URL 설정
   baseURL: import.meta.env.VITE_APP_BASE_URL,
   timeout: 5000, // 요청 타임아웃 설정 (5초)
-  headers: { "Content-Type": "application/json" } // 기본 헤더 설정
+  headers: { 
+    "Content-Type": "application/json",
+  } // 기본 헤더 설정
 });
 
 // 요청 인터셉터 설정
 instance.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem("authToken"); // 인증 토큰 가져오기
+    const token = localStorage.getItem("accessToken"); // 인증 토큰 가져오기  
     if (token) {
-      config.headers.Authorization = `Bearer ${token}`; // 토큰이 있을 경우 헤더에 추가
+      config.headers['Authorization'] = `Bearer ${token}`; // 토큰이 있을 경우 헤더에 추가
     }
     return config;
   },
