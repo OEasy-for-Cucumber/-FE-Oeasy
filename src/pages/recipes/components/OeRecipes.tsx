@@ -1,15 +1,16 @@
 import { Link } from "react-router-dom";
-import useInfiniteRecipes from "../../../hooks/useInfiniteRecipes";
+import useRecipesData from "../../../hooks/useRecipesData";
 
 function OeRecipes() {
-  const { data: recipes, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } = useInfiniteRecipes();
+  const { data: recipes, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } = useRecipesData();
+  console.log(recipes);
 
   if (isLoading) return <p>Loading...</p>;
 
   return (
     <>
       {recipes?.pages.map((page) => (
-        <div key={page.nowPage} className="grid grid-cols-2 gap-4 place-items-center">
+        <div key={page.nowPage} className="grid grid-cols-2 gap-4 place-items-center mb-4">
           {page.list.map((recipe) => (
             <Link to={`/recipe-detail/${recipe.id}`}>
               <div key={recipe.id} className="w-[148px] bg-white rounded-lg">
@@ -26,7 +27,7 @@ function OeRecipes() {
         <button
           onClick={() => fetchNextPage()}
           disabled={isFetchingNextPage}
-          className="w-full bg-grayoe-600 rounded-lg h-[56px] my-4"
+          className="w-full bg-grayoe-600 rounded-lg h-[56px] mb-4"
         >
           {isFetchingNextPage ? "Loading..." : "더보기"}
         </button>

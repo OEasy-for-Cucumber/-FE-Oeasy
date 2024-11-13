@@ -2,7 +2,7 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { RecipeResponse } from "../types/recipes";
 import instance from "../api/axios";
 
-function useInfiniteRecipes() {
+function useRecipesData() {
   return useInfiniteQuery<RecipeResponse>({
     queryKey: ["recipes"],
     queryFn: async ({ pageParam = 1 }) => {
@@ -21,4 +21,4 @@ function useInfiniteRecipes() {
   });
 }
 
-export default useInfiniteRecipes;
+export default useRecipesData;
