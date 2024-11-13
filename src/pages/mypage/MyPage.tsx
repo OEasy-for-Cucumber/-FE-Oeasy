@@ -3,6 +3,8 @@ import { useUserStore } from "../../zustand/authStore";
 import instance from "../../api/axios";
 import { useState } from "react";
 import EditProfile from "./components/EditProfile";
+import MyPost from "./components/MyPost";
+import MyLiked from "./components/MyLiked";
 
 function MyPage() {
   const { user, setUser } = useUserStore.getState();
@@ -63,6 +65,7 @@ function MyPage() {
         <button onClick={handlePostClicked} className={`w-1/2 p-2 border-b-2 ${isClicked ? "border-greenoe-600" : "border-grayoe-950"} text-center`}>게시글</button>
         <button onClick={handleLikedClicked} className={`w-1/2 p-2 border-b-2 ${!isClicked ? "border-greenoe-600" : "border-grayoe-950"} text-center`}>좋아요</button>
       </div>
+      {isClicked ? <MyPost/> : <MyLiked/>}
     </div>
   );
 }
