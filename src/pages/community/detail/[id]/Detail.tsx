@@ -3,6 +3,7 @@ import profileImg from "../../../../../public/img/profilesample.jpg";
 import postHeart from "../../../../../public/icons/heart.png";
 import commentIcon from "../../../../../public/icons/comment.png";
 import fullHeart from "../../../../../public/icons/fullHeart.png";
+import Comment from "../../components/Comment";
 
 interface Post {
   title: string;
@@ -10,7 +11,7 @@ interface Post {
   postDate: string;
   likes: number;
   comments: number;
-  images: string[]; // images의 타입을 string 배열로 지정
+  images: string[];
 }
 
 function Detail() {
@@ -50,15 +51,21 @@ function Detail() {
           {post.images && post.images.length > 0 && (
             <div
               className={`min-h-[204px] max-h-[392px] gap-2 justify-center pt-6 ${
-                post.images.length === 1 ? "grid grid-cols-1" : "grid grid-cols-2 place-items-center"
-              }`}
+                post.images.length === 1
+                  ? "grid-cols-1"
+                  : post.images.length === 3
+                    ? "grid-cols-2 grid-rows-2"
+                    : "grid-cols-2 place-items-center"
+              } grid`}
             >
               {post.images.map((img: string, index: number) => (
                 <img
                   key={index}
                   src={img}
                   alt={`게시물 이미지 ${index + 1}`}
-                  className={`w-full ${post.images.length === 1 ? "h-[312px]" : "h-[180px]"}`}
+                  className={`w-full rounded-sm ${post.images.length === 1 ? "h-[200px]" : "h-[180px]"} ${
+                    post.images.length === 3 && index === 0 ? "col-span-2" : ""
+                  }`}
                 />
               ))}
             </div>
@@ -69,6 +76,10 @@ function Detail() {
             <p className="font-b2-regular">{post.likes}</p>
           </div>
         </div>
+      </div>
+      <div className="border-grayoe-900 border-4 w-full xl:hidden" />
+      <div className="py-6 px-6">
+        <Comment />
       </div>
     </>
   );

@@ -10,7 +10,8 @@ import Votechat from "../pages/vote-chat";
 import Community from "../pages/community/list";
 import PrivatePage from "./PrivatePage";
 import Test from "../pages/test";
-import Detail from "../pages/community/detail/[id]/Detail";
+import Detail from "../pages/community/detail/[id]";
+import RecipeDetail from "../pages/recipes/detail/[id]";
 
 const router = createBrowserRouter([
   {
@@ -55,6 +56,10 @@ const router = createBrowserRouter([
       {
         path: "/detail/:id",
         element: <Detail />
+      },
+      {
+        path: "/recipe-detail/:id",
+        element: <RecipeDetail />
       }
     ]
   }
