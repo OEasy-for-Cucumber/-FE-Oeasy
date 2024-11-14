@@ -23,4 +23,4 @@ const Input: React.FC<InputProps> = ({ type, value, onChange, placeholder, isVal
   );
 };
 
-export default Input;
+export default Input; 

@@ -60,7 +60,7 @@ function EditProfile({ handleEditModal }: { handleEditModal: () => void }) {
 
         <div className="relative my-[36px] flex justify-center">
           <img
-            src={Sample}
+            src={user?.memberImage === null ? Sample : user?.memberImage }
             alt="profile"
             className="w-[80px] h-[80px] rounded-full object-cover border-grayoe-800 border-2"
           />

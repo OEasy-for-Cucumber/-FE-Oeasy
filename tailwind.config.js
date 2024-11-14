@@ -3,7 +3,11 @@ import plugin from "tailwindcss/plugin";
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
+  mode: "jit",
   theme: {
+    screens: {
+      xl: { min: "1440px" }
+    },
     extend: {
       zIndex: {
         50: "50",
@@ -95,9 +99,7 @@ module.exports = {
       }
     }
   },
-  screens: {
-    xl: { min: "1440px" }
-  },
+
   plugins: [
     plugin(function ({ addUtilities }) {
       addUtilities({

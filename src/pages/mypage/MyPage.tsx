@@ -3,6 +3,8 @@ import { useState } from "react";
 import EditProfile from "./components/EditProfile";
 import MyPost from "./components/MyPost";
 import MyLiked from "./components/MyLiked";
+import Sample from "../../../public/img/profilesample.jpg";
+
 
 function MyPage() {
   const { user } = useUserStore.getState();
@@ -18,10 +20,10 @@ function MyPage() {
   const handleLikedClicked = () => setIsClicked(false);
   
   return (
-    <div>
+    <div className="xl:w-[520px] mx-auto">
       <div className="flex p-4 bg-grayoe-900 rounded-lg items-center my-6 mx-4">
         <div className="w-full flex items-center">
-          <div className="w-[48px] h-[48px] rounded-full bg-profile_sample bg-cover text-black"></div>
+          <img src={!user?.memberImage ? Sample : user?.memberImage} alt="프로필이미지" className="w-[48px] h-[48px] rounded-full" />
           <h6 className="font-h6 ml-2">{user?.nickname}</h6>
         </div>
         <button onClick={handleEditModal} className="h-[32px] px-3 whitespace-nowrap bg-grayoe-400 rounded font-c2">

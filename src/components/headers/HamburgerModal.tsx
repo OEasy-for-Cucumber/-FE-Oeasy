@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Xicon from "../../../public/icons/Icon.png";
 import ReactDOM from "react-dom";
 
@@ -11,6 +11,7 @@ function HamburgerModal({
   setIsModalOpen: (value: boolean) => void;
 }) {
   const navigate = useNavigate();
+  const { pathname } = useLocation();
 
   const goToHome = () => {
     navigate("/");
@@ -40,8 +41,8 @@ function HamburgerModal({
     <>
       {toggleModal &&
         ReactDOM.createPortal(
-          <div className="w-full min-w-[360px] max-w-[520px] mx-auto fixed inset-0 flex items-center justify-center z-50">
-            <div className="bg-grayoe-950 p-6 w-full h-screen">
+          <div className="w-full min-w-[360px] max-w-[520px] xl:hidden  mx-auto fixed inset-0 flex items-center justify-center z-50">
+            <div className={`${pathname !== "/" ? "bg-grayoe-950" : "bg-greenoe-950"} p-6 w-full h-screen`}>
               <button className="text-white text-2xl absolute top-3 right-6" onClick={closeHandler}>
                 <img src={Xicon} alt="닫기버튼" />
               </button>
