@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from "uuid";
 import { useEffect, useRef, useState } from "react";
 import { Client } from "@stomp/stompjs";
 import SockJS from "sockjs-client";
@@ -39,6 +40,7 @@ function Chat() {
       // 메시지 구독
       stompClient.subscribe("/topic/messages", (msg) => {
         const receivedMessage = JSON.parse(msg.body);
+        receivedMessage.id = uuidv4();
         setMessages((prevMessages) => [...prevMessages, receivedMessage]);
       });
       setClient(stompClient);
@@ -64,10 +66,10 @@ function Chat() {
   }, [messages]);
 
   const handleSendMessage = () => {
-    // if (!user) {
-    //   alert("로그인 후 이용해주세요");
-    //   return;
-    // }
+    if (!user) {
+      alert("로그인 후 이용해주세요");
+      return;
+    }
     if (client && message.trim()) {
       client.publish({
         destination: "/app/send", // Spring Boot의 @MessageMapping("/send") 경로
@@ -96,7 +98,7 @@ function Chat() {
       <div className="relative pt-4 xl:w-[488px] xl:h-[686px]">
         <div className="flex flex-col px-4 xl:h-[634px] overflow-y-auto gap-4">
           {messages.map((msg) =>
-            msg.username === "현아" ? (
+            msg.username === user?.nickname ? (
               // 내가 보낸 메시지
               <div key={msg.id} className="flex justify-end items-start">
                 <div className="flex flex-col items-end gap-1 max-w-[280px] min-w-[20px]">
