@@ -50,7 +50,7 @@ function EditProfile({ handleEditModal }: { handleEditModal: () => void }) {
 
   return (
     <div className="fixed inset-0 flex flex-col items-center justify-center">
-      <div className="bg-grayoe-950 text-white w-full min-w-[360px] max-w-[500px] xl:w-full py-4 relative h-svh">
+      <div className="bg-grayoe-950 text-white w-full min-w-[360px] max-w-[520px] xl:w-full py-4 relative h-svh">
         <div className="relative flex justify-center items-center mt-3 mb-[64px]">
           <h1 className="font-b2-semibold absolute left-1/2 transform -translate-x-1/2">계정 설정</h1>
           <button type="button" onClick={handleEditModal} className="text-xl absolute right-3">

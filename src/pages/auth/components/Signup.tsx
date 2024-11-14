@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { useEffect, useState } from "react";
 import EmailStep from "./EmailStep";
 import PasswordStep from "./PasswordStep";
@@ -31,7 +30,6 @@ function Signup() {
   const [passwordMsg, setPasswordMsg] = useState<string>("");
   const [confirmPasswordMsg, setConfirmPasswordMsg] = useState<string>("");
 
-  //@ts-expect-error
   const { user, setUser, setIsLoggedIn } = useUserStore.getState();
   const [step, setStep] = useState("이메일");
   const { isActive, setIsActive } = useActiveStore();
@@ -117,9 +115,6 @@ function Signup() {
           }
         }
       );
-      alert("회원가입성공");
-      console.log(response.data);
-      setUser(response.data);
 
       const data = await instance.post("/login/oeasy", {
         email,

@@ -45,7 +45,7 @@ function EditPassword({ newPassword, setNewPassword, handleNewPasswordModal }: E
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-grayoe-950">
-      <div className="bg-grayoe-950 text-white w-full min-w-[360px] py-4 relative h-svh mx-4 flex flex-col">
+      <div className="bg-grayoe-950 text-white w-full min-w-[360px] max-w-[520px] py-4 relative h-svh mx-4 flex flex-col">
         <div className="relative flex justify-center items-center mb-6">
           <h1 className="font-b2-semibold absolute left-1/2 transform -translate-x-1/2 top-3">
             비밀번호 변경

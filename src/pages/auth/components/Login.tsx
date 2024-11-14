@@ -18,7 +18,7 @@ function Login() {
   const [emailMsg, setEmailMsg] = useState<string>("");
   const [passwordMsg, setPasswordMsg] = useState<string>("");
 
-  const { user, setUser, setIsLoggedIn } = useUserStore.getState();
+  const { setIsLoggedIn } = useUserStore.getState();
   const { isActive, setIsActive } = useActiveStore();
   const navigate = useNavigate();
 
@@ -88,6 +88,10 @@ function Login() {
     navigate("/signup");
   };
 
+  const goToHome = () => {
+    navigate("/");
+  }
+
   const kakaoLoginHandler = async () => {
     const clientId = import.meta.env.VITE_KAKAO_CLIENT_ID;
     const redirectUri = import.meta.env.VITE_APP_KAKAO_REDIRECT_URI;
@@ -145,6 +149,7 @@ function Login() {
             <button type="button" onClick={goToSignup}>
               회원가입
             </button>
+            <button type="button" onClick={goToHome}>홈으로</button>
           </div>
 
           <button
