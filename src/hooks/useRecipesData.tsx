@@ -8,7 +8,7 @@ function useRecipesData() {
     queryFn: async ({ pageParam = 1 }) => {
       const res = await instance.get<RecipeResponse>(`api/recipe/board`, {
         params: {
-          view: 10,
+          view: 12,
           page: pageParam
         }
       });
