@@ -2,6 +2,7 @@ import Xicon from "../../../../public/icons/Icon.png";
 import Button from "../../../components/common/Button";
 import Input from "../../../components/common/Input";
 import { Dispatch, SetStateAction, useState } from "react";
+import PasswordInput from "../../../components/common/PasswordInput";
 
 interface EditPasswordProps {
   newPassword: string;
@@ -56,7 +57,7 @@ function EditPassword({ newPassword, setNewPassword, handleNewPasswordModal }: E
         </div>
         <form onSubmit={handleSubmit} className="px-4 mt-[100px] flex flex-col flex-grow">
           <div className="mb-4">
-            <Input
+            <PasswordInput
               type="password"
               placeholder="새 비밀번호 입력"
               value={newPassword}
@@ -67,7 +68,7 @@ function EditPassword({ newPassword, setNewPassword, handleNewPasswordModal }: E
             )}
           </div>
           <div className="mb-4">
-            <Input
+            <PasswordInput
               type="password"
               placeholder="새 비밀번호 재입력"
               value={confirmPassword}

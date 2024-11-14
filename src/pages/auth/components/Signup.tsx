@@ -163,6 +163,7 @@ function Signup() {
         {step === "이메일" && (
           <EmailStep
             email={email}
+            setEmail={setEmail}
             isEmail={isEmail}
             emailMsg={emailMsg}
             emailChangeHandler={emailChangeHandler}
@@ -172,10 +173,12 @@ function Signup() {
         {step === "비밀번호" && (
           <PasswordStep
             password={password}
+            setPassword={setPassword}
             isPassword={isPassword}
             passwordMsg={passwordMsg}
             passwordChangeHandler={passwordChangeHandler}
             confirmPassword={confirmPassword}
+            setConfirmPassword={setConfirmPassword}
             isConfirmPassword={isConfirmPassword}
             confirmPasswordMsg={confirmPasswordMsg}
             confirmPasswordChangeHandler={confirmPasswordChangeHandler}
@@ -185,6 +188,7 @@ function Signup() {
         {step === "닉네임" && (
           <Nickname
             nickname={nickname}
+            setNickname={setNickname}
             isNickname={isNickname}
             nicknameMsg={nicknameMsg}
             nicknameChangeHandler={nicknameChangeHandler}

@@ -7,6 +7,7 @@ import kakaologo from "../../../../public/icons/kakaologo.png";
 import instance from "../../../api/axios";
 import { useUserStore } from "../../../zustand/authStore";
 import Cookies from "js-cookie";
+import PasswordInput from "../../../components/common/PasswordInput";
 
 function Login() {
   const [email, setEmail] = useState<string>("");
@@ -139,14 +140,12 @@ function Login() {
             >
               비밀번호
             </p>
-            <Input
-              value={password}
-              onChange={passwordHandler}
-              type="password"
-              placeholder="비밀번호"
-              isValid={isPassword}
-              onClick={resetPasswordValue}
-            />
+            <PasswordInput
+             value={password}
+             onChange={passwordHandler}
+             type="password"
+             placeholder="비밀번호"
+             isValid={isPassword}/>
             {isPassword === false && password !== "" && <p className="text-[12px] redoe">{passwordMsg}</p>}
           </div>
 

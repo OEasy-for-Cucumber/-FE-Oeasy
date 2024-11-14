@@ -1,12 +1,15 @@
 import Input from "../../../components/common/Input";
+import PasswordInput from "../../../components/common/PasswordInput";
 import { StepProps } from "../../../types/authPropsTypes";
 
 function PasswordStep({
   password,
+  setPassword = () => {},
   isPassword,
   passwordMsg,
   passwordChangeHandler = () => {},
   confirmPassword,
+  setConfirmPassword= () => {},
   isConfirmPassword,
   confirmPasswordMsg,
   confirmPasswordChangeHandler = () => {}
@@ -14,6 +17,14 @@ function PasswordStep({
   const baseLabelClass = "transition-all duration-300 text-[13px]";
   const visibleLabelClass = "opacity-100 translate-y-0";
   const hiddenLabelClass = "opacity-0 -translate-1";
+
+  const resetPasswordValue = () => {
+    setPassword("");
+  }
+
+  const resetConfirmPasswordValue = () => {
+    setConfirmPassword("")
+  }
 
   return (
     <>
@@ -27,12 +38,20 @@ function PasswordStep({
           >
             비밀번호
           </p>
-          <Input
+          {/* <Input
             value={password}
             onChange={passwordChangeHandler}
             type="password"
             placeholder="비밀번호"
             isValid={isPassword}
+            onClick={resetPasswordValue}
+          /> */}
+          <PasswordInput
+           value={password}
+           onChange={passwordChangeHandler}
+           type="password"
+           placeholder="비밀번호"
+           isValid={isPassword}
           />
           <p
             className={`${"redoe"} ${
@@ -49,12 +68,20 @@ function PasswordStep({
           >
             비밀번호 재입력
           </p>
-          <Input
+          {/* <Input
             value={confirmPassword}
             onChange={confirmPasswordChangeHandler}
             type="password"
             placeholder="비밀번호 재입력"
             isValid={isConfirmPassword}
+            onClick={resetConfirmPasswordValue}
+          /> */}
+          <PasswordInput
+           value={confirmPassword}
+           onChange={confirmPasswordChangeHandler}
+           type="password"
+           placeholder="비밀번호 재입력"
+           isValid={isConfirmPassword}
           />
           <p
             className={`${"redoe"} ${
@@ -65,12 +92,6 @@ function PasswordStep({
           </p>
         </div>
       </div>
-
-      {/* <div className="w-full mt-auto">
-        <Button size="large" type="button" onClick={nextStepHandler} isActive={isActive}>
-          다음
-        </Button>
-      </div> */}
     </>
   );
 }
