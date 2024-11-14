@@ -4,6 +4,8 @@ import useRecipesData from "../../../hooks/useRecipesData";
 function OeRecipes() {
   const { data: recipes, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } = useRecipesData();
 
+  console.log(recipes);
+
   if (isLoading) return <p>Loading...</p>;
 
   return (
@@ -12,8 +14,8 @@ function OeRecipes() {
         <div key={page.nowPage} className="grid grid-cols-2 xl:grid-cols-4 gap-4 justify-items-center mb-4">
           {page.list.map((recipe) => (
             <Link to={`/recipe-detail/${recipe.id}`} key={recipe.id}>
-              <div className="w-[148px] bg-white rounded-lg">
-                <img src={recipe.imgUrl} alt={recipe.title} className="w-[148px] h-[148px] rounded-t-lg" />
+              <div className="w-full bg-white rounded-lg">
+                <img src={recipe.imgUrl} alt={recipe.title} className="w-[300px] h-[148px] rounded-t-lg object-cover" />
                 <div className="flex justify-center items-center px-4 py-2 font-b2-semibold text-black text-center">
                   {recipe.title}
                 </div>
