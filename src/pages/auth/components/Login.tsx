@@ -98,6 +98,14 @@ function Login() {
     window.location.href = `https://kauth.kakao.com/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code`;
   };
 
+  const resetEmailValue = () => {
+    setEmail("");
+  }
+
+  const resetPasswordValue = () => {
+    setPassword("");
+  }
+
   return (
     <div className="flex h-[calc(100vh-56px)] xl:h-[calc(100vh-80px)] w-full xl:px-[194px] px-4">
       <div className="hidden xl:flex w-1/2 items-center justify-center">
@@ -119,7 +127,7 @@ function Login() {
             >
               이메일
             </p>
-            <Input value={email} onChange={emailHandler} type="email" placeholder="이메일" isValid={isEmail} />
+            <Input value={email} onChange={emailHandler} type="email" placeholder="이메일" isValid={isEmail} onClick={resetEmailValue} />
             {isEmail === false && email !== "" && <p className="text-[12px] redoe">{emailMsg}</p>}
           </div>
 
@@ -137,6 +145,7 @@ function Login() {
               type="password"
               placeholder="비밀번호"
               isValid={isPassword}
+              onClick={resetPasswordValue}
             />
             {isPassword === false && password !== "" && <p className="text-[12px] redoe">{passwordMsg}</p>}
           </div>

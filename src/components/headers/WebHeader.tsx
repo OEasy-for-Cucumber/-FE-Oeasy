@@ -1,12 +1,11 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { useLocation, useNavigate } from "react-router-dom";
 import Button from "../common/Button";
 import { useUserStore } from "../../zustand/authStore";
+import Sample from "../../../public/img/profilesample.jpg"
 
 function WebHeader() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
-  //@ts-expect-error
   const { user, isLoggedIn } = useUserStore.getState();
 
   const goToLogin = () => {
@@ -57,7 +56,7 @@ function WebHeader() {
             Login
           </Button>
         ) : (
-          <button onClick={goToMypage}>My</button>
+          <button onClick={goToMypage}><img src={!user?.memberImage ? Sample : user.memberImage} alt="프로필이미지" className="w-[40px] rounded-full"/></button>
         )}
       </div>
     </div>

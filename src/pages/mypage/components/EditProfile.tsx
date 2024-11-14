@@ -58,15 +58,16 @@ function EditProfile({ handleEditModal }: { handleEditModal: () => void }) {
           </button>
         </div>
 
-        <div className="relative my-[36px] flex justify-center">
+        <div className="relative w-[100px] mx-auto my-[36px] flex justify-center">
           <img
             src={user?.memberImage === null ? Sample : user?.memberImage }
             alt="profile"
             className="w-[80px] h-[80px] rounded-full object-cover border-grayoe-800 border-2"
           />
-          <button className="absolute bottom-0 right-[38%] bg-grayoe-500 border-grayoe-800 border-2 rounded-full p-[3px]">
-            <img src={Camera} alt="사진첨부" className="w-4" />
-          </button>
+          <label htmlFor="file" className="absolute bottom-0 right-2 bg-grayoe-500 border-grayoe-800 border-2 rounded-full p-[3px]">
+            <img src={Camera} alt="사진첨부" className="w-4 cursor-pointer" />
+          </label>
+          <input type="file" name="file" id="file" accept="image/*" className="hidden" />
         </div>
 
         <form className="px-6 grid gap-3">
