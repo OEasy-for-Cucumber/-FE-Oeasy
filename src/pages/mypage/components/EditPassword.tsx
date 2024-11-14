@@ -1,6 +1,5 @@
 import Xicon from "../../../../public/icons/Icon.png";
 import Button from "../../../components/common/Button";
-import Input from "../../../components/common/Input";
 import { Dispatch, SetStateAction, useState } from "react";
 import PasswordInput from "../../../components/common/PasswordInput";
 

@@ -103,10 +103,6 @@ function Login() {
     setEmail("");
   }
 
-  const resetPasswordValue = () => {
-    setPassword("");
-  }
-
   return (
     <div className="flex h-[calc(100vh-56px)] xl:h-[calc(100vh-80px)] w-full xl:px-[194px] px-4">
       <div className="hidden xl:flex w-1/2 items-center justify-center">
