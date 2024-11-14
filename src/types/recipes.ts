@@ -11,3 +11,16 @@ export interface RecipeResponse {
   hasNextPage: boolean;
   list: Recipe[];
 }
+
+export interface ManualList {
+  content: string;
+  order: number;
+}
+
+export interface selectRecipe {
+  ingredients: string;
+  manualList: ManualList[];
+  recipeImg: string;
+  tip: string;
+  title: string;
+}
