@@ -9,15 +9,6 @@ import { useState } from "react";
 import { parseISO, format, formatDistanceToNow } from "date-fns";
 import { ko } from "date-fns/locale";
 
-interface Post {
-  title: string;
-  nickname: string;
-  postDate: string;
-  likes: number;
-  comments: number;
-  images: string[];
-}
-
 interface PostData {
   content: string;
   title: string;
@@ -30,7 +21,6 @@ interface PostData {
 
 function Detail() {
   const location = useLocation();
-  const post = location.state as Post;
   const postData = location.state as PostData;
   const [liked, setLiked] = useState(false);
   const [likedCount, setLikedCount] = useState(0);
@@ -81,23 +71,23 @@ function Detail() {
         </div>
         <div className="pt-6">
           <p>{postData.content}</p>
-          {postData.images && post.images.length > 0 && (
+          {postData.images && postData.images.length > 0 && (
             <div
               className={`min-h-[204px] max-h-[392px] gap-2 justify-center pt-6 ${
-                post.images.length === 1
+                postData.images.length === 1
                   ? "grid-cols-1"
-                  : post.images.length === 3
+                  : postData.images.length === 3
                     ? "grid-cols-2 grid-rows-2"
                     : "grid-cols-2 place-items-center"
               } grid`}
             >
-              {post.images.map((img: string, index: number) => (
+              {postData.images.map((img: string, index: number) => (
                 <img
                   key={index}
                   src={img}
                   alt={`게시물 이미지 ${index + 1}`}
-                  className={`w-full rounded-lg ${post.images.length === 1 ? "h-[200px]" : "h-[180px]"} ${
-                    post.images.length === 3 && index === 0 ? "col-span-2" : ""
+                  className={`w-full rounded-lg ${postData.images.length === 1 ? "h-[200px]" : "h-[180px]"} ${
+                    postData.images.length === 3 && index === 0 ? "col-span-2" : ""
                   }`}
                 />
               ))}

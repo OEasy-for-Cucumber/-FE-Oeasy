@@ -50,7 +50,7 @@ function Upload() {
     const postData = { postId, title, content, images, user, createdAt: now };
     console.log("등록된 데이터:", postData);
     alert("게시물이 등록되었습니다.");
-    navigate(`/detail/${postId}`, { state: postData });
+    navigate(`/community/detail/${postId}`, { state: postData });
   };
 
   return (

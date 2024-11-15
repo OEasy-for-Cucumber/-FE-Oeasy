@@ -111,7 +111,7 @@ function List() {
                       ...post,
                       postDate: formatDate(post.date)
                     };
-                    navigate(`/detail/${post.id}`, { state: detailPost });
+                    navigate(`/community/detail/${post.id}`, { state: detailPost });
                   }}
                   onMouseEnter={(e) => e.currentTarget.classList.add("underline")}
                   onMouseLeave={(e) => e.currentTarget.classList.remove("underline")}

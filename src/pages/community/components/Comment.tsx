@@ -4,9 +4,11 @@ import { formatDistanceToNow, parseISO, format } from "date-fns";
 import { ko } from "date-fns/locale";
 import { useState } from "react";
 import { useUserStore } from "../../../zustand/authStore";
+import { useParams } from "react-router-dom";
 
 function Comment() {
   const [showEdit, setShowEdit] = useState<number | null>(null);
+  const { postId } = useParams();
   const user = useUserStore((state) => state.user);
   const [comment, setComment] = useState("");
   const [comments, setComments] = useState([
@@ -63,6 +65,7 @@ function Comment() {
 
     const newComment = {
       id: comments.length + 1,
+      postId: postId,
       nickname: user?.nickname || "익명",
       profileImg: "../../../../public/img/defaultProfile.png",
       date: new Date().toISOString(),
