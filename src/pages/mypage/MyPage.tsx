@@ -1,39 +1,16 @@
-import { useNavigate } from "react-router-dom";
 import { useUserStore } from "../../zustand/authStore";
-import instance from "../../api/axios";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import EditProfile from "./components/EditProfile";
 import MyPost from "./components/MyPost";
 import MyLiked from "./components/MyLiked";
-import Cookies from "js-cookie";
+import Sample from "../../../public/img/profilesample.jpg";
+
 
 function MyPage() {
-  const { user, setUser } = useUserStore.getState();
-  const navigate = useNavigate();
+  const { user } = useUserStore.getState();
 
   const [isEditModalOpen, setEditModalOpen] = useState<boolean>(false);
   const [isClicked, setIsClicked] = useState<boolean>(true);
-  const token = Cookies.get("accessToken");
-
-  const getUserData = async () => {
-    if (!token) {
-      console.error("토큰이 없습니다. 로그인 후 다시 시도하세요.");
-      return;
-    }
-
-    try {
-      const response = await instance.get("/member/profile", {
-        withCredentials: true
-      });
-      setUser(response.data);
-    } catch (error) {
-      console.error("회원 정보 조회 실패:", error);
-    }
-  };
-
-  useEffect(() => {
-    if (token) getUserData();
-  }, [token]);
 
   const handleEditModal = () => {
     setEditModalOpen((prev) => !prev);
@@ -43,10 +20,10 @@ function MyPage() {
   const handleLikedClicked = () => setIsClicked(false);
 
   return (
-    <div>
-      <div className="w-full flex p-4 bg-grayoe-900 rounded-lg items-center my-6">
+    <div className="xl:w-[520px] mx-auto">
+      <div className="flex p-4 bg-grayoe-900 rounded-lg items-center my-6 mx-4">
         <div className="w-full flex items-center">
-          <div className="w-[48px] h-[48px] rounded-full bg-profile_sample bg-cover text-black"></div>
+          <img src={!user?.memberImage ? Sample : user?.memberImage} alt="프로필이미지" className="w-[48px] h-[48px] rounded-full" />
           <h6 className="font-h6 ml-2">{user?.nickname}</h6>
         </div>
         <button onClick={handleEditModal} className="h-[32px] px-3 whitespace-nowrap bg-grayoe-400 rounded font-c2">

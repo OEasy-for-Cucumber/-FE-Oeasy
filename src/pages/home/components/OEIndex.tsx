@@ -5,7 +5,7 @@ import instance from "../../../api/axios";
 import Oesample from "../../../../public/img/oeindexsample.png";
 import Union from "../../../../public/img/Union.png";
 
-function OEIndex() {
+function OeIndex() {
   const [oeIndexData, setOeIndexData] = useState<OEIndexType>();
 
   const getOEIndexData = async () => {
@@ -58,4 +58,4 @@ function OEIndex() {
   );
 }
 
-export default OEIndex;
+export default OeIndex;

@@ -13,12 +13,10 @@ function KakaoCallback() {
   const code = params.get("code");
   const encodedCode = encodeURIComponent(code as string);
 
-  console.log(encodedCode);
-
   const fetchData = async () => {
     try {
         const res = await instance.post(
-            `/login/kakao/callback?code=${encodedCode}`,// query parameter 없이 요청
+            `/login/kakao/callback?code=${encodedCode}`,
             {
                 headers: { "Content-Type": "application/json" }
             }

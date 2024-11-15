@@ -1,10 +1,14 @@
 import Input from "../../../components/common/Input";
 import { StepProps } from "../../../types/authPropsTypes";
 
-function EmailStep({ email, isEmail, emailMsg, emailChangeHandler = () => {} }: StepProps) {
+function EmailStep({ email, setEmail = () => {}, isEmail, emailMsg, emailChangeHandler = () => {} }: StepProps) {
   const baseLabelClass = "transition-all duration-300 text-[13px]";
   const visibleLabelClass = "opacity-100 translate-y-0";
   const hiddenLabelClass = "opacity-0 -translate-1";
+
+  const resetEmailValue = () => {
+    setEmail("");
+  }
 
   return (
     <>
@@ -18,7 +22,7 @@ function EmailStep({ email, isEmail, emailMsg, emailChangeHandler = () => {} }: 
           >
             이메일
           </p>
-          <Input value={email} onChange={emailChangeHandler} type="email" placeholder="이메일" isValid={isEmail} />
+          <Input value={email} onChange={emailChangeHandler} type="email" placeholder="이메일" isValid={isEmail} onClick={resetEmailValue}/>
           <p
             className={`${"redoe"} ${
               isEmail === false && email !== "" ? visibleLabelClass : hiddenLabelClass

@@ -1,6 +1,7 @@
 import TopBtn from "../../components/common/TopBtn";
 import Landing from "./components/Landing";
-import OEIndex from "./components/OEIndex";
+import OeGraph from "./components/OeGraph";
+import OeIndex from "./components/OEIndex";
 // import OeTip from "./components/OeTip";
 import Recipe from "./components/recipe/Recipe";
 
@@ -10,8 +11,9 @@ function Home() {
       <TopBtn />
       <Landing />
       <div className="xl:px-[200px]">
-        <OEIndex />
+        <OeIndex />
         {/* <OeTip /> */}
+        <OeGraph/>
         <Recipe />
       </div>
     </>

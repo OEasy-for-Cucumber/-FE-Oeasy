@@ -1,4 +1,6 @@
-import DeleteIcon from "../../../public/icons/deleteIcon.png";
+import ShowIcon from "../../../public/icons/ShowPW.png";
+import HideIcon from "../../../public/icons/Hide.png";
+import { useState } from "react";
 
 interface InputProps {
   type?: "text" | "password" | "number" | "email";
@@ -10,13 +12,18 @@ interface InputProps {
   onClick?: () => void;
 }
 
-const Input: React.FC<InputProps> = ({ type, value, onChange, placeholder, isValid, defaultValue, onClick }) => {
+const PasswordInput: React.FC<InputProps> = ({ type, value, onChange, placeholder, isValid, defaultValue }) => {
+    const [isClicked, setIsClicked] = useState(false);
   const borderColorClass = value === "" ? "border-grayoe-700" : isValid ? "border-[#008CCC]" : "border-[#FF453A]";
+
+    const handleClicked = () => {
+        setIsClicked((prev)=>!prev);
+    }
 
   return (
     <div className="relative">
       <input
-        type={type}
+        type={!isClicked ? "password" : "text"}
         value={value}
         onChange={onChange}
         className={`w-full h-[48px] placeholder-grayoe-400 bg-grayoe-950 outline-none border-b-[1.5px] ${borderColorClass}`}
@@ -24,12 +31,12 @@ const Input: React.FC<InputProps> = ({ type, value, onChange, placeholder, isVal
         defaultValue={defaultValue}
       />
       {value && (
-        <button onClick={onClick} tabIndex={-1} type="reset" className="absolute bottom-4 right-1">
-          <img src={DeleteIcon} alt="삭제버튼" className="w-4" />
+        <button onClick={handleClicked} tabIndex={-1} type="reset" className="absolute bottom-4 right-1">
+          <img src={!isClicked ? HideIcon : ShowIcon} alt="블라인드버튼" className="w-4" />
         </button>
       )}
     </div>
   );
 };
 
-export default Input;
+export default PasswordInput;
