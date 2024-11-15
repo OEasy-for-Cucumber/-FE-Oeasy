@@ -6,7 +6,7 @@ import commentIcon from "../../../../public/icons/comment.png";
 import filter from "../../../../public/icons/filterIcon.png";
 import { Link, useNavigate } from "react-router-dom";
 
-const generateId = () => `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+const generateId = () => `${Date.now()}-${Math.random().toString(36)}`;
 
 function List() {
   const navigate = useNavigate();

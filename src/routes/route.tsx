@@ -63,7 +63,7 @@ const router = createBrowserRouter([
         element: <RecipeDetail />
       },
       {
-        path: "/community/upload/:id",
+        path: "/community/upload/:postId",
         element: <Upload />
       }
     ]
