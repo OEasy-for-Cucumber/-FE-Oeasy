@@ -48,7 +48,6 @@ instance.interceptors.response.use(
         const { data } = await instance.post("/auth/refresh",{},
           {  
             headers: {
-            "Content-Type": "application/json",
             Authorization: `Bearer ${refreshToken}`,
           },
          }

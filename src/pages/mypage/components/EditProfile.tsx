@@ -8,16 +8,21 @@ import { useState } from "react";
 import ReactDOM from "react-dom";
 import EditPassword from "./EditPassword";
 import Cookies from "js-cookie";
+import instance from "../../../api/axios";
+import axios, { AxiosError } from "axios";
 
 function EditProfile({ handleEditModal }: { handleEditModal: () => void }) {
   const { user, setUser, clearUser, setIsLoggedIn } = useUserStore.getState();
   const navigate = useNavigate();
 
-  const [nickname, setNickname] = useState<string>(user!.nickname);
+  const [newNickname, setNewNickname] = useState<string>(user!.nickname);
   const [newPassword, setNewPassword] = useState<string>("");
 
   const [isNickname, setIsNickname] = useState<boolean>(true);
   const [nicknameMsg, setNicknameMsg] = useState<string>("");
+
+  const [profileImg, setProfileImg] = useState<File | null>();
+  const [profileImgUrl, setProfileImgUrl] = useState<string>();
 
   const [isNewPasswordModalOpen, setIsNewPasswordModalOpen] = useState<boolean>(false);
 
@@ -35,7 +40,7 @@ function EditProfile({ handleEditModal }: { handleEditModal: () => void }) {
   const changeNicknameHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
     const regex = /^[a-zA-Z0-9가-힣\s]+(?![ㄱ-ㅎㅏ-ㅣ])$/;
-    setNickname(e.target.value);
+    setNewNickname(e.target.value);
     if (!regex.test(value)) {
       setNicknameMsg("한글,영문,숫자로 최대 8자이내로 지어주세요.");
       setIsNickname(false);
@@ -44,13 +49,43 @@ function EditProfile({ handleEditModal }: { handleEditModal: () => void }) {
     }
   };
 
+  const ChangeImgHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files?.length) return;
+    const file = e.target.files[0];
+    setProfileImg(file);
+    setProfileImgUrl(URL.createObjectURL(file));
+  };
+
+  const editProfile = async () => {
+    const url = profileImgUrl?.replace("blob:", "")
+    try {
+      const { data } = await instance.patch("/member/profile-picture", {
+        imageName: profileImg?.name,
+        imageUri: url || ""
+      });
+      console.log(data);// 성공적으로 받은 데이터 출력
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        // AxiosError 타입일 경우에만 처리
+        console.error("Axios error:", error.response?.data || error.message);
+      } else {
+        // 예상치 못한 에러
+        console.error("Unexpected error:", error);
+      }
+    }
+
+    // const { data: nicknameData } = await instance.patch("/member/nickname", {
+    //   newNickname: newNickname
+    // })
+  };
+
   const handleNewPasswordModal = () => {
     setIsNewPasswordModalOpen((prev) => !prev);
   };
 
   const resetNicknameValue = () => {
-    setNickname("");
-  }
+    setNewNickname("");
+  };
 
   return (
     <div className="fixed inset-0 flex flex-col items-center justify-center">
@@ -61,57 +96,77 @@ function EditProfile({ handleEditModal }: { handleEditModal: () => void }) {
             <img src={Xicon} alt="닫기버튼" />
           </button>
         </div>
-
-        <div className="relative w-[100px] mx-auto my-[36px] flex justify-center">
-          <img
-            src={user?.memberImage === null ? Sample : user?.memberImage }
-            alt="profile"
-            className="w-[80px] h-[80px] rounded-full object-cover border-grayoe-800 border-2"
-          />
-          <label htmlFor="file" className="absolute bottom-0 right-2 bg-grayoe-500 border-grayoe-800 border-2 rounded-full p-[3px]">
-            <img src={Camera} alt="사진첨부" className="w-4 cursor-pointer" />
-          </label>
-          <input type="file" name="file" id="file" accept="image/*" className="hidden" />
-        </div>
-
-        <form className="px-6 grid gap-3">
-          <div className="mb-4">
-            <p className={`text-sm ${nickname === "" || isNickname ? "text-grayoe-300" : "redoe"}`}>닉네임</p>
-            <Input
-              value={nickname}
-              onChange={changeNicknameHandler}
-              isValid={nickname === "" || isNickname}
-              onClick={resetNicknameValue}
-            />
-            {isNickname === false && nickname !== "" ? (
-              <p className={`redoe ${visibleLabelClass} ${baseLabelClass}`}>{nicknameMsg}</p>
+        <form onSubmit={editProfile}>
+          <div className="relative w-[100px] mx-auto my-[36px] flex justify-center">
+            {!profileImgUrl ? (
+              <img
+                src={user?.memberImage === null ? Sample : user?.memberImage}
+                alt="profile"
+                className="w-[80px] h-[80px] rounded-full object-cover border-grayoe-800 border-2"
+              />
             ) : (
-              <p className={`${hiddenLabelClass} ${baseLabelClass}`}></p>
+              <img
+                src={profileImgUrl}
+                alt="profile"
+                className="w-[80px] h-[80px] rounded-full object-cover border-grayoe-800 border-2"
+              />
             )}
+            <label
+              htmlFor="file"
+              className="absolute bottom-0 right-2 bg-grayoe-500 border-grayoe-800 border-2 rounded-full p-[3px]"
+            >
+              <img src={Camera} alt="사진첨부" className="w-4 cursor-pointer" />
+              <input
+                type="file"
+                name="file"
+                id="file"
+                accept="image/*"
+                className="hidden"
+                onChange={ChangeImgHandler}
+              />
+            </label>
           </div>
 
-          <div className="mb-4">
-            <label className="block text-grayoe-300 text-sm mb-1">이메일</label>
-            <p className="text-grayoe-300">{user?.email}</p>
-            <hr className="border-grayoe-700 mt-2" />
-          </div>
-
-          <div className="items-center">
-            <div className="">
-              <label className="block text-grayoe-300 text-sm mb-1">비밀번호</label>
-              <div className="flex justify-between items-center">
-                <div className="text-grayoe-300">●●●●●●●●</div>
-                <button
-                  type="button"
-                  onClick={handleNewPasswordModal}
-                  className="bg-grayoe-500 text-sm py-1 px-2 rounded font-c2"
-                >
-                  비밀번호 변경
-                </button>
-              </div>
+          <div className="px-6 grid gap-3">
+            <div className="mb-4">
+              <p className={`text-sm ${newNickname === "" || isNickname ? "text-grayoe-300" : "redoe"}`}>닉네임</p>
+              <Input
+                value={newNickname}
+                onChange={changeNicknameHandler}
+                isValid={newNickname === "" || isNickname}
+                onClick={resetNicknameValue}
+              />
+              {isNickname === false && newNickname !== "" ? (
+                <p className={`redoe ${visibleLabelClass} ${baseLabelClass}`}>{nicknameMsg}</p>
+              ) : (
+                <p className={`${hiddenLabelClass} ${baseLabelClass}`}></p>
+              )}
             </div>
-            <hr className="border-grayoe-700 mt-3" />
+
+            <div className="mb-4">
+              <label className="block text-grayoe-300 text-sm mb-1">이메일</label>
+              <p className="text-grayoe-300">{user?.email}</p>
+              <hr className="border-grayoe-700 mt-2" />
+            </div>
+
+            <div className="items-center">
+              <div className="">
+                <label className="block text-grayoe-300 text-sm mb-1">비밀번호</label>
+                <div className="flex justify-between items-center">
+                  <div className="text-grayoe-300">●●●●●●●●</div>
+                  <button
+                    type="button"
+                    onClick={handleNewPasswordModal}
+                    className="bg-grayoe-500 text-sm py-1 px-2 rounded font-c2"
+                  >
+                    비밀번호 변경
+                  </button>
+                </div>
+              </div>
+              <hr className="border-grayoe-700 mt-3" />
+            </div>
           </div>
+          {/* <button type="submit">임시저장버튼</button> */}
         </form>
         <div className="border-b-8 my-5 border-grayoe-900" />
         <div className="flex gap-5 w-full mt-2 text-sm text-grayoe-300 bg-grayoe-950 items-center justify-center font-c2">
