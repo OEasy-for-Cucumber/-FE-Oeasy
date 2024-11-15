@@ -32,7 +32,7 @@ instance.interceptors.response.use(
   (response) => response,
   async (error) => {
     const { setIsLoggedIn } = useUserStore.getState();
-    const originalRequest = error.config;
+    const originalRequest = { ...error.config };
 
     // AccessToken 만료 시
     if (error.response && error.response.status === 401 && !originalRequest._retry) {
@@ -45,7 +45,15 @@ instance.interceptors.response.use(
           return Promise.reject(error);
         }
 
-        const { data } = await instance.post("/auth/refresh", { refreshToken });
+        const { data } = await instance.post("/auth/refresh",{},
+          {  
+            headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${refreshToken}`,
+          },
+         }
+        );
+        
         if (data.accessToken) {
           // 새로운 accessToken으로 업데이트
           Cookies.set("accessToken", data.accessToken, { expires: 1 });

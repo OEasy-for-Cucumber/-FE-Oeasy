@@ -13,10 +13,10 @@ function EditProfile({ handleEditModal }: { handleEditModal: () => void }) {
   const { user, setUser, clearUser, setIsLoggedIn } = useUserStore.getState();
   const navigate = useNavigate();
 
-  const [nickname, setNickname] = useState<string>("");
+  const [nickname, setNickname] = useState<string>(user!.nickname);
   const [newPassword, setNewPassword] = useState<string>("");
 
-  const [isNickname, setIsNickname] = useState<boolean>(false);
+  const [isNickname, setIsNickname] = useState<boolean>(true);
   const [nicknameMsg, setNicknameMsg] = useState<string>("");
 
   const [isNewPasswordModalOpen, setIsNewPasswordModalOpen] = useState<boolean>(false);
@@ -48,6 +48,10 @@ function EditProfile({ handleEditModal }: { handleEditModal: () => void }) {
     setIsNewPasswordModalOpen((prev) => !prev);
   };
 
+  const resetNicknameValue = () => {
+    setNickname("");
+  }
+
   return (
     <div className="fixed inset-0 flex flex-col items-center justify-center">
       <div className="bg-grayoe-950 text-white w-full min-w-[360px] max-w-[520px] xl:w-full py-4 relative h-svh">
@@ -74,9 +78,10 @@ function EditProfile({ handleEditModal }: { handleEditModal: () => void }) {
           <div className="mb-4">
             <p className={`text-sm ${nickname === "" || isNickname ? "text-grayoe-300" : "redoe"}`}>닉네임</p>
             <Input
+              value={nickname}
               onChange={changeNicknameHandler}
               isValid={nickname === "" || isNickname}
-              defaultValue={user?.nickname}
+              onClick={resetNicknameValue}
             />
             {isNickname === false && nickname !== "" ? (
               <p className={`redoe ${visibleLabelClass} ${baseLabelClass}`}>{nicknameMsg}</p>
