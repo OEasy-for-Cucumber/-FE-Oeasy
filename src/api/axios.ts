@@ -2,7 +2,7 @@ import axios from "axios";
 import { useUserStore } from "../zustand/authStore";
 import Cookies from "js-cookie";
 
-// axios 인스턴스 생성
+// axios 인스턴스 생성 
 const instance = axios.create({
   // baseURL: "http://54.180.153.36:8080", // 기본 URL 설정
   baseURL: import.meta.env.VITE_APP_BASE_URL,
@@ -32,11 +32,11 @@ instance.interceptors.response.use(
   (response) => response,
   async (error) => {
     const { setIsLoggedIn } = useUserStore.getState();
-    const originalRequest = error.config;
+    const originalRequest = { ...error.config };
 
     // AccessToken 만료 시
     if (error.response && error.response.status === 401 && !originalRequest._retry) {
-      originalRequest._retry = true;
+      originalRequest._retry = true;  // 플래그 설정하여 재시도 방지
 
       try {
         const refreshToken = Cookies.get("refreshToken");
@@ -45,13 +45,20 @@ instance.interceptors.response.use(
           return Promise.reject(error);
         }
 
-        const { data } = await instance.post("/auth/refresh"); // Refresh token은 쿠키에서 자동으로 전송
+        const { data } = await instance.post("/auth/refresh",{},
+          {  
+            headers: {
+            Authorization: `Bearer ${refreshToken}`,
+          },
+         }
+        );
+        
         if (data.accessToken) {
           // 새로운 accessToken으로 업데이트
           Cookies.set("accessToken", data.accessToken, { expires: 1 });
           localStorage.setItem("accessToken", data.accessToken);
 
-          // 원래 요청을 새로운 토큰으로 다시 보냄
+          // 원래 요청에 새로운 토큰 설정 후 재시도
           originalRequest.headers["Authorization"] = `Bearer ${data.accessToken}`;
           return instance(originalRequest);
         } else {
@@ -67,5 +74,6 @@ instance.interceptors.response.use(
     return Promise.reject(error);
   }
 );
+
 
 export default instance;

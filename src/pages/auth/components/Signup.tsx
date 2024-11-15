@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { useEffect, useState } from "react";
 import EmailStep from "./EmailStep";
 import PasswordStep from "./PasswordStep";
@@ -31,7 +30,6 @@ function Signup() {
   const [passwordMsg, setPasswordMsg] = useState<string>("");
   const [confirmPasswordMsg, setConfirmPasswordMsg] = useState<string>("");
 
-  //@ts-expect-error
   const { user, setUser, setIsLoggedIn } = useUserStore.getState();
   const [step, setStep] = useState("이메일");
   const { isActive, setIsActive } = useActiveStore();
@@ -117,9 +115,6 @@ function Signup() {
           }
         }
       );
-      alert("회원가입성공");
-      console.log(response.data);
-      setUser(response.data);
 
       const data = await instance.post("/login/oeasy", {
         email,
@@ -152,7 +147,7 @@ function Signup() {
   };
 
   return (
-    <div className="w-full xl:w-[360px] mx-auto h-[calc(100vh-56px)] xl:h-[calc(100vh-80px)] flex-col flex">
+    <div className="w-full xl:w-[360px] mx-auto h-[calc(100vh-56px)] xl:h-[calc(100vh-80px)] flex-col flex px-4">
       <ProgressBar step={step} />
       <form
         onSubmit={(e) => {
@@ -168,6 +163,7 @@ function Signup() {
         {step === "이메일" && (
           <EmailStep
             email={email}
+            setEmail={setEmail}
             isEmail={isEmail}
             emailMsg={emailMsg}
             emailChangeHandler={emailChangeHandler}
@@ -177,10 +173,12 @@ function Signup() {
         {step === "비밀번호" && (
           <PasswordStep
             password={password}
+            setPassword={setPassword}
             isPassword={isPassword}
             passwordMsg={passwordMsg}
             passwordChangeHandler={passwordChangeHandler}
             confirmPassword={confirmPassword}
+            setConfirmPassword={setConfirmPassword}
             isConfirmPassword={isConfirmPassword}
             confirmPasswordMsg={confirmPasswordMsg}
             confirmPasswordChangeHandler={confirmPasswordChangeHandler}
@@ -190,6 +188,7 @@ function Signup() {
         {step === "닉네임" && (
           <Nickname
             nickname={nickname}
+            setNickname={setNickname}
             isNickname={isNickname}
             nicknameMsg={nicknameMsg}
             nicknameChangeHandler={nicknameChangeHandler}

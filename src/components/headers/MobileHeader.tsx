@@ -3,6 +3,8 @@ import HamburgerIcon from "../../assets/Icon.svg";
 import { useState } from "react";
 import HamburgerModal from "./HamburgerModal";
 import { useUserStore } from "../../zustand/authStore";
+import Sample from "../../../public/img/profilesample.jpg"
+
 
 function MobileHeader() {
   const navigate = useNavigate();
@@ -69,7 +71,7 @@ function MobileHeader() {
               login
             </button>
           ) : pathname === "/mypage" ?  <div className="w-5"></div> : (
-            <button onClick={goToMypage}>My</button>
+            <button onClick={goToMypage}><img src={!user?.memberImage ? Sample : user.memberImage} alt="프로필이미지" className="w-[40px] rounded-full mt-2"/></button>
           )}
         </>
       )}
