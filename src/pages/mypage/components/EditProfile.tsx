@@ -32,9 +32,12 @@ function EditProfile({ handleEditModal }: { handleEditModal: () => void }) {
 
   const logoutHandler = () => {
     Cookies.remove("accessToken");
-    clearUser();
+    if(confirm("로그아웃 하시겠습니까?")){
+     clearUser();
     setIsLoggedIn(false);
-    navigate("/");
+    navigate("/"); 
+    } else return;
+    
   };
 
   const changeNicknameHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -157,7 +160,7 @@ function EditProfile({ handleEditModal }: { handleEditModal: () => void }) {
                   <button
                     type="button"
                     onClick={handleNewPasswordModal}
-                    className="bg-grayoe-500 text-sm py-1 px-2 rounded font-c2"
+                    className="bg-grayoe-500 hover:bg-grayoe-700 duration-150 text-sm py-1 px-2 rounded font-c2"
                   >
                     비밀번호 변경
                   </button>
