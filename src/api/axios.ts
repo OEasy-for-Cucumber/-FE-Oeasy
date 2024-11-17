@@ -31,7 +31,7 @@ instance.interceptors.request.use(
 instance.interceptors.response.use(
   (response) => response,
   async (error) => {
-    const { setIsLoggedIn } = useUserStore.getState();
+    const setIsLoggedIn  = useUserStore((state)=>state.setIsLoggedIn);
     const originalRequest = { ...error.config };
 
     // AccessToken 만료 시
