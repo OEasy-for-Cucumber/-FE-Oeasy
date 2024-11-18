@@ -12,6 +12,8 @@ export default defineConfig({
     https: {
       key: fs.readFileSync("./localhost+2-key.pem"),
       cert: fs.readFileSync("./localhost+2.pem")
-    }
+    },
+    host: "localhost",
+    port: 3000
   }
 });
