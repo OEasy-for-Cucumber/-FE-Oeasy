@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useUserStore } from "../../zustand/authStore";
 import instance from "../../api/axios";
-import axios, { AxiosError } from "axios";
+import { AxiosError } from "axios";
 import Cookies from "js-cookie";
 
 function KakaoCallback() {
