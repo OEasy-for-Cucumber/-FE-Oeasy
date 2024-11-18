@@ -26,6 +26,8 @@ jobs:
         run: yarn build
         env:
           VITE_APP_BASE_URL: ${{ secrets.VITE_APP_BASE_URL }}
+          VITE_KAKAO_CLIENT_ID: ${{ secrets.VITE_KAKAO_CLIENT_ID }}
+          VITE_APP_KAKAO_REDIRECT_URI: ${{ secrets.VITE_APP_KAKAO_REDIRECT_URI }}
 
       - name: 빌드한 파일 S3에 업로드
         run: aws s3 sync dist/ s3://${{ secrets.AWS_S3_BUCKET_NAME }}
