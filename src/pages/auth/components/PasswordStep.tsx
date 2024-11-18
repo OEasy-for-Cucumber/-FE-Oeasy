@@ -1,4 +1,4 @@
-import Input from "../../../components/common/Input";
+import PasswordInput from "../../../components/common/PasswordInput";
 import { StepProps } from "../../../types/authPropsTypes";
 
 function PasswordStep({
@@ -27,12 +27,13 @@ function PasswordStep({
           >
             비밀번호
           </p>
-          <Input
-            value={password}
-            onChange={passwordChangeHandler}
-            type="password"
-            placeholder="비밀번호"
-            isValid={isPassword}
+          <PasswordInput
+           value={password}
+           minLength={8}
+           onChange={passwordChangeHandler}
+           type="password"
+           placeholder="비밀번호"
+           isValid={isPassword}
           />
           <p
             className={`${"redoe"} ${
@@ -49,12 +50,13 @@ function PasswordStep({
           >
             비밀번호 재입력
           </p>
-          <Input
-            value={confirmPassword}
-            onChange={confirmPasswordChangeHandler}
-            type="password"
-            placeholder="비밀번호 재입력"
-            isValid={isConfirmPassword}
+          <PasswordInput
+           value={confirmPassword}
+           minLength={8}
+           onChange={confirmPasswordChangeHandler}
+           type="password"
+           placeholder="비밀번호 재입력"
+           isValid={isConfirmPassword}
           />
           <p
             className={`${"redoe"} ${
@@ -65,12 +67,6 @@ function PasswordStep({
           </p>
         </div>
       </div>
-
-      {/* <div className="w-full mt-auto">
-        <Button size="large" type="button" onClick={nextStepHandler} isActive={isActive}>
-          다음
-        </Button>
-      </div> */}
     </>
   );
 }

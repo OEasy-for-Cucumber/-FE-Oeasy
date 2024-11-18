@@ -10,8 +10,8 @@ import Votechat from "../pages/vote-chat";
 import Community from "../pages/community/list";
 import PrivatePage from "./PrivatePage";
 import Test from "../pages/test";
-import Detail from "../pages/community/detail/[id]";
 import RecipeDetail from "../pages/recipes/detail/[id]";
+import Detail from "../pages/community/detail/[id]/Detail";
 
 const router = createBrowserRouter([
   {
