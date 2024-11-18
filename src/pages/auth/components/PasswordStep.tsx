@@ -29,6 +29,7 @@ function PasswordStep({
           </p>
           <PasswordInput
            value={password}
+           minLength={8}
            onChange={passwordChangeHandler}
            type="password"
            placeholder="비밀번호"
@@ -51,6 +52,7 @@ function PasswordStep({
           </p>
           <PasswordInput
            value={confirmPassword}
+           minLength={8}
            onChange={confirmPasswordChangeHandler}
            type="password"
            placeholder="비밀번호 재입력"

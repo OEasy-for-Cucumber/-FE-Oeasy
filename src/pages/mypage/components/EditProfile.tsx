@@ -59,27 +59,50 @@ function EditProfile({ handleEditModal }: { handleEditModal: () => void }) {
     setProfileImgUrl(URL.createObjectURL(file));
   };
 
-  const editProfile = async () => {
-    const url = profileImgUrl?.replace("blob:", "")
+  const editProfile = async (e: React.FormEvent) => {
+    e.preventDefault();
+    // const url = profileImgUrl?.replace("blob:", "")
+    // try {
+    //   const { data } = await instance.patch("/member/profile-picture", {
+    //     imageName: profileImg?.name,
+    //     imageUri: url || ""
+    //   });
+    //   console.log(data);// 성공적으로 받은 데이터 출력
+    // } catch (error) {
+    //   if (axios.isAxiosError(error)) {
+    //     // AxiosError 타입일 경우에만 처리
+    //     console.error("Axios error:", error.response?.data || error.message);
+    //   } else {
+    //     // 예상치 못한 에러
+    //     console.error("Unexpected error:", error);
+    //   }
+    // }
+    
     try {
-      const { data } = await instance.patch("/member/profile-picture", {
-        imageName: profileImg?.name,
-        imageUri: url || ""
+      const { data: nicknameData } = await instance.patch("/member/nickname", {
+        newNickname: newNickname,
       });
-      console.log(data);// 성공적으로 받은 데이터 출력
+      console.log("닉네임 변경 성공:", nicknameData);
+      alert("닉네임이 성공적으로 변경되었습니다!");
     } catch (error) {
+      // 에러 처리
       if (axios.isAxiosError(error)) {
         // AxiosError 타입일 경우에만 처리
+        if (error.response?.status === 400) {
+          alert("닉네임 형식이 올바르지 않습니다. 다시 시도해주세요.");
+        } else if (error.response?.status === 409) {
+          alert("이미 사용 중인 닉네임입니다. 다른 닉네임을 입력해주세요.");
+        } else {
+          alert("닉네임 변경 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
+        }
         console.error("Axios error:", error.response?.data || error.message);
       } else {
         // 예상치 못한 에러
+        alert("알 수 없는 오류가 발생했습니다. 관리자에게 문의하세요.");
         console.error("Unexpected error:", error);
       }
     }
-
-    // const { data: nicknameData } = await instance.patch("/member/nickname", {
-    //   newNickname: newNickname
-    // })
+  
   };
 
   const handleNewPasswordModal = () => {
@@ -135,6 +158,7 @@ function EditProfile({ handleEditModal }: { handleEditModal: () => void }) {
               <p className={`text-sm ${newNickname === "" || isNickname ? "text-grayoe-300" : "redoe"}`}>닉네임</p>
               <Input
                 value={newNickname}
+                maxLength={8}
                 onChange={changeNicknameHandler}
                 isValid={newNickname === "" || isNickname}
                 onClick={resetNicknameValue}
@@ -169,7 +193,7 @@ function EditProfile({ handleEditModal }: { handleEditModal: () => void }) {
               <hr className="border-grayoe-700 mt-3" />
             </div>
           </div>
-          {/* <button type="submit">임시저장버튼</button> */}
+          <button type="submit">임시저장버튼</button>
         </form>
         <div className="border-b-8 my-5 border-grayoe-900" />
         <div className="flex gap-5 w-full mt-2 text-sm text-grayoe-300 bg-grayoe-950 items-center justify-center font-c2">
