@@ -1,11 +1,11 @@
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import OeRecipes from "./components/OeRecipes";
 
 function Recipes() {
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const randomRecipeBtn = async () => {
-    // navigate(`/recipe-detail/${}`)
+    navigate(`/recipe-detail`);
   };
 
   return (

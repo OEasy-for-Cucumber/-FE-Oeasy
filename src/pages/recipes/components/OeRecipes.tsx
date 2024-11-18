@@ -15,7 +15,7 @@ function OeRecipes() {
           {page.list.map((recipe) => (
             <Link to={`/recipe-detail/${recipe.id}`} key={recipe.id}>
               <div className="w-full bg-white rounded-lg">
-                <img src={recipe.imgUrl} alt={recipe.title} className="w-[300px] h-[148px] rounded-t-lg object-cover" />
+                <img src={recipe.imgUrl} alt={recipe.title} className="w-[225px] h-[148px] rounded-t-lg object-cover" />
                 <div className="flex justify-center items-center px-4 py-2 font-b2-semibold text-black text-center">
                   {recipe.title}
                 </div>
