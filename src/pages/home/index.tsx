@@ -2,7 +2,7 @@ import TopBtn from "../../components/common/TopBtn";
 import Landing from "./components/Landing";
 import OeGraph from "./components/OeGraph";
 import OeIndex from "./components/OeIndex";
-// import OeTip from "./components/OeTip";
+import OeTip from "./components/OeTip";
 import Recipe from "./components/recipe/Recipe";
 
 function Home() {
@@ -12,7 +12,7 @@ function Home() {
       <Landing />
       <div className="xl:px-[200px]">
         <OeIndex />
-        {/* <OeTip /> */}
+        <OeTip />
         <OeGraph />
         <Recipe />
       </div>

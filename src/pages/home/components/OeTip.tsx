@@ -18,8 +18,6 @@ function OeTip() {
     fetchData();
   }, []);
 
-  console.log(tipList);
-
   return (
     <section className="flex flex-col items-center justify-center h-[calc(100vh-56px)] xl:h-[calc(100vh-80px)] mx-6">
       <div className="flex flex-col gap-2 w-[281px] xl:w-[500px] mx-auto">
@@ -30,7 +28,12 @@ function OeTip() {
       <div className="w-[281px] xl:w-full mx-auto">
         <img src={quotes} alt="큰따옴표" className="w-[39px] xl:w-[82px] h-[29px] xl:h-[60px] my-10 mx-auto" />
       </div>
-      {tipList && <img src={tipList.mobileImg} />}
+      {tipList && (
+        <div>
+          <img src={tipList.mobileImg} className="xl:hidden" />
+          <img src={tipList.webImg} className="hidden xl:block" />
+        </div>
+      )}
     </section>
   );
 }
