@@ -1,11 +1,11 @@
 import LocationIcon from "../../../../public/icons/Location.png";
 import { useEffect, useState } from "react";
-import { OEIndexType } from "../../../types/oeIndexTypes";
 import instance from "../../../api/axios";
 import Oesample from "../../../../public/img/oeindexsample.png";
 import Union from "../../../../public/img/Union.png";
 import ShortLine from "../../../../public/icons/ShortLine.png";
 import LongLine from "../../../../public/icons/LongLine.png";
+import { OEIndexType } from "../../../types/oeIndexTypes";
 
 function OeIndex() {
   const [oeIndexData, setOeIndexData] = useState<OEIndexType>();
