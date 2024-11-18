@@ -1,12 +1,14 @@
 import { useNavigate } from "react-router-dom";
 import OeRecipes from "./components/OeRecipes";
+import instance from "../../api/axios";
 
 function Recipes() {
   const navigate = useNavigate();
 
   const randomRecipeBtn = async () => {
-    navigate(`/recipe-detail/93`);
-    // 작업 전 ㅎㅎ
+    const res = await instance("/api/recipe/random");
+    const randomCount = res?.data;
+    navigate(`/recipe-detail/${randomCount}`);
   };
 
   return (
