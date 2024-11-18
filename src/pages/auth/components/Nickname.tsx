@@ -23,6 +23,7 @@ function Nickname({ nickname, setNickname=()=>{}, isNickname, nicknameMsg, nickn
         </p>
         <Input
           value={nickname}
+          maxLength={8}
           onChange={nicknameChangeHandler}
           type="text"
           placeholder="닉네임"

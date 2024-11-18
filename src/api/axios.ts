@@ -2,23 +2,32 @@ import axios from "axios";
 import { useUserStore } from "../zustand/authStore";
 import Cookies from "js-cookie";
 
-// axios 인스턴스 생성 
+// 일반 요청용 axios 인스턴스
 const instance = axios.create({
-  // baseURL: "http://54.180.153.36:8080", // 기본 URL 설정
   baseURL: import.meta.env.VITE_APP_BASE_URL,
-  timeout: 5000, // 요청 타임아웃 설정 (5초)
+  timeout: 5000,
   withCredentials: true,
   headers: {
-    "Content-Type": "application/json"
-  }, // 기본 헤더 설정
+    "Content-Type": "application/json",
+  },
 });
 
-// 요청 인터셉터 설정
+// 토큰 갱신용 axios 인스턴스 (인터셉터 없이 사용)
+const refreshInstance = axios.create({
+  baseURL: import.meta.env.VITE_APP_BASE_URL,
+  timeout: 5000,
+  withCredentials: true,
+  headers: {
+    "Content-Type": "application/json",
+  },
+});
+
+// 요청 인터셉터
 instance.interceptors.request.use(
   (config) => {
-    const token = Cookies.get("accessToken"); // 인증 토큰 가져오기
+    const token = Cookies.get("accessToken");
     if (token) {
-      config.headers["Authorization"] = `Bearer ${token}`; // 토큰이 있을 경우 헤더에 추가
+      config.headers["Authorization"] = `Bearer ${token}`;
     }
     return config;
   },
@@ -27,53 +36,56 @@ instance.interceptors.request.use(
   }
 );
 
-// 응답 인터셉터 설정
+// 응답 인터셉터
 instance.interceptors.response.use(
   (response) => response,
   async (error) => {
     const { setIsLoggedIn } = useUserStore.getState();
-    const originalRequest = { ...error.config };
+    const originalRequest = error.config;
 
-    // AccessToken 만료 시
-    if (error.response && error.response.status === 401 && !originalRequest._retry) {
-      originalRequest._retry = true;  // 플래그 설정하여 재시도 방지
+    // AccessToken 만료 처리
+    if (error.response?.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true; // 무한 루프 방지
 
       try {
         const refreshToken = Cookies.get("refreshToken");
         if (!refreshToken) {
+          console.error("Refresh token 없음. 로그인 상태 초기화");
           setIsLoggedIn(false);
+          Cookies.remove("accessToken");
+          Cookies.remove("refreshToken");
+          window.location.href = "/login";
           return Promise.reject(error);
         }
 
-        const { data } = await instance.post("/auth/refresh",{},
-          {  
-            headers: {
+        // refreshToken으로 새로운 accessToken 요청
+        const { data } = await refreshInstance.post("/auth/refresh", {}, {
+          headers: {
             Authorization: `Bearer ${refreshToken}`,
           },
-         }
-        );
-        
+        });
+
         if (data.accessToken) {
-          // 새로운 accessToken으로 업데이트
           Cookies.set("accessToken", data.accessToken, { expires: 1 });
-          localStorage.setItem("accessToken", data.accessToken);
 
           // 원래 요청에 새로운 토큰 설정 후 재시도
           originalRequest.headers["Authorization"] = `Bearer ${data.accessToken}`;
-          return instance(originalRequest);
+          return instance(originalRequest); // 원래 요청 재시도
         } else {
-          throw new Error("새로운 액세스 토큰을 얻을 수 없습니다.");
+          throw new Error("새로운 accessToken을 얻을 수 없음");
         }
       } catch (refreshError) {
         console.error("토큰 갱신 실패:", refreshError);
         setIsLoggedIn(false);
-        window.location.href = "/login"; // 로그인 페이지로 리다이렉트
+        Cookies.remove("accessToken");
+        Cookies.remove("refreshToken");
+        // window.location.href = "/login";
         return Promise.reject(refreshError);
       }
     }
+
     return Promise.reject(error);
   }
 );
-
 
 export default instance;

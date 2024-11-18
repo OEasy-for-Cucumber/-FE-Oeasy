@@ -9,7 +9,6 @@ function useUserInitialize() {
 
   useEffect(() => {
     const initUser = async () => {
-
       if (!token) {
         setIsInitialized(true);
         return;
@@ -20,16 +19,15 @@ function useUserInitialize() {
         if (data) {
           setUser(data);
         }
-      } catch (error) {
-        console.error("사용자 초기화 오류:", error);
-      } finally {
         setIsLoggedIn(true);
         setIsInitialized(true);
+      } catch (error) {
+        console.error("사용자 초기화 오류:", error);
       }
     };
 
     initUser();
-  }, [token, setUser, setIsLoggedIn, setIsInitialized]);
+  }, [token, setIsLoggedIn, setIsInitialized]);
 }
 
 export default useUserInitialize;

@@ -138,6 +138,7 @@ function Login() {
             </p>
             <PasswordInput
              value={password}
+             minLength={8}
              onChange={passwordHandler}
              type="password"
              placeholder="비밀번호"

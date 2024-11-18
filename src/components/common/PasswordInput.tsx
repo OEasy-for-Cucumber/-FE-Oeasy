@@ -6,13 +6,14 @@ interface InputProps {
   type?: "text" | "password" | "number" | "email";
   value?: string;
   placeholder?: string;
+  minLength?: number;
   onChange: React.ChangeEventHandler<HTMLInputElement>;
   isValid?: boolean;
   defaultValue?: string;
   onClick?: () => void;
 }
 
-const PasswordInput: React.FC<InputProps> = ({ type, value, onChange, placeholder, isValid, defaultValue }) => {
+const PasswordInput: React.FC<InputProps> = ({ type, value, minLength, onChange, placeholder, isValid, defaultValue }) => {
     const [isClicked, setIsClicked] = useState(false);
   const borderColorClass = value === "" ? "border-grayoe-700" : isValid ? "border-[#008CCC]" : "border-[#FF453A]";
 
@@ -25,6 +26,7 @@ const PasswordInput: React.FC<InputProps> = ({ type, value, onChange, placeholde
       <input
         type={!isClicked ? "password" : "text"}
         value={value}
+        minLength={minLength}
         onChange={onChange}
         className={`w-full h-[48px] placeholder-grayoe-400 bg-grayoe-950 outline-none border-b-[1.5px] ${borderColorClass}`}
         placeholder={placeholder}

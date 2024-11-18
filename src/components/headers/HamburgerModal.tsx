@@ -46,7 +46,7 @@ function HamburgerModal({
               <button className="text-white text-2xl absolute top-3 right-6" onClick={closeHandler}>
                 <img src={Xicon} alt="닫기버튼" />
               </button>
-              <div className="text-grayoe-400 text-2xl mt-[88px]">
+              <div className="text-grayoe-300 text-2xl mt-[88px]">
                 <button onClick={goToHome} className="hover:text-white pb-2">
                   홈
                 </button>
@@ -65,7 +65,7 @@ function HamburgerModal({
               </div>
             </div>
           </div>,
-          document.body // `body` 태그에 모달을 렌더링
+          document.body
         )}
     </>
   );
