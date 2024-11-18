@@ -1,11 +1,17 @@
 import edit from "../../../../public/icons/moreIcon.png";
+import sendIcon from "../../../../public/icons/send.png";
 import { formatDistanceToNow, parseISO, format } from "date-fns";
 import { ko } from "date-fns/locale";
 import { useState } from "react";
+import { useUserStore } from "../../../zustand/authStore";
+import { useParams } from "react-router-dom";
 
 function Comment() {
   const [showEdit, setShowEdit] = useState<number | null>(null);
-  const comments = [
+  const { postId } = useParams();
+  const user = useUserStore((state) => state.user);
+  const [comment, setComment] = useState("");
+  const [comments, setComments] = useState([
     {
       id: 1,
       nickname: "오이좋아현",
@@ -34,7 +40,7 @@ function Comment() {
       date: "2024-11-12T12:00:00",
       comment: "으악 극혐"
     }
-  ];
+  ]);
 
   function formatDate(dateString: string): string {
     const date = parseISO(dateString);
@@ -49,6 +55,25 @@ function Comment() {
   }
   const handleToggleMenu = (id: number) => {
     setShowEdit((prevId) => (prevId === id ? null : id));
+  };
+
+  const handleSendComment = () => {
+    if (comment.trim() === "") {
+      alert("댓글을 입력해주세요.");
+      return;
+    }
+
+    const newComment = {
+      id: comments.length + 1,
+      postId: postId,
+      nickname: user?.nickname || "익명",
+      profileImg: "../../../../public/img/defaultProfile.png",
+      date: new Date().toISOString(),
+      comment: comment.trim()
+    };
+
+    setComments([...comments, newComment]);
+    setComment("");
   };
   return (
     <>
@@ -81,6 +106,23 @@ function Comment() {
               </div>
             </div>
           ))}
+        </div>
+        <div className=" w-full h-[52px] mx-auto px-4 py-2 bottom-0">
+          <div className="relative w-auto xl:w-[456px]">
+            <input
+              type="text"
+              value={comment}
+              onChange={(e) => setComment(e.target.value)}
+              placeholder="댓글을 입력해주세요"
+              className="w-full h-9 p-2 pl-6 pr-14 rounded-full focus:outline-none bg-grayoe-400 placeholder-grayoe-200"
+            />
+            <button
+              onClick={handleSendComment}
+              className="absolute right-1 top-1 bottom-1 w-11 h-7 bg-greenoe-600 text-white rounded-full flex items-center justify-center"
+            >
+              <img src={sendIcon} alt="Send" className="w-5 h-5" />
+            </button>
+          </div>
         </div>
       </div>
     </>

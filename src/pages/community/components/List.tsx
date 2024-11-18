@@ -4,9 +4,9 @@ import defaultImg from "../../../../public/img/defaultOe.png";
 import postHeart from "../../../../public/icons/heart.png";
 import commentIcon from "../../../../public/icons/comment.png";
 import filter from "../../../../public/icons/filterIcon.png";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
-const generateId = () => `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+const generateId = () => `${Date.now()}-${Math.random().toString(36)}`;
 
 function List() {
   const navigate = useNavigate();
@@ -97,7 +97,9 @@ function List() {
             <img src={filter} alt="필터아이콘" className="w-[14px] h-[14px]" />
             <p>인기순</p>
           </div>
-          <button className="w-14 h-8 font-c2 rounded-[4px] bg-grayoe-400 px-3 py-2 ">글쓰기</button>
+          <Link to={`/community/upload/${generateId()}`}>
+            <button className="w-14 h-8 font-c2 rounded-[4px] bg-grayoe-400 px-3 py-2 ">글쓰기</button>
+          </Link>
         </div>
         <div className="flex flex-col divide-y divide-grayoe-800">
           {posts.map((post, index) => (
@@ -109,7 +111,7 @@ function List() {
                       ...post,
                       postDate: formatDate(post.date)
                     };
-                    navigate(`/detail/${post.id}`, { state: detailPost });
+                    navigate(`/community/detail/${post.id}`, { state: detailPost });
                   }}
                   onMouseEnter={(e) => e.currentTarget.classList.add("underline")}
                   onMouseLeave={(e) => e.currentTarget.classList.remove("underline")}

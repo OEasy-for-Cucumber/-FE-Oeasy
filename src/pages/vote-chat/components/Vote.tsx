@@ -12,28 +12,28 @@ function Vote({ active }: VoteProps) {
   const [likeVotes, setLikeVotes] = useState(10000);
   const [isHateClicked, setIsHateClicked] = useState(false);
   const [isLikeClicked, setIsLikeClicked] = useState(false);
-  // const user = useUserStore((state) => state.user);
+  const user = useUserStore((state) => state.user);
   const updateLastVoteTime = useUserStore((state) => state.updateLastVoteTime);
 
   const handleVote = (side: "hate" | "like") => {
-    // if (!user) {
-    //   alert("로그인 후 투표해주세요");
-    //   return;
-    // }
+    if (!user) {
+      alert("로그인 후 투표해주세요");
+      return;
+    }
     const now = Date.now();
 
-    // if (user?.lastVoteTime) {
-    //   const lastVoteDate = new Date(user.lastVoteTime);
-    //   const currentDate = new Date(now);
+    if (user?.lastVoteTime) {
+      const lastVoteDate = new Date(user.lastVoteTime);
+      const currentDate = new Date(now);
 
-    //   lastVoteDate.setHours(0, 0, 0, 0);
-    //   currentDate.setHours(0, 0, 0, 0);
+      lastVoteDate.setHours(0, 0, 0, 0);
+      currentDate.setHours(0, 0, 0, 0);
 
-    //   if (lastVoteDate.getTime() === currentDate.getTime()) {
-    //     alert("하루에 한 번만 투표할 수 있습니다.");
-    //     return;
-    //   }
-    // }
+      if (lastVoteDate.getTime() === currentDate.getTime()) {
+        alert("하루에 한 번만 투표할 수 있습니다.");
+        return;
+      }
+    }
 
     if (side === "hate") {
       setHateVotes(hateVotes + 1);
@@ -58,8 +58,8 @@ function Vote({ active }: VoteProps) {
     likeVotes > hateVotes ? "font-h4 xl:font-h3 text-white" : "font-b1-semibold xl:font-h4 text-grayoe-200";
   const hateBg = hateVotes > likeVotes ? "bg-redoe-500 " : "bg-redoe-50";
   const likeBg = likeVotes > hateVotes ? "bg-redoe-500" : "bg-redoe-50";
-  // const isVoteAllowed =
-  //   !user?.lastVoteTime || new Date(user.lastVoteTime).setHours(0, 0, 0, 0) !== new Date().setHours(0, 0, 0, 0);
+  const isVoteAllowed =
+    !user?.lastVoteTime || new Date(user.lastVoteTime).setHours(0, 0, 0, 0) !== new Date().setHours(0, 0, 0, 0);
 
   return (
     <>
@@ -90,12 +90,11 @@ function Vote({ active }: VoteProps) {
                 isHateClicked ? "shadow-inset-down" : "shadow-3d"
               } ${hateWidth === 100 ? "w-full" : hateWidth === 75 ? "w-3/4" : "w-1/2"} transition-all duration-300`}
               onClick={() => {
-                // if (isVoteAllowed) {
-                //   handleVote("hate");
-                // } else {
-                //   alert("하루에 한 번만 투표할 수 있습니다.");
-                // }
-                handleVote("hate");
+                if (isVoteAllowed) {
+                  handleVote("hate");
+                } else {
+                  alert("하루에 한 번만 투표할 수 있습니다.");
+                }
               }}
             >
               <div className={`text-left ${hateFont}`}>
@@ -108,12 +107,11 @@ function Vote({ active }: VoteProps) {
                 isLikeClicked ? "shadow-inset-down" : "shadow-3d"
               } ${likeWidth === 100 ? "w-full" : likeWidth === 75 ? "w-3/4" : "w-1/2"} transition-all duration-300`}
               onClick={() => {
-                // if (isVoteAllowed) {
-                //   handleVote("like");
-                // } else {
-                //   alert("하루에 한 번만 투표할 수 있습니다.");
-                // }
-                handleVote("like");
+                if (isVoteAllowed) {
+                  handleVote("like");
+                } else {
+                  alert("하루에 한 번만 투표할 수 있습니다.");
+                }
               }}
             >
               <div className={`text-left ${likeFont}`}>
