@@ -125,7 +125,7 @@ function Chat() {
           <div ref={messageEndRef} />
         </div>
 
-        <div className="sticky w-full h-[52px] flex justify-center items-center px-4 py-2 bg-gray-800 bottom-0">
+        <div className="sticky w-full h-[52px] flex justify-center items-center px-4 py-2 bg-grayoe-800 bottom-0">
           <div className="relative w-[340px] xl:w-[456px]">
             <input
               type="text"
