@@ -4,8 +4,6 @@ import useRecipesData from "../../../hooks/useRecipesData";
 function OeRecipes() {
   const { data: recipes, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } = useRecipesData();
 
-  console.log(recipes);
-
   if (isLoading) return <p>Loading...</p>;
 
   return (

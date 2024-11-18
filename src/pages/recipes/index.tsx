@@ -5,7 +5,8 @@ function Recipes() {
   const navigate = useNavigate();
 
   const randomRecipeBtn = async () => {
-    navigate(`/recipe-detail`);
+    navigate(`/recipe-detail/93`);
+    // 작업 전
   };
 
   return (
