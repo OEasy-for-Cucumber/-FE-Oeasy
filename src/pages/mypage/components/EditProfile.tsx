@@ -9,10 +9,10 @@ import ReactDOM from "react-dom";
 import EditPassword from "./EditPassword";
 import Cookies from "js-cookie";
 import instance from "../../../api/axios";
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 
 function EditProfile({ handleEditModal }: { handleEditModal: () => void }) {
-  const { user, setUser, clearUser, setIsLoggedIn } = useUserStore.getState();
+  const { user, clearUser, setIsLoggedIn } = useUserStore.getState();
   const navigate = useNavigate();
 
   const [newNickname, setNewNickname] = useState<string>(user!.nickname);
@@ -37,7 +37,6 @@ function EditProfile({ handleEditModal }: { handleEditModal: () => void }) {
     setIsLoggedIn(false);
     navigate("/"); 
     } else return;
-    
   };
 
   const changeNicknameHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -55,6 +54,7 @@ function EditProfile({ handleEditModal }: { handleEditModal: () => void }) {
   const ChangeImgHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files?.length) return;
     const file = e.target.files[0];
+    console.log(profileImg);
     setProfileImg(file);
     setProfileImgUrl(URL.createObjectURL(file));
   };

@@ -13,7 +13,7 @@ interface InputProps {
   onClick?: () => void;
 }
 
-const PasswordInput: React.FC<InputProps> = ({ type, value, minLength, onChange, placeholder, isValid, defaultValue }) => {
+const PasswordInput: React.FC<InputProps> = ({ value, minLength, onChange, placeholder, isValid, defaultValue }) => {
     const [isClicked, setIsClicked] = useState(false);
   const borderColorClass = value === "" ? "border-grayoe-700" : isValid ? "border-[#008CCC]" : "border-[#FF453A]";
 
