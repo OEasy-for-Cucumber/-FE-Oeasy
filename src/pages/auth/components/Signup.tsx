@@ -120,7 +120,8 @@ function Signup() {
         email,
         pw: password
       });
-
+      console.log(response);
+      
       Cookies.set("accessToken", data.data.accessToken);
       Cookies.set("refreshToken", data.data.refreshToken);
 
