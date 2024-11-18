@@ -30,7 +30,7 @@ function Signup() {
   const [passwordMsg, setPasswordMsg] = useState<string>("");
   const [confirmPasswordMsg, setConfirmPasswordMsg] = useState<string>("");
 
-  const { user, setUser, setIsLoggedIn } = useUserStore.getState();
+  const { setIsLoggedIn } = useUserStore.getState();
   const [step, setStep] = useState("이메일");
   const { isActive, setIsActive } = useActiveStore();
   const navigate = useNavigate();
@@ -120,7 +120,8 @@ function Signup() {
         email,
         pw: password
       });
-
+      console.log(response);
+      
       Cookies.set("accessToken", data.data.accessToken);
       Cookies.set("refreshToken", data.data.refreshToken);
 

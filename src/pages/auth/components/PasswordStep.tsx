@@ -1,15 +1,12 @@
-import Input from "../../../components/common/Input";
 import PasswordInput from "../../../components/common/PasswordInput";
 import { StepProps } from "../../../types/authPropsTypes";
 
 function PasswordStep({
   password,
-  setPassword = () => {},
   isPassword,
   passwordMsg,
   passwordChangeHandler = () => {},
   confirmPassword,
-  setConfirmPassword= () => {},
   isConfirmPassword,
   confirmPasswordMsg,
   confirmPasswordChangeHandler = () => {}
@@ -17,14 +14,6 @@ function PasswordStep({
   const baseLabelClass = "transition-all duration-300 text-[13px]";
   const visibleLabelClass = "opacity-100 translate-y-0";
   const hiddenLabelClass = "opacity-0 -translate-1";
-
-  const resetPasswordValue = () => {
-    setPassword("");
-  }
-
-  const resetConfirmPasswordValue = () => {
-    setConfirmPassword("")
-  }
 
   return (
     <>
@@ -38,16 +27,9 @@ function PasswordStep({
           >
             비밀번호
           </p>
-          {/* <Input
-            value={password}
-            onChange={passwordChangeHandler}
-            type="password"
-            placeholder="비밀번호"
-            isValid={isPassword}
-            onClick={resetPasswordValue}
-          /> */}
           <PasswordInput
            value={password}
+           minLength={8}
            onChange={passwordChangeHandler}
            type="password"
            placeholder="비밀번호"
@@ -68,16 +50,9 @@ function PasswordStep({
           >
             비밀번호 재입력
           </p>
-          {/* <Input
-            value={confirmPassword}
-            onChange={confirmPasswordChangeHandler}
-            type="password"
-            placeholder="비밀번호 재입력"
-            isValid={isConfirmPassword}
-            onClick={resetConfirmPasswordValue}
-          /> */}
           <PasswordInput
            value={confirmPassword}
+           minLength={8}
            onChange={confirmPasswordChangeHandler}
            type="password"
            placeholder="비밀번호 재입력"

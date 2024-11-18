@@ -58,6 +58,7 @@ function EditPassword({ newPassword, setNewPassword, handleNewPasswordModal }: E
           <div className="mb-4">
             <PasswordInput
               type="password"
+              minLength={8}
               placeholder="새 비밀번호 입력"
               value={newPassword}
               onChange={handleNewPasswordChange}
@@ -69,6 +70,7 @@ function EditPassword({ newPassword, setNewPassword, handleNewPasswordModal }: E
           <div className="mb-4">
             <PasswordInput
               type="password"
+              minLength={8}
               placeholder="새 비밀번호 재입력"
               value={confirmPassword}
               onChange={handleConfirmPasswordChange}
