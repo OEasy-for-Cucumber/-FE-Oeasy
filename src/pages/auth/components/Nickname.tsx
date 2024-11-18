@@ -1,10 +1,14 @@
 import Input from "../../../components/common/Input";
 import { StepProps } from "../../../types/authPropsTypes";
 
-function Nickname({ nickname, isNickname, nicknameMsg, nicknameChangeHandler = () => {} }: StepProps) {
+function Nickname({ nickname, setNickname=()=>{}, isNickname, nicknameMsg, nicknameChangeHandler = () => {} }: StepProps) {
   const baseLabelClass = "transition-all duration-300 text-[13px]";
   const visibleLabelClass = "opacity-100 translate-y-0";
   const hiddenLabelClass = "opacity-0 -translate-1";
+
+  const resetNicknameValue = () => {
+    setNickname("");
+  }
 
   return (
     <>
@@ -19,10 +23,12 @@ function Nickname({ nickname, isNickname, nicknameMsg, nicknameChangeHandler = (
         </p>
         <Input
           value={nickname}
+          maxLength={8}
           onChange={nicknameChangeHandler}
           type="text"
           placeholder="닉네임"
           isValid={isNickname}
+          onClick={resetNicknameValue}
         />
         <p
           className={`${"redoe"} ${

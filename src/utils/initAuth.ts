@@ -1,35 +1,33 @@
 import { useEffect } from "react";
 import { useUserStore } from "../zustand/authStore";
 import instance from "../api/axios";
+import Cookies from "js-cookie";
 
 function useUserInitialize() {
   const { setUser, setIsLoggedIn, setIsInitialized } = useUserStore.getState();
+  const token = Cookies.get("accessToken");
 
   useEffect(() => {
     const initUser = async () => {
-      const token = localStorage.getItem("accessToken");
-
-      if (token) {
-        try {
-          const { data } = await instance.get("/member/profile", {
-            headers: {
-              Authorization: `Bearer ${token}`
-            }
-          });
-
-          if (data) {
-            setUser(data);
-            setIsLoggedIn(true);
-          }
-        } catch (error) {
-          console.error("사용자 초기화 오류:", error);
-        }
+      if (!token) {
+        setIsInitialized(true);
+        return;
       }
-      setIsInitialized(true); // 초기화 완료 상태를 설정
+
+      try {
+        const { data } = await instance.get("/member/profile");
+        if (data) {
+          setUser(data);
+        }
+        setIsLoggedIn(true);
+        setIsInitialized(true);
+      } catch (error) {
+        console.error("사용자 초기화 오류:", error);
+      }
     };
 
     initUser();
-  }, [setUser, setIsLoggedIn, setIsInitialized]);
+  }, [token, setIsLoggedIn, setIsInitialized]);
 }
 
 export default useUserInitialize;

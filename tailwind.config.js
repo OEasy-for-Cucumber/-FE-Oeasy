@@ -3,7 +3,11 @@ import plugin from "tailwindcss/plugin";
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
+  mode: "jit",
   theme: {
+    screens: {
+      xl: { min: "1440px" }
+    },
     extend: {
       zIndex: {
         50: "50",
@@ -51,7 +55,8 @@ module.exports = {
         mobile_cucumber: "url(/img/mobile_group.png)",
         web_cucumber: "url(/img/web_group.png)",
         recipes_btn_bg: "url(/img/button_bg_cucumber.png)",
-        noisy_gradients: "url(/img/noisy-gradients.png)"
+        noisy_gradients: "url(/img/noisy-gradients.png)",
+        profile_sample: "url(./public/img/profilesample.jpg)"
       },
       backgroundSize: {
         "81%": "81%",
@@ -94,9 +99,7 @@ module.exports = {
       }
     }
   },
-  screens: {
-    xl: { min: "1440px" }
-  },
+
   plugins: [
     plugin(function ({ addUtilities }) {
       addUtilities({
