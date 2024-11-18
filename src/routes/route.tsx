@@ -7,11 +7,12 @@ import Recipes from "../pages/recipes";
 import MyPage from "../pages/mypage/MyPage";
 import KakaoCallback from "../pages/auth/KakaoCallback";
 import Votechat from "../pages/vote-chat";
-import Community from "../pages/community/list";
+import Community from "../pages/community";
 import PrivatePage from "./PrivatePage";
 import Test from "../pages/test";
 import RecipeDetail from "../pages/recipes/detail/[id]";
 import Detail from "../pages/community/detail/[id]/Detail";
+import Upload from "../pages/community/upload/[id]";
 
 const router = createBrowserRouter([
   {
@@ -54,12 +55,16 @@ const router = createBrowserRouter([
         element: <Test />
       },
       {
-        path: "/detail/:id",
+        path: "community/detail/:id",
         element: <Detail />
       },
       {
         path: "/recipe-detail/:id",
         element: <RecipeDetail />
+      },
+      {
+        path: "/community/upload/:postId",
+        element: <Upload />
       }
     ]
   }
