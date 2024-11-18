@@ -27,18 +27,13 @@ function OeTip() {
 
       <div className="w-[281px] xl:w-full mx-auto">
         <img src={quotes} alt="큰따옴표" className="w-[39px] xl:w-[82px] h-[29px] xl:h-[60px] my-10 mx-auto" />
-        {tipList && (
-          <div>
-            {tipList.oeTipTitleDTOList.map((list, index) => (
-              <div key={index} className="text-center text-[48px] xl:text-[130px] font-SBAggroB xl:leading-[120%]">
-                {/* justify-center text-center 이거 왜 따로 적용되지? 왜?? */}
-                <div style={{ color: list.color }}>{list.content}</div>
-              </div>
-            ))}
-            <div className="text-center text-grayoe-50 text-sm">{tipList.content}</div>
-          </div>
-        )}
       </div>
+      {tipList && (
+        <div>
+          <img src={tipList.mobileImg} className="xl:hidden" />
+          <img src={tipList.webImg} className="hidden xl:block" />
+        </div>
+      )}
     </section>
   );
 }
