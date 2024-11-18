@@ -80,7 +80,7 @@ function EditProfile({ handleEditModal }: { handleEditModal: () => void }) {
     
     try {
       const { data: nicknameData } = await instance.patch("/member/nickname", {
-        newNickname: newNickname,
+        newNickname,
       });
       console.log("닉네임 변경 성공:", nicknameData);
       alert("닉네임이 성공적으로 변경되었습니다!");
