@@ -94,9 +94,9 @@ function Chat() {
   };
 
   return (
-    <div className="flex justify-center items-center">
-      <div className="relative pt-4 xl:w-[488px] xl:h-[686px]">
-        <div className="flex flex-col px-4 xl:h-[634px] overflow-y-auto gap-4">
+    <div className="flex flex-col justify-between w-full xl:w-[488px] xl:h-[686px] xl:my-auto xl:bg-grayoe-900 xl:rounded-2xl">
+      <div className="relative pt-4 mx-4 xl:mx-0">
+        <div className="flex flex-col xl:px-4 xl:h-[634px] overflow-y-auto gap-4">
           {messages.map((msg) =>
             msg.username === user?.nickname ? (
               // 내가 보낸 메시지
@@ -124,26 +124,25 @@ function Chat() {
           )}
           <div ref={messageEndRef} />
         </div>
-
-        <div className="sticky w-full h-[52px] flex justify-center items-center px-4 py-2 bg-grayoe-800 bottom-0">
-          <div className="relative w-[340px] xl:w-[456px]">
-            <input
-              type="text"
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              onKeyDown={handleKeyDown}
-              onCompositionStart={() => setComposing(true)}
-              onCompositionEnd={() => setComposing(false)}
-              placeholder="메시지를 입력해주세요"
-              className="w-full h-9 p-2 pl-6 pr-14 rounded-full focus:outline-none bg-grayoe-400 placeholder-grayoe-200"
-            />
-            <button
-              onClick={handleSendMessage}
-              className="absolute right-1 top-1 bottom-1 w-11 h-7 bg-greenoe-600 text-white rounded-full flex items-center justify-center"
-            >
-              <img src={sendIcon} alt="Send" className="w-5 h-5" />
-            </button>
-          </div>
+      </div>
+      <div className="sticky w-full h-[52px] flex justify-center items-center px-4 py-2 bg-grayoe-800 bottom-0 xl:rounded-b-2xl">
+        <div className="relative w-full xl:w-full">
+          <input
+            type="text"
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            onKeyDown={handleKeyDown}
+            onCompositionStart={() => setComposing(true)}
+            onCompositionEnd={() => setComposing(false)}
+            placeholder="메시지를 입력해주세요"
+            className="w-full h-9 p-2 pl-6 pr-14 rounded-full focus:outline-none bg-grayoe-400 placeholder-grayoe-200"
+          />
+          <button
+            onClick={handleSendMessage}
+            className="absolute right-1 top-1 bottom-1 w-11 h-7 bg-greenoe-600 text-white rounded-full flex items-center justify-center"
+          >
+            <img src={sendIcon} alt="Send" className="w-5 h-5" />
+          </button>
         </div>
       </div>
     </div>
