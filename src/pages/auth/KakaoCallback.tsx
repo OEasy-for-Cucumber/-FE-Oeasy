@@ -6,7 +6,7 @@ import { AxiosError } from "axios";
 import Cookies from "js-cookie";
 
 function KakaoCallback() {
-  const { user, setUser, setIsLoggedIn } = useUserStore.getState();
+  const { setUser, setIsLoggedIn } = useUserStore.getState();
   const navigate = useNavigate();
   const location = useLocation();
   const params = new URLSearchParams(location.search);
@@ -43,13 +43,7 @@ function KakaoCallback() {
       }
     };
     fetchData();
-  }, []);
-
-  //   useEffect(() => {
-  //     if (code && !user?.accessToken) {
-  //       fetchData();
-  //     }
-  //   }, [code, user]);
+  }, [code]);
 
   return <div>카카오 로그인 중...</div>;
 }
