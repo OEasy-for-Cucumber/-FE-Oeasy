@@ -54,33 +54,36 @@ function EditProfile({ handleEditModal }: { handleEditModal: () => void }) {
   const ChangeImgHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files?.length) return;
     const file = e.target.files[0];
-    console.log(profileImg);
     setProfileImg(file);
     setProfileImgUrl(URL.createObjectURL(file));
+    console.log(profileImg);
+    console.log(profileImgUrl);
+    
   };
 
   const editProfile = async (e: React.FormEvent) => {
     e.preventDefault();
-    // const url = profileImgUrl?.replace("blob:", "")
-    // try {
-    //   const { data } = await instance.patch("/member/profile-picture", {
-    //     imageName: profileImg?.name,
-    //     imageUri: url || ""
-    //   });
-    //   console.log(data);// 성공적으로 받은 데이터 출력
-    // } catch (error) {
-    //   if (axios.isAxiosError(error)) {
-    //     // AxiosError 타입일 경우에만 처리
-    //     console.error("Axios error:", error.response?.data || error.message);
-    //   } else {
-    //     // 예상치 못한 에러
-    //     console.error("Unexpected error:", error);
-    //   }
-    // }
+    const url = profileImgUrl?.replace("blob:", "")
+    
+    try {
+      const { data } = await instance.patch("/member/profile-picture", {
+        nickname: user?.nickname,
+        imageUrl: url
+      });
+      console.log(data);// 성공적으로 받은 데이터 출력
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        // AxiosError 타입일 경우에만 처리
+        console.error("Axios error:", error.response?.data || error.message);
+      } else {
+        // 예상치 못한 에러
+        console.error("Unexpected error:", error);
+      }
+    }
     
     try {
       const { data: nicknameData } = await instance.patch("/member/nickname", {
-        newNickname: newNickname,
+        newNickname,
       });
       console.log("닉네임 변경 성공:", nicknameData);
       alert("닉네임이 성공적으로 변경되었습니다!");

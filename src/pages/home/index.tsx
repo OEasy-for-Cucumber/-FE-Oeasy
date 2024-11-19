@@ -1,7 +1,7 @@
 import TopBtn from "../../components/common/TopBtn";
 import Landing from "./components/Landing";
 import OeGraph from "./components/OeGraph";
-import OeIndex from "./components/OEIndex";
+import OeIndex from "./components/OeIndex";
 import OeTip from "./components/OeTip";
 import Recipe from "./components/recipe/Recipe";
 
