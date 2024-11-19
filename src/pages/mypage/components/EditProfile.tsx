@@ -70,13 +70,11 @@ function EditProfile({ handleEditModal }: { handleEditModal: () => void }) {
         nickname: user?.nickname,
         imageUrl: url
       });
-      console.log(data);// 성공적으로 받은 데이터 출력
+      console.log(data);
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        // AxiosError 타입일 경우에만 처리
         console.error("Axios error:", error.response?.data || error.message);
       } else {
-        // 예상치 못한 에러
         console.error("Unexpected error:", error);
       }
     }
@@ -88,9 +86,7 @@ function EditProfile({ handleEditModal }: { handleEditModal: () => void }) {
       console.log("닉네임 변경 성공:", nicknameData);
       alert("닉네임이 성공적으로 변경되었습니다!");
     } catch (error) {
-      // 에러 처리
       if (axios.isAxiosError(error)) {
-        // AxiosError 타입일 경우에만 처리
         if (error.response?.status === 400) {
           alert("닉네임 형식이 올바르지 않습니다. 다시 시도해주세요.");
         } else if (error.response?.status === 409) {
@@ -100,7 +96,6 @@ function EditProfile({ handleEditModal }: { handleEditModal: () => void }) {
         }
         console.error("Axios error:", error.response?.data || error.message);
       } else {
-        // 예상치 못한 에러
         alert("알 수 없는 오류가 발생했습니다. 관리자에게 문의하세요.");
         console.error("Unexpected error:", error);
       }
