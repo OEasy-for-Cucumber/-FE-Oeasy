@@ -91,14 +91,16 @@ function List() {
   }
   return (
     <>
-      <div className="px-6">
+      <div className="px-6 xl:w-[767px] mx-auto">
         <div className="flex justify-between font-c2">
           <div className="flex gap-1">
             <img src={filter} alt="필터아이콘" className="w-[14px] h-[14px]" />
-            <p>인기순</p>
+            <p className="font-c2 xl:font-c1">인기순</p>
           </div>
           <Link to={`/community/upload/${generateId()}`}>
-            <button className="w-14 h-8 font-c2 rounded-[4px] bg-grayoe-400 px-3 py-2 ">글쓰기</button>
+            <button className="w-14 h-8 xl:w-16 font-c2 xl:font-c1 rounded-[4px] bg-grayoe-400 px-3 py-2 ">
+              글쓰기
+            </button>
           </Link>
         </div>
         <div className="flex flex-col divide-y divide-grayoe-800">
@@ -115,11 +117,11 @@ function List() {
                   }}
                   onMouseEnter={(e) => e.currentTarget.classList.add("underline")}
                   onMouseLeave={(e) => e.currentTarget.classList.remove("underline")}
-                  className="truncate-title font-b2-semibold cursor-pointer"
+                  className="truncate-title font-b2-semibold cursor-pointer xl:font-b1-semibold"
                 >
                   {post.title}
                 </div>
-                <div className="flex gap-2 font-c2">
+                <div className="flex gap-2 font-c2 xl:font-c1">
                   <p className="text-grayoe-300">
                     {post.nickname} ・ {formatDate(post.date)}
                   </p>
@@ -145,9 +147,17 @@ function List() {
                 }}
               >
                 {post.images.length > 0 ? (
-                  <img className="w-[48px] h-[48px] rounded-md" src={post.images[0]} alt="post 첫번째 이미지" />
+                  <img
+                    className="w-[48px] h-[48px] xl:w-[56px] xl:h-[56px] rounded-md"
+                    src={post.images[0]}
+                    alt="post 첫번째 이미지"
+                  />
                 ) : (
-                  <img className="w-[48px] h-[48px] rounded-md" src={defaultImg} alt="기본 이미지" />
+                  <img
+                    className="w-[48px] h-[48px] xl:w-[56px] xl:h-[56px] rounded-md"
+                    src={defaultImg}
+                    alt="기본 이미지"
+                  />
                 )}
               </div>
             </div>
