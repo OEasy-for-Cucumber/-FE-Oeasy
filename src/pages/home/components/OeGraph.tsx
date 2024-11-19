@@ -26,7 +26,7 @@ function OeGraph() {
 
 
   return (
-    <div className="w-full h-screen px-6">
+    <div className="w-full h-screen px-6 py-4">
       <h3 className="font-h3 mb-2">이번주 오이가격</h3>
       <div className="flex gap-1 items-center relative">
       <button
