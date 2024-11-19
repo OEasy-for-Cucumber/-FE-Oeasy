@@ -67,16 +67,12 @@ function EditProfile({ handleEditModal }: { handleEditModal: () => void }) {
       return;
     }
   
-    // FormData 생성
-  const formData = new FormData();
-  formData.append("nickname", user?.nickname || ""); // 닉네임 추가
-  if (profileImg) {
-    formData.append("imageUrl", profileImg); // 파일 추가
-  }
-
   try {
-    // 서버로 FormData 전송
-    const { data } = await instance.patch("/member/profile-picture", formData);
+    const { data } = await instance.patch("/member/profile-picture", {
+      file: profileImg,
+    },{
+      headers: {"Content-Type": "multipart/form-data" }
+    });
     console.log("프로필 업데이트 성공:", data);
     alert("프로필이 성공적으로 업데이트되었습니다.");
   } catch (error) {
@@ -86,31 +82,31 @@ function EditProfile({ handleEditModal }: { handleEditModal: () => void }) {
       console.error("Unexpected error:", error);
     }
   }
-    // 닉네임 변경 처리
-  //   try {
-  //     const { data: nicknameData } = await instance.patch("/member/nickname", {
-  //       newNickname,
-  //     });
-  //     console.log("닉네임 변경 성공:", nicknameData);
-  //   } catch (error) {
-  //     handleNicknameError(error);
-  //   }
-  // };
+
+    try {
+      const { data: nicknameData } = await instance.patch("/member/nickname", {
+        newNickname,
+      });
+      console.log("닉네임 변경 성공:", nicknameData);
+    } catch (error) {
+      handleNicknameError(error);
+    }
+  };
   
-  // const handleNicknameError = (error: unknown) => {
-  //   if (axios.isAxiosError(error)) {
-  //     if (error.response?.status === 400) {
-  //       alert("닉네임 형식이 올바르지 않습니다. 다시 시도해주세요.");
-  //     } else if (error.response?.status === 409) {
-  //       alert("이미 사용 중인 닉네임입니다. 다른 닉네임을 입력해주세요.");
-  //     } else {
-  //       alert("닉네임 변경 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
-  //     }
-  //     console.error("Axios error:", error.response?.data || error.message);
-  //   } else {
-  //     alert("알 수 없는 오류가 발생했습니다. 관리자에게 문의하세요.");
-  //     console.error("Unexpected error:", error);
-  //   }
+  const handleNicknameError = (error: unknown) => {
+    if (axios.isAxiosError(error)) {
+      if (error.response?.status === 400) {
+        alert("닉네임 형식이 올바르지 않습니다. 다시 시도해주세요.");
+      } else if (error.response?.status === 409) {
+        alert("이미 사용 중인 닉네임입니다. 다른 닉네임을 입력해주세요.");
+      } else {
+        alert("닉네임 변경 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
+      }
+      console.error("Axios error:", error.response?.data || error.message);
+    } else {
+      alert("알 수 없는 오류가 발생했습니다. 관리자에게 문의하세요.");
+      console.error("Unexpected error:", error);
+    }
   };
   
   
