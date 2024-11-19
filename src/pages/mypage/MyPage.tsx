@@ -19,6 +19,9 @@ function MyPage() {
   const handlePostClicked = () => setIsClicked(true);
   const handleLikedClicked = () => setIsClicked(false);
 
+  console.log(user);
+  
+
   return (
     <div className="xl:w-[520px] mx-auto">
       <div className="flex p-4 bg-grayoe-900 rounded-lg items-center my-6 mx-4">
