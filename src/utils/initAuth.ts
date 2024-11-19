@@ -25,7 +25,6 @@ function useUserInitialize() {
         console.error("사용자 초기화 오류:", error);
       }
     };
-
     initUser();
   }, [token, setIsLoggedIn, setIsInitialized]);
 }

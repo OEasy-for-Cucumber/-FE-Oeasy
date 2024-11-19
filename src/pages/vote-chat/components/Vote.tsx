@@ -1,6 +1,4 @@
 import { useState } from "react";
-import voteOE from "../../../../public/img/voteOE.png";
-import voteO2 from "../../../../public/img/voteOE2.png";
 import { useUserStore } from "../../../zustand/authStore";
 
 interface VoteProps {
@@ -16,10 +14,10 @@ function Vote({ active }: VoteProps) {
   const updateLastVoteTime = useUserStore((state) => state.updateLastVoteTime);
 
   const handleVote = (side: "hate" | "like") => {
-    if (!user) {
-      alert("로그인 후 투표해주세요");
-      return;
-    }
+    // if (!user) {
+    //   alert("로그인 후 투표해주세요");
+    //   return;
+    // }
     const now = Date.now();
 
     if (user?.lastVoteTime) {
@@ -29,10 +27,10 @@ function Vote({ active }: VoteProps) {
       lastVoteDate.setHours(0, 0, 0, 0);
       currentDate.setHours(0, 0, 0, 0);
 
-      if (lastVoteDate.getTime() === currentDate.getTime()) {
-        alert("하루에 한 번만 투표할 수 있습니다.");
-        return;
-      }
+      // if (lastVoteDate.getTime() === currentDate.getTime()) {
+      //   alert("하루에 한 번만 투표할 수 있습니다.");
+      //   return;
+      // }
     }
 
     if (side === "hate") {
@@ -58,6 +56,10 @@ function Vote({ active }: VoteProps) {
     likeVotes > hateVotes ? "font-h4 xl:font-h3 text-white" : "font-b1-semibold xl:font-h4 text-grayoe-200";
   const hateBg = hateVotes > likeVotes ? "bg-redoe-500 " : "bg-redoe-50";
   const likeBg = likeVotes > hateVotes ? "bg-redoe-500" : "bg-redoe-50";
+  const hateWinImg =
+    hateVotes > likeVotes ? "../../../../public/img/hateOeWin.png" : "../../../../public/img/hateOeLoose.png";
+  const likeWinImg =
+    likeVotes > hateVotes ? "../../../../public/img/likeOeWin.png" : "../../../../public/img/likeOeLoose.png";
   const isVoteAllowed =
     !user?.lastVoteTime || new Date(user.lastVoteTime).setHours(0, 0, 0, 0) !== new Date().setHours(0, 0, 0, 0);
 
@@ -78,13 +80,27 @@ function Vote({ active }: VoteProps) {
             </div>
           )}
           {active === "vote" && (
-            <div className="flex justify-between px-4 xl:px-8">
-              <img src={voteOE} alt="voteOE" className="w-[80px] h-[150px] xl:w-[100px] xl:h-[220px]" />
-              <img src={voteO2} alt="voteOE" className="w-[80px] h-[150px] xl:w-[100px] xl:h-[220px]" />
+            <div className="h-[160px] xl:h-[300px] flex flex-col justify-end">
+              <div className="flex justify-between px-10 xl:px-12">
+                <div className="flex flex-col justify-end items-end">
+                  <img
+                    src={hateWinImg}
+                    alt="hateOeLoose"
+                    className={`${hateVotes > likeVotes ? "w-[150px] h-[150px] xl:w-[220px] xl:h-[250px]  " : "w-[100px] h-[100px] xl:w-[150px] xl:h-[150px]"} `}
+                  />
+                </div>
+                <div className="flex flex-col justify-end items-end">
+                  <img
+                    src={likeWinImg}
+                    alt="likeOeLoose"
+                    className={`${likeVotes > hateVotes ? "w-[150px] h-[150px] xl:w-[220px] xl:h-[250px]" : "w-[100px] h-[100px] xl:w-[150px] xl:h-[150px]"} `}
+                  />
+                </div>
+              </div>
             </div>
           )}
 
-          <div className="flex w-[296px] h-[48px] xl:w-[512px] xl:h-[124px] mx-auto rounded-lg px-[40px]">
+          <div className="flex w-[350px] h-[48px] xl:w-[512px] xl:h-[124px] mx-auto rounded-lg px-[40px]">
             <div
               className={`p-4 flex justify-start items-center xl:items-end cursor-pointer rounded-l-[8px] ${hateBg} ${
                 isHateClicked ? "shadow-inset-down" : "shadow-3d"

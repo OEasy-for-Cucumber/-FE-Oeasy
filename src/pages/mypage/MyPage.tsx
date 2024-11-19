@@ -5,7 +5,6 @@ import MyPost from "./components/MyPost";
 import MyLiked from "./components/MyLiked";
 import Sample from "../../../public/img/profilesample.jpg";
 
-
 function MyPage() {
   const { user } = useUserStore.getState();
 
@@ -18,9 +17,6 @@ function MyPage() {
 
   const handlePostClicked = () => setIsClicked(true);
   const handleLikedClicked = () => setIsClicked(false);
-
-  console.log(user);
-  
 
   return (
     <div className="xl:w-[520px] mx-auto">

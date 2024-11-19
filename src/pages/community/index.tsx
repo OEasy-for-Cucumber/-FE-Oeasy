@@ -1,7 +1,11 @@
 import List from "./components/List";
 
 function Community() {
-  return <List />;
+  return (
+    <>
+      <List />
+    </>
+  );
 }
 
 export default Community;
