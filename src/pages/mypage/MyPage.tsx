@@ -5,7 +5,6 @@ import MyPost from "./components/MyPost";
 import MyLiked from "./components/MyLiked";
 import Sample from "../../../public/img/profilesample.jpg";
 
-
 function MyPage() {
   const { user } = useUserStore.getState();
 
