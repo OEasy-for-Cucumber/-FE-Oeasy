@@ -55,20 +55,22 @@ function EditProfile({ handleEditModal }: { handleEditModal: () => void }) {
     if (!e.target.files?.length) return;
     const file = e.target.files[0];
     setProfileImg(file);
-    setProfileImgUrl(URL.createObjectURL(file));
-    console.log(profileImg);
-    console.log(profileImgUrl);
+    setProfileImgUrl(URL.createObjectURL(file));    
     
   };
 
-  const editProfile = async (e: React.FormEvent) => {
+    const editProfile = async (e: React.FormEvent) => {
     e.preventDefault();
-    const url = profileImgUrl?.replace("blob:", "")
-    
+
+  const fileExtension = profileImg?.name.split('.').pop();
+  const newFileName = `${profileImgUrl}.${fileExtension}`;
+  console.log(newFileName);
+  
+
     try {
       const { data } = await instance.patch("/member/profile-picture", {
         nickname: user?.nickname,
-        imageUrl: url
+        imageUrl: newFileName
       });
       console.log(data);
     } catch (error) {
