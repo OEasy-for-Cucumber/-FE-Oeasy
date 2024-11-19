@@ -22,7 +22,7 @@ function EditProfile({ handleEditModal }: { handleEditModal: () => void }) {
   const [isNickname, setIsNickname] = useState<boolean>(true);
   const [nicknameMsg, setNicknameMsg] = useState<string>("");
 
-  const [_profileImg, setProfileImg] = useState<File | null>();
+  const [profileImg, setProfileImg] = useState<File | null>();
   const [profileImgUrl, setProfileImgUrl] = useState<string>();
 
   const [isNewPasswordModalOpen, setIsNewPasswordModalOpen] = useState<boolean>(false);
@@ -52,28 +52,12 @@ function EditProfile({ handleEditModal }: { handleEditModal: () => void }) {
     }
   };
 
-  const ChangeImgHandler = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const ChangeImgHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files?.length) return;
     const file = e.target.files[0];
-  
-    // Base64 변환 함수
-    const toBase64 = (file: File): Promise<string> =>
-      new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.readAsDataURL(file); // Base64 데이터로 읽기
-        reader.onload = () => resolve(reader.result as string);
-        reader.onerror = (error) => reject(error);
-      });
-  
-    try {
-      const base64Url = await toBase64(file); // 파일을 Base64로 변환
-      setProfileImg(file); // 원본 파일 저장 (필요 시)
-      setProfileImgUrl(base64Url); // Base64 URL 상태 저장
-    } catch (error) {
-      console.error("이미지 변환 실패:", error);
-    }
+    setProfileImg(file); // 파일 객체 저장
+    setProfileImgUrl(URL.createObjectURL(file));
   };
-  
   
   const editProfile = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -83,47 +67,50 @@ function EditProfile({ handleEditModal }: { handleEditModal: () => void }) {
       return;
     }
   
-    try {
-      // 이미지 URL (Base64 데이터)와 닉네임을 서버로 전송
-      const { data } = await instance.patch("/member/profile-picture", {
-        nickname: user?.nickname,
-        imageUrl: profileImgUrl, // Base64 데이터 전송
-      });
-  
-      console.log("프로필 업데이트 성공:", data);
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        console.error("Axios error:", error.response?.data || error.message);
-      } else {
-        console.error("Unexpected error:", error);
-      }
-    }
-  
-    // 닉네임 변경 처리
-    try {
-      const { data: nicknameData } = await instance.patch("/member/nickname", {
-        newNickname,
-      });
-      console.log("닉네임 변경 성공:", nicknameData);
-    } catch (error) {
-      handleNicknameError(error);
-    }
-  };
-  
-  const handleNicknameError = (error: unknown) => {
+    // FormData 생성
+  const formData = new FormData();
+  formData.append("nickname", user?.nickname || ""); // 닉네임 추가
+  if (profileImg) {
+    formData.append("imageUrl", profileImg); // 파일 추가
+  }
+
+  try {
+    // 서버로 FormData 전송
+    const { data } = await instance.patch("/member/profile-picture", formData);
+    console.log("프로필 업데이트 성공:", data);
+    alert("프로필이 성공적으로 업데이트되었습니다.");
+  } catch (error) {
     if (axios.isAxiosError(error)) {
-      if (error.response?.status === 400) {
-        alert("닉네임 형식이 올바르지 않습니다. 다시 시도해주세요.");
-      } else if (error.response?.status === 409) {
-        alert("이미 사용 중인 닉네임입니다. 다른 닉네임을 입력해주세요.");
-      } else {
-        alert("닉네임 변경 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
-      }
       console.error("Axios error:", error.response?.data || error.message);
     } else {
-      alert("알 수 없는 오류가 발생했습니다. 관리자에게 문의하세요.");
       console.error("Unexpected error:", error);
     }
+  }
+    // 닉네임 변경 처리
+  //   try {
+  //     const { data: nicknameData } = await instance.patch("/member/nickname", {
+  //       newNickname,
+  //     });
+  //     console.log("닉네임 변경 성공:", nicknameData);
+  //   } catch (error) {
+  //     handleNicknameError(error);
+  //   }
+  // };
+  
+  // const handleNicknameError = (error: unknown) => {
+  //   if (axios.isAxiosError(error)) {
+  //     if (error.response?.status === 400) {
+  //       alert("닉네임 형식이 올바르지 않습니다. 다시 시도해주세요.");
+  //     } else if (error.response?.status === 409) {
+  //       alert("이미 사용 중인 닉네임입니다. 다른 닉네임을 입력해주세요.");
+  //     } else {
+  //       alert("닉네임 변경 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
+  //     }
+  //     console.error("Axios error:", error.response?.data || error.message);
+  //   } else {
+  //     alert("알 수 없는 오류가 발생했습니다. 관리자에게 문의하세요.");
+  //     console.error("Unexpected error:", error);
+  //   }
   };
   
   
