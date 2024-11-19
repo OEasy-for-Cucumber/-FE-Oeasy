@@ -56,7 +56,7 @@ function WebHeader() {
             Login
           </Button>
         ) : (
-          <button onClick={goToMypage}><img src={!user?.memberImage ? Sample : user.memberImage} alt="프로필이미지" className="w-[40px] rounded-full"/></button>
+          <button onClick={goToMypage}><img src={!user?.memberImage ? Sample : user.memberImage} alt="프로필이미지" className="w-[40px] h-[40px] rounded-full"/></button>
         )}
       </div>
     </div>
