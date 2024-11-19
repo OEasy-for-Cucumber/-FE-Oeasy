@@ -70,7 +70,7 @@ function EditProfile({ handleEditModal }: { handleEditModal: () => void }) {
     try {
       const { data } = await instance.patch("/member/profile-picture", {
         nickname: user?.nickname,
-        imageUrl: newFileName
+        imageUrl: newFileName.replace("blob:", "")
       });
       console.log(data);
     } catch (error) {
