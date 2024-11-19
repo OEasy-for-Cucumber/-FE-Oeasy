@@ -5,7 +5,6 @@ import Cookies from "js-cookie";
 
 function useUserInitialize() {
   const { setUser, setIsLoggedIn, setIsInitialized } = useUserStore.getState();
-  const user = useUserStore((state)=>state.user);
   const token = Cookies.get("accessToken");
 
   useEffect(() => {
