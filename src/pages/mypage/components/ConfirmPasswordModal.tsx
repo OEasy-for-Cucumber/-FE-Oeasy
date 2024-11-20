@@ -8,7 +8,7 @@ export interface ConfirmPasswordModalProp {
 }
 
 function ConfirmPasswordModal({handleNewPasswordModal}:ConfirmPasswordModalProp) {
-    const [ prevPassword, setPrevPassword ] = useState<string>();
+    const [ prevPassword, setPrevPassword ] = useState<string>("");
     const { isActive, setIsActive } = useActiveStore.getState();
     const [ newPasswordModalOpen, setNewPasswordModalOpen] = useState(false);
 

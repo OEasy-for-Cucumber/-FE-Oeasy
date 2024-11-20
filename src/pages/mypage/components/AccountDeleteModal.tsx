@@ -49,12 +49,6 @@ interface AccountDeleteModalProps {
         console.log(data);
         Cookies.remove("accessToken");
         Cookies.remove("refreshToken");
-        document.cookie.split(";").forEach((cookie) => {
-            const cookieName = cookie.split("=")[0].trim();
-            document.cookie = `${cookieName}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
-          });
-
-
         alert("계정이 탈퇴되었습니다.");
         setIsLoggedIn(false);
         navigate("/");
@@ -84,28 +78,11 @@ interface AccountDeleteModalProps {
           className="w-full p-2 border-b border-grayoe-400 bg-grayoe-900 focus:outline-none focus:ring-2 focus:ring-green-500 mb-6"
         />
         <div className="flex justify-between gap-3">
-          {/* <button
-            onClick={handleCancel}
-            className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600"
-          >
-            계정유지
-          </button> */}
           <Button 
           onClick={handleCancel}
           size="medium"
           isActive={true}>
             계정유지</Button>
-          {/* <button
-            onClick={handleDelete}
-            className={`px-4 py-2 rounded-md ${
-              isMatch
-                ? "bg-gray-500 text-white hover:bg-gray-600"
-                : "bg-gray-300 text-gray-500 cursor-not-allowed"
-            }`}
-            disabled={!isMatch}
-          >
-            회원탈퇴
-          </button> */}
           <Button
           onClick={handleDelete}
           size="medium"
