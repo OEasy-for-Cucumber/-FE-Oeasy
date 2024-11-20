@@ -2,15 +2,16 @@ import Xicon from "../../../../public/icons/Icon.png";
 import Button from "../../../components/common/Button";
 import { Dispatch, SetStateAction, useState } from "react";
 import PasswordInput from "../../../components/common/PasswordInput";
+import { ConfirmPasswordModalProp } from "./ConfirmPasswordModal";
 
-interface EditPasswordProps {
-  newPassword: string;
-  setNewPassword: Dispatch<SetStateAction<string>>;
-  handleNewPasswordModal: () => void;
+interface EditPasswordProp {
+  setNewPasswordModalOpen: Dispatch<SetStateAction<boolean>>;
 }
 
-function EditPassword({ newPassword, setNewPassword, handleNewPasswordModal }: EditPasswordProps) {
+function EditPassword({setNewPasswordModalOpen, handleNewPasswordModal}:EditPasswordProp & ConfirmPasswordModalProp) {
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [newPassword, setNewPassword] = useState<string>("");
+
   const [isPasswordMatch, setIsPasswordMatch] = useState(true);
   const [isPasswordValid, setIsPasswordValid] = useState(true);
 
@@ -37,11 +38,15 @@ function EditPassword({ newPassword, setNewPassword, handleNewPasswordModal }: E
     if (isPasswordMatch && newPassword && isPasswordValid) {
       // 비밀번호 변경 로직 추가
       alert("비밀번호가 성공적으로 변경되었습니다.");
-      handleNewPasswordModal();
     } else {
       alert("비밀번호가 일치하지 않거나 유효하지 않습니다.");
     }
   };
+
+  const closeModalHandler = () => {
+    setNewPasswordModalOpen(false);
+    handleNewPasswordModal();
+  }
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-grayoe-950">
@@ -50,8 +55,8 @@ function EditPassword({ newPassword, setNewPassword, handleNewPasswordModal }: E
           <h1 className="font-b2-semibold absolute left-1/2 transform -translate-x-1/2 top-3">
             비밀번호 변경
           </h1>
-          <button type="button" onClick={handleNewPasswordModal} className="absolute left-4 top-3">
-            <img src={Xicon} alt="닫기" />
+          <button type="button" className="absolute left-4 top-3">
+            <img src={Xicon} onClick={closeModalHandler} alt="닫기" />
           </button>
         </div>
         <form onSubmit={handleSubmit} className="px-4 mt-[100px] flex flex-col flex-grow">

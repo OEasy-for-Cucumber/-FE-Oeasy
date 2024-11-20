@@ -5,19 +5,17 @@ import { useUserStore } from "../../../zustand/authStore";
 import { useNavigate } from "react-router-dom";
 import Input from "../../../components/common/Input";
 import { useState } from "react";
-import ReactDOM from "react-dom";
-import EditPassword from "./EditPassword";
 import Cookies from "js-cookie";
 import instance from "../../../api/axios";
 import axios from "axios";
 import AccountDeleteModal from "./AccountDeleteModal";
+import ConfirmPasswordModal from "./ConfirmPasswordModal";
 
 function EditProfile({ handleEditModal }: { handleEditModal: () => void }) {
   const { user, clearUser, setIsLoggedIn } = useUserStore.getState();
   const navigate = useNavigate();
 
   const [newNickname, setNewNickname] = useState<string>(user!.nickname);
-  const [newPassword, setNewPassword] = useState<string>("");
 
   const [isNickname, setIsNickname] = useState<boolean>(true);
   const [nicknameMsg, setNicknameMsg] = useState<string>("");
@@ -203,21 +201,14 @@ function EditProfile({ handleEditModal }: { handleEditModal: () => void }) {
         </div>
         <div className="border-b-8 my-6 border-grayoe-900" />
         <div className="flex gap-5 w-full mt-6 text-sm text-grayoe-300 bg-grayoe-950 items-center justify-center font-c2">
-          <button onClick={logoutHandler}>로그아웃</button>
+          <button type="button" onClick={logoutHandler}>로그아웃</button>
           <span>|</span>
           <button type="button" onClick={AccountDeleteModalHandler}>회원탈퇴</button>
         </div>
       </form>
       {isNewPasswordModalOpen &&
-        ReactDOM.createPortal(
-          // <ConfirmPasswordModal/>,
-          <EditPassword
-            handleNewPasswordModal={handleNewPasswordModal}
-            newPassword={newPassword}
-            setNewPassword={setNewPassword}
-          />,
-          document.body
-        )}
+          <ConfirmPasswordModal handleNewPasswordModal={handleNewPasswordModal}/>
+        }
         {isDeleteModal &&
           <AccountDeleteModal AccountDeleteModalHandler={AccountDeleteModalHandler}/>
          }

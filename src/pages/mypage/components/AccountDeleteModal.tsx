@@ -4,6 +4,7 @@ import Button from '../../../components/common/Button';
 import instance from "../../../api/axios";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
+import { useUserStore } from "../../../zustand/authStore";
 
 
 interface AccountDeleteModalProps {
@@ -16,6 +17,7 @@ interface AccountDeleteModalProps {
   const [inputValue, setInputValue] = useState("");
   const [isMatch, setIsMatch] = useState(false);
   const {isActive, setIsActive} = useActiveStore.getState();
+  const { setIsLoggedIn } = useUserStore.getState();
 
   const navigate = useNavigate();
 
@@ -54,6 +56,7 @@ interface AccountDeleteModalProps {
 
 
         alert("계정이 탈퇴되었습니다.");
+        setIsLoggedIn(false);
         navigate("/");
       } catch (error) {
         console.error(error);
