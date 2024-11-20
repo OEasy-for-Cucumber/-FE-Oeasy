@@ -28,7 +28,7 @@ function Chat() {
   useEffect(() => {
     // WebSocket 클라이언트 설정
     const stompClient = new Client({
-      webSocketFactory: () => new SockJS("http://54.180.153.36:8080/ws"), // Spring Boot 서버의 WebSocket 엔드포인트
+      webSocketFactory: () => new SockJS(import.meta.env.VITE_APP_WS_URL), // Spring Boot 서버의 WebSocket 엔드포인트
       reconnectDelay: 5000,
       heartbeatIncoming: 4000,
       heartbeatOutgoing: 4000
@@ -38,7 +38,7 @@ function Chat() {
       console.log("Connected to WebSocket");
 
       // 메시지 구독
-      stompClient.subscribe("/topic/messages", (msg) => {
+      stompClient.subscribe("/topic/app/sendMessage", (msg) => {
         const receivedMessage = JSON.parse(msg.body);
         receivedMessage.id = uuidv4();
         setMessages((prevMessages) => [...prevMessages, receivedMessage]);
@@ -72,7 +72,7 @@ function Chat() {
     }
     if (client && message.trim()) {
       client.publish({
-        destination: "/app/send", // Spring Boot의 @MessageMapping("/send") 경로
+        destination: "/app/sendMessage", // Spring Boot의 @MessageMapping("/send") 경로
         body: JSON.stringify({
           content: message,
           username: user?.nickname || "익명",
