@@ -30,7 +30,7 @@ export interface User {
   memberPk: number;
   email: string;
   nickname: string;
-  accessToken: string;
+  accessToken?: string;
   refreshToken?: string;
   lastVoteTime?: number | null;
   memberImage? :string | null;
