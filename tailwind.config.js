@@ -56,15 +56,18 @@ module.exports = {
         web_cucumber: "url(/img/web_group.png)",
         recipes_btn_bg: "url(/img/button_bg_cucumber.png)",
         noisy_gradients: "url(/img/noisy-gradients.png)",
-        profile_sample: "url(./public/img/profilesample.jpg)"
+        profile_sample: "url(./public/img/profilesample.jpg)",
+        aioe_icon: "url(./public/icons/aioe.png)"
       },
       backgroundSize: {
         "81%": "81%",
-        "50%": "58%"
+        "50%": "58%",
+        "28px": "28px 28px"
       },
       backgroundPosition: {
         mobile_cucumber: "-65% 0%",
-        web_cucumber: "-10% 0%"
+        web_cucumber: "-10% 0%",
+        aioe: "50% 50%"
       }
     },
     animation: {

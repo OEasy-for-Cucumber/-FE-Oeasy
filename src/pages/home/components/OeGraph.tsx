@@ -25,7 +25,7 @@ function OeGraph() {
   };
 
   return (
-    <div className=" h-[calc(100vh-56px)] xl:h-[calc(100vh-80px)] px-6 flex justify-center items-center">
+    <div className="h-[calc(100vh-56px)] xl:h-[calc(100vh-80px)] px-6 flex justify-center items-center">
       <div className="w-full">
         <h3 className="font-h3 mb-2">이번주 오이가격</h3>
         <div className="flex gap-1 items-center relative">
