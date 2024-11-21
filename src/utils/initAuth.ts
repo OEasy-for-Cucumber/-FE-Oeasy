@@ -26,7 +26,9 @@ function useUserInitialize() {
       }
     };
     initUser();
-  }, [token, setIsLoggedIn, setIsInitialized]);
+    console.log("initAuth");
+    
+  }, [token, setUser, setIsLoggedIn, setIsInitialized]);
 }
 
 export default useUserInitialize;

@@ -2,6 +2,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import Button from "../common/Button";
 import { useUserStore } from "../../zustand/authStore";
 import Sample from "../../../public/img/profilesample.jpg"
+import Logo from "../../.././public/icons/logo.png";
 
 function WebHeader() {
   const navigate = useNavigate();
@@ -38,7 +39,7 @@ function WebHeader() {
     >
       <div className="flex items-center">
         <button onClick={goToHome} className="text-white text-xl mr-8">
-          logo
+          <img src={Logo} alt="로고" className="w-[95px]"/>
         </button>
       </div>
       <div className="flex flex-1 justify-end items-center space-x-8">
@@ -52,7 +53,7 @@ function WebHeader() {
           오이레시피
         </button>
         {!isLoggedIn ? (
-          <Button onClick={goToLogin} isActive={true}>
+          <Button size="xs" onClick={goToLogin} isActive={true}>
             Login
           </Button>
         ) : (

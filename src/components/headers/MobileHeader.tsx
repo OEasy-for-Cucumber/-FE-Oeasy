@@ -10,7 +10,8 @@ function MobileHeader() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { user, isLoggedIn } = useUserStore.getState();
+  const user = useUserStore((state)=> (state.user))
+  const { isLoggedIn } = useUserStore.getState();
 
   const MAIN = pathname === "/";
   const LOGIN = pathname === "/login";

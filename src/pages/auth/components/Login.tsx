@@ -8,6 +8,7 @@ import instance from "../../../api/axios";
 import { useUserStore } from "../../../zustand/authStore";
 import Cookies from "js-cookie";
 import PasswordInput from "../../../components/common/PasswordInput";
+import Logo from "../../../../public/icons/logo.png";
 
 function Login() {
   const [email, setEmail] = useState<string>("");
@@ -116,6 +117,9 @@ function Login() {
 
       <form onSubmit={loginHandler} className="w-full xl:w-1/2 flex flex-col justify-center">
         <div className="w-full xl:w-[360px] mx-auto">
+          <button type="button" onClick={goToHome} className="w-full">
+            <img src={Logo} alt="로고" className="w-[160px] mx-auto"/>
+            </button>
           <div className="grid mb-[16px]">
             <p
               className={`${!isEmail ? "redoe" : "text-grayoe-300"} ${
