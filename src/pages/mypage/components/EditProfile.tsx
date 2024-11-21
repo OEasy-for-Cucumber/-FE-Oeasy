@@ -5,40 +5,30 @@ import { useUserStore } from "../../../zustand/authStore";
 import { useNavigate } from "react-router-dom";
 import Input from "../../../components/common/Input";
 import { useState } from "react";
-import ReactDOM from "react-dom";
-import EditPassword from "./EditPassword";
 import Cookies from "js-cookie";
 import instance from "../../../api/axios";
 import axios from "axios";
-// import { v4 as uuidv4 } from "uuid";
+import AccountDeleteModal from "./AccountDeleteModal";
+import ConfirmPasswordModal from "./ConfirmPasswordModal";
 
 function EditProfile({ handleEditModal }: { handleEditModal: () => void }) {
   const { user, clearUser, setIsLoggedIn } = useUserStore.getState();
   const navigate = useNavigate();
 
   const [newNickname, setNewNickname] = useState<string>(user!.nickname);
-  const [newPassword, setNewPassword] = useState<string>("");
 
   const [isNickname, setIsNickname] = useState<boolean>(true);
   const [nicknameMsg, setNicknameMsg] = useState<string>("");
 
-  const [_profileImg, setProfileImg] = useState<File | null>();
+  const [profileImg, setProfileImg] = useState<File | null>();
   const [profileImgUrl, setProfileImgUrl] = useState<string>();
 
   const [isNewPasswordModalOpen, setIsNewPasswordModalOpen] = useState<boolean>(false);
+  const [isDeleteModal, setIsDeleteModal] = useState<boolean>(false);
 
   const baseLabelClass = "transition-all duration-300 text-[13px]";
   const visibleLabelClass = "opacity-100 translate-y-0";
   const hiddenLabelClass = "opacity-0 -translate-1";
-
-  const logoutHandler = () => {
-    Cookies.remove("accessToken");
-    if(confirm("로그아웃 하시겠습니까?")){
-     clearUser();
-    setIsLoggedIn(false);
-    navigate("/"); 
-    } else return;
-  };
 
   const changeNicknameHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
@@ -52,59 +42,39 @@ function EditProfile({ handleEditModal }: { handleEditModal: () => void }) {
     }
   };
 
-  const ChangeImgHandler = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const ChangeImgHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files?.length) return;
     const file = e.target.files[0];
-  
-    // Base64 변환 함수
-    const toBase64 = (file: File): Promise<string> =>
-      new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.readAsDataURL(file); // Base64 데이터로 읽기
-        reader.onload = () => resolve(reader.result as string);
-        reader.onerror = (error) => reject(error);
-      });
-  
-    try {
-      const base64Url = await toBase64(file); // 파일을 Base64로 변환
-      setProfileImg(file); // 원본 파일 저장 (필요 시)
-      setProfileImgUrl(base64Url); // Base64 URL 상태 저장
-    } catch (error) {
-      console.error("이미지 변환 실패:", error);
-    }
+    setProfileImg(file);
+    setProfileImgUrl(URL.createObjectURL(file));
   };
-  
   
   const editProfile = async (e: React.FormEvent) => {
     e.preventDefault();
-  
-    if (!profileImgUrl) {
-      alert("프로필 이미지를 업로드해주세요.");
-      return;
+
+  if(!profileImg) null;
+
+  try {
+    const { data } = await instance.patch("/member/profile-picture", {
+      file: profileImg,
+    },{
+      headers: {"Content-Type": "multipart/form-data" }
+    });
+    console.log("프로필 업데이트 성공:", data);
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      console.error("Axios error:", error.response?.data || error.message);
+    } else {
+      console.error("Unexpected error:", error);
     }
-  
-    try {
-      // 이미지 URL (Base64 데이터)와 닉네임을 서버로 전송
-      const { data } = await instance.patch("/member/profile-picture", {
-        nickname: user?.nickname,
-        imageUrl: profileImgUrl, // Base64 데이터 전송
-      });
-  
-      console.log("프로필 업데이트 성공:", data);
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        console.error("Axios error:", error.response?.data || error.message);
-      } else {
-        console.error("Unexpected error:", error);
-      }
-    }
-  
-    // 닉네임 변경 처리
+  }
+
     try {
       const { data: nicknameData } = await instance.patch("/member/nickname", {
         newNickname,
       });
       console.log("닉네임 변경 성공:", nicknameData);
+      handleEditModal();
     } catch (error) {
       handleNicknameError(error);
     }
@@ -126,8 +96,6 @@ function EditProfile({ handleEditModal }: { handleEditModal: () => void }) {
     }
   };
   
-  
-
   const handleNewPasswordModal = () => {
     setIsNewPasswordModalOpen((prev) => !prev);
   };
@@ -136,16 +104,30 @@ function EditProfile({ handleEditModal }: { handleEditModal: () => void }) {
     setNewNickname("");
   };
 
+  const logoutHandler = () => {
+    Cookies.remove("accessToken");
+    if(confirm("로그아웃 하시겠습니까?")){
+     clearUser();
+    setIsLoggedIn(false);
+    navigate("/"); 
+    } else return;
+  };
+
+  const AccountDeleteModalHandler = () => {
+    setIsDeleteModal((prev)=>!prev)
+  }
+
   return (
     <div className="fixed inset-0 flex flex-col items-center justify-center">
-      <div className="bg-grayoe-950 text-white w-full min-w-[360px] max-w-[520px] xl:w-full py-4 relative h-svh">
-        <div className="relative flex justify-center items-center mt-3 mb-[64px]">
-          <h1 className="font-b2-semibold absolute left-1/2 transform -translate-x-1/2">계정 설정</h1>
-          <button type="button" onClick={handleEditModal} className="text-xl absolute right-3">
+      <form onSubmit={editProfile} className="bg-grayoe-950 text-white w-full min-w-[360px] max-w-[520px] xl:w-full py-4 relative h-svh">
+        <div className="w-full flex justify-between items-center mt-3 mb-[64px] px-6">
+          <button type="button" onClick={handleEditModal} className="text-xl">
             <img src={Xicon} alt="닫기버튼" />
           </button>
+          <h1 className="font-b2-semibold">계정 설정</h1>
+          <button type="submit" className={`${!isNickname ? "text-grayoe-400" : "text-[#0A84FF]"} text-xs `}>저장</button>
         </div>
-        <form onSubmit={editProfile}>
+        <div>
           <div className="relative w-[100px] mx-auto my-[36px] flex justify-center">
             {!profileImgUrl ? (
               <img
@@ -216,24 +198,21 @@ function EditProfile({ handleEditModal }: { handleEditModal: () => void }) {
               <hr className="border-grayoe-700 mt-3" />
             </div>
           </div>
-          <button type="submit">임시저장버튼</button>
-        </form>
-        <div className="border-b-8 my-5 border-grayoe-900" />
-        <div className="flex gap-5 w-full mt-2 text-sm text-grayoe-300 bg-grayoe-950 items-center justify-center font-c2">
-          <button onClick={logoutHandler}>로그아웃</button>
-          <span>|</span>
-          <button>회원탈퇴</button>
         </div>
-      </div>
+        <div className="border-b-8 my-6 border-grayoe-900" />
+        <div className="flex gap-5 w-full mt-6 text-sm text-grayoe-300 bg-grayoe-950 items-center justify-center font-c2">
+          <button type="button" onClick={logoutHandler}>로그아웃</button>
+          <span>|</span>
+          <button type="button" onClick={AccountDeleteModalHandler}>회원탈퇴</button>
+        </div>
+      </form>
       {isNewPasswordModalOpen &&
-        ReactDOM.createPortal(
-          <EditPassword
-            handleNewPasswordModal={handleNewPasswordModal}
-            newPassword={newPassword}
-            setNewPassword={setNewPassword}
-          />,
-          document.body
-        )}
+          <ConfirmPasswordModal handleNewPasswordModal={handleNewPasswordModal}/>
+        }
+        {isDeleteModal &&
+          <AccountDeleteModal AccountDeleteModalHandler={AccountDeleteModalHandler}/>
+         }
+
     </div>
   );
 }

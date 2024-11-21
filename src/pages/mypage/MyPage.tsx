@@ -6,7 +6,7 @@ import MyLiked from "./components/MyLiked";
 import Sample from "../../../public/img/profilesample.jpg";
 
 function MyPage() {
-  const { user } = useUserStore.getState();
+  const user = useUserStore((state)=>state.user);
 
   const [isEditModalOpen, setEditModalOpen] = useState<boolean>(false);
   const [isClicked, setIsClicked] = useState<boolean>(true);

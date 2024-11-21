@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 import { useUserStore } from "../../../zustand/authStore";
-import instance from "../../../api/axios";
 
 interface VoteProps {
   active: "vote" | "chat";
