@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useUserStore } from "../../../zustand/authStore";
 
 interface VoteProps {
@@ -13,11 +13,36 @@ function Vote({ active }: VoteProps) {
   const user = useUserStore((state) => state.user);
   const updateLastVoteTime = useUserStore((state) => state.updateLastVoteTime);
 
-  const handleVote = (side: "hate" | "like") => {
+  const socketRef = useRef<WebSocket | null>(null);
+
+  // 컴포넌트 마운트 시 웹소켓 연결 설정
+  useEffect(() => {
+    const socket = new WebSocket(import.meta.env.VITE_APP_WS_URL); // 실제 WebSocket 서버 URL 사용
+    socketRef.current = socket;
+
+    // 연결 시 이벤트 핸들러
+    socket.onopen = () => {
+      console.log("WebSocket 연결 완료");
+    };
+
+    // 에러 핸들러
+    socket.onerror = (error) => {
+      console.error("WebSocket 에러 발생:", error);
+    };
+
+    // 종료 시 정리
+    return () => {
+      socket.close();
+      console.log("WebSocket 연결 종료");
+    };
+  }, []);
+
+  const handleVote = async (side: "hate" | "like") => {
     // if (!user) {
     //   alert("로그인 후 투표해주세요");
     //   return;
     // }
+
     const now = Date.now();
 
     if (user?.lastVoteTime) {
@@ -44,6 +69,19 @@ function Vote({ active }: VoteProps) {
     }
 
     updateLastVoteTime(now);
+
+    if (socketRef.current && socketRef.current.readyState === WebSocket.OPEN) {
+      const message = JSON.stringify({
+        topic: side === "hate" ? "/topic/hate-votes" : "/topic/like-votes",
+        userId: user?.memberPk || null, // 유저 ID를 함께 전송
+        voteTime: now
+      });
+
+      socketRef.current.send(message);
+      console.log(`웹소켓 메시지 전송: ${message}`);
+    } else {
+      console.error("WebSocket이 열려 있지 않습니다.");
+    }
   };
 
   const totalVotes = hateVotes + likeVotes;
