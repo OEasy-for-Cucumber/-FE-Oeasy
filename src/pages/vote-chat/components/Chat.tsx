@@ -3,25 +3,24 @@ import { useEffect, useRef, useState } from "react";
 import { Client } from "@stomp/stompjs";
 import SockJS from "sockjs-client";
 import sendIcon from "../../../../public/icons/send.png";
-import profileImage from "../../../../public/img/cuteOE.png";
 import { useUserStore } from "../../../zustand/authStore";
+
+type Message = {
+  id: string | number; // 메시지 ID
+  nickname: string; // 사용자 이름
+  content: string; // 메시지 내용
+  profileImg: string; // 프로필 이미지
+};
 
 function Chat() {
   if (typeof global === "undefined") {
     window.global = window; // 브라우저 환경에서 `global`이 없는 경우 `window`로 설정
   }
+
   const [client, setClient] = useState<Client | null>(null);
   const [message, setMessage] = useState("");
   const user = useUserStore((state) => state.user);
-  const [messages, setMessages] = useState([
-    { id: 1, username: "현아", content: "오이 짱조아 룰루 랄라", profileImg: profileImage },
-    { id: 2, username: "수미", content: "으 오이 개극혐", profileImg: profileImage },
-    { id: 3, username: "현경", content: "오이 짱귀엽다 우헤헤", profileImg: profileImage },
-    { id: 4, username: "진수", content: "오이를 사랑하게 된 것 같아 cucumber lover😍", profileImg: profileImage },
-    { id: 5, username: "현빈", content: "오이 요리 제발 해드세요", profileImg: profileImage },
-    { id: 6, username: "샛별", content: "새벽이보다 오이를 더 사랑해", profileImg: profileImage }
-  ]);
-
+  const [messages, setMessages] = useState<Message[]>([]);
   const [isComposing, setComposing] = useState(false);
   const messageEndRef = useRef<HTMLDivElement>(null);
 
@@ -38,10 +37,28 @@ function Chat() {
       console.log("Connected to WebSocket");
 
       // 메시지 구독
-      stompClient.subscribe("/topic/app/sendMessage", (msg) => {
-        const receivedMessage = JSON.parse(msg.body);
-        receivedMessage.id = uuidv4();
-        setMessages((prevMessages) => [...prevMessages, receivedMessage]);
+      stompClient.subscribe("/topic/message", (msg) => {
+        try {
+          // 메시지 수신 및 JSON 파싱
+          const receivedMessage = JSON.parse(msg.body);
+
+          // 필요한 데이터 속성만 추출 (기본값 처리 포함)
+          const { id = uuidv4(), profileImg = "", nickname = "Anonymous", content = "" } = receivedMessage;
+
+          // 새로운 메시지 생성
+          const newMessage = {
+            id,
+            nickname, // 'nickname'을 'username'으로 매핑
+            content,
+            profileImg
+          };
+
+          // 기존 메시지 배열에 추가
+          setMessages((prevMessages) => [...prevMessages, newMessage]);
+          console.log("Received message:", receivedMessage);
+        } catch (error) {
+          console.error("Error parsing message:", error);
+        }
       });
       setClient(stompClient);
     };
@@ -72,15 +89,15 @@ function Chat() {
     }
     if (client && message.trim()) {
       client.publish({
-        destination: "/app/sendMessage", // Spring Boot의 @MessageMapping("/send") 경로
+        destination: "/app/message", // Spring Boot의 @MessageMapping("/send") 경로
         body: JSON.stringify({
-          content: message,
-          username: user?.nickname || "익명",
-          profileImg: profileImage
+          id: user.memberPk,
+          String: message
         })
       });
 
       setMessage("");
+      console.log("Sending message:", { id: user.memberPk, String: message });
     } else {
       console.log("Client is not connected");
     }
@@ -98,11 +115,11 @@ function Chat() {
       <div className="relative pt-4 mx-4 xl:mx-0">
         <div className="flex flex-col xl:px-4 xl:h-[634px] overflow-y-auto gap-4">
           {messages.map((msg) =>
-            msg.username === user?.nickname ? (
+            msg.nickname === user?.nickname ? (
               // 내가 보낸 메시지
               <div key={msg.id} className="flex justify-end items-start">
                 <div className="flex flex-col items-end gap-1 max-w-[280px] min-w-[20px]">
-                  <p className="font-semibold">{msg.username}</p>
+                  <p className="font-semibold">{msg.nickname}</p>
                   <div className="bg-grayoe-600 rounded-l-xl rounded-br-xl px-3 py-2 text-white break-words whitespace-pre-wrap">
                     {msg.content}
                   </div>
@@ -114,7 +131,7 @@ function Chat() {
               <div key={msg.id} className="flex justify-start items-start">
                 <img src={msg.profileImg} alt="Profile" className="w-10 h-10 rounded-full mr-2 border border-white" />
                 <div className="flex flex-col gap-1 max-w-[280px] min-w-[20px]">
-                  <p className="font-semibold">{msg.username}</p>
+                  <p className="font-semibold">{msg.nickname}</p>
                   <div className="bg-grayoe-600 rounded-r-xl rounded-bl-xl px-3 py-2 text-white break-words whitespace-pre-wrap">
                     {msg.content}
                   </div>
