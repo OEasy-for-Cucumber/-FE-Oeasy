@@ -34,6 +34,13 @@ function AiOe() {
       navigate("/login");
       return;
     }
+    try {
+      const res = await instance.post("/aioe/start");
+      console.log(res);
+    } catch {
+      setAiOe(true);
+    }
+
     setAiOe(true);
   };
 
@@ -68,12 +75,12 @@ function AiOe() {
   return (
     <>
       <button
-        className="fixed right-[calc(50%-236px)] bottom-[72px] z-10 w-[40px] h-[40px] bg-aioe_icon rounded-xl bg-greenoe-50 bg-28px bg-no-repeat bg-aioe"
+        className="fixed right-[calc(50%-236px)] xl:right-[80px] bottom-[72px] xl:bottom-[80px] z-10 w-[40px] h-[40px] xl:w-[56px] xl:h-[56px] bg-aioe_icon rounded-xl xl:rounded-2xl bg-greenoe-50 bg-28px xl:bg-36px bg-no-repeat bg-aioe"
         onClick={aiOeStart}
       />
       {aiOe &&
         ReactDOM.createPortal(
-          <div className="fixed right-[calc(50%-260px)] top-0 w-full min-w-[360px] max-w-[520px] h-[calc(100vh-52px)] xl:hidden bg-grayoe-950 z-50">
+          <div className="fixed right-[calc(50%-260px)] xl:right-[80px] bottom-0 xl:bottom-[152px] w-full min-w-[360px] max-w-[520px] h-screen xl:w-[390px] xl:h-[600px] bg-grayoe-950 z-50 xl:rounded-2xl">
             <div className="w-full h-[56px] flex justify-center items-center mb-6 relative">
               <div className="font-b2-semibold">AI OE</div>
               <button className="absolute right-[24px] " onClick={() => setAiOe(false)}>
@@ -81,7 +88,7 @@ function AiOe() {
               </button>
             </div>
 
-            <div className="h-[calc(100vh-132px)] xl:h-[calc(100vh-80px)] px-6 overflow-y-auto">
+            <div className="h-[calc(100vh-132px)] xl:h-[468px] px-6 overflow-y-auto">
               <div className="flex justify-start">
                 <img src={aioeIcon} alt="ai oe Profile" className="w-10 h-10 rounded-full mr-2" />
                 <div className="flex flex-col gap-1 max-w-[180px] min-w-[20px]">

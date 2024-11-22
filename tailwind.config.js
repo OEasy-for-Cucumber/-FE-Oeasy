@@ -62,7 +62,8 @@ module.exports = {
       backgroundSize: {
         "81%": "81%",
         "50%": "58%",
-        "28px": "28px 28px"
+        "28px": "28px 28px",
+        "36px": "36px 36px"
       },
       backgroundPosition: {
         mobile_cucumber: "-65% 0%",
