@@ -74,7 +74,7 @@ function Detail() {
             <p className="font-b2-regular xl:font-b1-regular">{postData.content}</p>
             {postData.images && postData.images.length > 0 && (
               <div
-                className={`min-h-[204px] max-h-[392px]  gap-2 justify-center pt-6 ${
+                className={`min-h-[204px]  gap-2 justify-center pt-6 ${
                   postData.images.length === 1
                     ? "grid-cols-1"
                     : postData.images.length === 3

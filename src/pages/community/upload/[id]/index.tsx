@@ -14,8 +14,8 @@ function Upload() {
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || []);
     const selectedImages = files.map((file) => URL.createObjectURL(file));
-    if (images.length + selectedImages.length > 4) {
-      alert("사진은 최대 4장까지 첨부 가능합니다");
+    if (images.length + selectedImages.length > 6) {
+      alert("사진은 최대 6장까지 첨부 가능합니다");
       return;
     }
 
@@ -78,9 +78,9 @@ function Upload() {
         <div className="border-grayoe-900 border-4 xl:border-[1px] w-full" />
         <div className="px-6 py-4">
           <p className="font-b2-regular mb-2 xl:mb-4">이미지 첨부</p>
-          <div className="grid grid-cols-4 gap-2 xl:grid-cols-5 xl:gap-1 ">
+          <div className="grid grid-cols-4 gap-2  xl:grid-cols-7 xl:gap-2 ">
             <div
-              className="min-w-[72px] min-h-[72px] max-w-[112px] max-h-[112px] rounded-lg flex justify-center items-center bg-grayoe-400 cursor-pointer aspect-square"
+              className="min-w-[72px] min-h-[72px] max-w-[100px] max-h-[100px] rounded-lg flex justify-center items-center bg-grayoe-400 cursor-pointer aspect-square"
               onClick={handleUploadClick}
             >
               <img src={uploadImg} alt="이미지 첨부" className="w-6 h-6" />
@@ -96,7 +96,7 @@ function Upload() {
             {images.map((src, index) => (
               <div
                 key={index}
-                className="min-w-[72px] min-h-[72px] max-w-[112px] max-h-[112px] rounded-lg cursor-pointer"
+                className="min-w-[72px] min-h-[72px] max-w-[100px] max-h-[100px] rounded-lg cursor-pointer aspect-square"
                 onClick={() => handleDelClick(index)}
               >
                 <img src={src} alt="업로드된 이미지" className="w-full rounded-lg h-full object-cover" />

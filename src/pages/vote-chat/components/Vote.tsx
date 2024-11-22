@@ -1,86 +1,109 @@
 import { useEffect, useRef, useState } from "react";
 import { useUserStore } from "../../../zustand/authStore";
+import SockJS from "sockjs-client";
+import { Client } from "@stomp/stompjs";
+import instance from "../../../api/axios";
 
 interface VoteProps {
   active: "vote" | "chat";
 }
 
 function Vote({ active }: VoteProps) {
-  const [hateVotes, setHateVotes] = useState(10000);
-  const [likeVotes, setLikeVotes] = useState(10000);
+  const [hateVotes, setHateVotes] = useState(0);
+  const [likeVotes, setLikeVotes] = useState(0);
   const [isHateClicked, setIsHateClicked] = useState(false);
   const [isLikeClicked, setIsLikeClicked] = useState(false);
   const user = useUserStore((state) => state.user);
+  const stompClientRef = useRef<Client | null>(null);
   const updateLastVoteTime = useUserStore((state) => state.updateLastVoteTime);
 
-  const socketRef = useRef<WebSocket | null>(null);
-
-  // 컴포넌트 마운트 시 웹소켓 연결 설정
   useEffect(() => {
-    const socket = new WebSocket(import.meta.env.VITE_APP_WS_URL); // 실제 WebSocket 서버 URL 사용
-    socketRef.current = socket;
-
-    // 연결 시 이벤트 핸들러
-    socket.onopen = () => {
-      console.log("WebSocket 연결 완료");
+    const fetchInitialVotes = async () => {
+      try {
+        const response = await instance.get("/api/community/init");
+        console.log(response);
+        setHateVotes(response.data.hate);
+        setLikeVotes(response.data.like);
+      } catch (error) {
+        console.error("초기 투표 데이터를 가져오는 중 오류가 발생했습니다.", error);
+      }
     };
 
-    // 에러 핸들러
-    socket.onerror = (error) => {
-      console.error("WebSocket 에러 발생:", error);
-    };
+    fetchInitialVotes();
 
-    // 종료 시 정리
+    const socket = new SockJS("https://oeasy.store/ws");
+    const client = new Client({
+      webSocketFactory: () => socket,
+      debug: (str) => console.log(str),
+      onConnect: () => {
+        console.log("STOMP 연결 완료");
+
+        client.subscribe("/topic/like-votes", (message) => {
+          const likedata = JSON.parse(message.body);
+          console.log("좋아요:", likedata);
+          setLikeVotes(likedata);
+        });
+
+        client.subscribe("/topic/hate-votes", (message) => {
+          const hatedata = JSON.parse(message.body);
+          console.log("싫어요:", hatedata);
+          setHateVotes(hatedata);
+        });
+      },
+      onStompError: (frame) => {
+        console.error("STOMP 에러:", frame.headers["message"]);
+        console.error("에러 상세:", frame.body);
+      }
+    });
+
+    stompClientRef.current = client;
+    client.activate();
+
     return () => {
-      socket.close();
-      console.log("WebSocket 연결 종료");
+      if (stompClientRef.current) {
+        stompClientRef.current.deactivate();
+      }
     };
   }, []);
 
-  const handleVote = async (side: "hate" | "like") => {
-    // if (!user) {
-    //   alert("로그인 후 투표해주세요");
-    //   return;
-    // }
+  const handleVote = (side: "hate" | "like") => {
+    if (!user) {
+      alert("로그인 후 투표해주세요");
+      return;
+    }
 
     const now = Date.now();
-
+    const nowKST = new Date(now + 9 * 60 * 60 * 1000);
+    console.log(now);
     if (user?.lastVoteTime) {
-      const lastVoteDate = new Date(user.lastVoteTime);
-      const currentDate = new Date(now);
+      const lastVoteDate = new Date(user.lastVoteTime).setHours(0, 0, 0, 0);
+      const currentDate = new Date(nowKST).setHours(0, 0, 0, 0);
 
-      lastVoteDate.setHours(0, 0, 0, 0);
-      currentDate.setHours(0, 0, 0, 0);
-
-      // if (lastVoteDate.getTime() === currentDate.getTime()) {
-      //   alert("하루에 한 번만 투표할 수 있습니다.");
-      //   return;
-      // }
+      if (lastVoteDate === currentDate) {
+        alert("하루에 한 번만 투표할 수 있습니다.");
+        return;
+      }
     }
 
     if (side === "hate") {
-      setHateVotes(hateVotes + 1);
       setIsHateClicked(true);
       setTimeout(() => setIsHateClicked(false), 300);
     } else {
-      setLikeVotes(likeVotes + 1);
       setIsLikeClicked(true);
       setTimeout(() => setIsLikeClicked(false), 300);
     }
 
-    updateLastVoteTime(now);
+    updateLastVoteTime(now, side);
 
-    if (socketRef.current && socketRef.current.readyState === WebSocket.OPEN) {
-      const message = JSON.stringify({
-        topic: side === "hate" ? "/topic/hate-votes" : "/topic/like-votes",
-        userId: user?.memberPk || null, // 유저 ID를 함께 전송
-        voteTime: now
+    // 서버에 전송
+    if (stompClientRef.current && stompClientRef.current.connected) {
+      stompClientRef.current.publish({
+        destination: `/app/${side}-votes`,
+        body: JSON.stringify({ id: user.memberPk }) // 유저 PK
       });
-
-      socketRef.current.send(message);
-      console.log(`웹소켓 메시지 전송: ${message}`);
+      console.log(`STOMP 메시지 전송: ${side}-votes`);
     } else {
-      console.error("WebSocket이 열려 있지 않습니다.");
+      console.error("STOMP 연결이 활성화되어 있지 않습니다.");
     }
   };
 
@@ -94,10 +117,8 @@ function Vote({ active }: VoteProps) {
     likeVotes > hateVotes ? "font-h4 xl:font-h3 text-white" : "font-b1-semibold xl:font-h4 text-grayoe-200";
   const hateBg = hateVotes > likeVotes ? "bg-redoe-500 " : "bg-redoe-50";
   const likeBg = likeVotes > hateVotes ? "bg-redoe-500" : "bg-redoe-50";
-  const hateWinImg =
-    hateVotes > likeVotes ? "../../../../public/img/hateOeWin.png" : "../../../../public/img/hateOeLoose.png";
-  const likeWinImg =
-    likeVotes > hateVotes ? "../../../../public/img/likeOeWin.png" : "../../../../public/img/likeOeLoose.png";
+  const hateWinImg = hateVotes > likeVotes ? "/img/hateOeWin.png" : "/img/hateOeLoose.png";
+  const likeWinImg = likeVotes > hateVotes ? "/img/likeOeWin.png" : "/img/likeOeLoose.png";
   const isVoteAllowed =
     !user?.lastVoteTime || new Date(user.lastVoteTime).setHours(0, 0, 0, 0) !== new Date().setHours(0, 0, 0, 0);
 
@@ -111,12 +132,6 @@ function Vote({ active }: VoteProps) {
               투표는 ID당 하루에 한 번만 가능합니다
             </p>
           </div>
-
-          {active === "chat" && (
-            <div className="w-[182px] h-[20px] flex flex-col justify-center items-center mx-auto mb-6 xl:hidden">
-              <p className="font-b2-regular">오이려 싫어 VS 오이려 좋아</p>
-            </div>
-          )}
           {active === "vote" && (
             <div className="h-[160px] xl:h-[300px] flex flex-col justify-end">
               <div className="flex justify-between px-10 xl:px-12">
@@ -137,7 +152,6 @@ function Vote({ active }: VoteProps) {
               </div>
             </div>
           )}
-
           <div className="flex w-[350px] h-[48px] xl:w-[512px] xl:h-[124px] mx-auto rounded-lg px-[40px]">
             <div
               className={`p-4 flex justify-start items-center xl:items-end cursor-pointer rounded-l-[8px] ${hateBg} ${
@@ -152,7 +166,7 @@ function Vote({ active }: VoteProps) {
               }}
             >
               <div className={`text-left ${hateFont}`}>
-                <p>{hateVotes.toLocaleString()}</p>
+                <p>{hateVotes !== undefined ? hateVotes.toLocaleString() : "0"}</p>
               </div>
             </div>
 
@@ -169,7 +183,7 @@ function Vote({ active }: VoteProps) {
               }}
             >
               <div className={`text-left ${likeFont}`}>
-                <p>{likeVotes.toLocaleString()}</p>
+                <p>{likeVotes !== undefined ? likeVotes.toLocaleString() : "0"}</p>
               </div>
             </div>
           </div>
