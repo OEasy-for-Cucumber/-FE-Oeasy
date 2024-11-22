@@ -9,7 +9,7 @@ interface UserState {
   setIsLoggedIn: (isLoggedIn: boolean) => void;
   isInitialized: boolean;
   setIsInitialized: (isInitialized: boolean) => void;
-  updateLastVoteTime: (time: number) => void;
+  updateLastVoteTime: (time: number, type: "hate" | "like") => void;
 }
 
 export const useUserStore = create<UserState>((set) => ({
@@ -20,8 +20,8 @@ export const useUserStore = create<UserState>((set) => ({
   setIsLoggedIn: (isLoggedIn) => set({ isLoggedIn }),
   isInitialized: false,
   setIsInitialized: (isInitialized) => set({ isInitialized }),
-  updateLastVoteTime: (time: number) =>
+  updateLastVoteTime: (time, type) =>
     set((state) => ({
-      user: state.user ? { ...state.user, lastVoteTime: time } : null
+      user: state.user ? { ...state.user, lastVoteTime: time, lastVoteType: type } : null
     }))
 }));

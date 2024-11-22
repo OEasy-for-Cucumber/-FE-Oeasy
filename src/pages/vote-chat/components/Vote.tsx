@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useUserStore } from "../../../zustand/authStore";
 import SockJS from "sockjs-client";
 import { Client } from "@stomp/stompjs";
+import instance from "../../../api/axios";
 
 interface VoteProps {
   active: "vote" | "chat";
@@ -14,8 +15,22 @@ function Vote({ active }: VoteProps) {
   const [isLikeClicked, setIsLikeClicked] = useState(false);
   const user = useUserStore((state) => state.user);
   const stompClientRef = useRef<Client | null>(null);
+  const updateLastVoteTime = useUserStore((state) => state.updateLastVoteTime);
 
   useEffect(() => {
+    const fetchInitialVotes = async () => {
+      try {
+        const response = await instance.get("/api/community/init");
+        console.log(response);
+        setHateVotes(response.data.hate);
+        setLikeVotes(response.data.like);
+      } catch (error) {
+        console.error("초기 투표 데이터를 가져오는 중 오류가 발생했습니다.", error);
+      }
+    };
+
+    fetchInitialVotes();
+
     const socket = new SockJS("https://oeasy.store/ws");
     const client = new Client({
       webSocketFactory: () => socket,
@@ -57,16 +72,18 @@ function Vote({ active }: VoteProps) {
       return;
     }
 
-    // const now = Date.now();
-    // if (user?.lastVoteTime) {
-    //   const lastVoteDate = new Date(user.lastVoteTime).setHours(0, 0, 0, 0);
-    //   const currentDate = new Date(now).setHours(0, 0, 0, 0);
+    const now = Date.now();
+    const nowKST = new Date(now + 9 * 60 * 60 * 1000);
+    console.log(now);
+    if (user?.lastVoteTime) {
+      const lastVoteDate = new Date(user.lastVoteTime).setHours(0, 0, 0, 0);
+      const currentDate = new Date(nowKST).setHours(0, 0, 0, 0);
 
-    //   if (lastVoteDate === currentDate) {
-    //     alert("하루에 한 번만 투표할 수 있습니다.");
-    //     return;
-    //   }
-    // }
+      if (lastVoteDate === currentDate) {
+        alert("하루에 한 번만 투표할 수 있습니다.");
+        return;
+      }
+    }
 
     if (side === "hate") {
       setIsHateClicked(true);
@@ -76,7 +93,7 @@ function Vote({ active }: VoteProps) {
       setTimeout(() => setIsLikeClicked(false), 300);
     }
 
-    // updateLastVoteTime(now);
+    updateLastVoteTime(now, side);
 
     // 서버에 전송
     if (stompClientRef.current && stompClientRef.current.connected) {
@@ -149,7 +166,7 @@ function Vote({ active }: VoteProps) {
               }}
             >
               <div className={`text-left ${hateFont}`}>
-                <p>{hateVotes.toLocaleString()}</p>
+                <p>{hateVotes !== undefined ? hateVotes.toLocaleString() : "0"}</p>
               </div>
             </div>
 
@@ -166,7 +183,7 @@ function Vote({ active }: VoteProps) {
               }}
             >
               <div className={`text-left ${likeFont}`}>
-                <p>{likeVotes.toLocaleString()}</p>
+                <p>{likeVotes !== undefined ? likeVotes.toLocaleString() : "0"}</p>
               </div>
             </div>
           </div>
