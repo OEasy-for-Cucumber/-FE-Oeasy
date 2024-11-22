@@ -25,7 +25,7 @@ function MyPage() {
           <img src={!user?.memberImage ? Sample : user?.memberImage} alt="프로필이미지" className="w-[48px] h-[48px] rounded-full" />
           <h6 className="font-h6 ml-2">{user?.nickname}</h6>
         </div>
-        <button onClick={handleEditModal} className="h-[32px] px-3 whitespace-nowrap bg-grayoe-400 rounded font-c2">
+        <button onClick={handleEditModal} className="h-[32px] px-3 whitespace-nowrap bg-grayoe-400 hover:bg-grayoe-700 duration-150 rounded font-c2">
           계정 설정
         </button>
       </div>

@@ -10,12 +10,14 @@ import instance from "../../../api/axios";
 import axios from "axios";
 import AccountDeleteModal from "./AccountDeleteModal";
 import ConfirmPasswordModal from "./ConfirmPasswordModal";
+import { useQueryClient } from "@tanstack/react-query";
 
 function EditProfile({ handleEditModal }: { handleEditModal: () => void }) {
-  const { user, clearUser, setIsLoggedIn } = useUserStore.getState();
+  const { setUser, clearUser, setIsLoggedIn } = useUserStore.getState();
+  const user = useUserStore((state)=> state.user);
   const navigate = useNavigate();
 
-  const [newNickname, setNewNickname] = useState<string>(user!.nickname);
+  const [newNickname, setNewNickname] = useState<string | undefined>(user!.nickname);
 
   const [isNickname, setIsNickname] = useState<boolean>(true);
   const [nicknameMsg, setNicknameMsg] = useState<string>("");
@@ -25,6 +27,7 @@ function EditProfile({ handleEditModal }: { handleEditModal: () => void }) {
 
   const [isNewPasswordModalOpen, setIsNewPasswordModalOpen] = useState<boolean>(false);
   const [isDeleteModal, setIsDeleteModal] = useState<boolean>(false);
+  const queryClinet = useQueryClient();
 
   const baseLabelClass = "transition-all duration-300 text-[13px]";
   const visibleLabelClass = "opacity-100 translate-y-0";
@@ -42,7 +45,7 @@ function EditProfile({ handleEditModal }: { handleEditModal: () => void }) {
     }
   };
 
-  const ChangeImgHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const changeImgHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files?.length) return;
     const file = e.target.files[0];
     setProfileImg(file);
@@ -51,20 +54,19 @@ function EditProfile({ handleEditModal }: { handleEditModal: () => void }) {
 
   const editProfile = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    if (!profileImg) null;
-
+    let updatedUser = { ...user };
     try {
-      const { data } = await instance.patch(
+      const { data: profileData } = await instance.patch(
         "/member/profile-picture",
         {
-          file: profileImg
+          file: profileImg,
         },
         {
-          headers: { "Content-Type": "multipart/form-data" }
+          headers: { "Content-Type": "multipart/form-data" },
         }
       );
-      console.log("프로필 업데이트 성공:", data);
+      updatedUser = { ...updatedUser, memberImage: profileData.imageUrl };
+      console.log("프로필 업데이트 성공");
     } catch (error) {
       if (axios.isAxiosError(error)) {
         console.error("Axios error:", error.response?.data || error.message);
@@ -72,16 +74,18 @@ function EditProfile({ handleEditModal }: { handleEditModal: () => void }) {
         console.error("Unexpected error:", error);
       }
     }
-
+  
     try {
       const { data: nicknameData } = await instance.patch("/member/nickname", {
         newNickname
       });
-      console.log("닉네임 변경 성공:", nicknameData);
+      updatedUser = { ...updatedUser, nickname: nicknameData.nickname };
+      console.log("닉네임 변경 성공");
       handleEditModal();
     } catch (error) {
       handleNicknameError(error);
     }
+    setUser(updatedUser);
   };
 
   const handleNicknameError = (error: unknown) => {
@@ -116,6 +120,7 @@ function EditProfile({ handleEditModal }: { handleEditModal: () => void }) {
     Cookies.remove("accessToken");
     if (confirm("로그아웃 하시겠습니까?")) {
       clearUser();
+      queryClinet.clear();
       setIsLoggedIn(false);
       navigate("/");
     } else return;
@@ -166,7 +171,7 @@ function EditProfile({ handleEditModal }: { handleEditModal: () => void }) {
                 id="file"
                 accept="image/*"
                 className="hidden"
-                onChange={ChangeImgHandler}
+                onChange={changeImgHandler}
               />
             </label>
           </div>

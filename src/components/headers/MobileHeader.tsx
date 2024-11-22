@@ -72,7 +72,7 @@ function MobileHeader() {
               login
             </button>
           ) : pathname === "/mypage" ?  <div className="w-5"></div> : (
-            <button onClick={goToMypage}><img src={!user?.memberImage ? Sample : user.memberImage} alt="프로필이미지" className="w-[40px] h-[40px] rounded-full mt-2"/></button>
+            <button onClick={goToMypage}><img src={!user?.memberImage ? Sample : user.memberImage} alt="프로필이미지" className="w-[30px] h-[30px] rounded-full"/></button>
           )}
         </>
       )}
