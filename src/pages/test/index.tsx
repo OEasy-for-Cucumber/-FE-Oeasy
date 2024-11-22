@@ -102,16 +102,16 @@ function Chat() {
     }
   };
 
-  const test = () => {
-    if (client && message.trim()) {
-      client.publish({
-        destination: "/app/hate-votes", // Spring Boot의 @MessageMapping("/send") 경로
-        body: JSON.stringify({
-          id: 33
-        })
-      });
-    }
-  };
+  // const test = () => {
+  //   if (client && message.trim()) {
+  //     client.publish({
+  //       destination: "/app/hate-votes", // Spring Boot의 @MessageMapping("/send") 경로
+  //       body: JSON.stringify({
+  //         id: 33
+  //       })
+  //     });
+  //   }
+  // };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter" && !isComposing) {
