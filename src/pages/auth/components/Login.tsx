@@ -63,16 +63,13 @@ function Login() {
   const loginHandler = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await instance.post(
-        "/login/oeasy",
-        {
-          email,
-          pw: password,
-        }
-      );
+      const response = await instance.post("/login/oeasy", {
+        email,
+        pw: password
+      });
 
-      Cookies.set('accessToken', response.data.accessToken);
-      Cookies.set('refreshToken', response.data.refreshToken);
+      Cookies.set("accessToken", response.data.accessToken);
+      Cookies.set("refreshToken", response.data.refreshToken);
 
       setIsLoggedIn(true);
       alert("로그인 성공");
@@ -92,7 +89,7 @@ function Login() {
 
   const goToHome = () => {
     navigate("/");
-  }
+  };
 
   const kakaoLoginHandler = async () => {
     const clientId = import.meta.env.VITE_KAKAO_CLIENT_ID;
@@ -102,7 +99,7 @@ function Login() {
 
   const resetEmailValue = () => {
     setEmail("");
-  }
+  };
 
   return (
     <div className="flex h-[calc(100vh-56px)] xl:h-[calc(100vh-80px)] w-full xl:px-[194px] px-4">
@@ -118,8 +115,8 @@ function Login() {
       <form onSubmit={loginHandler} className="w-full xl:w-1/2 flex flex-col justify-center">
         <div className="w-full xl:w-[360px] mx-auto">
           <button type="button" onClick={goToHome} className="w-full">
-            <img src={Logo} alt="로고" className="w-[160px] mx-auto"/>
-            </button>
+            <img src={Logo} alt="로고" className="w-[160px] mx-auto" />
+          </button>
           <div className="grid mb-[16px]">
             <p
               className={`${!isEmail ? "redoe" : "text-grayoe-300"} ${
@@ -128,7 +125,14 @@ function Login() {
             >
               이메일
             </p>
-            <Input value={email} onChange={emailHandler} type="email" placeholder="이메일" isValid={isEmail} onClick={resetEmailValue} />
+            <Input
+              value={email}
+              onChange={emailHandler}
+              type="email"
+              placeholder="이메일"
+              isValid={isEmail}
+              onClick={resetEmailValue}
+            />
             {isEmail === false && email !== "" && <p className="text-[12px] redoe">{emailMsg}</p>}
           </div>
 
@@ -141,12 +145,13 @@ function Login() {
               비밀번호
             </p>
             <PasswordInput
-             value={password}
-             minLength={8}
-             onChange={passwordHandler}
-             type="password"
-             placeholder="비밀번호"
-             isValid={isPassword}/>
+              value={password}
+              minLength={8}
+              onChange={passwordHandler}
+              type="password"
+              placeholder="비밀번호"
+              isValid={isPassword}
+            />
             {isPassword === false && password !== "" && <p className="text-[12px] redoe">{passwordMsg}</p>}
           </div>
 
@@ -158,7 +163,9 @@ function Login() {
             <button type="button" onClick={goToSignup}>
               회원가입
             </button>
-            <button type="button" onClick={goToHome}>홈으로</button>
+            <button type="button" onClick={goToHome}>
+              홈으로
+            </button>
           </div>
 
           <button

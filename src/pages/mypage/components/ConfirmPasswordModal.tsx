@@ -3,7 +3,7 @@ import Button from "../../../components/common/Button";
 import { useActiveStore } from "../../../zustand/isActiveStore";
 import EditPassword from "./EditPassword";
 import { useUserStore } from "../../../zustand/authStore";
-import useLogin from "../../../hooks/auth/useLogin";
+import instance from "../../../api/axios";
 
 export interface ConfirmPasswordModalProp {
   handleNewPasswordModal: () => void;
@@ -14,7 +14,6 @@ function ConfirmPasswordModal({ handleNewPasswordModal }: ConfirmPasswordModalPr
   const { isActive, setIsActive } = useActiveStore.getState();
   const [newPasswordModalOpen, setNewPasswordModalOpen] = useState(false);
   const user = useUserStore((state) => state.user);
-  const loginMutation = useLogin();
 
   const handleCancel = () => {
     handleNewPasswordModal();
@@ -29,17 +28,11 @@ function ConfirmPasswordModal({ handleNewPasswordModal }: ConfirmPasswordModalPr
   };
 
   const handleConfirmPrevPassword = async () => {
-    loginMutation.mutate(
-      { email: user!.email, pw: prevPassword },
-      {
-        onSuccess: () => {
-          setNewPasswordModalOpen(true);
-        },
-        onError: () => {
-          alert("인증 실패. 다시 시도해주세요.");
-        }
-      }
-    );
+    await instance.post("/login/oeasy", {
+      email: user!.email!, pw: prevPassword
+    })
+    console.log("인증완료");
+    setNewPasswordModalOpen(true);
   };
 
   return (

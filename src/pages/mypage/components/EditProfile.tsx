@@ -65,8 +65,8 @@ function EditProfile({ handleEditModal }: { handleEditModal: () => void }) {
           headers: { "Content-Type": "multipart/form-data" },
         }
       );
-      console.log("프로필 업데이트 성공");
       updatedUser = { ...updatedUser, memberImage: profileData.imageUrl };
+      console.log("프로필 업데이트 성공");
     } catch (error) {
       if (axios.isAxiosError(error)) {
         console.error("Axios error:", error.response?.data || error.message);
@@ -77,18 +77,17 @@ function EditProfile({ handleEditModal }: { handleEditModal: () => void }) {
   
     try {
       const { data: nicknameData } = await instance.patch("/member/nickname", {
-        newNickname,
+        newNickname
       });
-      console.log("닉네임 변경 성공");
       updatedUser = { ...updatedUser, nickname: nicknameData.nickname };
-  
+      console.log("닉네임 변경 성공");
       handleEditModal();
     } catch (error) {
       handleNicknameError(error);
     }
     setUser(updatedUser);
   };
-  
+
   const handleNicknameError = (error: unknown) => {
     if (axios.isAxiosError(error)) {
       if (error.response?.status === 400) {
@@ -113,7 +112,11 @@ function EditProfile({ handleEditModal }: { handleEditModal: () => void }) {
     setNewNickname("");
   };
 
-  const logoutHandler = () => {
+  const logoutHandler = async () => {
+    // aioe 연결 끊기
+    const res = await instance.delete("/aioe/history");
+    console.log(res);
+
     Cookies.remove("accessToken");
     if (confirm("로그아웃 하시겠습니까?")) {
       clearUser();
