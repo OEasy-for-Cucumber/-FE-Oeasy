@@ -27,7 +27,7 @@ function Chat() {
   useEffect(() => {
     // WebSocket 클라이언트 설정
     const stompClient = new Client({
-      webSocketFactory: () => new SockJS(import.meta.env.VITE_APP_WS_URL), // Spring Boot 서버의 WebSocket 엔드포인트
+      webSocketFactory: () => new SockJS("https://oeasy.store/ws"), // Spring Boot 서버의 WebSocket 엔드포인트
       reconnectDelay: 5000,
       heartbeatIncoming: 4000,
       heartbeatOutgoing: 4000
@@ -38,6 +38,7 @@ function Chat() {
 
       // 메시지 구독
       stompClient.subscribe("/topic/message", (msg) => {
+        console.log("메시지 수신:", msg.body);
         try {
           // 메시지 수신 및 JSON 파싱
           const receivedMessage = JSON.parse(msg.body);
@@ -91,8 +92,8 @@ function Chat() {
       client.publish({
         destination: "/app/message", // Spring Boot의 @MessageMapping("/send") 경로
         body: JSON.stringify({
-          id: user.memberPk,
-          String: message
+          userPk: user.memberPk,
+          content: message
         })
       });
 
@@ -114,10 +115,10 @@ function Chat() {
     <div className="flex flex-col justify-between w-full xl:w-[488px] xl:h-[686px] xl:my-auto xl:bg-grayoe-900 xl:rounded-2xl">
       <div className="relative pt-4 mx-4 xl:mx-0">
         <div className="flex flex-col xl:px-4 xl:h-[634px] overflow-y-auto gap-4">
-          {messages.map((msg) =>
+          {messages.map((msg, index) =>
             msg.nickname === user?.nickname ? (
               // 내가 보낸 메시지
-              <div key={msg.id} className="flex justify-end items-start">
+              <div key={`${msg.id}-${index}`} className="flex justify-end items-start">
                 <div className="flex flex-col items-end gap-1 max-w-[280px] min-w-[20px]">
                   <p className="font-semibold">{msg.nickname}</p>
                   <div className="bg-grayoe-600 rounded-l-xl rounded-br-xl px-3 py-2 text-white break-words whitespace-pre-wrap">
