@@ -4,7 +4,8 @@ import instance from "../api/axios";
 import Cookies from "js-cookie";
 
 function useUserInitialize() {
-  const { setUser, setIsLoggedIn, setIsInitialized } = useUserStore.getState();
+  const { setIsLoggedIn, setIsInitialized } = useUserStore.getState();
+  const setUser = useUserStore((state)=>state.setUser);
   const token = Cookies.get("accessToken");
 
   useEffect(() => {
@@ -13,22 +14,24 @@ function useUserInitialize() {
         setIsInitialized(true);
         return;
       }
-
+  
       try {
         const { data } = await instance.get("/member/profile");
         if (data) {
+          console.log("Setting user");
           setUser(data);
         }
         setIsLoggedIn(true);
-        setIsInitialized(true);
       } catch (error) {
         console.error("사용자 초기화 오류:", error);
+      } finally {
+        setIsInitialized(true);
       }
     };
+  
     initUser();
-    console.log("initAuth");
-    
   }, [token, setUser, setIsLoggedIn, setIsInitialized]);
+  
 }
 
 export default useUserInitialize;

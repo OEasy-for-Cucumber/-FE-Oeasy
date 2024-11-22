@@ -59,7 +59,7 @@ instance.interceptors.response.use(
         }
 
         // refreshToken으로 새로운 accessToken 요청
-        const { data } = await refreshInstance.post("/auth/refresh", {}, {
+        const { data } = await refreshInstance.post("/auth/refresh",{
           headers: {
             Authorization: `Bearer ${refreshToken}`,
           },
@@ -79,7 +79,7 @@ instance.interceptors.response.use(
         setIsLoggedIn(false);
         Cookies.remove("accessToken");
         Cookies.remove("refreshToken");
-        // window.location.href = "/login";
+        window.location.href = "/login";
         return Promise.reject(refreshError);
       }
     }

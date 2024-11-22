@@ -13,10 +13,11 @@ import ConfirmPasswordModal from "./ConfirmPasswordModal";
 import { useQueryClient } from "@tanstack/react-query";
 
 function EditProfile({ handleEditModal }: { handleEditModal: () => void }) {
-  const { user, setUser, clearUser, setIsLoggedIn } = useUserStore.getState();
+  const { setUser, clearUser, setIsLoggedIn } = useUserStore.getState();
+  const user = useUserStore((state)=> state.user);
   const navigate = useNavigate();
 
-  const [newNickname, setNewNickname] = useState<string>(user!.nickname);
+  const [newNickname, setNewNickname] = useState<string | undefined>(user!.nickname);
 
   const [isNickname, setIsNickname] = useState<boolean>(true);
   const [nicknameMsg, setNicknameMsg] = useState<string>("");
@@ -50,37 +51,42 @@ function EditProfile({ handleEditModal }: { handleEditModal: () => void }) {
     setProfileImg(file);
     setProfileImgUrl(URL.createObjectURL(file));
   };
-  
+
   const editProfile = async (e: React.FormEvent) => {
     e.preventDefault();
-
-  try {
-    const { data } = await instance.patch("/member/profile-picture", {
-      file: profileImg,
-    },{
-      headers: {"Content-Type": "multipart/form-data" }
-    });
-    // console.log("프로필 업데이트 성공:", data);
-    setProfileImgUrl(data);
-    
-  } catch (error) {
-    if (axios.isAxiosError(error)) {
-      console.error("Axios error:", error.response?.data || error.message);
-    } else {
-      console.error("Unexpected error:", error);
+    let updatedUser = { ...user };
+    try {
+      const { data: profileData } = await instance.patch(
+        "/member/profile-picture",
+        {
+          file: profileImg,
+        },
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+        }
+      );
+      console.log("프로필 업데이트 성공");
+      updatedUser = { ...updatedUser, memberImage: profileData.imageUrl };
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.error("Axios error:", error.response?.data || error.message);
+      } else {
+        console.error("Unexpected error:", error);
+      }
     }
-  }
-
+  
     try {
       const { data: nicknameData } = await instance.patch("/member/nickname", {
         newNickname,
       });
-      console.log("닉네임 변경 성공:", nicknameData);
-      setUser(nicknameData);
+      console.log("닉네임 변경 성공");
+      updatedUser = { ...updatedUser, nickname: nicknameData.nickname };
+  
       handleEditModal();
     } catch (error) {
       handleNicknameError(error);
     }
+    setUser(updatedUser);
   };
   
   const handleNicknameError = (error: unknown) => {
@@ -98,7 +104,7 @@ function EditProfile({ handleEditModal }: { handleEditModal: () => void }) {
       console.error("Unexpected error:", error);
     }
   };
-  
+
   const handleNewPasswordModal = () => {
     setIsNewPasswordModalOpen((prev) => !prev);
   };
@@ -109,27 +115,32 @@ function EditProfile({ handleEditModal }: { handleEditModal: () => void }) {
 
   const logoutHandler = () => {
     Cookies.remove("accessToken");
-    if(confirm("로그아웃 하시겠습니까?")){
-     clearUser();
-     queryClinet.clear();
-     setIsLoggedIn(false);
-     navigate("/"); 
+    if (confirm("로그아웃 하시겠습니까?")) {
+      clearUser();
+      queryClinet.clear();
+      setIsLoggedIn(false);
+      navigate("/");
     } else return;
   };
 
   const AccountDeleteModalHandler = () => {
-    setIsDeleteModal((prev)=>!prev)
-  }
+    setIsDeleteModal((prev) => !prev);
+  };
 
   return (
     <div className="fixed inset-0 flex flex-col items-center justify-center">
-      <form onSubmit={editProfile} className="bg-grayoe-950 text-white w-full min-w-[360px] max-w-[520px] xl:w-full py-4 relative h-svh">
+      <form
+        onSubmit={editProfile}
+        className="bg-grayoe-950 text-white w-full min-w-[360px] max-w-[520px] xl:w-full py-4 relative h-svh"
+      >
         <div className="w-full flex justify-between items-center mt-3 mb-[64px] px-6">
           <button type="button" onClick={handleEditModal} className="text-xl">
             <img src={Xicon} alt="닫기버튼" />
           </button>
           <h1 className="font-b2-semibold">계정 설정</h1>
-          <button type="submit" className={`${!isNickname ? "text-grayoe-400" : "text-[#0A84FF]"} text-xs `}>저장</button>
+          <button type="submit" className={`${!isNickname ? "text-grayoe-400" : "text-[#0A84FF]"} text-xs `}>
+            저장
+          </button>
         </div>
         <div>
           <div className="relative w-[100px] mx-auto my-[36px] flex justify-center">
@@ -205,18 +216,17 @@ function EditProfile({ handleEditModal }: { handleEditModal: () => void }) {
         </div>
         <div className="border-b-8 my-6 border-grayoe-900" />
         <div className="flex gap-5 w-full mt-6 text-sm text-grayoe-300 bg-grayoe-950 items-center justify-center font-c2">
-          <button type="button" onClick={logoutHandler}>로그아웃</button>
+          <button type="button" onClick={logoutHandler}>
+            로그아웃
+          </button>
           <span>|</span>
-          <button type="button" onClick={AccountDeleteModalHandler}>회원탈퇴</button>
+          <button type="button" onClick={AccountDeleteModalHandler}>
+            회원탈퇴
+          </button>
         </div>
       </form>
-      {isNewPasswordModalOpen &&
-          <ConfirmPasswordModal handleNewPasswordModal={handleNewPasswordModal}/>
-        }
-        {isDeleteModal &&
-          <AccountDeleteModal AccountDeleteModalHandler={AccountDeleteModalHandler}/>
-         }
-
+      {isNewPasswordModalOpen && <ConfirmPasswordModal handleNewPasswordModal={handleNewPasswordModal} />}
+      {isDeleteModal && <AccountDeleteModal AccountDeleteModalHandler={AccountDeleteModalHandler} />}
     </div>
   );
 }
