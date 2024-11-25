@@ -9,6 +9,7 @@ import { useUserStore } from "../../../zustand/authStore";
 import Cookies from "js-cookie";
 import PasswordInput from "../../../components/common/PasswordInput";
 import Logo from "../../../../public/icons/logo.png";
+import { AxiosError } from "axios";
 
 function Login() {
   const [email, setEmail] = useState<string>("");
@@ -74,11 +75,15 @@ function Login() {
       setIsLoggedIn(true);
       alert("로그인 성공");
       navigate("/");
-    } catch (error: any) {
-      if (error.response && error.response.status === 401) {
-        console.log("아이디와 비밀번호를 확인해 주세요.");
+    } catch (error: unknown) {
+      if (error instanceof AxiosError && error.response) {
+        if (error.response.status === 401) {
+          console.log("아이디와 비밀번호를 확인해 주세요.");
+        } else {
+          console.log("다른 에러 발생:", error.response.status);
+        }
       } else {
-        console.log("Error:", error);
+        console.log("Unknown error:", error);
       }
     }
   };
