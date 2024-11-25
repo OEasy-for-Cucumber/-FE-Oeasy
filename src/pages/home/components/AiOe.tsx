@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import ReactDOM from "react-dom";
+import { AxiosError } from "axios";
 import sendIcon from "../../../../public/icons/send.png";
 import aioeIcon from "../../../../public/img/chat_aioe.png";
 import instance from "../../../api/axios";
@@ -45,8 +46,8 @@ function AiOe() {
     try {
       const res = await instance.post("/aioe/start");
       console.log(res);
-    } catch (error: any) {
-      if (error.response?.status === 401) {
+    } catch (error: unknown) {
+      if (error instanceof AxiosError && error.response?.status === 401) {
         console.warn("401 에러 무시: 이미 연결 상태임");
         setAiOe(true);
       } else {
