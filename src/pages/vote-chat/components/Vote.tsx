@@ -31,22 +31,18 @@ function Vote({ active }: VoteProps) {
 
     fetchInitialVotes();
 
-    const socket = new SockJS("https://oeasy.store/ws");
+    const socket = new SockJS(import.meta.env.VITE_APP_WS_URL);
     const client = new Client({
       webSocketFactory: () => socket,
       debug: (str) => console.log(str),
       onConnect: () => {
         console.log("STOMP 연결 완료");
 
-        client.subscribe("/topic/like-votes", (message) => {
+        client.subscribe("/topic/votes", (message) => {
           const likedata = JSON.parse(message.body);
-          console.log("좋아요:", likedata);
-          setLikeVotes(likedata);
-        });
-
-        client.subscribe("/topic/hate-votes", (message) => {
           const hatedata = JSON.parse(message.body);
-          console.log("싫어요:", hatedata);
+          console.log("좋아요:", likedata, "싫어요:", hatedata);
+          setLikeVotes(likedata);
           setHateVotes(hatedata);
         });
       },
@@ -99,9 +95,12 @@ function Vote({ active }: VoteProps) {
     if (stompClientRef.current && stompClientRef.current.connected) {
       stompClientRef.current.publish({
         destination: `/app/${side}-votes`,
-        body: JSON.stringify({ id: user.memberPk }) // 유저 PK
+        body: JSON.stringify({
+          id: user.memberPk,
+          vote: side === "hate" ? false : true
+        }) // 유저 PK
       });
-      console.log(`STOMP 메시지 전송: ${side}-votes`);
+      console.log(`STOMP 메시지 전송: ${side}-votes,`);
     } else {
       console.error("STOMP 연결이 활성화되어 있지 않습니다.");
     }

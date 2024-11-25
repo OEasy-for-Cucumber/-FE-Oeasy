@@ -27,7 +27,7 @@ function Chat() {
   useEffect(() => {
     // WebSocket 클라이언트 설정
     const stompClient = new Client({
-      webSocketFactory: () => new SockJS("https://oeasy.store/ws"), // Spring Boot 서버의 WebSocket 엔드포인트
+      webSocketFactory: () => new SockJS(import.meta.env.VITE_APP_WS_URL), // Spring Boot 서버의 WebSocket 엔드포인트
       reconnectDelay: 5000,
       heartbeatIncoming: 4000,
       heartbeatOutgoing: 4000
@@ -125,12 +125,12 @@ function Chat() {
                     {msg.content}
                   </div>
                 </div>
-                <img src={msg.profileImg} alt="Profile" className="w-10 h-10 rounded-full ml-2 border border-white" />
+                <img src={msg.profileImg} alt="Profile" className="w-10 h-10 rounded-full ml-2" />
               </div>
             ) : (
               // 다른 사용자가 보낸 메시지
               <div key={msg.id} className="flex justify-start items-start">
-                <img src={msg.profileImg} alt="Profile" className="w-10 h-10 rounded-full mr-2 border border-white" />
+                <img src={msg.profileImg} alt="Profile" className="w-10 h-10 rounded-full mr-2 " />
                 <div className="flex flex-col gap-1 max-w-[280px] min-w-[20px]">
                   <p className="font-semibold">{msg.nickname}</p>
                   <div className="bg-grayoe-600 rounded-r-xl rounded-bl-xl px-3 py-2 text-white break-words whitespace-pre-wrap">

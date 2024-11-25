@@ -1,25 +1,45 @@
+import imageCompression from "browser-image-compression";
 import { useRef, useState } from "react";
 import uploadImg from "../../../../../public/img/uploadImg.png";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useUserStore } from "../../../../zustand/authStore";
+import instance from "../../../../api/axios";
 
 function Upload() {
   const navigate = useNavigate();
-  const { postId } = useParams();
   const [images, setImages] = useState<string[]>([]);
   const titleRef = useRef<HTMLInputElement>(null);
   const contentRef = useRef<HTMLTextAreaElement>(null);
   const user = useUserStore((state) => state.user);
 
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || []);
-    const selectedImages = files.map((file) => URL.createObjectURL(file));
-    if (images.length + selectedImages.length > 6) {
+
+    if (images.length + files.length > 6) {
       alert("사진은 최대 6장까지 첨부 가능합니다");
       return;
     }
 
-    setImages((prevImages) => [...prevImages, ...selectedImages]);
+    const compressedImages: string[] = [];
+
+    for (const file of files) {
+      try {
+        const options = {
+          maxSizeMB: 0.5, // 최대 파일 크기 (1MB)
+          maxWidthOrHeight: 1080, // 이미지의 최대 가로 또는 세로 크기
+          useWebWorker: true // 웹 워커를 사용하여 성능 최적화
+        };
+
+        const compressedFile = await imageCompression(file, options);
+
+        const compressedImageUrl = URL.createObjectURL(compressedFile);
+        compressedImages.push(compressedImageUrl);
+      } catch (error) {
+        console.error("이미지 압축 중 오류 발생:", error);
+      }
+    }
+
+    setImages((prevImages) => [...prevImages, ...compressedImages]);
   };
 
   const handleUploadClick = () => {
@@ -33,7 +53,7 @@ function Upload() {
     }
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const title = titleRef.current?.value || "";
     const content = contentRef.current?.value || "";
 
@@ -46,11 +66,33 @@ function Upload() {
       return;
     }
 
-    const now = new Date(Date.now() + 9 * 60 * 60 * 1000).toISOString().split(".")[0];
-    const postData = { postId, title, content, images, user, createdAt: now };
-    console.log("등록된 데이터:", postData);
-    alert("게시물이 등록되었습니다.");
-    navigate(`/community/detail/${postId}`, { state: postData });
+    const formData = new FormData();
+    formData.append("userId", user?.memberPk?.toString() || "");
+    formData.append("title", title);
+    formData.append("content", content);
+
+    // 이미지 파일 추가
+    images.forEach((file) => {
+      formData.append("imgList", file);
+    });
+    try {
+      const response = await instance.post("/api/Community", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data"
+        }
+      });
+
+      if (response.status === 201) {
+        const { postId } = response.data;
+        alert("게시물이 등록되었습니다.");
+        navigate(`/community/detail/${postId}`, { state: response.data });
+      } else {
+        throw new Error("게시물 등록에 실패했습니다.");
+      }
+    } catch (error) {
+      console.error("게시물 등록 중 오류 발생:", error);
+      alert("게시물 등록에 실패했습니다. 다시 시도해주세요.");
+    }
   };
 
   return (
