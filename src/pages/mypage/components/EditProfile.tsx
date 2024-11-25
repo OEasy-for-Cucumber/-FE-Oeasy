@@ -114,8 +114,7 @@ function EditProfile({ handleEditModal }: { handleEditModal: () => void }) {
 
   const logoutHandler = async () => {
     // aioe 연결 끊기
-    const res = await instance.delete("/aioe/history");
-    console.log(res);
+    await instance.delete("/aioe/history");
 
     Cookies.remove("accessToken");
     if (confirm("로그아웃 하시겠습니까?")) {

@@ -48,6 +48,7 @@ function AiOe() {
     } catch (error: any) {
       if (error.response?.status === 401) {
         console.warn("401 에러 무시: 이미 연결 상태임");
+        setAiOe(true);
       } else {
         console.error("AI 연결 실패:", error);
       }
