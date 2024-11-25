@@ -30,7 +30,7 @@ function Signup() {
   const [passwordMsg, setPasswordMsg] = useState<string>("");
   const [confirmPasswordMsg, setConfirmPasswordMsg] = useState<string>("");
 
-  const { setIsLoggedIn } = useUserStore.getState();
+  const { setUser, setIsLoggedIn } = useUserStore.getState();
   const [step, setStep] = useState("이메일");
   const { isActive, setIsActive } = useActiveStore();
   const navigate = useNavigate();
@@ -115,12 +115,12 @@ function Signup() {
           }
         }
       );
+      setUser(response.data)
 
       const data = await instance.post("/login/oeasy", {
         email,
         pw: password
       });
-      console.log(response);
 
       Cookies.set("accessToken", data.data.accessToken);
       Cookies.set("refreshToken", data.data.refreshToken);
