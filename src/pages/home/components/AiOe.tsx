@@ -25,6 +25,14 @@ function AiOe() {
   };
 
   useEffect(() => {
+    const savedMessages = localStorage.getItem("aiOeMessages");
+    if (savedMessages) {
+      setMessages(JSON.parse(savedMessages));
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("aiOeMessages", JSON.stringify(messages));
     scrollToBottom();
   }, [messages]);
 
@@ -37,8 +45,12 @@ function AiOe() {
     try {
       const res = await instance.post("/aioe/start");
       console.log(res);
-    } catch {
-      setAiOe(true);
+    } catch (error: any) {
+      if (error.response?.status === 401) {
+        console.warn("401 에러 무시: 이미 연결 상태임");
+      } else {
+        console.error("AI 연결 실패:", error);
+      }
     }
 
     setAiOe(true);

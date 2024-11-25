@@ -26,8 +26,6 @@ function KakaoCallback() {
         if (accessToken && refreshToken && email && nickname) {
           setUser({ accessToken, refreshToken, email, nickname, memberPk });
           setIsLoggedIn(true);
-
-          // aioe
           navigate("/");
         } else {
           throw new Error("카카오 로그인에서 받은 응답 데이터가 올바르지 않습니다.");
