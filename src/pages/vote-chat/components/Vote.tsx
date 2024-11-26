@@ -2,35 +2,33 @@ import { useEffect, useRef, useState } from "react";
 import { useUserStore } from "../../../zustand/authStore";
 import SockJS from "sockjs-client";
 import { Client } from "@stomp/stompjs";
-import instance from "../../../api/axios";
 
 interface VoteProps {
   active: "vote" | "chat";
+  initialVotes: {
+    hate: number;
+    like: number;
+  };
+  isVoting: string;
 }
 
-function Vote({ active }: VoteProps) {
-  const [hateVotes, setHateVotes] = useState(0);
-  const [likeVotes, setLikeVotes] = useState(0);
+function Vote({ active, initialVotes, isVoting }: VoteProps) {
+  const [hateVotes, setHateVotes] = useState(initialVotes.hate);
+  const [likeVotes, setLikeVotes] = useState(initialVotes.like);
   const [isHateClicked, setIsHateClicked] = useState(false);
   const [isLikeClicked, setIsLikeClicked] = useState(false);
+  const [votingStatus, setVotingStatus] = useState(isVoting);
   const user = useUserStore((state) => state.user);
   const stompClientRef = useRef<Client | null>(null);
-  const updateLastVoteTime = useUserStore((state) => state.updateLastVoteTime);
+
+  console.log(isVoting);
 
   useEffect(() => {
-    const fetchInitialVotes = async () => {
-      try {
-        const response = await instance.get("/api/community/init");
-        console.log(response);
-        setHateVotes(response.data.hate);
-        setLikeVotes(response.data.like);
-      } catch (error) {
-        console.error("초기 투표 데이터를 가져오는 중 오류가 발생했습니다.", error);
-      }
-    };
+    setHateVotes(initialVotes.hate);
+    setLikeVotes(initialVotes.like);
+  }, [initialVotes]);
 
-    fetchInitialVotes();
-
+  useEffect(() => {
     const socket = new SockJS(import.meta.env.VITE_APP_WS_URL);
     const client = new Client({
       webSocketFactory: () => socket,
@@ -68,17 +66,8 @@ function Vote({ active }: VoteProps) {
       return;
     }
 
-    const now = Date.now();
-    const nowKST = new Date(now + 9 * 60 * 60 * 1000);
-    console.log(now);
-    if (user?.lastVoteTime) {
-      const lastVoteDate = new Date(user.lastVoteTime).setHours(0, 0, 0, 0);
-      const currentDate = new Date(nowKST).setHours(0, 0, 0, 0);
-
-      if (lastVoteDate === currentDate) {
-        alert("하루에 한 번만 투표할 수 있습니다.");
-        return;
-      }
+    if (votingStatus === "voting") {
+      alert("하루에 한 번 투표 가능합니다");
     }
 
     if (side === "hate") {
@@ -88,19 +77,17 @@ function Vote({ active }: VoteProps) {
       setIsLikeClicked(true);
       setTimeout(() => setIsLikeClicked(false), 300);
     }
+    setVotingStatus("voting");
 
-    updateLastVoteTime(now, side);
-
-    // 서버에 전송
     if (stompClientRef.current && stompClientRef.current.connected) {
       stompClientRef.current.publish({
         destination: `/app/${side}-votes`,
         body: JSON.stringify({
           id: user.memberPk,
           vote: side === "hate" ? false : true
-        }) // 유저 PK
+        })
       });
-      console.log(`STOMP 메시지 전송: ${side}-votes,`);
+      console.log(`STOMP 메시지 전송: ${side}-votes`);
     } else {
       console.error("STOMP 연결이 활성화되어 있지 않습니다.");
     }

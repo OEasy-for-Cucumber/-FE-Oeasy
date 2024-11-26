@@ -12,7 +12,11 @@ type Message = {
   profileImg: string; // 프로필 이미지
 };
 
-function Chat() {
+interface ChatProps {
+  chattingList: { id: number; content: string; profileImg: string; nickname: string }[]; // 타입 정의
+}
+
+function Chat({ chattingList }: ChatProps) {
   if (typeof global === "undefined") {
     window.global = window; // 브라우저 환경에서 `global`이 없는 경우 `window`로 설정
   }
@@ -23,6 +27,19 @@ function Chat() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [isComposing, setComposing] = useState(false);
   const messageEndRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    // chattingList가 전달되면 이를 messages 배열에 병합
+    setMessages((prevMessages) => [
+      ...chattingList.map((msg) => ({
+        id: msg.id,
+        nickname: msg.nickname,
+        content: msg.content,
+        profileImg: msg.profileImg
+      })),
+      ...prevMessages
+    ]);
+  }, [chattingList]);
 
   useEffect(() => {
     // WebSocket 클라이언트 설정
@@ -129,7 +146,7 @@ function Chat() {
               </div>
             ) : (
               // 다른 사용자가 보낸 메시지
-              <div key={msg.id} className="flex justify-start items-start">
+              <div key={`${msg.id}-${index}`} className="flex justify-start items-start">
                 <img src={msg.profileImg} alt="Profile" className="w-10 h-10 rounded-full mr-2 " />
                 <div className="flex flex-col gap-1 max-w-[280px] min-w-[20px]">
                   <p className="font-semibold">{msg.nickname}</p>
