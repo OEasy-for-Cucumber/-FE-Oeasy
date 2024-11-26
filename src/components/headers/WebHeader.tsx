@@ -1,7 +1,7 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import Button from "../common/Button";
 import { useUserStore } from "../../zustand/authStore";
-import Sample from "../../../public/img/profilesample.jpg"
+import Sample from "../../../public/img/profilesample.jpg";
 import Logo from "../../.././public/icons/logo.png";
 
 function WebHeader() {
@@ -35,21 +35,30 @@ function WebHeader() {
 
   return (
     <div
-      className={`w-full min-w-[1440px] h-[80px] px-6 flex items-center fixed ${pathname === "/" ? "bg-greenoe-950" : "bg-grayoe-950"}`}
+      className={`w-full min-w-[1440px] h-[80px] px-6 flex items-center fixed z-50 ${pathname === "/" ? "bg-greenoe-950" : "bg-grayoe-950"}`}
     >
       <div className="flex items-center">
         <button onClick={goToHome} className="text-white text-xl mr-8">
-          <img src={Logo} alt="로고" className="w-[95px]"/>
+          <img src={Logo} alt="로고" className="w-[95px]" />
         </button>
       </div>
       <div className="flex flex-1 justify-end items-center space-x-8">
-        <button onClick={goToCommunity} className={`${pathname === "/community" ? "text-greenoe-600" : "text-white"} hover:text-greenoe-600`}>
+        <button
+          onClick={goToCommunity}
+          className={`${pathname === "/community" ? "text-greenoe-600" : "text-white"} hover:text-greenoe-600`}
+        >
           오이커뮤니티
         </button>
-        <button onClick={goToVote} className={`${pathname === "/vote-chat" ? "text-greenoe-600" : "text-white"} hover:text-greenoe-600`}>
+        <button
+          onClick={goToVote}
+          className={`${pathname === "/vote-chat" ? "text-greenoe-600" : "text-white"} hover:text-greenoe-600`}
+        >
           오이투표
         </button>
-        <button onClick={goToRecipes} className={`${pathname === "/recipe" ? "text-greenoe-600" : "text-white"} hover:text-greenoe-600`}>
+        <button
+          onClick={goToRecipes}
+          className={`${pathname === "/recipe" ? "text-greenoe-600" : "text-white"} hover:text-greenoe-600`}
+        >
           오이레시피
         </button>
         {!isLoggedIn ? (
@@ -57,7 +66,13 @@ function WebHeader() {
             Login
           </Button>
         ) : (
-          <button onClick={goToMypage}><img src={!user?.memberImage ? Sample : user.memberImage} alt="프로필이미지" className="w-[40px] h-[40px] rounded-full"/></button>
+          <button onClick={goToMypage}>
+            <img
+              src={!user?.memberImage ? Sample : user.memberImage}
+              alt="프로필이미지"
+              className="w-[40px] h-[40px] rounded-full"
+            />
+          </button>
         )}
       </div>
     </div>

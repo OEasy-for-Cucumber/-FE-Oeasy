@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import ReactDOM from "react-dom";
+import { AxiosError } from "axios";
 import sendIcon from "../../../../public/icons/send.png";
 import aioeIcon from "../../../../public/img/chat_aioe.png";
 import instance from "../../../api/axios";
@@ -25,6 +26,14 @@ function AiOe() {
   };
 
   useEffect(() => {
+    const savedMessages = localStorage.getItem("aiOeMessages");
+    if (savedMessages) {
+      setMessages(JSON.parse(savedMessages));
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("aiOeMessages", JSON.stringify(messages));
     scrollToBottom();
   }, [messages]);
 
@@ -37,8 +46,13 @@ function AiOe() {
     try {
       const res = await instance.post("/aioe/start");
       console.log(res);
-    } catch {
-      setAiOe(true);
+    } catch (error: unknown) {
+      if (error instanceof AxiosError && error.response?.status === 401) {
+        console.warn("401 에러 무시: 이미 연결 상태임");
+        setAiOe(true);
+      } else {
+        console.error("AI 연결 실패:", error);
+      }
     }
 
     setAiOe(true);

@@ -14,7 +14,7 @@ import { useQueryClient } from "@tanstack/react-query";
 
 function EditProfile({ handleEditModal }: { handleEditModal: () => void }) {
   const { setUser, clearUser, setIsLoggedIn } = useUserStore.getState();
-  const user = useUserStore((state)=> state.user);
+  const user = useUserStore((state) => state.user);
   const navigate = useNavigate();
 
   const [newNickname, setNewNickname] = useState<string | undefined>(user!.nickname);
@@ -59,10 +59,10 @@ function EditProfile({ handleEditModal }: { handleEditModal: () => void }) {
       const { data: profileData } = await instance.patch(
         "/member/profile-picture",
         {
-          file: profileImg,
+          file: profileImg
         },
         {
-          headers: { "Content-Type": "multipart/form-data" },
+          headers: { "Content-Type": "multipart/form-data" }
         }
       );
       updatedUser = { ...updatedUser, memberImage: profileData.imageUrl };
@@ -74,7 +74,7 @@ function EditProfile({ handleEditModal }: { handleEditModal: () => void }) {
         console.error("Unexpected error:", error);
       }
     }
-  
+
     try {
       const { data: nicknameData } = await instance.patch("/member/nickname", {
         newNickname
@@ -114,8 +114,7 @@ function EditProfile({ handleEditModal }: { handleEditModal: () => void }) {
 
   const logoutHandler = async () => {
     // aioe 연결 끊기
-    const res = await instance.delete("/aioe/history");
-    console.log(res);
+    await instance.delete("/aioe/history");
 
     Cookies.remove("accessToken");
     if (confirm("로그아웃 하시겠습니까?")) {

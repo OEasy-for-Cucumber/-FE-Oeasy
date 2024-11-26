@@ -1,31 +1,52 @@
-import { useLocation } from "react-router-dom";
 import profileImg from "../../../../../public/img/profilesample.jpg";
 import show from "../../../../../public/icons/show.png";
 import commentIcon from "../../../../../public/icons/comment.png";
 import emptyHeart from "../../../../../public/icons/heart.png";
 import fullHeart from "../../../../../public/icons/fullHeart.png";
 import Comment from "../../components/Comment";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { parseISO, format, formatDistanceToNow } from "date-fns";
 import { ko } from "date-fns/locale";
+import instance from "../../../../api/axios";
+import { useLocation, useParams } from "react-router-dom";
 
 interface PostData {
-  content: string;
+  id: number;
   title: string;
-  user: {
-    nickname: string;
-  };
+  nickname: string;
   createdAt: string;
-  images: Array<string>;
+  likes: number;
+  imageUrlList: Array<string>;
 }
 
 function Detail() {
   const location = useLocation();
-  const postData = location.state as PostData;
+  const { postId } = useParams<{ postId: string }>();
+  const [postData, setPostData] = useState<PostData | null>(null);
   const [liked, setLiked] = useState(false);
   const [likedCount, setLikedCount] = useState(0);
 
-  console.log(postData);
+  useEffect(() => {
+    // 이전 페이지에서 데이터를 전달받은 경우, 상태 초기화
+    if (location.state) {
+      setPostData(location.state as PostData);
+    } else {
+      // 서버에서 데이터 가져오기
+      fetchPostData();
+    }
+  }, [location.state]);
+
+  const fetchPostData = async () => {
+    try {
+      const response = await instance.get(`api/Community/${postId}`);
+      console.log(response);
+      setPostData(response.data); // 서버에서 받은 데이터를 상태에 저장
+      setLikedCount(response.data.likes); // 좋아요 초기값 설정
+    } catch (error) {
+      console.error("게시물 데이터를 가져오는 중 오류 발생:", error);
+      alert("게시물 데이터를 불러오는 데 실패했습니다.");
+    }
+  };
 
   const toggleLike = () => {
     setLiked(!liked);

@@ -1,7 +1,6 @@
 import LocationIcon from "../../../../public/icons/Location.png";
 import { useEffect, useState } from "react";
 import instance from "../../../api/axios";
-import Oesample from "../../../../public/img/oeindexsample.png";
 import Union from "../../../../public/img/Union.png";
 import ShortLine from "../../../../public/icons/ShortLine.png";
 import LongLine from "../../../../public/icons/LongLine.png";
@@ -28,7 +27,7 @@ function OeIndex() {
 
   return (
     <div className="px-6 h-[calc(100vh-56px)] xl:h-[calc(100vh-80px)] pt-2 flex justify-center items-center">
-      <div className="w-full h-[540px]">
+      <div className="w-full h-[540px] relative">
         <h3 className="font-h3 xl:text-[48px] xl:mb-4">오늘의 OE지수</h3>
         <div className="flex gap-2 items-center py-1 mb-8">
           <img src={LocationIcon} alt="locationIcon" className="xl:w-[20px]" />
@@ -46,9 +45,9 @@ function OeIndex() {
         </div>
 
         {/* 오이 캐릭터 */}
-        <div className="w-[300px] xl:w-[530px] ml-auto">
+        <div className="w-[300px] xl:w-[530px] ml-auto absolute right-0 top-[152px] xl:top-[141px]">
           <div className="w-full flex justify-end">
-            <img src={Oesample} alt="날뛰는오이" className="w-[180px] xl:w-[220px]" />
+            <img src={oeIndexData?.imgUrl} alt="날뛰는오이" className="w-[80px] xl:w-[120px]" />
           </div>
 
           {/* 말풍선과 오이 한마디 */}
@@ -56,9 +55,9 @@ function OeIndex() {
             <img
               src={Union}
               alt="말풍선"
-              className="w-3/4 xl:w-[387px] absolute -bottom-14 left-0 xl:-bottom-20 xl:left-0"
+              className="w-3/4 xl:w-[387px] absolute -bottom-10 left-0 xl:-bottom-20 xl:left-0"
             />
-            <p className="absolute -bottom-7 left-5 xl:-bottom-8 xl:left-12 text-black font-semibold xl:text-[24px]">
+            <p className="absolute -bottom-4 left-5 xl:-bottom-8 xl:left-12 text-black font-semibold xl:text-[24px]">
               쑥쑥 자라기 딱 좋은 날씨에요!
             </p>
           </div>
