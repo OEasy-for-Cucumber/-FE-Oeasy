@@ -79,8 +79,8 @@ function Login() {
       if (error instanceof AxiosError && error.response) {
         if (error.response.status === 401) {
           console.log("아이디와 비밀번호를 확인해 주세요.");
-        } else {
-          console.log("다른 에러 발생:", error.response.status);
+        } else if(error.response.status === 404) {
+          alert("회원정보가 없습니다.");
         }
       } else {
         console.log("Unknown error:", error);

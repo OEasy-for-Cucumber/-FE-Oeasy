@@ -105,6 +105,10 @@ function EditProfile({ handleEditModal }: { handleEditModal: () => void }) {
   };
 
   const handleNewPasswordModal = () => {
+    if(user?.kakaoId){
+      alert("일반가입 회원만 이용 가능합니다.");
+      return;
+    }
     setIsNewPasswordModalOpen((prev) => !prev);
   };
 
