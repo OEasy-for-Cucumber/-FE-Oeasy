@@ -3,14 +3,13 @@ import HamburgerIcon from "../../assets/Icon.svg";
 import { useState } from "react";
 import HamburgerModal from "./HamburgerModal";
 import { useUserStore } from "../../zustand/authStore";
-import Sample from "../../../public/img/profilesample.jpg"
-
+import Sample from "../../../public/img/profilesample.jpg";
 
 function MobileHeader() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const user = useUserStore((state)=> (state.user))
+  const user = useUserStore((state) => state.user);
   const { isLoggedIn } = useUserStore.getState();
 
   const MAIN = pathname === "/";
@@ -60,7 +59,7 @@ function MobileHeader() {
         <p className="text-center mx-auto">{headerTitle}</p>
       ) : (
         <>
-         <button onClick={toggleModal}> 
+          <button onClick={toggleModal}>
             <img src={HamburgerIcon} alt="메뉴아이콘" />
           </button>
           {isModalOpen && (
@@ -71,8 +70,16 @@ function MobileHeader() {
             <button onClick={goToLogin} className="text-xs">
               login
             </button>
-          ) : pathname === "/mypage" ?  <div className="w-5"></div> : (
-            <button onClick={goToMypage}><img src={!user?.memberImage ? Sample : user.memberImage} alt="프로필이미지" className="w-[30px] h-[30px] rounded-full"/></button>
+          ) : pathname === "/mypage" ? (
+            <div className="w-5"></div>
+          ) : (
+            <button onClick={goToMypage}>
+              <img
+                src={!user?.memberImage ? Sample : user.memberImage}
+                alt="프로필이미지"
+                className="w-[30px] h-[30px] rounded-full"
+              />
+            </button>
           )}
         </>
       )}
