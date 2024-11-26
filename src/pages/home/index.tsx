@@ -13,8 +13,8 @@ function Home() {
       <TopBtn />
       <Landing />
       <div className="xl:px-[200px]">
-        <OeIndex />
         <OeTip />
+        <OeIndex />
         <OeGraph />
         <Recipe />
       </div>
