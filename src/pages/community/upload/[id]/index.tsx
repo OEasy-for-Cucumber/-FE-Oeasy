@@ -1,25 +1,43 @@
+import imageCompression from "browser-image-compression";
 import { useRef, useState } from "react";
 import uploadImg from "../../../../../public/img/uploadImg.png";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useUserStore } from "../../../../zustand/authStore";
+import instance from "../../../../api/axios";
 
 function Upload() {
   const navigate = useNavigate();
-  const { postId } = useParams();
-  const [images, setImages] = useState<string[]>([]);
+  const [images, setImages] = useState<File[]>([]);
   const titleRef = useRef<HTMLInputElement>(null);
   const contentRef = useRef<HTMLTextAreaElement>(null);
   const user = useUserStore((state) => state.user);
 
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || []);
-    const selectedImages = files.map((file) => URL.createObjectURL(file));
-    if (images.length + selectedImages.length > 6) {
+
+    if (images.length + files.length > 6) {
       alert("사진은 최대 6장까지 첨부 가능합니다");
       return;
     }
 
-    setImages((prevImages) => [...prevImages, ...selectedImages]);
+    const compressedFiles: File[] = [];
+
+    for (const file of files) {
+      try {
+        const options = {
+          maxSizeMB: 0.5,
+          maxWidthOrHeight: 1080,
+          useWebWorker: true
+        };
+
+        const compressedFile = await imageCompression(file, options);
+        compressedFiles.push(compressedFile);
+      } catch (error) {
+        console.error("이미지 압축 중 오류 발생:", error);
+      }
+    }
+
+    setImages((prevImages) => [...prevImages, ...compressedFiles]);
   };
 
   const handleUploadClick = () => {
@@ -33,7 +51,7 @@ function Upload() {
     }
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const title = titleRef.current?.value || "";
     const content = contentRef.current?.value || "";
 
@@ -45,12 +63,37 @@ function Upload() {
       alert("내용을 입력해주세요.");
       return;
     }
+    const formData = new FormData();
 
-    const now = new Date(Date.now() + 9 * 60 * 60 * 1000).toISOString().split(".")[0];
-    const postData = { postId, title, content, images, user, createdAt: now };
-    console.log("등록된 데이터:", postData);
-    alert("게시물이 등록되었습니다.");
-    navigate(`/community/detail/${postId}`, { state: postData });
+    const requestData = {
+      userId: user?.memberPk || 0,
+      title: title,
+      content: content
+    };
+    formData.append("requestData", new Blob([JSON.stringify(requestData)], { type: "application/json" }));
+    images.forEach((image) => {
+      if (image instanceof File && image.size > 0) {
+        formData.append("imgList", image);
+      }
+    });
+    try {
+      const response = await instance.post("/api/community", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data"
+        }
+      });
+
+      if (response.status === 201) {
+        const { postId } = response.data;
+        alert("게시물이 등록되었습니다.");
+        navigate(`/community/detail/${postId}`, { state: response.data });
+      } else {
+        throw new Error("게시물 등록에 실패했습니다.");
+      }
+    } catch (error) {
+      console.error("게시물 등록 중 오류 발생:", error);
+      alert("게시물 등록에 실패했습니다. 다시 시도해주세요.");
+    }
   };
 
   return (
@@ -93,13 +136,17 @@ function Upload() {
               className="hidden"
               onChange={handleImageUpload}
             />
-            {images.map((src, index) => (
+            {images.map((file, index) => (
               <div
                 key={index}
                 className="min-w-[72px] min-h-[72px] max-w-[100px] max-h-[100px] rounded-lg cursor-pointer aspect-square"
                 onClick={() => handleDelClick(index)}
               >
-                <img src={src} alt="업로드된 이미지" className="w-full rounded-lg h-full object-cover" />
+                <img
+                  src={URL.createObjectURL(file)}
+                  alt="업로드된 이미지"
+                  className="w-full rounded-lg h-full object-cover"
+                />
               </div>
             ))}
           </div>
