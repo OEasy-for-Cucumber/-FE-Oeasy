@@ -1,11 +1,43 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Chat from "./components/Chat";
 import Vote from "./components/Vote";
 import useWebActive from "../../hooks/useWebActive";
+import instance from "../../api/axios";
+import { useUserStore } from "../../zustand/authStore";
+import { voteChatRes } from "../../types/initialVoteChatTypes";
 
 function Votechat() {
   const [active, setActive] = useState<"vote" | "chat">("vote");
   const webActive = useWebActive();
+  const [initialVotes, setInitialVotes] = useState({ hate: 0, like: 0 });
+  const [voting, setVoting] = useState("not voting");
+  const [chatLi, setChatLi] = useState<{ id: number; content: string; profileImg: string; nickname: string }[]>([]);
+  const user = useUserStore((state) => state.user);
+
+  useEffect(() => {
+    const fetchInitialVotes = async () => {
+      try {
+        const response = await instance.get<voteChatRes>(`/api/community/init/${user?.memberPk}`);
+        const { hate, like, isVoting, chattingList } = response.data;
+        console.log(response);
+        setInitialVotes({ hate, like });
+        setVoting(isVoting);
+        setChatLi(chattingList);
+      } catch (error) {
+        console.error("초기 투표 데이터를 가져오는 중 오류가 발생했습니다.", error);
+      }
+    };
+
+    if (user?.memberPk) {
+      fetchInitialVotes();
+    }
+  }, [user?.memberPk]);
+
+  useEffect(() => {
+    if (webActive) {
+      setActive("vote");
+    }
+  }, [webActive]);
 
   const handleVoteClick = () => {
     if (!webActive && active !== "vote") {
@@ -27,7 +59,7 @@ function Votechat() {
         }`}
         onClick={handleVoteClick}
       >
-        <Vote active={active} />
+        <Vote active={active} initialVotes={initialVotes} isVoting={voting} />
       </div>
       <div className="border-grayoe-900 border-[6px] w-full xl:hidden" />
       <div
@@ -36,7 +68,7 @@ function Votechat() {
         }`}
         onClick={handleChatClick}
       >
-        <Chat />
+        <Chat chattingList={chatLi} />
       </div>
     </div>
   );

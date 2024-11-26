@@ -133,6 +133,9 @@ function EditProfile({ handleEditModal }: { handleEditModal: () => void }) {
     setIsDeleteModal((prev) => !prev);
   };
 
+  console.log(profileImg);
+  
+
   return (
     <div className="fixed inset-0 flex flex-col items-center justify-center">
       <form
