@@ -6,19 +6,19 @@ import sendIcon from "../../../../public/icons/send.png";
 import { useUserStore } from "../../../zustand/authStore";
 
 type Message = {
-  id: string | number; // 메시지 ID
-  nickname: string; // 사용자 이름
-  content: string; // 메시지 내용
-  profileImg: string; // 프로필 이미지
+  id: string | number;
+  nickname: string;
+  content: string;
+  profileImg: string;
 };
 
 interface ChatProps {
-  chattingList: { id: number; content: string; profileImg: string; nickname: string }[]; // 타입 정의
+  chattingList: { id: number; content: string; profileImg: string; nickname: string }[];
 }
 
 function Chat({ chattingList }: ChatProps) {
   if (typeof global === "undefined") {
-    window.global = window; // 브라우저 환경에서 `global`이 없는 경우 `window`로 설정
+    window.global = window;
   }
 
   const [client, setClient] = useState<Client | null>(null);
@@ -29,22 +29,23 @@ function Chat({ chattingList }: ChatProps) {
   const messageEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // chattingList가 전달되면 이를 messages 배열에 병합
     setMessages((prevMessages) => [
-      ...chattingList.map((msg) => ({
-        id: msg.id,
-        nickname: msg.nickname,
-        content: msg.content,
-        profileImg: msg.profileImg
-      })),
+      ...chattingList
+        .slice()
+        .reverse()
+        .map((msg) => ({
+          id: msg.id,
+          nickname: msg.nickname,
+          content: msg.content,
+          profileImg: msg.profileImg
+        })),
       ...prevMessages
     ]);
   }, [chattingList]);
 
   useEffect(() => {
-    // WebSocket 클라이언트 설정
     const stompClient = new Client({
-      webSocketFactory: () => new SockJS(import.meta.env.VITE_APP_WS_URL), // Spring Boot 서버의 WebSocket 엔드포인트
+      webSocketFactory: () => new SockJS(import.meta.env.VITE_APP_WS_URL),
       reconnectDelay: 5000,
       heartbeatIncoming: 4000,
       heartbeatOutgoing: 4000
@@ -57,21 +58,17 @@ function Chat({ chattingList }: ChatProps) {
       stompClient.subscribe("/topic/message", (msg) => {
         console.log("메시지 수신:", msg.body);
         try {
-          // 메시지 수신 및 JSON 파싱
           const receivedMessage = JSON.parse(msg.body);
 
-          // 필요한 데이터 속성만 추출 (기본값 처리 포함)
           const { id = uuidv4(), profileImg = "", nickname = "Anonymous", content = "" } = receivedMessage;
 
-          // 새로운 메시지 생성
           const newMessage = {
             id,
-            nickname, // 'nickname'을 'username'으로 매핑
+            nickname,
             content,
             profileImg
           };
 
-          // 기존 메시지 배열에 추가
           setMessages((prevMessages) => [...prevMessages, newMessage]);
           console.log("Received message:", receivedMessage);
         } catch (error) {
@@ -88,7 +85,6 @@ function Chat({ chattingList }: ChatProps) {
 
     stompClient.activate();
 
-    // 컴포넌트가 언마운트될 때 WebSocket 연결 해제
     return () => {
       if (stompClient) {
         stompClient.deactivate();
@@ -107,7 +103,7 @@ function Chat({ chattingList }: ChatProps) {
     }
     if (client && message.trim()) {
       client.publish({
-        destination: "/app/message", // Spring Boot의 @MessageMapping("/send") 경로
+        destination: "/app/message",
         body: JSON.stringify({
           userPk: user.memberPk,
           content: message
@@ -134,7 +130,6 @@ function Chat({ chattingList }: ChatProps) {
         <div className="flex flex-col xl:px-4 xl:h-[634px] overflow-y-auto gap-4">
           {messages.map((msg, index) =>
             msg.nickname === user?.nickname ? (
-              // 내가 보낸 메시지
               <div key={`${msg.id}-${index}`} className="flex justify-end items-start">
                 <div className="flex flex-col items-end gap-1 max-w-[280px] min-w-[20px]">
                   <p className="font-semibold">{msg.nickname}</p>
@@ -145,7 +140,6 @@ function Chat({ chattingList }: ChatProps) {
                 <img src={msg.profileImg} alt="Profile" className="w-10 h-10 rounded-full ml-2" />
               </div>
             ) : (
-              // 다른 사용자가 보낸 메시지
               <div key={`${msg.id}-${index}`} className="flex justify-start items-start">
                 <img src={msg.profileImg} alt="Profile" className="w-10 h-10 rounded-full mr-2 " />
                 <div className="flex flex-col gap-1 max-w-[280px] min-w-[20px]">
