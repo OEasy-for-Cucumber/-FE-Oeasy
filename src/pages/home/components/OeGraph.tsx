@@ -104,16 +104,12 @@ function OeGraph() {
           <div className="w-full flex items-end justify-center space-x-2 overflow-x-scroll">
             {oePriceData.map((data, index) => (
               <div key={index} className="flex flex-col items-center gap-2">
-                <span className="text-white text-sm mt-2">
-                  {data.price.toLocaleString()}
-                </span>
+                <span className="text-white text-sm mt-2">{data.price.toLocaleString()}</span>
                 <div
                   className="w-[20px] bg-gradient-to-t from-[#00903B] to-[#00C853] rounded"
                   style={{ height: `${calculateBarHeight(data.price)}px` }}
                 ></div>
-                <span className="text-sm truncate">
-                  {data.date.split("-").slice(1).join("/")}
-                </span>
+                <span className="text-sm truncate">{data.date.split("-").slice(1).join("/")}</span>
               </div>
             ))}
           </div>
@@ -125,7 +121,9 @@ function OeGraph() {
                 <span className="text-sm text-black font-b1-semibold ml-1">전일대비</span>
               </div>
               <span className="text-xl font-h3 text-red-500 ml-auto">
-                {oePriceData.length > 0 ? oePriceData[oePriceData.length - 1].price - oePriceData[oePriceData.length - 2].price : 0}
+                {oePriceData.length > 0
+                  ? oePriceData[oePriceData.length - 1].price - oePriceData[oePriceData.length - 2].price
+                  : 0}
               </span>
             </div>
 
