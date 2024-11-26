@@ -4,8 +4,9 @@ import OeGraph from "./components/OeGraph";
 import OeTip from "./components/OeTip";
 import AiOe from "./components/AiOe";
 import Recipe from "./components/recipe/Recipe";
-import OeIndex from "./components/OeIndex";
+
 import { useEffect, useRef, useState } from "react";
+import OeIndex from "./components/OEIndex";
 
 function Home() {
   const outerDivRef = useRef<HTMLDivElement | null>(null);
