@@ -93,7 +93,17 @@ function Chat({ chattingList }: ChatProps) {
   }, []);
 
   useEffect(() => {
-    messageEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    const scrollToBottom = () => {
+      messageEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    };
+
+    scrollToBottom();
+    const handleResize = () => scrollToBottom();
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
   }, [messages]);
 
   const handleSendMessage = () => {

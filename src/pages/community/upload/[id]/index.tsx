@@ -7,7 +7,7 @@ import instance from "../../../../api/axios";
 
 function Upload() {
   const navigate = useNavigate();
-  const [images, setImages] = useState<string[]>([]);
+  const [images, setImages] = useState<File[]>([]);
   const titleRef = useRef<HTMLInputElement>(null);
   const contentRef = useRef<HTMLTextAreaElement>(null);
   const user = useUserStore((state) => state.user);
@@ -20,26 +20,24 @@ function Upload() {
       return;
     }
 
-    const compressedImages: string[] = [];
+    const compressedFiles: File[] = [];
 
     for (const file of files) {
       try {
         const options = {
-          maxSizeMB: 0.5, // 최대 파일 크기 (1MB)
-          maxWidthOrHeight: 1080, // 이미지의 최대 가로 또는 세로 크기
-          useWebWorker: true // 웹 워커를 사용하여 성능 최적화
+          maxSizeMB: 0.5,
+          maxWidthOrHeight: 1080,
+          useWebWorker: true
         };
 
         const compressedFile = await imageCompression(file, options);
-
-        const compressedImageUrl = URL.createObjectURL(compressedFile);
-        compressedImages.push(compressedImageUrl);
+        compressedFiles.push(compressedFile);
       } catch (error) {
         console.error("이미지 압축 중 오류 발생:", error);
       }
     }
 
-    setImages((prevImages) => [...prevImages, ...compressedImages]);
+    setImages((prevImages) => [...prevImages, ...compressedFiles]);
   };
 
   const handleUploadClick = () => {
@@ -65,18 +63,21 @@ function Upload() {
       alert("내용을 입력해주세요.");
       return;
     }
-
     const formData = new FormData();
-    formData.append("userId", user?.memberPk?.toString() || "");
-    formData.append("title", title);
-    formData.append("content", content);
 
-    // 이미지 파일 추가
-    images.forEach((file) => {
-      formData.append("imgList", file);
+    const requestData = {
+      userId: user?.memberPk || 0,
+      title: title,
+      content: content
+    };
+    formData.append("requestData", new Blob([JSON.stringify(requestData)], { type: "application/json" }));
+    images.forEach((image) => {
+      if (image instanceof File && image.size > 0) {
+        formData.append("imgList", image);
+      }
     });
     try {
-      const response = await instance.post("/api/Community", formData, {
+      const response = await instance.post("/api/community", formData, {
         headers: {
           "Content-Type": "multipart/form-data"
         }
@@ -135,13 +136,17 @@ function Upload() {
               className="hidden"
               onChange={handleImageUpload}
             />
-            {images.map((src, index) => (
+            {images.map((file, index) => (
               <div
                 key={index}
                 className="min-w-[72px] min-h-[72px] max-w-[100px] max-h-[100px] rounded-lg cursor-pointer aspect-square"
                 onClick={() => handleDelClick(index)}
               >
-                <img src={src} alt="업로드된 이미지" className="w-full rounded-lg h-full object-cover" />
+                <img
+                  src={URL.createObjectURL(file)}
+                  alt="업로드된 이미지"
+                  className="w-full rounded-lg h-full object-cover"
+                />
               </div>
             ))}
           </div>

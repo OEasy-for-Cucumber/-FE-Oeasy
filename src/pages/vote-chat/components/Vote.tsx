@@ -22,6 +22,9 @@ function Vote({ active, initialVotes, isVoting }: VoteProps) {
   const stompClientRef = useRef<Client | null>(null);
 
   console.log(isVoting);
+  useEffect(() => {
+    setVotingStatus(isVoting);
+  }, [isVoting]);
 
   useEffect(() => {
     setHateVotes(initialVotes.hate);
@@ -37,11 +40,15 @@ function Vote({ active, initialVotes, isVoting }: VoteProps) {
         console.log("STOMP 연결 완료");
 
         client.subscribe("/topic/votes", (message) => {
-          const likedata = JSON.parse(message.body);
-          const hatedata = JSON.parse(message.body);
-          console.log("좋아요:", likedata, "싫어요:", hatedata);
-          setLikeVotes(likedata);
-          setHateVotes(hatedata);
+          console.log("WebSocket 메시지 원본:", message.body);
+          const data = JSON.parse(message.body);
+          console.log("WebSocket 데이터 수신:", data);
+
+          // if (data.like !== undefined) setLikeVotes(data.like);
+          // if (data.hate !== undefined) setHateVotes(data.hate);
+          // if (data.isVoting !== undefined) {
+          //   console.log("WebSocket에서 수신한 isVoting:", data.isVoting);
+          // }
         });
       },
       onStompError: (frame) => {
@@ -68,6 +75,7 @@ function Vote({ active, initialVotes, isVoting }: VoteProps) {
 
     if (votingStatus === "voting") {
       alert("하루에 한 번 투표 가능합니다");
+      return;
     }
 
     if (side === "hate") {
@@ -77,7 +85,6 @@ function Vote({ active, initialVotes, isVoting }: VoteProps) {
       setIsLikeClicked(true);
       setTimeout(() => setIsLikeClicked(false), 300);
     }
-    setVotingStatus("voting");
 
     if (stompClientRef.current && stompClientRef.current.connected) {
       stompClientRef.current.publish({

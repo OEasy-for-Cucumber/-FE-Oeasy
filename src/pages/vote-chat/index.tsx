@@ -10,7 +10,7 @@ function Votechat() {
   const [active, setActive] = useState<"vote" | "chat">("vote");
   const webActive = useWebActive();
   const [initialVotes, setInitialVotes] = useState({ hate: 0, like: 0 });
-  const [voting, setVoting] = useState<"voting" | "not voting">("not voting");
+  const [voting, setVoting] = useState("not voting");
   const [chatLi, setChatLi] = useState<{ id: number; content: string; profileImg: string; nickname: string }[]>([]);
   const user = useUserStore((state) => state.user);
 
@@ -18,10 +18,10 @@ function Votechat() {
     const fetchInitialVotes = async () => {
       try {
         const response = await instance.get<voteChatRes>(`/api/community/init/${user?.memberPk}`);
-        const { hate, like, isVoting, chattingList } = response.data; // isVoting을 받아옵니다.
+        const { hate, like, isVoting, chattingList } = response.data;
         console.log(response);
         setInitialVotes({ hate, like });
-        setVoting(isVoting ? "voting" : "not voting");
+        setVoting(isVoting);
         setChatLi(chattingList);
       } catch (error) {
         console.error("초기 투표 데이터를 가져오는 중 오류가 발생했습니다.", error);
@@ -32,6 +32,12 @@ function Votechat() {
       fetchInitialVotes();
     }
   }, [user?.memberPk]);
+
+  useEffect(() => {
+    if (webActive) {
+      setActive("vote");
+    }
+  }, [webActive]);
 
   const handleVoteClick = () => {
     if (!webActive && active !== "vote") {
