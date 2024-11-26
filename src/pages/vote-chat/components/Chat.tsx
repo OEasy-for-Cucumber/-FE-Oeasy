@@ -27,6 +27,7 @@ function Chat({ chattingList }: ChatProps) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [isComposing, setComposing] = useState(false);
   const messageEndRef = useRef<HTMLDivElement>(null);
+  const DEFAULT_PROFILE_IMG = "/img/defaultProfile.png";
 
   useEffect(() => {
     setMessages((prevMessages) => [
@@ -37,7 +38,7 @@ function Chat({ chattingList }: ChatProps) {
           id: msg.id,
           nickname: msg.nickname,
           content: msg.content,
-          profileImg: msg.profileImg
+          profileImg: msg.profileImg || DEFAULT_PROFILE_IMG
         })),
       ...prevMessages
     ]);
@@ -66,7 +67,7 @@ function Chat({ chattingList }: ChatProps) {
             id,
             nickname,
             content,
-            profileImg
+            profileImg: profileImg || DEFAULT_PROFILE_IMG
           };
 
           setMessages((prevMessages) => [...prevMessages, newMessage]);

@@ -44,11 +44,12 @@ function Vote({ active, initialVotes, isVoting }: VoteProps) {
           const data = JSON.parse(message.body);
           console.log("WebSocket 데이터 수신:", data);
 
-          // if (data.like !== undefined) setLikeVotes(data.like);
-          // if (data.hate !== undefined) setHateVotes(data.hate);
-          // if (data.isVoting !== undefined) {
-          //   console.log("WebSocket에서 수신한 isVoting:", data.isVoting);
-          // }
+          if (data.like !== undefined) setLikeVotes(data.like);
+          if (data.hate !== undefined) setHateVotes(data.hate);
+          if (data.isVoting !== undefined) {
+            console.log("WebSocket에서 수신한 isVoting:", data.isVoting);
+            setVotingStatus(data.isVoting);
+          }
         });
       },
       onStompError: (frame) => {
@@ -73,7 +74,7 @@ function Vote({ active, initialVotes, isVoting }: VoteProps) {
       return;
     }
 
-    if (votingStatus === "voting") {
+    if (votingStatus === "like" || votingStatus === "hate") {
       alert("하루에 한 번 투표 가능합니다");
       return;
     }
@@ -87,8 +88,9 @@ function Vote({ active, initialVotes, isVoting }: VoteProps) {
     }
 
     if (stompClientRef.current && stompClientRef.current.connected) {
+      console.log("STOMP 연결 상태:", stompClientRef.current?.connected);
       stompClientRef.current.publish({
-        destination: `/app/${side}-votes`,
+        destination: `/app/votes`,
         body: JSON.stringify({
           id: user.memberPk,
           vote: side === "hate" ? false : true
