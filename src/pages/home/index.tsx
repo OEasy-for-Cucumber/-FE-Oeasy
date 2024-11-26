@@ -73,7 +73,7 @@ function Home() {
 
       setTimeout(() => {
         isScrolling.current = false;
-      }, 1000);
+      }, 1200);
     };
 
     const outerDivRefCurrent = outerDivRef.current;
