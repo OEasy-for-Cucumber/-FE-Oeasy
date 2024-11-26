@@ -4,7 +4,7 @@ import OeGraph from "./components/OeGraph";
 import OeTip from "./components/OeTip";
 import AiOe from "./components/AiOe";
 import Recipe from "./components/recipe/Recipe";
-import OeIndex from "./components/OEIndex";
+import OeIndex from "./components/OeIndex";
 
 function Home() {
   return (
