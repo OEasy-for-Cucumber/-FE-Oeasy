@@ -66,8 +66,8 @@ module.exports = {
         "36px": "36px 36px"
       },
       backgroundPosition: {
-        mobile_cucumber: "-65% 0%",
-        web_cucumber: "-10% 0%",
+        mobile_cucumber: "-15% 0%",
+        web_cucumber: "-4% 0%",
         aioe: "50% 50%"
       }
     },

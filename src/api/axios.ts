@@ -8,8 +8,8 @@ const instance = axios.create({
   timeout: 5000,
   withCredentials: true,
   headers: {
-    "Content-Type": "application/json",
-  },
+    "Content-Type": "application/json"
+  }
 });
 
 // 토큰 갱신용 axios 인스턴스 (인터셉터 없이 사용)
@@ -18,8 +18,8 @@ const refreshInstance = axios.create({
   timeout: 5000,
   withCredentials: true,
   headers: {
-    "Content-Type": "application/json",
-  },
+    "Content-Type": "application/json"
+  }
 });
 
 // 요청 인터셉터
@@ -43,6 +43,12 @@ instance.interceptors.response.use(
     const { setIsLoggedIn } = useUserStore.getState();
     const originalRequest = error.config;
 
+    // 특정 요청은 401 에러를 무시
+    if (originalRequest.url === "/aioe/start" && error.response?.status === 401) {
+      console.warn("401 에러 무시: /aioe/start 요청");
+      return Promise.reject(error);
+    }
+
     // AccessToken 만료 처리
     if (error.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true; // 무한 루프 방지
@@ -59,10 +65,10 @@ instance.interceptors.response.use(
         }
 
         // refreshToken으로 새로운 accessToken 요청
-        const { data } = await refreshInstance.post("/auth/refresh",{
+        const { data } = await refreshInstance.post("/auth/refresh", {
           headers: {
-            Authorization: `Bearer ${refreshToken}`,
-          },
+            Authorization: `Bearer ${refreshToken}`
+          }
         });
 
         if (data.accessToken) {
