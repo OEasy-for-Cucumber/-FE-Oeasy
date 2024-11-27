@@ -1,11 +1,17 @@
 import { useEffect } from "react";
 
-export const useScrollEvent = (onScroll: () => void) => {
+export const useScrollEvent = (onScroll: () => void, scrollRef?: React.RefObject<HTMLElement>) => {
   useEffect(() => {
-    window.addEventListener("scroll", onScroll);
+    const throttledOnScroll = () => {
+      onScroll();
+    };
+
+    const target = scrollRef?.current || window;
+
+    target.addEventListener("scroll", throttledOnScroll);
 
     return () => {
-      window.removeEventListener("scroll", onScroll);
+      target.removeEventListener("scroll", throttledOnScroll);
     };
-  }, []);
+  }, [onScroll, scrollRef]);
 };

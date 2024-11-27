@@ -6,6 +6,7 @@ import AiOe from "./components/AiOe";
 import Recipe from "./components/recipe/Recipe";
 import OeIndex from "./components/OeIndex";
 import { useEffect, useRef, useState } from "react";
+import { useScrollEvent } from "../../hooks/useScrollEvent";
 
 function Home() {
   const outerDivRef = useRef<HTMLDivElement | null>(null);
@@ -14,6 +15,14 @@ function Home() {
   const [showTopBtn, setShowTopBtn] = useState(false);
 
   const outerDivRefCurrent = outerDivRef.current;
+
+  // top버튼 스크롤 이벤트
+  useScrollEvent(() => {
+    if (outerDivRefCurrent) {
+      const scrollTop = outerDivRefCurrent.scrollTop;
+      setShowTopBtn(scrollTop > 1);
+    }
+  }, outerDivRef);
 
   const calculateHeaderHeight = () => {
     if (window.innerWidth >= 1440) {
@@ -36,25 +45,6 @@ function Home() {
       window.removeEventListener("resize", handleResize);
     };
   }, [setHeaderHeight]);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      if (outerDivRefCurrent) {
-        const scrollTop = outerDivRefCurrent.scrollTop;
-        setShowTopBtn(scrollTop > 1);
-      }
-    };
-
-    if (outerDivRefCurrent) {
-      outerDivRefCurrent.addEventListener("scroll", handleScroll);
-    }
-
-    return () => {
-      if (outerDivRefCurrent) {
-        outerDivRefCurrent.removeEventListener("scroll", handleScroll);
-      }
-    };
-  }, []);
 
   useEffect(() => {
     const handleWheel = (e: WheelEvent) => {
