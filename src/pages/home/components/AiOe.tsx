@@ -3,13 +3,20 @@ import ReactDOM from "react-dom";
 import { AxiosError } from "axios";
 import sendIcon from "../../../../public/icons/send.png";
 import aioeIcon from "../../../../public/img/chat_aioe.png";
+import loading from "../../../../public/icons/loading.png";
 import instance from "../../../api/axios";
 import { useUserStore } from "../../../zustand/authStore";
 import { useNavigate } from "react-router-dom";
+import { useMutation } from "@tanstack/react-query";
 
 type Message = {
   sender: "user" | "bot";
   content: string;
+  isLoading?: boolean;
+};
+
+type QuestionResponse = {
+  message: string;
 };
 
 function AiOe() {
@@ -58,31 +65,37 @@ function AiOe() {
     setAiOe(true);
   };
 
-  const addMessage = (sender: "user" | "bot", content: string) => {
-    setMessages((prevMessages) => [...prevMessages, { sender, content }]);
+  const addMessage = (sender: "user" | "bot", content: string, isLoading: boolean = false) => {
+    setMessages((prevMessages) => [...prevMessages, { sender, content, isLoading }]);
   };
 
-  const handleSendMessage = async () => {
-    const currentMessage = userMes;
-
-    if (!userMes.trim()) return;
-
-    addMessage("user", currentMessage);
-    setUserMes("");
-
-    try {
-      const res = await instance.post("/aioe/question", {
-        question: currentMessage
+  const sendMessageMutation = useMutation<QuestionResponse, AxiosError, string>({
+    mutationFn: async (message: string) => {
+      const res = await instance.post<QuestionResponse>("/aioe/question", {
+        question: message
       });
-
-      const botResponse = res.data.message || "응답을 가져올 수 없습니다.";
-      addMessage("bot", botResponse);
-      console.log("챗봇 응답:", botResponse);
-
+      return res.data;
+    },
+    onMutate: (message) => {
+      addMessage("user", message);
+      addMessage("bot", "", true);
       setUserMes("");
-    } catch (error) {
+    },
+    onSuccess: (data) => {
+      // addMessage("bot", data.message || "응답을 가져올 수 없습니다.");
+      setMessages((prevMessages) =>
+        prevMessages.map((msg) => (msg.isLoading ? { ...msg, content: data.message, isLoading: false } : msg))
+      );
+    },
+    onError: (error) => {
       console.error("메시지 전송 중 오류 발생:", error);
       addMessage("bot", "오류가 발생했습니다. 다시 시도해주세요.");
+    }
+  });
+
+  const handleSendMessage = () => {
+    if (userMes.trim()) {
+      sendMessageMutation.mutate(userMes);
     }
   };
 
@@ -133,7 +146,7 @@ function AiOe() {
                         <div className="flex flex-col gap-1 max-w-[180px] min-w-[20px]">
                           <p className="font-semibold">AI OE</p>
                           <div className="bg-grayoe-600 rounded-r-xl rounded-bl-xl px-3 py-2 text-white break-words whitespace-pre-wrap">
-                            {mes.content}
+                            {mes.isLoading ? <img src={loading} className="w-[30px] h-[20px]" /> : mes.content}
                           </div>
                         </div>
                       </div>
