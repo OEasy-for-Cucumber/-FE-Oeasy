@@ -1,11 +1,8 @@
 import { FC } from "react";
 import topBtn from "../../../public/icons/up_btn.png";
+import { scrollRefProps } from "../../types/scrollRef";
 
-interface TopBtnProps {
-  scrollRef: React.RefObject<HTMLDivElement>;
-}
-
-const TopBtn: FC<TopBtnProps> = ({ scrollRef }) => {
+const TopBtn: FC<scrollRefProps> = ({ scrollRef }) => {
   const handleScrollToTop = () => {
     if (scrollRef.current) {
       scrollRef.current.scrollTo({

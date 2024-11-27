@@ -67,7 +67,6 @@ function Home() {
         if (currentPage < totalPages - 1) {
           outerDivRefCurrent.scrollTo({
             top: (currentPage + 1) * pageHeight,
-            left: 0,
             behavior: "smooth"
           });
         }
@@ -76,7 +75,6 @@ function Home() {
         if (currentPage > 0) {
           outerDivRefCurrent.scrollTo({
             top: (currentPage - 1) * pageHeight,
-            left: 0,
             behavior: "smooth"
           });
         }
@@ -107,7 +105,7 @@ function Home() {
       >
         <Landing />
         <div className="xl:px-[200px]">
-          <OeTip />
+          <OeTip scrollRef={outerDivRef} />
           <OeIndex />
           <OeGraph />
           <Recipe />
