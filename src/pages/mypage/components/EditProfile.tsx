@@ -133,9 +133,6 @@ function EditProfile({ handleEditModal }: { handleEditModal: () => void }) {
     setIsDeleteModal((prev) => !prev);
   };
 
-  console.log(profileImg);
-  
-
   return (
     <div className="fixed inset-0 flex flex-col items-center justify-center">
       <form
@@ -147,7 +144,7 @@ function EditProfile({ handleEditModal }: { handleEditModal: () => void }) {
             <img src={Xicon} alt="닫기버튼" />
           </button>
           <h1 className="font-b2-semibold">계정 설정</h1>
-          <button type="submit" className={`${!isNickname ? "text-grayoe-400" : "text-[#0A84FF]"} text-xs `}>
+          <button type="submit" className={`${!isNickname ? "text-grayoe-400" : "text-[#0A84FF]"} text-xs`}>
             저장
           </button>
         </div>
