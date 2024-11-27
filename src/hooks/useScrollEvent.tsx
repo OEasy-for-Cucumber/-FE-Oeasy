@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 
-export const useScrollEvent = (onScroll: (this: Window, ev: Event) => void) => {
+export const useScrollEvent = (onScroll: () => void) => {
   useEffect(() => {
     window.addEventListener("scroll", onScroll);
 

@@ -11,6 +11,9 @@ function Home() {
   const outerDivRef = useRef<HTMLDivElement | null>(null);
   const isScrolling = useRef(false);
   const [headerHeight, setHeaderHeight] = useState(0);
+  const [showTopBtn, setShowTopBtn] = useState(false);
+
+  const outerDivRefCurrent = outerDivRef.current;
 
   const calculateHeaderHeight = () => {
     if (window.innerWidth >= 1440) {
@@ -35,6 +38,25 @@ function Home() {
   }, [setHeaderHeight]);
 
   useEffect(() => {
+    const handleScroll = () => {
+      if (outerDivRefCurrent) {
+        const scrollTop = outerDivRefCurrent.scrollTop;
+        setShowTopBtn(scrollTop > 1);
+      }
+    };
+
+    if (outerDivRefCurrent) {
+      outerDivRefCurrent.addEventListener("scroll", handleScroll);
+    }
+
+    return () => {
+      if (outerDivRefCurrent) {
+        outerDivRefCurrent.removeEventListener("scroll", handleScroll);
+      }
+    };
+  }, []);
+
+  useEffect(() => {
     const handleWheel = (e: WheelEvent) => {
       e.preventDefault();
       const { deltaY } = e;
@@ -42,11 +64,10 @@ function Home() {
     };
 
     const wheelHandler = (deltaY: number) => {
-      const outerDiv = outerDivRef.current;
-      if (!outerDiv || isScrolling.current) return;
+      if (!outerDivRefCurrent || isScrolling.current) return;
 
       isScrolling.current = true;
-      const { scrollTop } = outerDiv;
+      const { scrollTop } = outerDivRefCurrent;
       const pageHeight = window.innerHeight - headerHeight;
       const totalPages = 5;
       const currentPage = Math.round(scrollTop / pageHeight);
@@ -54,7 +75,7 @@ function Home() {
       if (deltaY > 0) {
         // 스크롤을 내릴 때
         if (currentPage < totalPages - 1) {
-          outerDiv.scrollTo({
+          outerDivRefCurrent.scrollTo({
             top: (currentPage + 1) * pageHeight,
             left: 0,
             behavior: "smooth"
@@ -63,7 +84,7 @@ function Home() {
       } else {
         // 스크롤을 올릴 때
         if (currentPage > 0) {
-          outerDiv.scrollTo({
+          outerDivRefCurrent.scrollTo({
             top: (currentPage - 1) * pageHeight,
             left: 0,
             behavior: "smooth"
@@ -76,7 +97,6 @@ function Home() {
       }, 1200);
     };
 
-    const outerDivRefCurrent = outerDivRef.current;
     if (outerDivRefCurrent) {
       outerDivRefCurrent.addEventListener("wheel", handleWheel, { passive: false });
     }
@@ -90,7 +110,7 @@ function Home() {
   return (
     <>
       <AiOe />
-      <TopBtn />
+      {showTopBtn && <TopBtn scrollRef={outerDivRef} />}
       <div
         ref={outerDivRef}
         className={`overflow-y-auto h-[calc(100vh-56px)] xl:h-[calc(100vh-80px)] [&::-webkit-scrollbar]:hidden`}
