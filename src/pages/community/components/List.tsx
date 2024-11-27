@@ -113,7 +113,7 @@ function List() {
               >
                 <img src={search} alt="검색" />
               </div>
-              <Link to={`/community/upload/${generateId()}`}>
+              <Link to="/community/upload">
                 <button className="w-14 h-8 xl:w-16 font-c2 xl:font-c1 rounded-[4px] bg-grayoe-400 px-3 py-2 ">
                   글쓰기
                 </button>

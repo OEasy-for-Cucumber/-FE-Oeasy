@@ -1,9 +1,10 @@
 import imageCompression from "browser-image-compression";
 import { useRef, useState } from "react";
-import uploadImg from "../../../../../public/img/uploadImg.png";
+import uploadImg from "../../../../public/img/uploadImg.png";
 import { useNavigate } from "react-router-dom";
-import { useUserStore } from "../../../../zustand/authStore";
-import instance from "../../../../api/axios";
+
+import instance from "../../../api/axios";
+import { useUserStore } from "../../../zustand/authStore";
 
 function Upload() {
   const navigate = useNavigate();
@@ -11,6 +12,8 @@ function Upload() {
   const titleRef = useRef<HTMLInputElement>(null);
   const contentRef = useRef<HTMLTextAreaElement>(null);
   const user = useUserStore((state) => state.user);
+
+  console.log(user);
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || []);
@@ -30,14 +33,24 @@ function Upload() {
           useWebWorker: true
         };
 
-        const compressedFile = await imageCompression(file, options);
-        compressedFiles.push(compressedFile);
+        const compressedBlob = await imageCompression(file, options);
+
+        // Blob을 File로 변환
+        const convertedFile = new File([compressedBlob], file.name, {
+          type: compressedBlob.type
+        });
+
+        compressedFiles.push(convertedFile);
       } catch (error) {
         console.error("이미지 압축 중 오류 발생:", error);
       }
     }
 
-    setImages((prevImages) => [...prevImages, ...compressedFiles]);
+    setImages((prevImages) => {
+      const updatedImages = [...prevImages, ...compressedFiles];
+      console.log("업데이트된 images 배열:", updatedImages);
+      return updatedImages;
+    });
   };
 
   const handleUploadClick = () => {
@@ -63,18 +76,18 @@ function Upload() {
       alert("내용을 입력해주세요.");
       return;
     }
+
     const formData = new FormData();
 
-    const requestData = {
-      userId: user?.memberPk || 0,
-      title: title,
-      content: content
-    };
-    formData.append("requestData", new Blob([JSON.stringify(requestData)], { type: "application/json" }));
-    images.forEach((image) => {
-      if (image instanceof File && image.size > 0) {
-        formData.append("imgList", image);
-      }
+    formData.append("userId", String(user?.memberPk));
+    formData.append("title", title);
+    formData.append("content", content);
+
+    if (images.length === 0) {
+      console.warn("이미지가 업로드되지 않았습니다.");
+    }
+    images.forEach((image, index) => {
+      formData.append(`imgList[${index}]`, image);
     });
     try {
       const response = await instance.post("/api/community", formData, {
@@ -82,6 +95,8 @@ function Upload() {
           "Content-Type": "multipart/form-data"
         }
       });
+
+      console.log("서버 응답 데이터:", response.data);
 
       if (response.status === 201) {
         const { postId } = response.data;
