@@ -8,6 +8,7 @@ import { useEffect, useRef, useState } from "react";
 import { useScrollEvent } from "../../hooks/useScrollEvent";
 
 import PriceMap from "./components/PriceMap";
+import OeIndex from "./components/OEIndex";
 
 function Home() {
   const outerDivRef = useRef<HTMLDivElement | null>(null);
