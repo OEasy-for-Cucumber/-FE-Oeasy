@@ -57,7 +57,7 @@ const Pagination: React.FC<PaginationProps> = (props) => {
         disabled={props.currentPage === 1}
       />
       <div className="flex justify-center min-w-[198px] my-0 mx-4">
-        {currentPageList.map((value, index) => (
+        {currentPageList.map((_, index) => (
           <div
             key={index + currentListCount * 10}
             onClick={() => {
