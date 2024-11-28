@@ -98,10 +98,9 @@ function Upload() {
 
       console.log("서버 응답 데이터:", response.data);
 
-      if (response.status === 201) {
-        const { postId } = response.data;
+      if (response.status === 200) {
         alert("게시물이 등록되었습니다.");
-        navigate(`/community/detail/${postId}`, { state: response.data });
+        navigate("/community");
       } else {
         throw new Error("게시물 등록에 실패했습니다.");
       }
