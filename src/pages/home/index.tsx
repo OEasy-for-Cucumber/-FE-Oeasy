@@ -60,7 +60,7 @@ function Home() {
       isScrolling.current = true;
       const { scrollTop } = outerDivRefCurrent;
       const pageHeight = window.innerHeight - headerHeight;
-      const totalPages = 5;
+      const totalPages = 6;
       const currentPage = Math.round(scrollTop / pageHeight);
 
       if (deltaY > 0) {
