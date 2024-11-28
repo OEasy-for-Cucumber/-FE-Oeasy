@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <!-- (c) ammap.com | SVG map of South Korea - Low -->
-<svg width="600px" height="900px" xmlns="http://www.w3.org/2000/svg" xmlns:amcharts="http://amcharts.com/ammap" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1">
+<svg min-width="360px" height="auto" viewBox="0 50 650 950" xmlns="http://www.w3.org/2000/svg" xmlns:amcharts="http://amcharts.com/ammap" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1">
 	<defs>
 		<style type="text/css">
 			.land
@@ -10,14 +10,14 @@
 				stroke-width: 1;
   				cursor: pointer;
   				transition: fill 0.3s;
-  				stroke: #000;
+  				stroke: #fff;
 			}
 			.land:hover {
-  				fill: #f0f0f0; /* 호버 색상 */
+  				fill: #2e2e2e; /* 호버 색상 */
 			}
 
 			.land.selected {
-  				fill: #ff8888; /* 선택된 색상 */
+  				fill: #2e2e2e; /* 선택된 색상 */
 			}
 		</style>
 
