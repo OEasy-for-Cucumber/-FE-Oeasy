@@ -1,20 +1,33 @@
 import { ReactSVG } from "react-svg";
 import mapSvg from "../../../assets/southKoreaLow.svg";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import DangerCircle from "../../../../public/icons/Danger Circle.png";
+import instance from "../../../api/axios";
 
+interface RegionData {
+  region: string;
+  price: string;
+}
 
 function PriceMap() {
   const [isTooltipVisible, setIsTooltipVisible] = useState<boolean>(false);
   const [isTooltipHover, setIsTooltipHover] = useState<boolean>(false);
-
+  const [regionData, setRegionData] = useState<RegionData[]>([]);
+  const [matchPrice, setMathPrice] = useState<string>();
 
   const handleRegionClick = (event: Event) => {
     const target = event.target as SVGElement;
-    const regionId = target.id;
+    const regionId = target.id.slice(0,2);
     if (!regionId) return;
-    console.log(regionId);
 
+    const matchingRegion = regionData.find((data) => data.region === regionId);
+
+    if (matchingRegion) {
+      setMathPrice(matchingRegion.price);
+    }
+  
+    console.log(matchPrice);
+    
   };
 
   const toggleTooltip = () => {
@@ -32,6 +45,14 @@ function PriceMap() {
   const leaveTooltip = () => {
     setIsTooltipHover(false);
   };
+
+  useEffect(() => {
+    const getRegionPrice = async () => {
+      const { data } = await instance.get("/graph/region");
+      setRegionData(data);
+    };
+    getRegionPrice();
+  }, []);
 
   return (
     <div className="w-full flex flex-col justify-center px-6 pt-2 h-[calc(100vh-56px)]">
