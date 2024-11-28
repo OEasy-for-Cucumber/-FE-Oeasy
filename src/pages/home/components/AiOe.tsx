@@ -19,6 +19,10 @@ type QuestionResponse = {
   message: string;
 };
 
+type ErrorResponse = {
+  message?: string; // message가 없을 수도 있으므로 optional 처리
+};
+
 function AiOe() {
   const [aiOe, setAiOe] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
@@ -69,7 +73,7 @@ function AiOe() {
     setMessages((prevMessages) => [...prevMessages, { sender, content, isLoading }]);
   };
 
-  const sendMessageMutation = useMutation<QuestionResponse, AxiosError, string>({
+  const sendMessageMutation = useMutation<QuestionResponse, AxiosError<ErrorResponse>, string>({
     mutationFn: async (message: string) => {
       const res = await instance.post<QuestionResponse>("/aioe/question", {
         question: message
@@ -82,14 +86,21 @@ function AiOe() {
       setUserMes("");
     },
     onSuccess: (data) => {
-      // addMessage("bot", data.message || "응답을 가져올 수 없습니다.");
       setMessages((prevMessages) =>
         prevMessages.map((msg) => (msg.isLoading ? { ...msg, content: data.message, isLoading: false } : msg))
       );
     },
     onError: (error) => {
-      console.error("메시지 전송 중 오류 발생:", error);
-      addMessage("bot", "오류가 발생했습니다. 다시 시도해주세요.");
+      console.error("Error response:", error.response);
+      const errorMessage = error.response?.data?.message || "오류 발생";
+      setMessages((prevMessages) => {
+        const updatedMessages = prevMessages.filter((msg) => {
+          if (!msg || typeof msg.isLoading !== "boolean") return true;
+          return !msg.isLoading;
+        });
+        return updatedMessages;
+      });
+      addMessage("bot", errorMessage);
     }
   });
 
@@ -102,12 +113,12 @@ function AiOe() {
   return (
     <>
       <button
-        className="fixed right-[calc(50%-236px)] xl:right-[80px] bottom-[72px] xl:bottom-[80px] z-10 w-[40px] h-[40px] xl:w-[56px] xl:h-[56px] bg-aioe_icon rounded-xl xl:rounded-2xl bg-greenoe-50 bg-28px xl:bg-36px bg-no-repeat bg-aioe"
+        className="fixed right-[10%] xl:right-[80px] bottom-[72px] xl:bottom-[80px] z-10 w-[40px] h-[40px] xl:w-[56px] xl:h-[56px] bg-aioe_icon rounded-xl xl:rounded-2xl bg-greenoe-50 bg-28px xl:bg-36px bg-no-repeat bg-aioe"
         onClick={aiOeStart}
       />
       {aiOe &&
         ReactDOM.createPortal(
-          <div className="fixed right-[calc(50%-260px)] xl:right-[80px] bottom-0 xl:bottom-[152px] w-full min-w-[360px] max-w-[520px] h-screen xl:w-[390px] xl:h-[600px] bg-grayoe-950 z-50 xl:rounded-2xl">
+          <div className="fixed left-1/2 transform -translate-x-1/2 xl:right-[80px] bottom-0 xl:bottom-[152px] w-full min-w-[360px] max-w-[520px] h-screen xl:w-[390px] xl:h-[600px] bg-grayoe-950 z-50 xl:rounded-2xl">
             <div className="w-full h-[56px] flex justify-center items-center mb-6 relative">
               <div className="font-b2-semibold">AI OE</div>
               <button className="absolute right-[24px] " onClick={() => setAiOe(false)}>
