@@ -3,13 +3,24 @@ import ReactDOM from "react-dom";
 import { AxiosError } from "axios";
 import sendIcon from "../../../../public/icons/send.png";
 import aioeIcon from "../../../../public/img/chat_aioe.png";
+import loading from "../../../../public/icons/loading.png";
 import instance from "../../../api/axios";
 import { useUserStore } from "../../../zustand/authStore";
 import { useNavigate } from "react-router-dom";
+import { useMutation } from "@tanstack/react-query";
 
 type Message = {
   sender: "user" | "bot";
   content: string;
+  isLoading?: boolean;
+};
+
+type QuestionResponse = {
+  message: string;
+};
+
+type ErrorResponse = {
+  message?: string; // message가 없을 수도 있으므로 optional 처리
 };
 
 function AiOe() {
@@ -44,11 +55,9 @@ function AiOe() {
       return;
     }
     try {
-      const res = await instance.post("/aioe/start");
-      console.log(res);
+      await instance.post("/aioe/start");
     } catch (error: unknown) {
       if (error instanceof AxiosError && error.response?.status === 401) {
-        console.warn("401 에러 무시: 이미 연결 상태임");
         setAiOe(true);
       } else {
         console.error("AI 연결 실패:", error);
@@ -58,43 +67,55 @@ function AiOe() {
     setAiOe(true);
   };
 
-  const addMessage = (sender: "user" | "bot", content: string) => {
-    setMessages((prevMessages) => [...prevMessages, { sender, content }]);
+  const addMessage = (sender: "user" | "bot", content: string, isLoading: boolean = false) => {
+    setMessages((prevMessages) => [...prevMessages, { sender, content, isLoading }]);
   };
 
-  const handleSendMessage = async () => {
-    const currentMessage = userMes;
-
-    if (!userMes.trim()) return;
-
-    addMessage("user", currentMessage);
-    setUserMes("");
-
-    try {
-      const res = await instance.post("/aioe/question", {
-        question: currentMessage
+  const sendMessageMutation = useMutation<QuestionResponse, AxiosError<ErrorResponse>, string>({
+    mutationFn: async (message: string) => {
+      const res = await instance.post<QuestionResponse>("/aioe/question", {
+        question: message
       });
-
-      const botResponse = res.data.message || "응답을 가져올 수 없습니다.";
-      addMessage("bot", botResponse);
-      console.log("챗봇 응답:", botResponse);
-
+      return res.data;
+    },
+    onMutate: (message) => {
+      addMessage("user", message);
+      addMessage("bot", "", true);
       setUserMes("");
-    } catch (error) {
-      console.error("메시지 전송 중 오류 발생:", error);
-      addMessage("bot", "오류가 발생했습니다. 다시 시도해주세요.");
+    },
+    onSuccess: (data) => {
+      setMessages((prevMessages) =>
+        prevMessages.map((msg) => (msg.isLoading ? { ...msg, content: data.message, isLoading: false } : msg))
+      );
+    },
+    onError: (error) => {
+      const errorMessage = error.response?.data?.message || "오류 발생";
+      setMessages((prevMessages) => {
+        const updatedMessages = prevMessages.filter((msg) => {
+          if (!msg || typeof msg.isLoading !== "boolean") return true;
+          return !msg.isLoading;
+        });
+        return updatedMessages;
+      });
+      addMessage("bot", errorMessage);
+    }
+  });
+
+  const handleSendMessage = () => {
+    if (userMes.trim()) {
+      sendMessageMutation.mutate(userMes);
     }
   };
 
   return (
     <>
       <button
-        className="fixed right-[calc(50%-236px)] xl:right-[80px] bottom-[72px] xl:bottom-[80px] z-10 w-[40px] h-[40px] xl:w-[56px] xl:h-[56px] bg-aioe_icon rounded-xl xl:rounded-2xl bg-greenoe-50 bg-28px xl:bg-36px bg-no-repeat bg-aioe"
+        className="fixed right-[10%] xl:right-[80px] bottom-[72px] xl:bottom-[80px] z-10 w-[40px] h-[40px] xl:w-[56px] xl:h-[56px] bg-aioe_icon rounded-xl xl:rounded-2xl bg-greenoe-50 bg-28px xl:bg-36px bg-no-repeat bg-aioe"
         onClick={aiOeStart}
       />
       {aiOe &&
         ReactDOM.createPortal(
-          <div className="fixed right-[calc(50%-260px)] xl:right-[80px] bottom-0 xl:bottom-[152px] w-full min-w-[360px] max-w-[520px] h-screen xl:w-[390px] xl:h-[600px] bg-grayoe-950 z-50 xl:rounded-2xl">
+          <div className="fixed left-1/2 transform -translate-x-1/2 xl:right-[80px] bottom-0 xl:bottom-[152px] w-full min-w-[360px] max-w-[520px] h-screen xl:w-[390px] xl:h-[600px] bg-grayoe-950 z-50 xl:rounded-2xl">
             <div className="w-full h-[56px] flex justify-center items-center mb-6 relative">
               <div className="font-b2-semibold">AI OE</div>
               <button className="absolute right-[24px] " onClick={() => setAiOe(false)}>
@@ -133,7 +154,7 @@ function AiOe() {
                         <div className="flex flex-col gap-1 max-w-[180px] min-w-[20px]">
                           <p className="font-semibold">AI OE</p>
                           <div className="bg-grayoe-600 rounded-r-xl rounded-bl-xl px-3 py-2 text-white break-words whitespace-pre-wrap">
-                            {mes.content}
+                            {mes.isLoading ? <img src={loading} className="w-[30px] h-[20px]" /> : mes.content}
                           </div>
                         </div>
                       </div>

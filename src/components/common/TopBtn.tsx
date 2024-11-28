@@ -1,35 +1,27 @@
-import { useState } from "react";
+import { FC } from "react";
 import topBtn from "../../../public/icons/up_btn.png";
-import { useScrollEvent } from "../../hooks/useScrollEvent";
+import { scrollRefProps } from "../../types/scrollRef";
 
-function TopBtn() {
-  const [showBtn, setShowBtn] = useState(false);
-
-  const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth"
-    });
+const TopBtn: FC<scrollRefProps> = ({ scrollRef }) => {
+  const handleScrollToTop = () => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+    }
   };
-
-  const handleShowBtn = () => {
-    setShowBtn(window.scrollY > 1 ? true : false);
-  };
-
-  useScrollEvent(handleShowBtn);
 
   return (
     <>
-      {showBtn && (
-        <button
-          onClick={scrollToTop}
-          className="fixed right-[calc(50%-236px)] xl:right-[80px] bottom-6 xl:bottom-[16px] z-10 w-[40px] h-[40px] xl:w-[56px] xl:h-[56px] flex justify-center items-center bg-greenoe-50 rounded-xl xl:rounded-2xl"
-        >
-          <img src={topBtn} alt="top 버튼" className="w-[16px] h-[19px] xl:w-[23px] xl:h-[28px]" />
-        </button>
-      )}
+      <button
+        onClick={handleScrollToTop}
+        className="fixed right-[10%] xl:right-[80px] bottom-6 xl:bottom-[16px] z-10 w-[40px] h-[40px] xl:w-[56px] xl:h-[56px] flex justify-center items-center bg-greenoe-50 rounded-xl xl:rounded-2xl"
+      >
+        <img src={topBtn} alt="top 버튼" className="w-[16px] h-[19px] xl:w-[23px] xl:h-[28px]" />
+      </button>
     </>
   );
-}
+};
 
 export default TopBtn;
