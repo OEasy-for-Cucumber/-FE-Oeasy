@@ -61,7 +61,7 @@ function OeGraph() {
     getOePrice();
   }, []);
 
-  const options : ApexOptions = {
+  const options: ApexOptions = {
     dataLabels: {
       enabled: false
     },
@@ -78,24 +78,20 @@ function OeGraph() {
         stops: [0, 90, 100]
       }
     },
-    // chart type 과 높이, 너비를 설정할 수 있음
     xaxis: {
-      categories: oePriceData.map(item => item.date)
+      categories: oePriceData.map((item) => item.date)
     }
-    // xaxis, yaxis로 x축, y축 옵션을 설정할 수 있음
-    // 해당 코드에서는 x축의 카테고리를 설정해준 모습
-  }
+  };
 
-  const series = [{
-    // 차트의 데이터를 담당할 객체. 이름과 시각화할 데이터를 할당.
-    name: 'price',
-    data: oePriceData.map(item => item.price)
-  }]
-  
- 
-   const lastIndex = oePriceData.length - 1;
-   const todayPrice = oePriceData.length > 0 ? oePriceData[lastIndex] : { price: 0, date: "" }; // 기본값 설정
- 
+  const series = [
+    {
+      name: "price",
+      data: oePriceData.map((item) => item.price)
+    }
+  ];
+
+  const lastIndex = oePriceData.length - 1;
+  const todayPrice = oePriceData.length > 0 ? oePriceData[lastIndex] : { price: 0, date: "" }; // 기본값 설정
 
   return (
     <div className="xl:h-[calc(100vh-80px)] px-6 flex flex-col justify-center">
@@ -122,20 +118,8 @@ function OeGraph() {
         </div>
 
         <div className="w-full">
-          {/* <div className="w-full h-[400px] flex items-end justify-center space-x-2">
-            {oePriceData.map((data, index) => (
-              <div key={index} className="flex flex-col items-center gap-2">
-                <span className="text-white text-sm mt-2">{data.price.toLocaleString()}</span>
-                <div
-                  className="w-[20px] bg-gradient-to-t from-[#00903B] to-[#00C853] rounded"
-                  style={{ height: `${calculateBarHeight(data.price)}px` }}
-                ></div>
-                <span className="text-sm truncate">{data.date.split("-").slice(1).join("/")}</span>
-              </div>
-            ))}
-          </div> */}
           <div className="w-full xl:w-[650px] mt-[35px] mx-auto">
-          <ReactApexChart options={options} series={series}/>
+            <ReactApexChart type="area" options={options} series={series} />
           </div>
           <div className="flex justify-center space-x-4 mt-8">
             <div className="grid items-center bg-white rounded-lg shadow-md py-1 w-[148px] h-[128px] px-4">
@@ -144,7 +128,8 @@ function OeGraph() {
                 <span className="text-sm text-black font-b1-semibold ml-1">전일대비</span>
               </div>
               <span className="text-xl font-h3 text-red-500 ml-auto">
-                +{oePriceData.length > 0
+                +
+                {oePriceData.length > 0
                   ? oePriceData[oePriceData.length - 1].price - oePriceData[oePriceData.length - 2].price
                   : 0}
               </span>
@@ -161,7 +146,6 @@ function OeGraph() {
             </div>
           </div>
         </div>
-
       </div>
     </div>
   );
