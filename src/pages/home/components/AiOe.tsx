@@ -55,11 +55,9 @@ function AiOe() {
       return;
     }
     try {
-      const res = await instance.post("/aioe/start");
-      console.log(res);
+      await instance.post("/aioe/start");
     } catch (error: unknown) {
       if (error instanceof AxiosError && error.response?.status === 401) {
-        console.warn("401 에러 무시: 이미 연결 상태임");
         setAiOe(true);
       } else {
         console.error("AI 연결 실패:", error);
@@ -91,7 +89,6 @@ function AiOe() {
       );
     },
     onError: (error) => {
-      console.error("Error response:", error.response);
       const errorMessage = error.response?.data?.message || "오류 발생";
       setMessages((prevMessages) => {
         const updatedMessages = prevMessages.filter((msg) => {

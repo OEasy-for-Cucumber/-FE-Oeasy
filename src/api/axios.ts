@@ -44,8 +44,8 @@ instance.interceptors.response.use(
     const originalRequest = error.config;
 
     // 특정 요청은 401 에러를 무시
-    if (originalRequest.url === "/aioe/start" && error.response?.status === 401) {
-      console.warn("401 에러 무시: /aioe/start 요청");
+    if ((originalRequest.url === "/aioe/start" && error.response?.status === 401) || error.response?.status === 400) {
+      console.warn("오류 무시");
       return Promise.reject(error);
     }
 
