@@ -8,7 +8,8 @@ import { useEffect, useState } from "react";
 // import { parseISO, format, formatDistanceToNow } from "date-fns";
 // import { ko } from "date-fns/locale";
 import instance from "../../../../api/axios";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+import { useUserStore } from "../../../../zustand/authStore";
 
 interface PostData {
   id: number;
@@ -21,10 +22,11 @@ interface PostData {
 
 function Detail() {
   const location = useLocation();
-  const { postId } = useParams<{ postId: string }>();
-  const [, /*postData*/ setPostData] = useState<PostData | null>(null);
+  const data = location.state;
+  const [postData, setPostData] = useState<PostData | null>(null);
   // const [liked, setLiked] = useState(false);
-  const [, /*likedCount*/ setLikedCount] = useState(0);
+  const [likedCount, setLikedCount] = useState(0);
+  const user = useUserStore((state) => state.user);
 
   useEffect(() => {
     // 이전 페이지에서 데이터를 전달받은 경우, 상태 초기화
@@ -38,7 +40,7 @@ function Detail() {
 
   const fetchPostData = async () => {
     try {
-      const response = await instance.get(`api/Community/${postId}`);
+      const response = await instance.get(`api/community/${data.cmnId}/${user?.memberPk}`);
       console.log(response);
       setPostData(response.data); // 서버에서 받은 데이터를 상태에 저장
       setLikedCount(response.data.likes); // 좋아요 초기값 설정

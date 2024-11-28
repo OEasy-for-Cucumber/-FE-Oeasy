@@ -47,6 +47,10 @@ const router = createBrowserRouter([
         element: <Community />
       },
       {
+        path: "/community/:page",
+        element: <Community />
+      },
+      {
         element: <PrivatePage />,
         children: [{ path: "/mypage", element: <MyPage /> }]
       },
