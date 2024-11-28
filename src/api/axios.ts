@@ -40,51 +40,44 @@ instance.interceptors.request.use(
 instance.interceptors.response.use(
   (response) => response,
   async (error) => {
-    const { setIsLoggedIn } = useUserStore.getState();
     const originalRequest = error.config;
+    const { setIsLoggedIn } = useUserStore.getState();
 
     // 특정 요청은 401 에러를 무시
-    if (originalRequest.url === "/aioe/start" && error.response?.status === 401) {
-      console.warn("401 에러 무시: /aioe/start 요청");
+    if ((originalRequest.url === "/aioe/start" && error.response?.status === 401) || error.response?.status === 400) {
+      console.warn("오류 무시");
       return Promise.reject(error);
     }
 
     // AccessToken 만료 처리
     if (error.response?.status === 401 && !originalRequest._retry) {
-      originalRequest._retry = true; // 무한 루프 방지
+      originalRequest._retry = true;
+
+    console.log("토큰 만료 401 에러");
+    
 
       try {
         const refreshToken = Cookies.get("refreshToken");
-        if (!refreshToken) {
-          console.error("Refresh token 없음. 로그인 상태 초기화");
-          setIsLoggedIn(false);
-          Cookies.remove("accessToken");
-          Cookies.remove("refreshToken");
-          window.location.href = "/login";
-          return Promise.reject(error);
-        }
 
         // refreshToken으로 새로운 accessToken 요청
-        const { data } = await refreshInstance.post("/auth/refresh", {
+        const { data } = await refreshInstance.post("/auth/refresh",{}, {
           headers: {
             Authorization: `Bearer ${refreshToken}`
           }
         });
+        Cookies.set("accessToken", data.accessToken);
+        console.log("토큰 재발급");
+        
 
-        if (data.accessToken) {
-          Cookies.set("accessToken", data.accessToken, { expires: 1 });
-
-          // 원래 요청에 새로운 토큰 설정 후 재시도
-          originalRequest.headers["Authorization"] = `Bearer ${data.accessToken}`;
-          return instance(originalRequest); // 원래 요청 재시도
-        } else {
-          throw new Error("새로운 accessToken을 얻을 수 없음");
-        }
+        // 원래 요청에 새로운 토큰 설정 후 재시도
+        originalRequest.headers["Authorization"] = `Bearer ${data.accessToken}`;
+        return instance(originalRequest);
+        
       } catch (refreshError) {
         console.error("토큰 갱신 실패:", refreshError);
-        setIsLoggedIn(false);
         Cookies.remove("accessToken");
         Cookies.remove("refreshToken");
+        setIsLoggedIn(false);
         window.location.href = "/login";
         return Promise.reject(refreshError);
       }

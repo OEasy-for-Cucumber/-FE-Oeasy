@@ -4,14 +4,26 @@ import OeGraph from "./components/OeGraph";
 import OeTip from "./components/OeTip";
 import AiOe from "./components/AiOe";
 import Recipe from "./components/recipe/Recipe";
-
 import { useEffect, useRef, useState } from "react";
-import OeIndex from "./components/OEIndex";
+import { useScrollEvent } from "../../hooks/useScrollEvent";
+import OeIndex from "./components/OeIndex";
+import PriceMap from "./components/PriceMap";
 
 function Home() {
   const outerDivRef = useRef<HTMLDivElement | null>(null);
   const isScrolling = useRef(false);
   const [headerHeight, setHeaderHeight] = useState(0);
+  const [showTopBtn, setShowTopBtn] = useState(false);
+
+  const outerDivRefCurrent = outerDivRef.current;
+
+  // top버튼 스크롤 이벤트
+  useScrollEvent(() => {
+    if (outerDivRefCurrent) {
+      const scrollTop = outerDivRefCurrent.scrollTop;
+      setShowTopBtn(scrollTop > 1);
+    }
+  }, outerDivRef);
 
   const calculateHeaderHeight = () => {
     if (window.innerWidth >= 1440) {
@@ -43,30 +55,27 @@ function Home() {
     };
 
     const wheelHandler = (deltaY: number) => {
-      const outerDiv = outerDivRef.current;
-      if (!outerDiv || isScrolling.current) return;
+      if (!outerDivRefCurrent || isScrolling.current) return;
 
       isScrolling.current = true;
-      const { scrollTop } = outerDiv;
+      const { scrollTop } = outerDivRefCurrent;
       const pageHeight = window.innerHeight - headerHeight;
-      const totalPages = 5;
+      const totalPages = 6;
       const currentPage = Math.round(scrollTop / pageHeight);
 
       if (deltaY > 0) {
         // 스크롤을 내릴 때
         if (currentPage < totalPages - 1) {
-          outerDiv.scrollTo({
+          outerDivRefCurrent.scrollTo({
             top: (currentPage + 1) * pageHeight,
-            left: 0,
             behavior: "smooth"
           });
         }
       } else {
         // 스크롤을 올릴 때
         if (currentPage > 0) {
-          outerDiv.scrollTo({
+          outerDivRefCurrent.scrollTo({
             top: (currentPage - 1) * pageHeight,
-            left: 0,
             behavior: "smooth"
           });
         }
@@ -74,10 +83,9 @@ function Home() {
 
       setTimeout(() => {
         isScrolling.current = false;
-      }, 1000);
+      }, 1200);
     };
 
-    const outerDivRefCurrent = outerDivRef.current;
     if (outerDivRefCurrent) {
       outerDivRefCurrent.addEventListener("wheel", handleWheel, { passive: false });
     }
@@ -91,15 +99,16 @@ function Home() {
   return (
     <>
       <AiOe />
-      <TopBtn />
+      {showTopBtn && <TopBtn scrollRef={outerDivRef} />}
       <div
         ref={outerDivRef}
         className={`overflow-y-auto h-[calc(100vh-56px)] xl:h-[calc(100vh-80px)] [&::-webkit-scrollbar]:hidden`}
       >
         <Landing />
         <div className="xl:px-[200px]">
-          <OeTip />
+          <OeTip scrollRef={outerDivRef} />
           <OeIndex />
+          <PriceMap />
           <OeGraph />
           <Recipe />
         </div>

@@ -1,9 +1,10 @@
 import DangerCircle from "../../../../public/icons/Danger Circle.png";
-import IncIcon from "../../../../public/icons/inc-icon.png";
-// import DecIcon from "../../../../public/icons/dec-icon.png";
-import GrapthIcon from "../../../../public/icons/graphicon.png";
 import { useEffect, useState } from "react";
 import instance from "../../../api/axios";
+import IncIcon from "../../../../public/icons/inc-icon.png";
+import GraphIcon from "../../../../public/icons/graphicon.png";
+import ReactApexChart from "react-apexcharts";
+import { ApexOptions } from "apexcharts";
 
 interface PriceData {
   price: number;
@@ -59,25 +60,47 @@ function OeGraph() {
 
     getOePrice();
   }, []);
-
-  // 그래프의 최대 높이를 px 단위로 설정
-  const maxBarHeight = 120;
-
-  // 데이터 기반으로 최소, 최대값 계산
-  const minPrice = Math.min(...oePriceData.map((data) => data.price));
-  const maxPrice = Math.max(...oePriceData.map((data) => data.price));
-
-  // 가격에 따라 막대 높이를 계산하는 함수
-  const calculateBarHeight = (price: number) => {
-    if (maxPrice === minPrice) return maxBarHeight; // 값이 모두 동일할 경우
-    return ((price - minPrice) / (maxPrice - minPrice)) * maxBarHeight;
+  
+  const options: ApexOptions = {
+    chart: {
+      type: "area",
+      height: 280
+    },
+    dataLabels: {
+      enabled: false
+    },
+    stroke: {
+      curve: 'smooth'
+    },
+    fill: {
+      type: "gradient",
+      gradient: {
+        shade: "dark",
+        type: "horizontal",
+        shadeIntensity: 0.5,
+        inverseColors: true,
+        opacityFrom: 1,
+        opacityTo: 1,
+        stops: [0, 50, 100],
+      },
+    },
+    xaxis: {
+      categories: oePriceData.map((data)=>data.date) || []
+    },
   };
+
+  const series = [
+    {
+      name: "price",
+      data: oePriceData.map((data)=>data.price) || []
+    }
+  ];
 
   const lastIndex = oePriceData.length - 1;
   const todayPrice = oePriceData.length > 0 ? oePriceData[lastIndex] : { price: 0, date: "" }; // 기본값 설정
 
   return (
-    <div className="h-[calc(100vh-56px)] xl:h-[calc(100vh-80px)] px-6 flex justify-center items-center">
+    <div className="h-[calc(100vh-56px)]xl:h-[calc(100vh-80px)] px-6 flex flex-col justify-center">
       <div className="w-full">
         <h3 className="font-h3 mb-2">이번주 오이가격</h3>
         <div className="flex gap-1 items-center relative">
@@ -97,25 +120,15 @@ function OeGraph() {
               <p>· 출처: 농넷</p>
             </div>
           )}
-
           <p className="text-[14px] text-grayoe-200">가격(원/kg)</p>
         </div>
-        <div className="w-full">
-          <div className="w-full flex items-end justify-center space-x-2 overflow-x-scroll">
-            {oePriceData.map((data, index) => (
-              <div key={index} className="flex flex-col items-center gap-2">
-                <span className="text-white text-sm mt-2">{data.price.toLocaleString()}</span>
-                <div
-                  className="w-[20px] bg-gradient-to-t from-[#00903B] to-[#00C853] rounded"
-                  style={{ height: `${calculateBarHeight(data.price)}px` }}
-                ></div>
-                <span className="text-sm truncate">{data.date.split("-").slice(1).join("/")}</span>
-              </div>
-            ))}
-          </div>
 
-          <div className="flex justify-center space-x-4 mt-8">
-            <div className="grid items-center bg-white rounded-lg shadow-md py-1 w-[148px] h-[128px] px-4">
+        <div className="w-full">
+          <div className="w-full xl:w-[650px] mt-[35px] mx-auto">
+            <ReactApexChart type="area" options={options} series={series} />
+          </div>
+          <div className="flex justify-center space-x-4 mt-8 w-full">
+            <div className="grid items-center bg-white rounded-lg shadow-md py-1 w-[50%] h-[128px] px-4">
               <div className="flex justify-start">
                 <img src={IncIcon} alt="상승아이콘" className="w-[20px]" />
                 <span className="text-sm text-black font-b1-semibold ml-1">전일대비</span>
@@ -127,12 +140,12 @@ function OeGraph() {
               </span>
             </div>
 
-            <div className="grid items-center bg-white rounded-lg shadow-md py-1 w-[148px] h-[128px] px-4">
+            <div className="grid items-center bg-white rounded-lg shadow-md py-1 w-[50%] h-[128px] px-4">
               <div className="flex justify-start items-center">
-                <img src={GrapthIcon} alt="가격아이콘" className="w-[18px] h-[18px]" />
+                <img src={GraphIcon} alt="가격아이콘" className="w-[18px] h-[18px]" />
                 <span className="text-sm text-black font-b1-semibold ml-1">오늘 가격</span>
               </div>
-              <span className="text-xl font-h3 text-grayoe-950 ml-auto">
+              <span className="text-xl font-h3 text-grayoe-950 ml-auto truncate">
                 {todayPrice.price > 0 ? todayPrice.price.toLocaleString() : "정보 없음"}
               </span>
             </div>
