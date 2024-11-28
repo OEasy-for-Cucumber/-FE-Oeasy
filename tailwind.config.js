@@ -103,7 +103,7 @@ module.exports = {
         "100%": { opacity: 1, transform: "translateY(0)" }
       },
       fadeInUp: {
-        "0%": { opacity: 0.8, transform: "translateY(20px)" },
+        "0%": { opacity: 0.6, transform: "translateY(20px)" },
         "100%": { opacity: 1, transform: "translateY(0)" }
       }
     }

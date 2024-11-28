@@ -27,6 +27,7 @@ const OeTip: FC<scrollRefProps> = ({ scrollRef }) => {
       setAnimation(() => ({
         animationOne: scrollTop >= 500,
         animationTwo: scrollTop >= 827
+        // 827이 부분 수정해야됨 viewport
       }));
     }
   };
