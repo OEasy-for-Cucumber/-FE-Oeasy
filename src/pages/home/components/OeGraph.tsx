@@ -60,33 +60,39 @@ function OeGraph() {
 
     getOePrice();
   }, []);
-
+  
   const options: ApexOptions = {
-    dataLabels: {
-      enabled: false
-    },
     chart: {
       type: "area",
       height: 280
     },
+    dataLabels: {
+      enabled: false
+    },
+    stroke: {
+      curve: 'smooth'
+    },
     fill: {
       type: "gradient",
       gradient: {
-        shadeIntensity: 1,
-        opacityFrom: 0.7,
-        opacityTo: 0.9,
-        stops: [0, 90, 100]
-      }
+        shade: "dark",
+        type: "horizontal",
+        shadeIntensity: 0.5,
+        inverseColors: true,
+        opacityFrom: 1,
+        opacityTo: 1,
+        stops: [0, 50, 100],
+      },
     },
     xaxis: {
-      categories: oePriceData.map((item) => item.date)
-    }
+      categories: oePriceData.map((data)=>data.date) || []
+    },
   };
 
   const series = [
     {
       name: "price",
-      data: oePriceData.map((item) => item.price)
+      data: oePriceData.map((data)=>data.price) || []
     }
   ];
 
@@ -94,7 +100,7 @@ function OeGraph() {
   const todayPrice = oePriceData.length > 0 ? oePriceData[lastIndex] : { price: 0, date: "" }; // 기본값 설정
 
   return (
-    <div className="xl:h-[calc(100vh-80px)] px-6 flex flex-col justify-center">
+    <div className="h-[calc(100vh-56px)]xl:h-[calc(100vh-80px)] px-6 flex flex-col justify-center">
       <div className="w-full">
         <h3 className="font-h3 mb-2">이번주 오이가격</h3>
         <div className="flex gap-1 items-center relative">
@@ -121,26 +127,25 @@ function OeGraph() {
           <div className="w-full xl:w-[650px] mt-[35px] mx-auto">
             <ReactApexChart type="area" options={options} series={series} />
           </div>
-          <div className="flex justify-center space-x-4 mt-8">
-            <div className="grid items-center bg-white rounded-lg shadow-md py-1 w-[148px] h-[128px] px-4">
+          <div className="flex justify-center space-x-4 mt-8 w-full">
+            <div className="grid items-center bg-white rounded-lg shadow-md py-1 w-[50%] h-[128px] px-4">
               <div className="flex justify-start">
                 <img src={IncIcon} alt="상승아이콘" className="w-[20px]" />
                 <span className="text-sm text-black font-b1-semibold ml-1">전일대비</span>
               </div>
               <span className="text-xl font-h3 text-red-500 ml-auto">
-                +
                 {oePriceData.length > 0
                   ? oePriceData[oePriceData.length - 1].price - oePriceData[oePriceData.length - 2].price
                   : 0}
               </span>
             </div>
 
-            <div className="grid items-center bg-white rounded-lg shadow-md py-1 w-[148px] h-[128px] px-4">
+            <div className="grid items-center bg-white rounded-lg shadow-md py-1 w-[50%] h-[128px] px-4">
               <div className="flex justify-start items-center">
                 <img src={GraphIcon} alt="가격아이콘" className="w-[18px] h-[18px]" />
                 <span className="text-sm text-black font-b1-semibold ml-1">오늘 가격</span>
               </div>
-              <span className="text-xl font-h3 text-grayoe-950 ml-auto">
+              <span className="text-xl font-h3 text-grayoe-950 ml-auto truncate">
                 {todayPrice.price > 0 ? todayPrice.price.toLocaleString() : "정보 없음"}
               </span>
             </div>
