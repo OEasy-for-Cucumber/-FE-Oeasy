@@ -113,11 +113,11 @@ function Detail() {
                 <div className="flex gap-2 justify-center items-end font-c2">
                   <div className="flex justify-center items-center gap-1">
                     <img src={show} alt="조회수" className="w-[14px] h-[14px]" />
-                    <p>조회수</p>
+                    <p>{data.viewCnt}</p>
                   </div>
                   <div className="flex justify-center items-center gap-1">
                     <img src={commentIcon} alt="댓글아이콘" className="w-[14px] h-[14px]" />
-                    <p>댓글수</p>
+                    <p>{data.commentCnt}</p>
                   </div>
                 </div>
               </div>
@@ -161,7 +161,7 @@ function Detail() {
         </div>
         <div className="border-grayoe-900 border-4 w-full xl:hidden" />
         <div className="py-6 px-6">
-          <Comment />
+          <Comment communityId={data.cmnId} />
         </div>
       </div>
     </>

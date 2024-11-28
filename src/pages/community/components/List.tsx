@@ -94,7 +94,10 @@ function List() {
               {posts.map((post, index) => (
                 <div key={index} className="flex justify-between py-4 gap-2">
                   <div className="flex flex-col gap-[8px] flex-[8.5]">
-                    <Link to={`/community/detail/${post.boardPk}`} state={{ cmnId: post.boardPk }}>
+                    <Link
+                      to={`/community/detail/${post.boardPk}`}
+                      state={{ cmnId: post.boardPk, viewCnt: post.viewCnt, commentCnt: post.commentCnt }}
+                    >
                       <div className="truncate-title font-b2-semibold xl:font-b1-semibold cursor-pointer">
                         {post.title}
                       </div>

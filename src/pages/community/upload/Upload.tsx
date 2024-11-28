@@ -2,7 +2,6 @@ import imageCompression from "browser-image-compression";
 import { useRef, useState } from "react";
 import uploadImg from "../../../../public/img/uploadImg.png";
 import { useNavigate } from "react-router-dom";
-
 import instance from "../../../api/axios";
 import { useUserStore } from "../../../zustand/authStore";
 
