@@ -3,17 +3,25 @@ import Button from "../../../components/common/Button";
 import { Dispatch, SetStateAction, useState } from "react";
 import PasswordInput from "../../../components/common/PasswordInput";
 import { ConfirmPasswordModalProp } from "./ConfirmPasswordModal";
+import instance from "../../../api/axios";
 
 interface EditPasswordProp {
   setNewPasswordModalOpen: Dispatch<SetStateAction<boolean>>;
 }
 
-function EditPassword({setNewPasswordModalOpen, handleNewPasswordModal}:EditPasswordProp & ConfirmPasswordModalProp) {
-  const [confirmPassword, setConfirmPassword] = useState("");
+function EditPassword({
+  setNewPasswordModalOpen,
+  handleNewPasswordModal
+}: EditPasswordProp & ConfirmPasswordModalProp) {
   const [newPassword, setNewPassword] = useState<string>("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
   const [isPasswordMatch, setIsPasswordMatch] = useState(true);
   const [isPasswordValid, setIsPasswordValid] = useState(true);
+
+  const baseLabelClass = "transition-all duration-300 text-[13px]";
+  const visibleLabelClass = "opacity-100 translate-y-0";
+  const hiddenLabelClass = "opacity-0 -translate-1";
 
   // 비밀번호 유효성 검사 (길이, 특수문자 등)
   const validatePassword = (password: string) => {
@@ -33,11 +41,14 @@ function EditPassword({setNewPasswordModalOpen, handleNewPasswordModal}:EditPass
     setIsPasswordMatch(password === newPassword);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (isPasswordMatch && newPassword && isPasswordValid) {
-      // 비밀번호 변경 로직 추가
+      await instance.patch("/member/password", {
+        newPw: newPassword
+      });
       alert("비밀번호가 성공적으로 변경되었습니다.");
+      handleNewPasswordModal();
     } else {
       alert("비밀번호가 일치하지 않거나 유효하지 않습니다.");
     }
@@ -46,15 +57,13 @@ function EditPassword({setNewPasswordModalOpen, handleNewPasswordModal}:EditPass
   const closeModalHandler = () => {
     setNewPasswordModalOpen(false);
     handleNewPasswordModal();
-  }
+  };
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-grayoe-950">
       <div className="bg-grayoe-950 text-white w-full min-w-[360px] max-w-[520px] py-4 relative h-svh mx-4 flex flex-col">
         <div className="relative flex justify-center items-center mb-6">
-          <h1 className="font-b2-semibold absolute left-1/2 transform -translate-x-1/2 top-3">
-            비밀번호 변경
-          </h1>
+          <h1 className="font-b2-semibold absolute left-1/2 transform -translate-x-1/2 top-3">비밀번호 변경</h1>
           <button type="button" className="absolute left-4 top-3">
             <img src={Xicon} onClick={closeModalHandler} alt="닫기" />
           </button>
@@ -62,30 +71,39 @@ function EditPassword({setNewPasswordModalOpen, handleNewPasswordModal}:EditPass
         <form onSubmit={handleSubmit} className="px-4 mt-[100px] flex flex-col flex-grow">
           <div className="mb-4">
             <PasswordInput
-              type="password"
-              minLength={8}
-              placeholder="새 비밀번호 입력"
               value={newPassword}
-              onChange={handleNewPasswordChange}
-            />
-            {!isPasswordValid && newPassword && (
-              <p className="text-red-500 text-sm mt-1">비밀번호는 최소 8자, 숫자, 특수문자를 포함해야 합니다.</p>
-            )}
-          </div>
-          <div className="mb-4">
-            <PasswordInput
-              type="password"
               minLength={8}
-              placeholder="새 비밀번호 재입력"
-              value={confirmPassword}
-              onChange={handleConfirmPasswordChange}
+              onChange={handleNewPasswordChange}
+              type="password"
+              placeholder="비밀번호"
+              isValid={isPasswordValid}
             />
-            {!isPasswordMatch && confirmPassword && (
-              <p className="text-red-500 text-sm mt-1">비밀번호가 일치하지 않습니다.</p>
-            )}
+            <p
+              className={`${
+                !isPasswordValid && newPassword !== "" ? "text-red-500 " + visibleLabelClass : hiddenLabelClass
+              } ${baseLabelClass}`}
+            >
+              영문, 숫자, 특수문자를 포함하여 8자 이상 입력해주세요.
+            </p>
+
+            <PasswordInput
+              value={confirmPassword}
+              minLength={8}
+              onChange={handleConfirmPasswordChange}
+              type="password"
+              placeholder="비밀번호 재입력"
+              isValid={isPasswordMatch}
+            />
+            <p
+              className={`${
+                !isPasswordMatch && confirmPassword !== "" ? "text-red-500 " + visibleLabelClass : hiddenLabelClass
+              } ${baseLabelClass}`}
+            >
+              비밀번호가 일치하지 않습니다.
+            </p>
           </div>
           <div className="mt-auto mb-2">
-          <Button size="large">완료</Button>
+            <Button size="large">완료</Button>
           </div>
         </form>
       </div>

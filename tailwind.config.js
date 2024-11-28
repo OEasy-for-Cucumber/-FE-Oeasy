@@ -76,7 +76,8 @@ module.exports = {
       "web-move": "webMove 5s linear infinite",
       "move-left": "moveLeft 40s linear infinite",
       "move-top": "moveTop 70s linear infinite",
-      "main-title-move": "mainTitle 0.9s ease-in-out"
+      "main-title-move": "mainTitle 0.9s ease-in-out",
+      "fade-in-up": "fadeInUp 1s ease-in-out"
     },
     keyframes: {
       backgroundMove: {
@@ -99,6 +100,10 @@ module.exports = {
       },
       mainTitle: {
         "0%": { opacity: 0.8, transform: "translateY(50%)" },
+        "100%": { opacity: 1, transform: "translateY(0)" }
+      },
+      fadeInUp: {
+        "0%": { opacity: 0.6, transform: "translateY(20px)" },
         "100%": { opacity: 1, transform: "translateY(0)" }
       }
     }

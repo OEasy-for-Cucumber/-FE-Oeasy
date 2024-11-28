@@ -34,4 +34,5 @@ export interface User {
   refreshToken?: string;
   lastVoteTime?: number | null;
   memberImage? :string | null;
+  kakaoId?:number;
 }

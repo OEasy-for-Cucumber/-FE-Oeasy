@@ -1,10 +1,13 @@
-import { useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import quotes from "../../../../public/img/quotes.png";
 import instance from "../../../api/axios";
 import { OeData } from "../../../types/oeTip";
+import { useScrollEvent } from "../../../hooks/useScrollEvent";
+import { scrollRefProps } from "../../../types/scrollRef";
 
-function OeTip() {
+const OeTip: FC<scrollRefProps> = ({ scrollRef }) => {
   const [tipList, setTipList] = useState<OeData | null>(null);
+  const [animation, setAnimation] = useState({ animationOne: false, animationTwo: false });
 
   useEffect(() => {
     const fetchData = async () => {
@@ -18,6 +21,18 @@ function OeTip() {
     fetchData();
   }, []);
 
+  const handleScrollAnimation = () => {
+    if (scrollRef.current) {
+      const scrollTop = scrollRef.current.scrollTop;
+      setAnimation(() => ({
+        animationOne: scrollTop >= 500,
+        animationTwo: scrollTop >= 827
+        // 827이 부분 수정해야됨 viewport
+      }));
+    }
+  };
+  useScrollEvent(handleScrollAnimation, scrollRef);
+
   return (
     <section className="flex flex-col items-center justify-center h-[calc(100vh-56px)] xl:h-[calc(100vh-80px)] px-6">
       <div className="h-[690px]">
@@ -26,11 +41,14 @@ function OeTip() {
           <div className="font-h3 xl:font-h1 flex justify-center">우리 오이는</div>
         </div>
 
-        <div className="w-[281px] xl:w-full mx-auto">
+        <div
+          className={`${animation.animationOne ? "animate-fade-in-up" : "opacity-0"} w-[281px] transition-opacity xl:w-full mx-auto`}
+        >
           <img src={quotes} alt="큰따옴표" className="w-[39px] xl:w-[82px] h-[29px] xl:h-[60px] my-10 mx-auto" />
         </div>
+
         {tipList && (
-          <div>
+          <div className={`${animation.animationTwo ? "animate-fade-in-up" : "opacity-0"} transition-opacity`}>
             <img src={tipList.mobileImg} className="xl:hidden" />
             <img src={tipList.webImg} className="hidden xl:block h-[440px]" />
           </div>
@@ -38,6 +56,6 @@ function OeTip() {
       </div>
     </section>
   );
-}
+};
 
 export default OeTip;

@@ -58,7 +58,7 @@ function OeIndex() {
               className="w-3/4 xl:w-[387px] absolute -bottom-10 left-0 xl:-bottom-20 xl:left-0"
             />
             <p className="absolute -bottom-4 left-5 xl:-bottom-8 xl:left-12 text-black font-semibold xl:text-[24px]">
-              쑥쑥 자라기 딱 좋은 날씨에요!
+              {oeIndexData?.cucumberType}
             </p>
           </div>
         </div>

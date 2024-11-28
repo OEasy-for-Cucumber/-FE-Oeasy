@@ -10,9 +10,9 @@ interface buttonProps {
 const PaginationArrow: React.FC<buttonProps> = (props) => {
   return (
     <div
-      className="flex justify-center items-center w-[27px] h-[27px] border-[1px] border-solid rounded-[27px] bg-white cursor-pointer"
-      onClick={props.onClick}
-      disabled={props.disabled}
+      className={`flex justify-center items-center w-[27px] h-[27px] border-[1px] border-solid rounded-[27px] bg-white 
+      ${props.disabled ? "cursor-not-allowed opacity-50" : "cursor-pointer"}`}
+      onClick={!props.disabled ? props.onClick : undefined}
     >
       {props.arrowType === "left" ? <img src={leftArrow} /> : <img width="12px" height={12} src={rightArrow} />}
     </div>

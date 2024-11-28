@@ -1,13 +1,10 @@
 import { useNavigate } from "react-router-dom";
-
 import { useEffect, useState } from "react";
 import PaginationArrow from "./PaginationArrow";
 
 interface PaginationProps extends PaginationStyle {
   totalPageNumber?: number;
   currentPage: number;
-  navigatePath: string;
-  navigateState?: Record<string, unknown>;
 }
 
 interface PaginationStyle {
@@ -54,9 +51,7 @@ const Pagination: React.FC<PaginationProps> = (props) => {
       <PaginationArrow
         arrowType="left"
         onClick={() => {
-          navigate(`${props.navigatePath}/${props.currentPage - 1}`, {
-            state: props.navigateState
-          });
+          navigate(`community/${props.currentPage - 1}`);
           scrollTop();
         }}
         disabled={props.currentPage === 1}
@@ -64,18 +59,12 @@ const Pagination: React.FC<PaginationProps> = (props) => {
       <div className="flex justify-center min-w-[198px] my-0 mx-4">
         {currentPageList.map((value, index) => (
           <div
-            onclick={() => {
-              navigate(`${props.navigatePath}/${index + 1 + currentListCount * 10}`, { state: props.navigateState });
+            key={index + currentListCount * 10}
+            onClick={() => {
+              navigate(`communtiy/${index + 1 + currentListCount * 10}`);
               scrollTop();
             }}
-            margin={index !== 0 ? "0 0 0 10px" : ""}
-            text_align="center"
-            lineheight={24}
-            font_family={props.currentPage === index + 1 + currentListCount * 10 ? "semibold" : "regular"}
-            font_color={
-              props.currentPage === index + 1 + currentListCount * 10 ? "var(--primary_fill)" : "var(--text_tertiary)"
-            }
-            cursor={props.currentPage === index + 1 + currentListCount * 10 ? "default" : "pointer"}
+            className={`text-center ${props.currentPage === index + 1 + currentListCount * 10 ? "cursor-default" : "cursor-pointer"}}  `}
           >
             {index + 1 + currentListCount * 10}
           </div>
@@ -84,9 +73,7 @@ const Pagination: React.FC<PaginationProps> = (props) => {
       <PaginationArrow
         arrowType="right"
         onClick={() => {
-          navigate(`${props.navigatePath}/${props.currentPage + 1}`, {
-            state: props.navigateState
-          });
+          navigate(`community/${props.currentPage + 1}`);
           scrollTop();
         }}
         disabled={props.currentPage === props.totalPageNumber}
