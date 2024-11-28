@@ -114,11 +114,13 @@ function List() {
                       </div>
                     </div>
                   </div>
-                  <img
-                    className="w-[48px] h-[48px] xl:w-[56px] xl:h-[56px] rounded-md"
-                    src={post.thumbnailUrl}
-                    alt="post 첫번째 이미지"
-                  />
+                  {post.thumbnailUrl && (
+                    <img
+                      className="w-[48px] h-[48px] xl:w-[56px] xl:h-[56px] rounded-md"
+                      src={post.thumbnailUrl}
+                      alt="post 썸네일 이미지"
+                    />
+                  )}
                 </div>
               ))}
             </div>
