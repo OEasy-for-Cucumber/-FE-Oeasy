@@ -15,6 +15,10 @@ function ConfirmPasswordModal({ handleNewPasswordModal }: ConfirmPasswordModalPr
   const [newPasswordModalOpen, setNewPasswordModalOpen] = useState(false);
   const user = useUserStore((state) => state.user);
 
+  useState(() => {
+    setIsActive(false);
+  });
+  
   const handleCancel = () => {
     handleNewPasswordModal();
     setIsActive(false);
