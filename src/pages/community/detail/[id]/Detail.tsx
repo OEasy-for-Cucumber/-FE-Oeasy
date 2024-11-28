@@ -53,10 +53,6 @@ function Detail() {
     }
   };
 
-  useEffect(() => {
-    console.log("Updated postData:", postData);
-  }, [postData]);
-
   const toggleLike = async () => {
     try {
       const response = await instance.get(`/api/community/like/${data.cmnId}/${user?.memberPk}`, {

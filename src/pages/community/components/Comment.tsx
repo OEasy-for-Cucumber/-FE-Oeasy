@@ -29,11 +29,11 @@ function Comment({ communityId }: CmnProps) {
       const response = await instance.get(`/api/community/comment`, {
         params: {
           communityPk: communityId,
-          page: 0,
+          page: 1,
           size: 10
         }
       });
-      setComments(response.data || []);
+      setComments(response.data.content);
     } catch (error) {
       console.error("댓글을 불러오는 중 오류 발생:", error);
     }
@@ -68,16 +68,12 @@ function Comment({ communityId }: CmnProps) {
       communityId,
       memberId: user?.memberPk,
       content,
-      size: 10
+      size: 15
     };
 
     try {
       const response = await instance.post(`/api/community/comment`, requestComment);
-      if (commentRef.current) {
-        commentRef.current.value = ""; // 입력 필드 초기화
-      }
-      // fetchComments();
-      console.log(response);
+      console.log("Response:", response);
     } catch (error) {
       console.error("댓글 등록 중 오류 발생:", error);
       alert("댓글 등록에 실패했습니다. 다시 시도해주세요.");
