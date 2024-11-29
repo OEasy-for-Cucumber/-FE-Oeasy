@@ -24,9 +24,11 @@ const OeTip: FC<scrollRefProps> = ({ scrollRef }) => {
   const handleScrollAnimation = () => {
     if (scrollRef.current) {
       const scrollTop = scrollRef.current.scrollTop;
+      const viewportHeight = window.innerHeight;
+
       setAnimation(() => ({
-        animationOne: scrollTop >= 500,
-        animationTwo: scrollTop >= 827
+        animationOne: scrollTop >= viewportHeight * 0.5,
+        animationTwo: scrollTop >= viewportHeight * 0.8
         // 827이 부분 수정해야됨 viewport
       }));
     }
