@@ -9,7 +9,7 @@ import { useEffect, useRef, useState } from "react";
 import { parseISO, format, formatDistanceToNow } from "date-fns";
 import { ko } from "date-fns/locale";
 import instance from "../../../../api/axios";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useUserStore } from "../../../../zustand/authStore";
 
 interface PostData {
@@ -25,6 +25,7 @@ interface PostData {
 
 function Detail() {
   const location = useLocation();
+  const navigate = useNavigate();
   const data = location.state;
   const [postData, setPostData] = useState<PostData | null>(null);
   const [liked, setLiked] = useState(data.liked || false);
@@ -90,6 +91,10 @@ function Detail() {
       left: left + window.scrollX - 35 // 아이콘의 X 위치
     });
     menuRef.current = event.currentTarget;
+  };
+
+  const handleEdit = () => {
+    navigate("/community/upload", { state: { postData } });
   };
 
   useEffect(() => {
@@ -166,8 +171,10 @@ function Detail() {
                             left: `${menuPosition.left}px`
                           }}
                         >
-                          <p className="py-2 cursor-pointer  rounded">수정</p>
-                          <p className="py-2 cursor-pointer rounded">삭제</p>
+                          <div className="py-2 cursor-pointer  rounded" onClick={handleEdit}>
+                            수정
+                          </div>
+                          <div className="py-2 cursor-pointer rounded">삭제</div>
                         </div>
                       )}
                     </>

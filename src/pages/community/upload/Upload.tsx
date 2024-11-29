@@ -1,13 +1,15 @@
 import imageCompression from "browser-image-compression";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import uploadImg from "../../../../public/img/uploadImg.png";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import instance from "../../../api/axios";
 import { useUserStore } from "../../../zustand/authStore";
 
 function Upload() {
   const navigate = useNavigate();
-  const [images, setImages] = useState<File[]>([]);
+  const location = useLocation();
+  const postData = location.state;
+  const [images, setImages] = useState<{ file?: File; url?: string }[]>([]);
   const titleRef = useRef<HTMLInputElement>(null);
   const contentRef = useRef<HTMLTextAreaElement>(null);
   const user = useUserStore((state) => state.user);
@@ -45,11 +47,7 @@ function Upload() {
       }
     }
 
-    setImages((prevImages) => {
-      const updatedImages = [...prevImages, ...compressedFiles];
-      console.log("업데이트된 images 배열:", updatedImages);
-      return updatedImages;
-    });
+    setImages((prevImages) => [...prevImages, ...compressedFiles.map((file) => ({ file }))]);
   };
 
   const handleUploadClick = () => {
@@ -62,6 +60,19 @@ function Upload() {
       setImages((prevImages) => prevImages.filter((_, i) => i !== index));
     }
   };
+
+  console.log(postData);
+
+  useEffect(() => {
+    if (postData && postData.postData && titleRef.current && contentRef.current) {
+      titleRef.current.value = postData.postData.title || "";
+      contentRef.current.value = postData.postData.content || "";
+
+      if (postData.postData.imageUrlList) {
+        setImages(postData.postData.imageUrlList.map((url: string) => ({ url }))); // URL만 상태에 저장
+      }
+    }
+  }, [postData]);
 
   const handleSubmit = async () => {
     const title = titleRef.current?.value || "";
@@ -82,30 +93,55 @@ function Upload() {
     formData.append("title", title);
     formData.append("content", content);
 
-    if (images.length === 0) {
-      console.warn("이미지가 업로드되지 않았습니다.");
+    if (postData) {
+      formData.append("communityId", String(postData.postData.id));
     }
-    images.forEach((image, index) => {
-      formData.append(`imgList[${index}]`, image);
-    });
-    try {
-      const response = await instance.post("/api/community", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data"
+
+    if (images.length > 0) {
+      images.forEach((image, index) => {
+        if (image.file) {
+          // 파일을 formData에 추가
+          formData.append(`imgList[${index}]`, image.file);
+        } else if (image.url) {
+          // URL은 별도 처리
+          formData.append(`imgList[${index}]`, image.url);
         }
       });
+    }
 
-      console.log("서버 응답 데이터:", response.data);
+    try {
+      if (postData) {
+        // 수정 요청
+        const response = await instance.patch("/api/community/", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data"
+          }
+        });
 
-      if (response.status === 200) {
-        alert("게시물이 등록되었습니다.");
-        navigate("/community");
+        if (response.status === 200) {
+          alert("게시물이 수정되었습니다.");
+          navigate(`/detail/${postData.id}`);
+        } else {
+          throw new Error("게시물 수정에 실패했습니다.");
+        }
       } else {
-        throw new Error("게시물 등록에 실패했습니다.");
+        // 새 글 작성 요청
+        const response = await instance.post("/api/community", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data"
+          }
+        });
+
+        if (response.status === 200) {
+          alert("게시물이 등록되었습니다.");
+          navigate("/community");
+        } else {
+          throw new Error("게시물 등록에 실패했습니다.");
+        }
       }
     } catch (error) {
-      console.error("게시물 등록 중 오류 발생:", error);
-      alert("게시물 등록에 실패했습니다. 다시 시도해주세요.");
+      console.error("오류 발생:", error);
+      alert("작업 중 오류가 발생했습니다. 다시 시도해주세요.");
     }
   };
 
@@ -149,14 +185,14 @@ function Upload() {
               className="hidden"
               onChange={handleImageUpload}
             />
-            {images.map((file, index) => (
+            {images.map((image, index) => (
               <div
                 key={index}
                 className="min-w-[72px] min-h-[72px] max-w-[100px] max-h-[100px] rounded-lg cursor-pointer aspect-square"
                 onClick={() => handleDelClick(index)}
               >
                 <img
-                  src={URL.createObjectURL(file)}
+                  src={image.file ? URL.createObjectURL(image.file) : image.url} // file과 url 구분
                   alt="업로드된 이미지"
                   className="w-full rounded-lg h-full object-cover"
                 />
