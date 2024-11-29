@@ -1,29 +1,43 @@
 import { useEffect, useState } from "react";
 import instance from "../../../../api/axios";
+import { useQuery } from "@tanstack/react-query";
+import Loading from "../../../../components/common/Loading";
 
-function RecipeCarousel() {
+const RecipeCarousel = () => {
   const [topImage, setTopImage] = useState<string[]>([]);
   const [buttonImage, setButtonImage] = useState<string[]>([]);
 
   const ulSt = "w-full h-[140px] xl:w-[200px] xl:h-full flex flex-row xl:flex-col gap-4 xl:gap-8";
   const sizeSt = "w-[130px] xl:w-[200px] h-[130px] xl:h-[240px]";
 
+  const fetchRecipeImages = async (): Promise<string[]> => {
+    const res = await instance.get("/api/recipe/30");
+    return res.data;
+  };
+
+  const { data, isLoading, error } = useQuery<string[]>({
+    queryKey: ["recipeImages"],
+    queryFn: fetchRecipeImages
+  });
+
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await instance.get("/api/recipe/30");
-        const images = res?.data;
-        const middleIndex = Math.ceil(images.length / 2);
-        const firstHalf = images.slice(0, middleIndex);
-        const secondHalf = images.slice(middleIndex);
-        setTopImage(firstHalf);
-        setButtonImage(secondHalf);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-    fetchData();
-  }, []);
+    if (data) {
+      const middleIndex = Math.ceil(data.length / 2);
+      const firstHalf = data.slice(0, middleIndex);
+      const secondHalf = data.slice(middleIndex);
+      setTopImage(firstHalf);
+      setButtonImage(secondHalf);
+    }
+  }, [data]);
+
+  if (isLoading) {
+    return <Loading className="h-[280px] w-[280px] mx-auto xl:h-[400px] xl:w-[400px] xl:m-0 xl:my-auto" />;
+  }
+
+  if (error) {
+    console.error("Error fetching data:", error);
+  }
+
   return (
     <div className="overflow-hidden">
       <div className="h-[285px] xl:h-full xl:w-[425px] flex xl:flex-col">
@@ -50,6 +64,6 @@ function RecipeCarousel() {
       </div>
     </div>
   );
-}
+};
 
 export default RecipeCarousel;
