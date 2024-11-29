@@ -6,7 +6,7 @@ import ShortLine from "../../../../public/icons/ShortLine.png";
 import LongLine from "../../../../public/icons/LongLine.png";
 import { OEIndexType } from "../../../types/oeIndexTypes";
 
-function OeIndex() {
+function OeTemperature() {
   const [oeIndexData, setOeIndexData] = useState<OEIndexType>();
 
   useEffect(() => {
@@ -26,7 +26,7 @@ function OeIndex() {
   const timeOnly = date.toTimeString().split(" ")[0];
 
   return (
-    <div className="px-6 h-[calc(100vh-56px)] xl:h-screen pt-2 flex justify-center mt-6 xl:mt-[250px]">
+    <div className="px-6 h-[calc(100vh-56px)] xl:h-[calc(100vh-80px)] flex justify-center mt-6 xl:mt-[250px]">
       <div className="w-full h-[540px] relative">
         <h3 className="font-h3 xl:text-[48px] xl:mb-4">오늘의 OE지수</h3>
         <div className="flex gap-2 items-center py-1 mb-8">
@@ -67,4 +67,4 @@ function OeIndex() {
   );
 }
 
-export default OeIndex;
+export default OeTemperature;
