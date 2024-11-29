@@ -119,7 +119,7 @@ function AiOe() {
             <div className="w-full h-[56px] flex justify-center items-center mb-6 relative">
               <div className="font-b2-semibold">AI OE</div>
               <button className="absolute right-[24px] " onClick={() => setAiOe(false)}>
-                <img src="/public/icons/Icon.png" alt="닫기 버튼" />
+                <img src="/icons/Icon.png" alt="닫기 버튼" />
               </button>
             </div>
 
