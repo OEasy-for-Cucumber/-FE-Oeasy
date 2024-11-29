@@ -153,8 +153,8 @@ function OeGraph() {
 
         <div className="w-full">
           <div className="mt-4">
-            <ReactApexChart type="area" options={options} series={series} width={"100%"} height={300}/></div>
-          <div className="flex justify-center space-x-4 mt-8 w-full">
+            <ReactApexChart type="area" options={options} series={series} width={"100%"} height={280}/></div>
+          <div className="flex justify-center space-x-4 mt-4 w-full">
             <div className="grid items-center bg-white rounded-lg shadow-md py-1 w-[50%] h-[128px] px-4">
               <div className="flex justify-start">
                 <img src={IncIcon} alt="상승아이콘" className="w-[20px]" />
