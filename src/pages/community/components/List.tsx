@@ -4,7 +4,7 @@ import postHeart from "../../../../public/icons/heart.png";
 import commentIcon from "../../../../public/icons/comment.png";
 import filter from "../../../../public/icons/filterIcon.png";
 import search from "../../../../public/icons/Search.png";
-import { Link, useSearchParams } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Search from "./Search";
 import instance from "../../../api/axios";
@@ -23,6 +23,7 @@ interface contentTypes {
 
 function List() {
   const [searchParams, setSearchParams] = useSearchParams();
+  const navigate = useNavigate();
   const currentPage = parseInt(searchParams.get("page") || "1");
   const [showSearch, setShowSearch] = useState(false);
   const [posts, setPosts] = useState<contentTypes[]>([]);
@@ -68,6 +69,18 @@ function List() {
       // 현재 오래된순인 경우 → 최신순
       setSortKeyword("boardPk");
       setSortType("false");
+    }
+  };
+
+  const handlePostClick = async (post: contentTypes) => {
+    try {
+      await instance.get(`/api/community/view/${post.boardPk}`);
+
+      navigate(`/community/detail/${post.boardPk}`, {
+        state: { cmnId: post.boardPk, viewCnt: post.viewCnt + 1, commentCnt: post.commentCnt }
+      });
+    } catch (error) {
+      console.error("조회수 증가 요청 실패", error);
     }
   };
 
@@ -120,14 +133,13 @@ function List() {
               {posts.map((post, index) => (
                 <div key={index} className="flex justify-between py-4 gap-2">
                   <div className="flex flex-col gap-[8px] flex-[8.5]">
-                    <Link
-                      to={`/community/detail/${post.boardPk}`}
-                      state={{ cmnId: post.boardPk, viewCnt: post.viewCnt, commentCnt: post.commentCnt }}
+                    <div
+                      className="truncate-title font-b2-semibold xl:font-b1-semibold cursor-pointer"
+                      onClick={() => handlePostClick(post)}
                     >
-                      <div className="truncate-title font-b2-semibold xl:font-b1-semibold cursor-pointer">
-                        {post.title}
-                      </div>
-                    </Link>
+                      {post.title}
+                    </div>
+
                     <div className="flex gap-2 font-c2 xl:font-c1">
                       <p className="text-grayoe-300">
                         {post.nickname} ・ {formatDate(post.createTime)}{" "}
