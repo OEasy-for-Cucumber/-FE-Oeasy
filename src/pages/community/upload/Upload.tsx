@@ -15,6 +15,7 @@ function Upload() {
   const user = useUserStore((state) => state.user);
 
   console.log(user);
+  console.log(postData);
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || []);
@@ -71,12 +72,6 @@ function Upload() {
     }
   }, [postData]);
 
-  const convertUrlToFile = async (url: string) => {
-    const response = await fetch(url);
-    const blob = await response.blob();
-    return new File([blob], "existing_image.jpg", { type: blob.type });
-  };
-
   const handleSubmit = async () => {
     const title = titleRef.current?.value || "";
     const content = contentRef.current?.value || "";
@@ -105,13 +100,10 @@ function Upload() {
         if (image.file) {
           formData.append("imgList", image.file);
         } else if (image.url) {
-          const file = await convertUrlToFile(image.url);
-          formData.append("deleteList", file);
+          formData.append("deleteList", image.url);
         }
       }
     }
-
-    // Log formData content
     console.log("FormData to be submitted:");
     formData.forEach((value, key) => {
       console.log(key, value);
@@ -119,7 +111,7 @@ function Upload() {
 
     try {
       if (postData) {
-        const response = await instance.patch("/api/community/", formData, {
+        const response = await instance.patch("/api/community", formData, {
           headers: {
             "Content-Type": "multipart/form-data"
           }
@@ -127,7 +119,7 @@ function Upload() {
 
         if (response.status === 200) {
           alert("게시물이 수정되었습니다.");
-          navigate(`/community/detail/${postData.id}`);
+          navigate("/community/list");
         } else {
           throw new Error("게시물 수정에 실패했습니다.");
         }
