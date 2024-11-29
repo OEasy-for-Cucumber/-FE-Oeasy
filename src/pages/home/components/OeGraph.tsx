@@ -132,8 +132,9 @@ function OeGraph() {
 
   return (
     <div className="h-[calc(100vh-56px)] xl:h-[calc(100vh-80px)] px-6 flex flex-col justify-center">
-      <div className="w-full">
-        <h3 className="font-h3 mb-2">이번주 오이가격</h3>
+
+        <div className="w-full truncate">
+        <h3 className="font-h3 mb-2 xl:font-h1">이번주 오이가격</h3>
         <div className="flex gap-1 items-center relative">
           <button
             onClick={toggleTooltip}
@@ -142,7 +143,7 @@ function OeGraph() {
             onMouseLeave={leaveTooltip}
             className="flex items-center gap-1"
           >
-            <img src={DangerCircle} alt="참고사항" className="w-[13px] h-[13px] cursor-pointer" />
+            <img src={DangerCircle} alt="참고사항" className="w-[13px] xl:w-[24px] h-[13px] xl:h-[24px]  cursor-pointer" />
           </button>
 
           {isTooltipVisible && isTooltipHover && (
@@ -151,15 +152,17 @@ function OeGraph() {
               <p>· 출처: 농넷</p>
             </div>
           )}
-          <p className="text-[14px] text-grayoe-200">가격(원/개당)</p>
+          <p className="text-[14px] xl:font-h4 text-grayoe-200">가격(원/개당)</p>
         </div>
 
-        <div className="w-full">
-          <div className="mt-4">
+        <div className="w-full xl:flex xl:space-x-8">
+          <div className="mt-4 xl:w-[60%]">
             <ReactApexChart type="area" options={options} series={series} width={"100%"} height={280} />
           </div>
-          <div className="flex justify-center space-x-4 mt-4 w-full">
-            <div className="grid items-center bg-white rounded-lg shadow-md py-1 w-[50%] h-[128px] px-4">
+          
+          <div className="w-full xl:w-[40%]">
+          <div className="flex space-x-4 mt-4 xl:space-x-0 w-full xl:flex-col xl:gap-4">
+            <div className="grid items-center bg-white rounded-lg shadow-md py-1 w-[50%] xl:w-full h-[128px] px-4">
               <div className="flex justify-start">
                 <img src={IncIcon} alt="상승아이콘" className="w-[20px]" />
                 <span className="text-sm text-black font-b1-semibold ml-1">전일대비</span>
@@ -171,7 +174,7 @@ function OeGraph() {
               </span>
             </div>
 
-            <div className="grid items-center bg-white rounded-lg shadow-md py-1 w-[50%] h-[128px] px-4">
+            <div className="grid items-center bg-white rounded-lg shadow-md py-1 w-[50%] xl:w-full h-[128px] px-4">
               <div className="flex justify-start items-center">
                 <img src={GraphIcon} alt="가격아이콘" className="w-[18px] h-[18px]" />
                 <span className="text-sm text-black font-b1-semibold ml-1">오늘 가격</span>
@@ -181,6 +184,7 @@ function OeGraph() {
               </span>
             </div>
           </div>
+        </div>
         </div>
       </div>
     </div>
