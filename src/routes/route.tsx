@@ -12,7 +12,7 @@ import PrivatePage from "./PrivatePage";
 import Test from "../pages/test";
 import RecipeDetail from "../pages/recipes/detail/[id]";
 import Detail from "../pages/community/detail/[id]/Detail";
-import Upload from "../pages/community/upload/[id]";
+import Upload from "../pages/community/upload/Upload";
 
 const router = createBrowserRouter([
   {
@@ -63,7 +63,7 @@ const router = createBrowserRouter([
         element: <RecipeDetail />
       },
       {
-        path: "/community/upload/:postId",
+        path: "/community/upload",
         element: <Upload />
       }
     ]

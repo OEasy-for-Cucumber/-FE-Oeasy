@@ -6,8 +6,8 @@ import AiOe from "./components/AiOe";
 import Recipe from "./components/recipe/Recipe";
 import { useEffect, useRef, useState } from "react";
 import { useScrollEvent } from "../../hooks/useScrollEvent";
-import OeIndex from "./components/OeIndex";
 import PriceMap from "./components/PriceMap";
+import OeTemperature from "./components/OeTemperature";
 
 function Home() {
   const outerDivRef = useRef<HTMLDivElement | null>(null);
@@ -107,7 +107,7 @@ function Home() {
         <Landing />
         <div className="xl:px-[200px]">
           <OeTip scrollRef={outerDivRef} />
-          <OeIndex />
+          <OeTemperature />
           <PriceMap />
           <OeGraph />
           <Recipe />

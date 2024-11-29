@@ -1,12 +1,12 @@
 import profileImg from "../../../../../public/img/profilesample.jpg";
 import show from "../../../../../public/icons/show.png";
 import commentIcon from "../../../../../public/icons/comment.png";
-import emptyHeart from "../../../../../public/icons/heart.png";
-import fullHeart from "../../../../../public/icons/fullHeart.png";
+// import emptyHeart from "../../../../../public/icons/heart.png";
+// import fullHeart from "../../../../../public/icons/fullHeart.png";
 import Comment from "../../components/Comment";
 import { useEffect, useState } from "react";
-import { parseISO, format, formatDistanceToNow } from "date-fns";
-import { ko } from "date-fns/locale";
+// import { parseISO, format, formatDistanceToNow } from "date-fns";
+// import { ko } from "date-fns/locale";
 import instance from "../../../../api/axios";
 import { useLocation, useParams } from "react-router-dom";
 
@@ -22,9 +22,9 @@ interface PostData {
 function Detail() {
   const location = useLocation();
   const { postId } = useParams<{ postId: string }>();
-  const [postData, setPostData] = useState<PostData | null>(null);
-  const [liked, setLiked] = useState(false);
-  const [likedCount, setLikedCount] = useState(0);
+  const [, /*postData*/ setPostData] = useState<PostData | null>(null);
+  // const [liked, setLiked] = useState(false);
+  const [, /*likedCount*/ setLikedCount] = useState(0);
 
   useEffect(() => {
     // 이전 페이지에서 데이터를 전달받은 경우, 상태 초기화
@@ -48,35 +48,35 @@ function Detail() {
     }
   };
 
-  const toggleLike = () => {
-    setLiked(!liked);
-    setLikedCount((prevCount) => (liked ? prevCount - 1 : prevCount + 1));
-  };
+  // const toggleLike = () => {
+  //   setLiked(!liked);
+  //   setLikedCount((prevCount) => (liked ? prevCount - 1 : prevCount + 1));
+  // };
 
-  const formatDate = (dateString: string): string => {
-    const date = parseISO(dateString);
-    const now = new Date();
-    const differenceInHours = (now.getTime() - date.getTime()) / (1000 * 60 * 60);
+  // const formatDate = (dateString: string): string => {
+  //   const date = parseISO(dateString);
+  //   const now = new Date();
+  //   const differenceInHours = (now.getTime() - date.getTime()) / (1000 * 60 * 60);
 
-    if (differenceInHours < 24) {
-      return formatDistanceToNow(date, { addSuffix: true, locale: ko });
-    } else {
-      return format(date, "yy.MM.dd");
-    }
-  };
+  //   if (differenceInHours < 24) {
+  //     return formatDistanceToNow(date, { addSuffix: true, locale: ko });
+  //   } else {
+  //     return format(date, "yy.MM.dd");
+  //   }
+  // };
 
   return (
     <>
       <div className="xl:w-[767px] mx-auto">
         <div className="px-6 py-6 divide-y divide-grayoe-800">
           <div className="flex flex-col gap-2 pb-6">
-            <p className="font-h5 xl:font-h4">{postData.title}</p>
+            {/* <p className="font-h5 xl:font-h4">{postData.title}</p> */}
             <div className="flex justify-between">
               <div className="flex gap-2">
                 <img src={profileImg} alt="" className="w-10 h-10 rounded-full" />
                 <div className="flex flex-col justify-center items-start gap-1">
-                  <p className="font-b2-semibold">{postData.user.nickname}</p>
-                  <p className="font-c2 text-grayoe-300">{formatDate(postData.createdAt)}</p>
+                  {/* <p className="font-b2-semibold">{postData.user.nickname}</p> */}
+                  {/* <p className="font-c2 text-grayoe-300">{formatDate(postData.createdAt)}</p> */}
                 </div>
               </div>
               <div className="flex gap-2 justify-center items-end font-c2">
@@ -91,7 +91,7 @@ function Detail() {
               </div>
             </div>
           </div>
-          <div className="pt-6">
+          {/* <div className="pt-6">
             <p className="font-b2-regular xl:font-b1-regular">{postData.content}</p>
             {postData.images && postData.images.length > 0 && (
               <div
@@ -125,7 +125,7 @@ function Detail() {
               />
               <p className="font-b2-regular">{likedCount}</p>
             </div>
-          </div>
+          </div> */}
         </div>
         <div className="border-grayoe-900 border-4 w-full xl:hidden" />
         <div className="py-6 px-6">
