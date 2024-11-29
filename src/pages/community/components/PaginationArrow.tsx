@@ -15,35 +15,12 @@ const PaginationArrow: React.FC<buttonProps> = (props) => {
       onClick={!props.disabled ? props.onClick : undefined}
     >
       {props.arrowType === "left" ? (
-        <img className="w-4 h-4 hover:scale-110 " src={leftArrow} />
+        <img className="w-4 h-4 xl:w-8 xl:h-8 hover:scale-110 " src={leftArrow} />
       ) : (
-        <img className="w-4 h-4 hover:scale-110" src={rightArrow} />
+        <img className="w-4 h-4 xl:w-8 xl:h-8 hover:scale-110" src={rightArrow} />
       )}
     </div>
   );
 };
-
-// const StButton = styled.button`
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-//   width: 27px;
-//   height: 27px;
-//   border-radius: 27px;
-//   border: 1px solid var(--border);
-//   background-color: #fff;
-//   cursor: pointer;
-//   &:hover {
-//     background-color: var(--week_hover);
-//   }
-//   &:active {
-//     background-color: var(--week_actived);
-//   }
-//   &:disabled {
-//     background-color: var(--surface_primary);
-//     color: var(--text_filledBtn);
-//     cursor: default;
-//   }
-// `;
 
 export default PaginationArrow;

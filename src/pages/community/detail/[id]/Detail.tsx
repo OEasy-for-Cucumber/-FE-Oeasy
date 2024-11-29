@@ -1,10 +1,11 @@
 import profileImg from "../../../../../public/img/profilesample.jpg";
+import edit from "../../../../../public/icons/moreIcon.png";
 import show from "../../../../../public/icons/show.png";
 import commentIcon from "../../../../../public/icons/comment.png";
 import emptyHeart from "../../../../../public/icons/heart.png";
 import fullHeart from "../../../../../public/icons/fullHeart.png";
 import Comment from "../../components/Comment";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { parseISO, format, formatDistanceToNow } from "date-fns";
 import { ko } from "date-fns/locale";
 import instance from "../../../../api/axios";
@@ -14,6 +15,7 @@ import { useUserStore } from "../../../../zustand/authStore";
 interface PostData {
   id: number;
   title: string;
+  content: string;
   nickname: string;
   createdAt: string;
   likes: number;
@@ -25,9 +27,12 @@ function Detail() {
   const location = useLocation();
   const data = location.state;
   const [postData, setPostData] = useState<PostData | null>(null);
-  const [liked, setLiked] = useState(data.liked);
-  const [likedCount, setLikedCount] = useState(data.likes);
+  const [liked, setLiked] = useState(data.liked || false);
+  const [likedCount, setLikedCount] = useState(data.likes || 0);
   const user = useUserStore((state) => state.user);
+  const [showEdit, setShowEdit] = useState(false);
+  const [menuPosition, setMenuPosition] = useState<{ top: number; left: number } | null>(null);
+  const menuRef = useRef<HTMLImageElement | null>(null);
 
   useEffect(() => {
     if (data && user) {
@@ -77,6 +82,36 @@ function Detail() {
     }
   };
 
+  const handleToggleMenu = (event: React.MouseEvent<HTMLImageElement>) => {
+    const { top, left, height } = event.currentTarget.getBoundingClientRect();
+    setShowEdit((prev) => !prev);
+    setMenuPosition({
+      top: top + height + window.scrollY, // 아이콘 바로 아래로 위치
+      left: left + window.scrollX - 35 // 아이콘의 X 위치
+    });
+    menuRef.current = event.currentTarget;
+  };
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (showEdit && menuRef.current) {
+        const { top, left, height } = menuRef.current.getBoundingClientRect();
+        setMenuPosition({
+          top: top + height + window.scrollY,
+          left: left + window.scrollX - 35
+        });
+      }
+    };
+
+    // 리스너 추가
+    window.addEventListener("resize", handleResize);
+
+    // 리스너 정리
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [showEdit]);
+
   const formatDate = (dateString: string): string => {
     const date = parseISO(dateString);
     const now = new Date();
@@ -115,12 +150,34 @@ function Detail() {
                     <img src={commentIcon} alt="댓글아이콘" className="w-[14px] h-[14px]" />
                     <p>{data.commentCnt}</p>
                   </div>
+                  {user?.nickname === postData.nickname && (
+                    <>
+                      <img
+                        src={edit}
+                        alt="Edit icon"
+                        className="w-4 h-4 cursor-pointer"
+                        onClick={handleToggleMenu} // 메뉴 위치 계산
+                      />
+                      {showEdit && menuPosition && (
+                        <div
+                          className="absolute bg-grayoe-400 rounded-md shadow-lg w-14 h-18 flex flex-col justify-center items-center"
+                          style={{
+                            top: `${menuPosition.top}px`,
+                            left: `${menuPosition.left}px`
+                          }}
+                        >
+                          <p className="py-2 cursor-pointer  rounded">수정</p>
+                          <p className="py-2 cursor-pointer rounded">삭제</p>
+                        </div>
+                      )}
+                    </>
+                  )}
                 </div>
               </div>
             </div>
           )}
           <div className="pt-6">
-            {/* <p className="font-b2-regular xl:font-b1-regular">{postData.content}</p> */}
+            <p className="font-b2-regular xl:font-b1-regular">{postData?.content ?? "내용이 없습니다."}</p>
             {postData?.imageUrlList && postData.imageUrlList.length > 0 && (
               <div
                 className={`min-h-[204px]  gap-2 justify-center pt-6 ${

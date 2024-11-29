@@ -62,6 +62,11 @@ const router = createBrowserRouter([
         path: "community/detail/:id",
         element: <Detail />
       },
+
+      {
+        path: "/community/detail/:id/:page",
+        element: <Detail />
+      },
       {
         path: "/recipe-detail/:id",
         element: <RecipeDetail />

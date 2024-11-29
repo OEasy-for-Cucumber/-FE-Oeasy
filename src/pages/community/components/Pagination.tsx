@@ -62,7 +62,7 @@ const Pagination: React.FC<PaginationProps> = (props) => {
         }}
         disabled={props.currentPage === 1}
       />
-      <div className="flex justify-center items-center my-0 mx-4 gap-4">
+      <div className="flex justify-center items-center my-0 mx-4 gap-4 xl:gap-8">
         {currentPageList.map((page) => (
           <div
             key={page}
@@ -70,7 +70,7 @@ const Pagination: React.FC<PaginationProps> = (props) => {
               props.setCurrentPage(parseInt(page));
               scrollTop();
             }}
-            className={`text-center font-c2  w-4 h-4  ${
+            className={`flex justify-center items-center text-center font-c2 xl:font-b2-regular  w-4 h-4 xl:w-8 xl:h-8 ${
               props.currentPage === parseInt(page) ? " cursor-default bg-white text-black rounded-sm" : "cursor-pointer"
             }`}
           >
