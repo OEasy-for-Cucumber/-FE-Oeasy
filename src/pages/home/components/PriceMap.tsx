@@ -75,7 +75,7 @@ function PriceMap() {
               <p>· 출처: 농넷</p>
             </div>
           )}
-          <p className="text-[14px] text-grayoe-200">가격(원/kg)</p>
+          <p className="text-[14px] text-grayoe-200">가격(원/개당)</p>
         </div>
       </div>
 
