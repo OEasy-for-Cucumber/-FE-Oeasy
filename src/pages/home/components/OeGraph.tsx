@@ -148,8 +148,8 @@ function OeGraph() {
 
           {isTooltipVisible && isTooltipHover && (
             <div className="absolute left-0 top-full mt-2 py-3 px-4 bg-white text-grayoe-950 text-xs rounded-md border border-grayoe-100 shadow-lg z-10">
-              <p className="mb-1">· 매일 정시 업데이트</p>
-              <p>· 출처: 농넷</p>
+              <p className="mb-1">· 매일 업데이트</p>
+              <p>· 출처: kamis</p>
             </div>
           )}
           <p className="text-[14px] xl:font-h4 text-grayoe-200">가격(원/개당)</p>
