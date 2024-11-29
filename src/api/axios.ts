@@ -60,7 +60,7 @@ instance.interceptors.response.use(
         const refreshToken = Cookies.get("refreshToken");
 
         // refreshToken으로 새로운 accessToken 요청
-        const { data } = await refreshInstance.post("/auth/refresh",{}, {
+        const { data } = await refreshInstance.post("/auth/refresh", {
           headers: {
             Authorization: `Bearer ${refreshToken}`
           }

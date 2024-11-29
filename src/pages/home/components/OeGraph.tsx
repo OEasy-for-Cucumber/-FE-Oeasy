@@ -7,14 +7,16 @@ import ReactApexChart from "react-apexcharts";
 import { ApexOptions } from "apexcharts";
 
 interface PriceData {
-  price: number;
   date: string;
+  price: number;
+  region: string;
 }
 
 function OeGraph() {
   const [isTooltipVisible, setIsTooltipVisible] = useState<boolean>(false);
   const [isTooltipHover, setIsTooltipHover] = useState<boolean>(false);
   const [oePriceData, setOePriceData] = useState<PriceData[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const toggleTooltip = () => {
     setIsTooltipVisible((prev) => !prev);
@@ -49,58 +51,84 @@ function OeGraph() {
 
     const getOePrice = async () => {
       try {
-        const { data } = await instance.get(
-          `/api/graph/range?startDate=${formattedStartDate}&endDate=${formattedEndDate}`
-        );
+        const {data}:{data:PriceData[]} = await instance.get(`/graph/average?startDate=${formattedStartDate}&endDate=${formattedEndDate}`);
         setOePriceData(data);
       } catch (error) {
         console.error("Failed to fetch OE price data:", error);
+      } finally {
+        setIsLoading(false);
       }
     };
-
     getOePrice();
   }, []);
+
+  if (isLoading) {
+    return <div>데이터를 불러오는 중입니다...</div>;
+  }
+
+  if (!oePriceData || oePriceData.length === 0) {
+    return <div>데이터를 불러오는 중입니다...</div>;
+  }
+
+  const series = oePriceData.length > 0 ? [
+    {
+      name: "price",
+      data: oePriceData.filter((data) => data.price !== null).map((data) => data.price)
+    }
+  ] : [];
   
   const options: ApexOptions = {
     chart: {
       type: "area",
-      height: 280
+      toolbar: {
+        show: false,
+      },
+      background: "transparent",
     },
-    dataLabels: {
-      enabled: false
+    xaxis: {
+      categories: oePriceData.filter((data) => data.price !== null).map((data) => data.date.slice(5)),
+      labels: {
+        rotate: -45,
+        rotateAlways: true,
+      },
     },
     stroke: {
-      curve: 'smooth'
+      curve: "smooth",
+    },
+    dataLabels: {
+      enabled: false,
+    },
+    legend: {
+      show: false,
     },
     fill: {
       type: "gradient",
       gradient: {
         shade: "dark",
-        type: "horizontal",
+        type: "vertical",
         shadeIntensity: 0.5,
-        inverseColors: true,
-        opacityFrom: 1,
-        opacityTo: 1,
-        stops: [0, 50, 100],
+        gradientToColors: ["#09DE614D"],
+        stops: [0, 100],
+        opacityFrom:0.6,
+        opacityTo:0.1,
       },
     },
-    xaxis: {
-      categories: oePriceData.map((data)=>data.date) || []
+    grid: {
+      show: false,
+    },
+    colors: ["#00C853"],
+    theme: {
+      mode: "dark"
     },
   };
 
-  const series = [
-    {
-      name: "price",
-      data: oePriceData.map((data)=>data.price) || []
-    }
-  ];
+
 
   const lastIndex = oePriceData.length - 1;
   const todayPrice = oePriceData.length > 0 ? oePriceData[lastIndex] : { price: 0, date: "" }; // 기본값 설정
 
   return (
-    <div className="h-[calc(100vh-56px)]xl:h-[calc(100vh-80px)] px-6 flex flex-col justify-center">
+    <div className="h-[calc(100vh-56px)] xl:h-[calc(100vh-80px)] px-6 flex flex-col justify-center">
       <div className="w-full">
         <h3 className="font-h3 mb-2">이번주 오이가격</h3>
         <div className="flex gap-1 items-center relative">
@@ -115,18 +143,17 @@ function OeGraph() {
           </button>
 
           {isTooltipVisible && isTooltipHover && (
-            <div className="absolute left-0 top-full mt-2 py-3 px-4 bg-white text-grayoe-950 text-xs rounded-md border border-grayoe-100 shadow-lg">
+            <div className="absolute left-0 top-full mt-2 py-3 px-4 bg-white text-grayoe-950 text-xs rounded-md border border-grayoe-100 shadow-lg z-10">
               <p className="mb-1">· 매일 정시 업데이트</p>
               <p>· 출처: 농넷</p>
             </div>
           )}
-          <p className="text-[14px] text-grayoe-200">가격(원/kg)</p>
+          <p className="text-[14px] text-grayoe-200">가격(원/개당)</p>
         </div>
 
         <div className="w-full">
-          <div className="w-full xl:w-[650px] mt-[35px] mx-auto">
-            <ReactApexChart type="area" options={options} series={series} />
-          </div>
+          <div className="mt-4">
+            <ReactApexChart type="area" options={options} series={series} width={"100%"} height={300}/></div>
           <div className="flex justify-center space-x-4 mt-8 w-full">
             <div className="grid items-center bg-white rounded-lg shadow-md py-1 w-[50%] h-[128px] px-4">
               <div className="flex justify-start">

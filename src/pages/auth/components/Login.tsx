@@ -99,9 +99,13 @@ function Login() {
   const kakaoLoginHandler = async () => {
     const clientId = import.meta.env.VITE_KAKAO_CLIENT_ID;
     const redirectUri = import.meta.env.VITE_APP_KAKAO_REDIRECT_URI;
-    window.location.href = `https://kauth.kakao.com/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code`;
+    // window.location.href = `https://kauth.kakao.com/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code`;
+  
+    console.log(redirectUri);
+    
+    console.log(clientId);
   };
-
+    
   const resetEmailValue = () => {
     setEmail("");
   };
