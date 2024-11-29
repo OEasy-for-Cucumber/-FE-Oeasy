@@ -17,7 +17,7 @@ function PriceMap() {
 
   const handleRegionClick = (event: Event) => {
     const target = event.target as SVGElement;
-    const regionId = target.id.slice(0,2);
+    const regionId = target.id.slice(0, 2);
     if (!regionId) return;
 
     const matchingRegion = regionData.find((data) => data.region === regionId);
@@ -25,9 +25,8 @@ function PriceMap() {
     if (matchingRegion) {
       setMathPrice(matchingRegion.price);
     }
-  
+
     console.log(matchPrice);
-    
   };
 
   const toggleTooltip = () => {
@@ -55,7 +54,7 @@ function PriceMap() {
   }, []);
 
   return (
-    <div className="w-full flex flex-col justify-center px-6 pt-2 h-[calc(100vh-56px)]">
+    <div className="w-full flex flex-col justify-center px-6 pt-2 h-[calc(100vh-56px)] xl:h-[calc(100vh-80px)]">
       <div className="w-full">
         <h3 className="font-h3 mb-2">지역별 오이가격</h3>
         <div className="flex gap-1 items-center relative">

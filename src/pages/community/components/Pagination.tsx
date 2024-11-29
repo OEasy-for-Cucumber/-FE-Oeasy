@@ -5,6 +5,7 @@ import PaginationArrow from "./PaginationArrow";
 interface PaginationProps extends PaginationStyle {
   totalPageNumber?: number;
   currentPage: number;
+  setCurrentPage: (page: number) => void;
 }
 
 interface PaginationStyle {
@@ -29,7 +30,7 @@ const Pagination: React.FC<PaginationProps> = (props) => {
 
   /** 페이지네이션 리스트의 레벨을 설정해줌 */
   const settingCurrentListLevel = () => {
-    setCurrentListCount(Math.floor((props.currentPage - 1) / 10));
+    setCurrentListCount(Math.floor((props.currentPage - 1) / 5));
   };
 
   useEffect(() => {
@@ -38,11 +39,9 @@ const Pagination: React.FC<PaginationProps> = (props) => {
 
   useEffect(() => {
     if (props.totalPageNumber) {
-      if (props.totalPageNumber - 10 * currentListCount > 10) {
-        setCurrentPageList(Array.from({ length: 10 }));
-      } else {
-        setCurrentPageList([...Array(props.totalPageNumber - 10 * currentListCount)]);
-      }
+      const startPage = currentListCount * 5 + 1; // 현재 리스트의 시작 페이지
+      const endPage = Math.min(startPage + 5 - 1, props.totalPageNumber); // 끝 페이지
+      setCurrentPageList(Array.from({ length: endPage - startPage + 1 }, (_, i) => (startPage + i).toString()));
     }
   }, [currentListCount, props.totalPageNumber]);
 
@@ -51,30 +50,47 @@ const Pagination: React.FC<PaginationProps> = (props) => {
       <PaginationArrow
         arrowType="left"
         onClick={() => {
-          navigate(`community/${props.currentPage - 1}`);
-          scrollTop();
+          if (props.currentPage > 1) {
+            const startPage = currentListCount * 5 + 1;
+            const previousPage = startPage - 1; // 현재 리스트 시작 페이지보다 한 단계 이전
+            if (previousPage >= 1) {
+              props.setCurrentPage(previousPage); // 이전 페이지로 이동
+              setCurrentListCount(currentListCount - 1); // 리스트 레벨 감소
+            }
+            scrollTop();
+          }
         }}
         disabled={props.currentPage === 1}
       />
-      <div className="flex justify-center min-w-[198px] my-0 mx-4">
-        {currentPageList.map((_, index) => (
+      <div className="flex justify-center items-center my-0 mx-4 gap-4 xl:gap-8">
+        {currentPageList.map((page) => (
           <div
-            key={index + currentListCount * 10}
+            key={page}
             onClick={() => {
-              navigate(`communtiy/${index + 1 + currentListCount * 10}`);
+              props.setCurrentPage(parseInt(page));
               scrollTop();
             }}
-            className={`text-center ${props.currentPage === index + 1 + currentListCount * 10 ? "cursor-default" : "cursor-pointer"}}  `}
+            className={`flex justify-center items-center text-center font-c2 xl:font-b2-regular  w-4 h-4 xl:w-8 xl:h-8 ${
+              props.currentPage === parseInt(page) ? " cursor-default bg-white text-black rounded-sm" : "cursor-pointer"
+            }`}
           >
-            {index + 1 + currentListCount * 10}
+            {page}
           </div>
         ))}
       </div>
       <PaginationArrow
         arrowType="right"
         onClick={() => {
-          navigate(`community/${props.currentPage + 1}`);
-          scrollTop();
+          if (props.currentPage < (props.totalPageNumber || 0)) {
+            const startPage = currentListCount * 5 + 1;
+            const endPage = Math.min(startPage + 5 - 1, props.totalPageNumber || 0); // 현재 리스트의 끝 페이지
+            const nextPage = endPage + 1; // 현재 리스트 끝 페이지보다 한 단계 이후
+            if (nextPage <= (props.totalPageNumber || 0)) {
+              props.setCurrentPage(nextPage); // 다음 페이지로 이동
+              setCurrentListCount(currentListCount + 1); // 리스트 레벨 증가
+            }
+            scrollTop();
+          }
         }}
         disabled={props.currentPage === props.totalPageNumber}
       />
