@@ -87,11 +87,12 @@ function Comment({ communityId }: CmnProps) {
     const requestComment = {
       communityId,
       memberId: user?.memberPk,
-      content
+      content,
+      size: 5
     };
 
     try {
-      await instance.patch(`/api/community/comment`, requestComment);
+      await instance.post(`/api/community/comment`, requestComment);
       if (commentRef.current) {
         commentRef.current.value = "";
       }

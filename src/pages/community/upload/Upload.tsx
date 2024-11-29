@@ -106,7 +106,7 @@ function Upload() {
           formData.append("imgList", image.file);
         } else if (image.url) {
           const file = await convertUrlToFile(image.url);
-          formData.append("imgList", file);
+          formData.append("deleteList", file);
         }
       }
     }

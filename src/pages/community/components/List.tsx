@@ -27,6 +27,8 @@ function List() {
   const [showSearch, setShowSearch] = useState(false);
   const [posts, setPosts] = useState<contentTypes[]>([]);
   const [totalPages, setTotalPages] = useState(0);
+  const [sortKeyword, setSortKeyword] = useState("boardPk");
+  const [sortType, setSortType] = useState("false");
   const fetchPosts = async (page: number) => {
     try {
       const response = await instance.get(`/api/community`, {
@@ -34,8 +36,8 @@ function List() {
           page: page - 1,
           size: 15,
           searchType: "titleAndContent",
-          sortKeyword: "boardPk",
-          sortType: "false"
+          sortKeyword,
+          sortType
         }
       });
       console.log(response.data);
@@ -49,9 +51,31 @@ function List() {
 
   useEffect(() => {
     fetchPosts(currentPage);
-  }, [currentPage]);
+  }, [currentPage, sortKeyword, sortType]);
 
   console.log(posts);
+
+  const toggleSortOrder = () => {
+    if (sortKeyword === "boardPk" && sortType === "false") {
+      // 현재 최신순인 경우 → 인기순
+      setSortKeyword("likeCnt");
+      setSortType("false");
+    } else if (sortKeyword === "likeCnt" && sortType === "false") {
+      // 현재 인기순인 경우 → 오래된순
+      setSortKeyword("boardPk");
+      setSortType("true");
+    } else {
+      // 현재 오래된순인 경우 → 최신순
+      setSortKeyword("boardPk");
+      setSortType("false");
+    }
+  };
+
+  const getSortLabel = () => {
+    if (sortKeyword === "boardPk" && sortType === "false") return "최신순";
+    if (sortKeyword === "likeCnt" && sortType === "false") return "인기순";
+    if (sortKeyword === "boardPk" && sortType === "true") return "오래된순";
+  };
 
   function formatDate(dateString: string): string {
     const date = parseISO(dateString);
@@ -72,9 +96,11 @@ function List() {
         <div className="h-[calc(100vh-56px)] px-6 xl:w-[767px] mx-auto mt-1 flex flex-col justify-between items-center ">
           <div className="w-full">
             <div className="flex justify-between items-center font-c2">
-              <div className="flex gap-1">
-                <img src={filter} alt="필터아이콘" className="w-[14px] h-[14px]" />
-                <p className="font-c2 xl:font-c1">인기순</p>
+              <div className="flex flex-col items-center gap-1 cursor-pointer">
+                <div className="flex gap-1">
+                  <img src={filter} alt="필터아이콘" className="w-[14px] h-[14px]" onClick={toggleSortOrder} />
+                  <p className="font-c2 xl:font-c1">{getSortLabel()}</p>
+                </div>
               </div>
               <div className="flex gap-2">
                 <div
