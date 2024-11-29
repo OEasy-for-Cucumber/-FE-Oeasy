@@ -131,7 +131,7 @@ function OeGraph() {
   const todayPrice = oePriceData.length > 0 ? oePriceData[lastIndex] : { price: 0, date: "" }; // 기본값 설정
 
   return (
-    <div className="h-[calc(100vh-56px)] xl:h-[calc(100vh-80px)] px-6 flex flex-col justify-center">
+    <div className="h-[calc(100vh-56px)] xl:h-[calc(100vh-80px)] px-6 xl:px-0 flex flex-col justify-center">
       <div className="w-full">
         <h3 className="font-h3 mb-2">이번주 오이가격</h3>
         <div className="flex gap-1 items-center relative">
