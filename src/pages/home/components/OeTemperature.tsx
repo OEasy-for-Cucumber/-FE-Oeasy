@@ -53,8 +53,8 @@ function OeTemperature() {
           {/* 말풍선과 오이 한마디 */}
           <div className="flex flex-col w-full">
             <img src={Union} alt="말풍선" className="w-[285px] xl:w-[462px] relative left-0" />
-            <p className="absolute bottom-9 left-5 xl:bottom-14 text-black font-semibold xl:text-[24px]">
-              {oeIndexData?.cucumberType}
+            <p className="absolute bottom-9 left-[15%] xl:bottom-14 text-black font-semibold xl:text-[24px]">
+              {oeIndexData?.word}
             </p>
           </div>
         </div>
