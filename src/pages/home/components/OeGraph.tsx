@@ -51,7 +51,9 @@ function OeGraph() {
 
     const getOePrice = async () => {
       try {
-        const {data}:{data:PriceData[]} = await instance.get(`/graph/average?startDate=${formattedStartDate}&endDate=${formattedEndDate}`);
+        const { data }: { data: PriceData[] } = await instance.get(
+          `/graph/average?startDate=${formattedStartDate}&endDate=${formattedEndDate}`
+        );
         setOePriceData(data);
       } catch (error) {
         console.error("Failed to fetch OE price data:", error);
@@ -70,36 +72,39 @@ function OeGraph() {
     return <div>데이터를 불러오는 중입니다...</div>;
   }
 
-  const series = oePriceData.length > 0 ? [
-    {
-      name: "price",
-      data: oePriceData.filter((data) => data.price !== null).map((data) => data.price)
-    }
-  ] : [];
-  
+  const series =
+    oePriceData.length > 0
+      ? [
+          {
+            name: "price",
+            data: oePriceData.filter((data) => data.price !== null).map((data) => data.price)
+          }
+        ]
+      : [];
+
   const options: ApexOptions = {
     chart: {
       type: "area",
       toolbar: {
-        show: false,
+        show: false
       },
-      background: "transparent",
+      background: "transparent"
     },
     xaxis: {
       categories: oePriceData.filter((data) => data.price !== null).map((data) => data.date.slice(5)),
       labels: {
         rotate: -45,
-        rotateAlways: true,
-      },
+        rotateAlways: true
+      }
     },
     stroke: {
-      curve: "smooth",
+      curve: "smooth"
     },
     dataLabels: {
-      enabled: false,
+      enabled: false
     },
     legend: {
-      show: false,
+      show: false
     },
     fill: {
       type: "gradient",
@@ -109,20 +114,18 @@ function OeGraph() {
         shadeIntensity: 0.5,
         gradientToColors: ["#09DE614D"],
         stops: [0, 100],
-        opacityFrom:0.6,
-        opacityTo:0.1,
-      },
+        opacityFrom: 0.6,
+        opacityTo: 0.1
+      }
     },
     grid: {
-      show: false,
+      show: false
     },
     colors: ["#00C853"],
     theme: {
       mode: "dark"
-    },
+    }
   };
-
-
 
   const lastIndex = oePriceData.length - 1;
   const todayPrice = oePriceData.length > 0 ? oePriceData[lastIndex] : { price: 0, date: "" }; // 기본값 설정
@@ -153,7 +156,8 @@ function OeGraph() {
 
         <div className="w-full">
           <div className="mt-4">
-            <ReactApexChart type="area" options={options} series={series} width={"100%"} height={280}/></div>
+            <ReactApexChart type="area" options={options} series={series} width={"100%"} height={280} />
+          </div>
           <div className="flex justify-center space-x-4 mt-4 w-full">
             <div className="grid items-center bg-white rounded-lg shadow-md py-1 w-[50%] h-[128px] px-4">
               <div className="flex justify-start">

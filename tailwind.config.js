@@ -57,7 +57,7 @@ module.exports = {
         recipes_btn_bg: "url(/img/button_bg_cucumber.png)",
         noisy_gradients: "url(/img/noisy-gradients.png)",
         profile_sample: "url(./public/img/profilesample.jpg)",
-        aioe_icon: "url(./public/icons/aioe.png)"
+        aioe_icon: "url(/public/icons/aioe.png)"
       },
       backgroundSize: {
         "81%": "81%",
