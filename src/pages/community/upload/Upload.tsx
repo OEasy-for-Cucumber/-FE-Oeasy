@@ -36,7 +36,6 @@ function Upload() {
 
         const compressedBlob = await imageCompression(file, options);
 
-        // Blob을 File로 변환
         const convertedFile = new File([compressedBlob], file.name, {
           type: compressedBlob.type
         });
@@ -61,18 +60,22 @@ function Upload() {
     }
   };
 
-  console.log(postData);
-
   useEffect(() => {
     if (postData && postData.postData && titleRef.current && contentRef.current) {
       titleRef.current.value = postData.postData.title || "";
       contentRef.current.value = postData.postData.content || "";
 
       if (postData.postData.imageUrlList) {
-        setImages(postData.postData.imageUrlList.map((url: string) => ({ url }))); // URL만 상태에 저장
+        setImages(postData.postData.imageUrlList.map((url: string) => ({ url })));
       }
     }
   }, [postData]);
+
+  const convertUrlToFile = async (url: string) => {
+    const response = await fetch(url);
+    const blob = await response.blob();
+    return new File([blob], "existing_image.jpg", { type: blob.type });
+  };
 
   const handleSubmit = async () => {
     const title = titleRef.current?.value || "";
@@ -98,20 +101,24 @@ function Upload() {
     }
 
     if (images.length > 0) {
-      images.forEach((image, index) => {
+      for (const image of images) {
         if (image.file) {
-          // 파일을 formData에 추가
-          formData.append(`imgList[${index}]`, image.file);
+          formData.append("imgList", image.file);
         } else if (image.url) {
-          // URL은 별도 처리
-          formData.append(`imgList[${index}]`, image.url);
+          const file = await convertUrlToFile(image.url);
+          formData.append("imgList", file);
         }
-      });
+      }
     }
+
+    // Log formData content
+    console.log("FormData to be submitted:");
+    formData.forEach((value, key) => {
+      console.log(key, value);
+    });
 
     try {
       if (postData) {
-        // 수정 요청
         const response = await instance.patch("/api/community/", formData, {
           headers: {
             "Content-Type": "multipart/form-data"
@@ -120,12 +127,11 @@ function Upload() {
 
         if (response.status === 200) {
           alert("게시물이 수정되었습니다.");
-          navigate(`/detail/${postData.id}`);
+          navigate(`/community/detail/${postData.id}`);
         } else {
           throw new Error("게시물 수정에 실패했습니다.");
         }
       } else {
-        // 새 글 작성 요청
         const response = await instance.post("/api/community", formData, {
           headers: {
             "Content-Type": "multipart/form-data"
@@ -192,7 +198,7 @@ function Upload() {
                 onClick={() => handleDelClick(index)}
               >
                 <img
-                  src={image.file ? URL.createObjectURL(image.file) : image.url} // file과 url 구분
+                  src={image.file ? URL.createObjectURL(image.file) : image.url}
                   alt="업로드된 이미지"
                   className="w-full rounded-lg h-full object-cover"
                 />
