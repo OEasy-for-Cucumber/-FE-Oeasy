@@ -6,7 +6,6 @@ import AiOe from "./components/AiOe";
 import Recipe from "./components/recipe/Recipe";
 import { useEffect, useRef, useState } from "react";
 import { useScrollEvent } from "../../hooks/useScrollEvent";
-
 import PriceMap from "./components/PriceMap";
 import OeIndex from "./components/OeIndex";
 
