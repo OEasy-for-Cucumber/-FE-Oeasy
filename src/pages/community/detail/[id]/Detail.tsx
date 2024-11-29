@@ -1,46 +1,57 @@
 import profileImg from "../../../../../public/img/profilesample.jpg";
+import edit from "../../../../../public/icons/moreIcon.png";
 import show from "../../../../../public/icons/show.png";
 import commentIcon from "../../../../../public/icons/comment.png";
-// import emptyHeart from "../../../../../public/icons/heart.png";
-// import fullHeart from "../../../../../public/icons/fullHeart.png";
+import emptyHeart from "../../../../../public/icons/heart.png";
+import fullHeart from "../../../../../public/icons/fullHeart.png";
 import Comment from "../../components/Comment";
-import { useEffect, useState } from "react";
-// import { parseISO, format, formatDistanceToNow } from "date-fns";
-// import { ko } from "date-fns/locale";
+import { useEffect, useRef, useState } from "react";
+import { parseISO, format, formatDistanceToNow } from "date-fns";
+import { ko } from "date-fns/locale";
 import instance from "../../../../api/axios";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useUserStore } from "../../../../zustand/authStore";
 
 interface PostData {
   id: number;
   title: string;
+  content: string;
   nickname: string;
   createdAt: string;
   likes: number;
   imageUrlList: Array<string>;
+  liked: boolean;
 }
 
 function Detail() {
   const location = useLocation();
-  const { postId } = useParams<{ postId: string }>();
-  const [, /*postData*/ setPostData] = useState<PostData | null>(null);
-  // const [liked, setLiked] = useState(false);
-  const [, /*likedCount*/ setLikedCount] = useState(0);
+  const navigate = useNavigate();
+  const data = location.state;
+  const [postData, setPostData] = useState<PostData | null>(null);
+  const [liked, setLiked] = useState(data.liked || false);
+  const [likedCount, setLikedCount] = useState(data.likes || 0);
+  const user = useUserStore((state) => state.user);
+  const [showEdit, setShowEdit] = useState(false);
+  const [menuPosition, setMenuPosition] = useState<{ top: number; left: number } | null>(null);
+  const menuRef = useRef<HTMLImageElement | null>(null);
 
   useEffect(() => {
-    // 이전 페이지에서 데이터를 전달받은 경우, 상태 초기화
-    if (location.state) {
-      setPostData(location.state as PostData);
-    } else {
-      // 서버에서 데이터 가져오기
+    if (data && user) {
       fetchPostData();
     }
-  }, [location.state]);
+  }, [data]);
 
   const fetchPostData = async () => {
     try {
-      const response = await instance.get(`api/Community/${postId}`);
+      const response = await instance.get(`api/community/${data.cmnId}/${user?.memberPk}`, {
+        params: {
+          cmnId: data.cmnId,
+          memberId: user?.memberPk
+        }
+      });
       console.log(response);
-      setPostData(response.data); // 서버에서 받은 데이터를 상태에 저장
+      setPostData(response.data);
+      setLiked(response.data.liked); // 서버에서 받은 데이터를 상태에 저장
       setLikedCount(response.data.likes); // 좋아요 초기값 설정
     } catch (error) {
       console.error("게시물 데이터를 가져오는 중 오류 발생:", error);
@@ -48,68 +59,149 @@ function Detail() {
     }
   };
 
-  // const toggleLike = () => {
-  //   setLiked(!liked);
-  //   setLikedCount((prevCount) => (liked ? prevCount - 1 : prevCount + 1));
-  // };
+  const toggleLike = async () => {
+    try {
+      const response = await instance.get(`/api/community/like/${data.cmnId}/${user?.memberPk}`, {
+        params: {
+          cmnId: data.cmnId,
+          memberId: user?.memberPk
+        }
+      });
 
-  // const formatDate = (dateString: string): string => {
-  //   const date = parseISO(dateString);
-  //   const now = new Date();
-  //   const differenceInHours = (now.getTime() - date.getTime()) / (1000 * 60 * 60);
+      setLiked(response.data);
 
-  //   if (differenceInHours < 24) {
-  //     return formatDistanceToNow(date, { addSuffix: true, locale: ko });
-  //   } else {
-  //     return format(date, "yy.MM.dd");
-  //   }
-  // };
+      if (response.data === true) {
+        setLikedCount((prev: number) => prev + 1);
+      } else {
+        setLikedCount((prev: number) => prev - 1);
+      }
+
+      console.log("좋아요 상태 동기화 성공:", response.data);
+    } catch (error) {
+      console.error("좋아요 상태 업데이트 실패:", error);
+      alert("좋아요 상태를 업데이트하는 데 실패했습니다.");
+    }
+  };
+
+  const handleToggleMenu = (event: React.MouseEvent<HTMLImageElement>) => {
+    const { top, left, height } = event.currentTarget.getBoundingClientRect();
+    setShowEdit((prev) => !prev);
+    setMenuPosition({
+      top: top + height + window.scrollY, // 아이콘 바로 아래로 위치
+      left: left + window.scrollX - 35 // 아이콘의 X 위치
+    });
+    menuRef.current = event.currentTarget;
+  };
+
+  const handleEdit = () => {
+    navigate("/community/upload", { state: { postData } });
+  };
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (showEdit && menuRef.current) {
+        const { top, left, height } = menuRef.current.getBoundingClientRect();
+        setMenuPosition({
+          top: top + height + window.scrollY,
+          left: left + window.scrollX - 35
+        });
+      }
+    };
+
+    // 리스너 추가
+    window.addEventListener("resize", handleResize);
+
+    // 리스너 정리
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [showEdit]);
+
+  const formatDate = (dateString: string): string => {
+    const date = parseISO(dateString);
+    const now = new Date();
+    const differenceInHours = (now.getTime() - date.getTime()) / (1000 * 60 * 60);
+
+    if (differenceInHours < 24) {
+      return formatDistanceToNow(date, { addSuffix: true, locale: ko });
+    } else {
+      return format(date, "yy.MM.dd");
+    }
+  };
 
   return (
     <>
       <div className="xl:w-[767px] mx-auto">
         <div className="px-6 py-6 divide-y divide-grayoe-800">
-          <div className="flex flex-col gap-2 pb-6">
-            {/* <p className="font-h5 xl:font-h4">{postData.title}</p> */}
-            <div className="flex justify-between">
-              <div className="flex gap-2">
-                <img src={profileImg} alt="" className="w-10 h-10 rounded-full" />
-                <div className="flex flex-col justify-center items-start gap-1">
-                  {/* <p className="font-b2-semibold">{postData.user.nickname}</p> */}
-                  {/* <p className="font-c2 text-grayoe-300">{formatDate(postData.createdAt)}</p> */}
+          {!postData ? (
+            <p>로딩중</p>
+          ) : (
+            <div className="flex flex-col gap-2 pb-6">
+              <p className="font-h5 xl:font-h4">{postData.title}</p>
+              <div className="flex justify-between">
+                <div className="flex gap-2">
+                  <img src={profileImg} alt="" className="w-10 h-10 rounded-full" />
+                  <div className="flex flex-col justify-center items-start gap-1">
+                    <p className="font-b2-semibold">{postData.nickname}</p>
+                    <p className="font-c2 text-grayoe-300">{formatDate(postData.createdAt)}</p>
+                  </div>
                 </div>
-              </div>
-              <div className="flex gap-2 justify-center items-end font-c2">
-                <div className="flex justify-center items-center gap-1">
-                  <img src={show} alt="조회수" className="w-[14px] h-[14px]" />
-                  <p>조회수</p>
-                </div>
-                <div className="flex justify-center items-center gap-1">
-                  <img src={commentIcon} alt="댓글아이콘" className="w-[14px] h-[14px]" />
-                  <p>댓글수</p>
+                <div className="flex gap-2 justify-center items-end font-c2">
+                  <div className="flex justify-center items-center gap-1">
+                    <img src={show} alt="조회수" className="w-[14px] h-[14px]" />
+                    <p>{data.viewCnt}</p>
+                  </div>
+                  <div className="flex justify-center items-center gap-1">
+                    <img src={commentIcon} alt="댓글아이콘" className="w-[14px] h-[14px]" />
+                    <p>{data.commentCnt}</p>
+                  </div>
+                  {user?.nickname === postData.nickname && (
+                    <>
+                      <img
+                        src={edit}
+                        alt="Edit icon"
+                        className="w-4 h-4 cursor-pointer"
+                        onClick={handleToggleMenu} // 메뉴 위치 계산
+                      />
+                      {showEdit && menuPosition && (
+                        <div
+                          className="absolute bg-grayoe-400 rounded-md shadow-lg w-14 h-18 flex flex-col justify-center items-center"
+                          style={{
+                            top: `${menuPosition.top}px`,
+                            left: `${menuPosition.left}px`
+                          }}
+                        >
+                          <div className="py-2 cursor-pointer  rounded" onClick={handleEdit}>
+                            수정
+                          </div>
+                          <div className="py-2 cursor-pointer rounded">삭제</div>
+                        </div>
+                      )}
+                    </>
+                  )}
                 </div>
               </div>
             </div>
-          </div>
-          {/* <div className="pt-6">
-            <p className="font-b2-regular xl:font-b1-regular">{postData.content}</p>
-            {postData.images && postData.images.length > 0 && (
+          )}
+          <div className="pt-6">
+            <p className="font-b2-regular xl:font-b1-regular">{postData?.content ?? "내용이 없습니다."}</p>
+            {postData?.imageUrlList && postData.imageUrlList.length > 0 && (
               <div
                 className={`min-h-[204px]  gap-2 justify-center pt-6 ${
-                  postData.images.length === 1
+                  postData.imageUrlList.length === 1
                     ? "grid-cols-1"
-                    : postData.images.length === 3
+                    : postData.imageUrlList.length === 3
                       ? "grid-cols-2 grid-rows-2 xl:grid-cols-3"
                       : "grid-cols-2 xl:grid-cols-3 place-items-center"
                 } grid`}
               >
-                {postData.images.map((img: string, index: number) => (
+                {postData.imageUrlList.map((img: string, index: number) => (
                   <img
                     key={index}
                     src={img}
                     alt={`게시물 이미지 ${index + 1}`}
-                    className={`w-full rounded-lg ${postData.images.length === 1 ? "h-[200px] " : "h-[180px]"} ${
-                      postData.images.length === 3 && index === 0 ? "col-span-2" : ""
+                    className={`w-full rounded-lg ${postData.imageUrlList.length === 1 ? "h-[200px] " : "h-[180px]"} ${
+                      postData.imageUrlList.length === 3 && index === 0 ? "col-span-2" : ""
                     }`}
                   />
                 ))}
@@ -125,11 +217,11 @@ function Detail() {
               />
               <p className="font-b2-regular">{likedCount}</p>
             </div>
-          </div> */}
+          </div>
         </div>
         <div className="border-grayoe-900 border-4 w-full xl:hidden" />
         <div className="py-6 px-6">
-          <Comment />
+          <Comment communityId={data.cmnId} />
         </div>
       </div>
     </>
