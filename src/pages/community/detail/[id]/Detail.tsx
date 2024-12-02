@@ -1,4 +1,3 @@
-import profileImg from "../../../../../public/img/profilesample.jpg";
 import edit from "../../../../../public/icons/moreIcon.png";
 import show from "../../../../../public/icons/show.png";
 import commentIcon from "../../../../../public/icons/comment.png";
@@ -18,6 +17,7 @@ interface PostData {
   content: string;
   nickname: string;
   createdAt: string;
+  profileImg: string;
   likes: number;
   imageUrlList: Array<string>;
   liked: boolean;
@@ -169,7 +169,7 @@ function Detail() {
               <p className="font-h5 xl:font-h4">{postData.title}</p>
               <div className="flex justify-between">
                 <div className="flex gap-2">
-                  <img src={profileImg} alt="" className="w-10 h-10 rounded-full" />
+                  <img src={postData.profileImg} alt="" className="w-10 h-10 rounded-full" />
                   <div className="flex flex-col justify-center items-start gap-1">
                     <p className="font-b2-semibold">{postData.nickname}</p>
                     <p className="font-c2 text-grayoe-300">{formatDate(postData.createdAt)}</p>
