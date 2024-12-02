@@ -95,6 +95,10 @@ function Upload() {
       alert("내용을 입력해주세요.");
       return;
     }
+    if (title.length > 70) {
+      alert("제목은 70자까지 입력 가능합니다");
+      return;
+    }
 
     const formData = new FormData();
 
