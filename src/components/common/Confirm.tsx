@@ -1,4 +1,5 @@
 import { useState } from "react";
+// import Button from "./Button";
 
 interface ConfirmProps {
   isVisible: boolean;
@@ -35,7 +36,7 @@ const Confirm: React.FC<ConfirmProps> = ({
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-grayoe-950 bg-opacity-[0.8]">
-      <div className="bg-grayoe-900 py-6 px-4 rounded-2xl shadow-lg w-[300px] text-white text-center">
+      <div className="bg-grayoe-900 py-6 px-4 rounded-2xl shadow-lg w-[312px] text-white text-center">
         <p className="font-h5 mb-2">{message}</p>
         {subMessage && <p className="mb-8 font-b2-regular">{subMessage}</p>}
 
@@ -52,13 +53,20 @@ const Confirm: React.FC<ConfirmProps> = ({
           </div>
         )}
 
-        <div className="flex justify-between space-x-2">
+        <div className="flex justify-between gap-1">
           <button onClick={onCancel} className="w-[136px] h-[56px] font-b1-semibold bg-grayoe-400 rounded-lg">
             취소
           </button>
           <button onClick={handleConfirm} className="w-[136px] h-[56px] font-b1-semibold bg-greenoe-600 rounded-lg">
             확인
           </button>
+          {/* <Button onClick={onCancel} size="medium" isActive={true}>
+            취소
+          </Button>
+
+          <Button onClick={handleConfirm} size="medium" isActive={true}>
+            확인
+          </Button> */}
         </div>
       </div>
     </div>

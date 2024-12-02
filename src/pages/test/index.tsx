@@ -5,8 +5,23 @@ import SockJS from "sockjs-client";
 import sendIcon from "../../../public/icons/send.png";
 import profileImage from "../../../public/img/cuteOE.png";
 import { useUserStore } from "../../zustand/authStore";
+import Confirm from "../../components/common/Confirm";
 
 function Chat() {
+  // confrim 사용방법 시작
+  const [isConfirmVisible, setIsConfirmVisible] = useState(false);
+
+  const handleConfirm = (inputValue: string | undefined) => {
+    console.log("입력된 값:", inputValue);
+    setIsConfirmVisible(false);
+  };
+
+  const handleCancel = () => {
+    console.log("취소 버튼 클릭됨");
+    setIsConfirmVisible(false);
+  };
+  // 끝
+
   if (typeof global === "undefined") {
     window.global = window; // 브라우저 환경에서 `global`이 없는 경우 `window`로 설정
   }
@@ -171,6 +186,21 @@ function Chat() {
             <img src={sendIcon} alt="Send" className="w-5 h-5" />
           </button>
         </div>
+      </div>
+      <div>
+        <button className="bg-red-600 p-4 rounded-md" onClick={() => setIsConfirmVisible(true)}>
+          컨펌창 열기
+        </button>
+        <Confirm
+          isVisible={isConfirmVisible} // 필수
+          message="비밀번호를 입력해주세요" // 필수
+          subMessage="이 작업을 진행하려면 비밀번호가 필요합니다."
+          onConfirm={handleConfirm} // 필수
+          onCancel={handleCancel} // 필수
+          hasInput={true} // 입력창 활성화 // input창이 필요하면
+          inputPlaceholder="비밀번호 입력" // input창이 필요하면
+          validationText="1234" // 입력값 검증 // input창이 필요하면
+        />
       </div>
     </div>
   );
