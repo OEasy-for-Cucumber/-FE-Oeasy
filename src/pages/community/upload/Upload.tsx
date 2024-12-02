@@ -99,6 +99,10 @@ function Upload() {
       alert("제목은 70자까지 입력 가능합니다");
       return;
     }
+    if (content.length > 5000) {
+      alert("내용은 5000자 이내로 작성해주세요");
+      return;
+    }
 
     const formData = new FormData();
 
@@ -137,7 +141,7 @@ function Upload() {
 
         if (response.status === 200) {
           alert("게시물이 수정되었습니다.");
-          navigate("/community/list");
+          navigate(`/community/detail/${postData.postData.id}`, { state: { cmnId: postData.postData.id } });
         } else {
           throw new Error("게시물 수정에 실패했습니다.");
         }
