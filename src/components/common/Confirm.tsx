@@ -53,7 +53,7 @@ const Confirm: React.FC<ConfirmProps> = ({
           </div>
         )}
 
-        <div className="flex justify-between gap-1">
+        <div className="flex justify-between gap-2">
           <button onClick={onCancel} className="w-[136px] h-[56px] font-b1-semibold bg-grayoe-400 rounded-lg">
             취소
           </button>
