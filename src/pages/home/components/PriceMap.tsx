@@ -104,7 +104,7 @@ function PriceMap() {
         </div>
         <div
           className="relative w-[300px] h-[400px] xl:w-[60%] xl:h-[400px]"
-          onMouseLeave={handleMouseLeaveMap} // 지도 전체에서 마우스 벗어남 처리
+          onMouseLeave={handleMouseLeaveMap}
         >
           <ReactSVG
             src={mapSvg}
