@@ -123,7 +123,7 @@ function Vote({ active, initialVotes, isVoting }: VoteProps) {
         <div>
           <div className="w-[182px] min-h-[56px] xl:w-[273px] xl:h-[76px] flex flex-col justify-center items-center mx-auto gap-[8px] ">
             <p className="font-h4 xl:font-h2 text-center">오이 좋아하세요?</p>
-            <p className="font-c2 xl:font-b2-regular text-grayoe-200 text-center">
+            <p className="font-c2 xl:font-b2-regular pb-2 text-grayoe-200 text-center">
               투표는 ID당 하루에 한 번만 가능합니다
             </p>
           </div>
