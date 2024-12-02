@@ -26,7 +26,7 @@ function OeTemperature() {
   const timeOnly = date.toTimeString().split(" ")[0];
 
   return (
-    <div className="px-6 xl:px-0 h-[calc(100vh-56px)] xl:h-[calc(100vh-80px)] flex justify-center items-center xl:items-start xl:pt-6">
+    <div className="px-6 h-[calc(100vh-56px)] xl:h-[calc(100vh-80px)] flex justify-center items-center xl:items-start xl:pt-6">
       <div className="w-full h-[540px] relative">
         <h3 className="font-h3 xl:text-[48px] xl:mb-4">오늘의 OE지수</h3>
         <div className="flex gap-2 items-center py-1 mb-8">
@@ -53,8 +53,8 @@ function OeTemperature() {
           {/* 말풍선과 오이 한마디 */}
           <div className="flex flex-col w-full">
             <img src={Union} alt="말풍선" className="w-[285px] xl:w-[462px] relative left-0" />
-            <p className="absolute bottom-9 left-5 xl:bottom-14 text-black font-semibold xl:text-[24px]">
-              {oeIndexData?.cucumberType}
+            <p className="absolute bottom-9 left-[15%] xl:bottom-14 text-black font-semibold xl:text-[24px]">
+              {oeIndexData?.word}
             </p>
           </div>
         </div>

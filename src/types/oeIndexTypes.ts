@@ -4,4 +4,5 @@ export interface OEIndexType {
     weatherState: string;
     temperature: number;
     dateTime: string;
+    word: string;
 }

@@ -34,13 +34,13 @@ function MyPage() {
       <div className="w-full flex mt-[50px]">
         <button
           onClick={handlePostClicked}
-          className={`w-1/2 p-2 border-b-2 ${!isClicked ? "border-grayoe-950" : "border-greenoe-600"} text-center`}
+          className={`w-1/2 p-2 border-b-2 ${!isClicked ? "border-grayoe-900" : "border-greenoe-600"} text-center`}
         >
           게시글
         </button>
         <button
           onClick={handleLikedClicked}
-          className={`w-1/2 p-2 border-b-2 ${isClicked ? "border-grayoe-950" : "border-greenoe-600"} text-center`}
+          className={`w-1/2 p-2 border-b-2 ${isClicked ? "border-grayoe-900" : "border-greenoe-600"} text-center`}
         >
           좋아요
         </button>
