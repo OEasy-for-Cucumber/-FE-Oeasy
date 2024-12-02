@@ -57,6 +57,7 @@ function PriceMap() {
       region: matchingRegion?.region || regionId,
       price: matchingRegion?.price || "정보 없음",
     });
+
   };
 
   const handleMouseLeaveRegion = () => {
@@ -103,7 +104,7 @@ function PriceMap() {
           </div>
         </div>
         <div
-          className="relative w-[300px] h-[400px] xl:w-[60%] xl:h-[400px]"
+          className="relative w-[350px] h-auto xl:w-[60%] xl:h-[400px] mx-auto"
           onMouseLeave={handleMouseLeaveMap}
         >
           <ReactSVG
@@ -113,8 +114,20 @@ function PriceMap() {
               svg.setAttribute("style", "cursor: pointer");
               const paths = svg.querySelectorAll("path");
               paths.forEach((path) => {
+                const regionId = path.id.slice(0, 2); // 지역 ID 추출
+                const matchingRegion = regionData.find((data) => data.region === regionId);
+          
+                // 데이터가 있는 지역을 초록색으로 설정
+                if (matchingRegion) {
+                  path.setAttribute("class", "land price");
+                } else {
+                  path.setAttribute("class", "land");
+                }
+          
+                // 이벤트 리스너 추가
                 path.addEventListener("mousemove", handleMouseMove);
                 path.addEventListener("mouseleave", handleMouseLeaveRegion);
+                path.addEventListener("click", handleMouseMove);
               });
             }}
           />

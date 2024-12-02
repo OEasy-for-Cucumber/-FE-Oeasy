@@ -68,7 +68,7 @@ function MobileHeader() {
           <p>{headerTitle}</p>
           {!isLoggedIn ? (
             <button onClick={goToLogin} className="text-xs">
-              login
+              Login
             </button>
           ) : pathname === "/mypage" ? (
             <div className="w-5"></div>
