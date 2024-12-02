@@ -26,8 +26,8 @@ function OeTemperature() {
   const timeOnly = date.toTimeString().split(" ")[0];
 
   return (
-    <div className="px-6 h-[calc(100vh-56px)] xl:h-[calc(100vh-80px)] flex justify-center pt-6">
-      <div className="w-full h-[540px] relative">
+    <div className="px-6 h-[calc(100vh-56px)] xl:h-[calc(100vh-80px)] flex justify-center items-center xl:items-start xl:pt-6 border">
+      <div className="w-full h-[540px] relative border">
         <h3 className="font-h3 xl:text-[48px] xl:mb-4">오늘의 OE지수</h3>
         <div className="flex gap-2 items-center py-1 mb-8">
           <img src={LocationIcon} alt="locationIcon" className="xl:w-[20px]" />
