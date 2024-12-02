@@ -54,7 +54,7 @@ function PriceMap() {
   }, []);
 
   return (
-    <div className="w-full flex flex-col justify-center px-6 pt-2 h-[calc(100vh-56px)] xl:h-[calc(100vh-80px)]">
+    <div className="w-full flex flex-col justify-center px-6 xl:px-0 pt-2 h-[calc(100vh-56px)] xl:h-[calc(100vh-80px)]">
       <div className="w-full">
         <h3 className="font-h3 mb-2">지역별 오이가격</h3>
         <div className="flex gap-1 items-center relative">

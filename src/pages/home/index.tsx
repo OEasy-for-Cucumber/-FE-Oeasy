@@ -8,6 +8,7 @@ import { useEffect, useRef, useState } from "react";
 import { useScrollEvent } from "../../hooks/useScrollEvent";
 import PriceMap from "./components/PriceMap";
 import OeTemperature from "./components/OeTemperature";
+import OeVote from "./components/OeVote";
 
 function Home() {
   const outerDivRef = useRef<HTMLDivElement | null>(null);
@@ -60,7 +61,7 @@ function Home() {
       isScrolling.current = true;
       const { scrollTop } = outerDivRefCurrent;
       const pageHeight = window.innerHeight - headerHeight;
-      const totalPages = 6;
+      const totalPages = 7;
       const currentPage = Math.round(scrollTop / pageHeight);
 
       if (deltaY > 0) {
@@ -107,6 +108,7 @@ function Home() {
         <Landing />
         <div className="xl:px-[200px]">
           <OeTip scrollRef={outerDivRef} />
+          <OeVote />
           <OeTemperature />
           <PriceMap />
           <OeGraph />

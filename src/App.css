@@ -18,6 +18,18 @@ body {
   font-family: "Pretendard-Regular";
   color: #fff;
   background-color: #1c1c1c;
+  /* 드래그 막기 */
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+img {
+  /* 이미지 잔상 방지 */
+  -webkit-user-drag: none;
+  -moz-user-drag: none;
+  -ms-user-drag: none;
 }
 
 .shadow-3d {
