@@ -9,6 +9,7 @@ import Pagination from "./Pagination";
 
 interface CmnProps {
   communityId: number;
+  setTotalComments: (count: number) => void;
 }
 
 interface Comment {
@@ -20,16 +21,16 @@ interface Comment {
   commentPk: number;
 }
 
-function Comment({ communityId }: CmnProps) {
-  const [showMenu, setShowMenu] = useState<number | null>(null); // 수정/삭제 메뉴를 보여줄 댓글 ID
-  const [editingComment, setEditingComment] = useState<number | null>(null); // 현재 수정 중인 댓글 ID
-  const [currentPage, setCurrentPage] = useState(1); // useState로 currentPage 관리
+function Comment({ communityId, setTotalComments }: CmnProps) {
+  const [showMenu, setShowMenu] = useState<number | null>(null);
+  const [editingComment, setEditingComment] = useState<number | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
   const user = useUserStore((state) => state.user);
   const [comments, setComments] = useState<Comment[]>([]);
   const [totalPages, setTotalPages] = useState(0);
   const commentRef = useRef<HTMLTextAreaElement>(null);
   const [isSending, setIsSending] = useState(false);
-  const [editContent, setEditContent] = useState<string>(""); // 수정 중인 댓글 내용
+  const [editContent, setEditContent] = useState<string>("");
 
   const fetchComments = async (page: number) => {
     try {
@@ -41,9 +42,10 @@ function Comment({ communityId }: CmnProps) {
         }
       });
       console.log(response.data);
-      const { contents, totalPages } = response.data;
+      const { contents, totalPages, totalElements } = response.data;
       setComments(contents);
       setTotalPages(totalPages);
+      setTotalComments(totalElements);
     } catch (error) {
       console.error("댓글을 불러오는 중 오류 발생:", error);
     }
@@ -59,8 +61,8 @@ function Comment({ communityId }: CmnProps) {
 
   function formatDate(dateString: string): string {
     // 밀리초 소수점 제거
-    const cleanedDateString = dateString.split(".")[0]; // "2024-11-29T11:28:58"
-    const date = parseISO(cleanedDateString); // ISO 8601 형식으로 변환
+    const cleanedDateString = dateString.split(".")[0];
+    const date = parseISO(cleanedDateString);
     const now = new Date();
 
     const differenceInHours = (now.getTime() - date.getTime()) / (1000 * 60 * 60);
@@ -106,9 +108,9 @@ function Comment({ communityId }: CmnProps) {
   };
 
   const handleEdit = (commentPk: number, content: string) => {
-    setEditingComment(commentPk); // 수정 모드로 변경
-    setEditContent(content); // 수정할 내용을 설정
-    setShowMenu(null); // 메뉴 닫기
+    setEditingComment(commentPk);
+    setEditContent(content);
+    setShowMenu(null);
   };
 
   const handleEditSubmit = async (commentPk: number) => {
@@ -127,7 +129,7 @@ function Comment({ communityId }: CmnProps) {
       await instance.patch("/api/community/comment", requestEdit);
 
       alert("댓글이 수정되었습니다.");
-      setEditingComment(null); // 수정 모드 종료
+      setEditingComment(null);
       await fetchComments(currentPage);
     } catch (error) {
       console.error("댓글 수정 중 오류 발생:", error);

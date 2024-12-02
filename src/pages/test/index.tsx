@@ -20,7 +20,7 @@ function Chat() {
     console.log("취소 버튼 클릭됨");
     setIsConfirmVisible(false);
   };
-  // 끝
+  // 끝 아래로
 
   if (typeof global === "undefined") {
     window.global = window; // 브라우저 환경에서 `global`이 없는 경우 `window`로 설정

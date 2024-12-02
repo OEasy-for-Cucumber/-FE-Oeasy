@@ -68,15 +68,12 @@ function List() {
 
   const toggleSortOrder = () => {
     if (sortKeyword === "boardPk" && sortType === "false") {
-      // 현재 최신순인 경우 → 인기순
       setSortKeyword("likeCnt");
       setSortType("false");
     } else if (sortKeyword === "likeCnt" && sortType === "false") {
-      // 현재 인기순인 경우 → 오래된순
       setSortKeyword("boardPk");
       setSortType("true");
     } else {
-      // 현재 오래된순인 경우 → 최신순
       setSortKeyword("boardPk");
       setSortType("false");
     }
@@ -87,7 +84,7 @@ function List() {
       await instance.get(`/api/community/view/${post.boardPk}`);
 
       navigate(`/community/detail/${post.boardPk}`, {
-        state: { cmnId: post.boardPk, viewCnt: post.viewCnt + 1, commentCnt: post.commentCnt }
+        state: { cmnId: post.boardPk }
       });
     } catch (error) {
       console.error("조회수 증가 요청 실패", error);
@@ -116,7 +113,7 @@ function List() {
       <div className="h-[calc(100vh-56px)] px-6 xl:w-[767px] mx-auto mt-1 flex flex-col justify-between items-center ">
         <div className="w-full">
           {showSearch ? (
-            <Search message={messageRef} onSearch={handleSearch} />
+            <Search message={messageRef} onSearch={handleSearch} onClose={() => setShowSearch(false)} />
           ) : (
             <div className="flex justify-between items-center font-c2">
               <div className="flex flex-col items-center gap-1 cursor-pointer">

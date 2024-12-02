@@ -24,32 +24,39 @@ interface PostData {
 }
 
 function Detail() {
-  const location = useLocation();
   const navigate = useNavigate();
-  const data = location.state;
+  const location = useLocation();
+  const { cmnId } = location.state;
   const [postData, setPostData] = useState<PostData | null>(null);
-  const [liked, setLiked] = useState(data.liked || false);
-  const [likedCount, setLikedCount] = useState(data.likes || 0);
+  const [liked, setLiked] = useState(false);
+  const [likedCount, setLikedCount] = useState(0);
   const user = useUserStore((state) => state.user);
   const [showEdit, setShowEdit] = useState(false);
   const [menuPosition, setMenuPosition] = useState<{ top: number; left: number } | null>(null);
   const menuRef = useRef<HTMLImageElement | null>(null);
+  const [totalComments, setTotalComments] = useState(0);
 
   useEffect(() => {
-    if (data && user) {
+    if (!user) {
+      alert("로그인 후 이용해주세요");
+      navigate("/community");
+      return;
+    }
+    if (cmnId) {
       fetchPostData();
     }
-  }, [data]);
+  }, [user]);
 
   const fetchPostData = async () => {
     try {
-      const response = await instance.get(`api/community/${data.cmnId}/${user?.memberPk}`, {
+      const response = await instance.get(`api/community/${cmnId}/${user?.memberPk}`, {
         params: {
-          cmnId: data.cmnId,
+          cmnId: cmnId,
           memberId: user?.memberPk
         }
       });
       console.log(response);
+
       setPostData(response.data);
       setLiked(response.data.liked); // 서버에서 받은 데이터를 상태에 저장
       setLikedCount(response.data.likes); // 좋아요 초기값 설정
@@ -61,9 +68,9 @@ function Detail() {
 
   const toggleLike = async () => {
     try {
-      const response = await instance.get(`/api/community/like/${data.cmnId}/${user?.memberPk}`, {
+      const response = await instance.get(`/api/community/like/${cmnId}/${user?.memberPk}`, {
         params: {
-          cmnId: data.cmnId,
+          cmnId: cmnId,
           memberId: user?.memberPk
         }
       });
@@ -135,7 +142,7 @@ function Detail() {
 
     const requestDelete = {
       userId: user?.memberPk,
-      cmnId: data.cmnId
+      cmnId: cmnId
     };
 
     try {
@@ -171,11 +178,11 @@ function Detail() {
                 <div className="flex gap-2 justify-center items-end font-c2">
                   <div className="flex justify-center items-center gap-1">
                     <img src={show} alt="조회수" className="w-[14px] h-[14px]" />
-                    <p>{data.viewCnt}</p>
+                    {/* <p>{postData.viewCnt}</p> */}
                   </div>
                   <div className="flex justify-center items-center gap-1">
                     <img src={commentIcon} alt="댓글아이콘" className="w-[14px] h-[14px]" />
-                    <p>{data.commentCnt}</p>
+                    <p>{totalComments}</p>
                   </div>
                   {user?.nickname === postData.nickname && (
                     <>
@@ -245,7 +252,7 @@ function Detail() {
         </div>
         <div className="border-grayoe-900 border-4 w-full xl:hidden" />
         <div className="py-6 px-6">
-          <Comment communityId={data.cmnId} />
+          <Comment communityId={cmnId} setTotalComments={setTotalComments} />
         </div>
       </div>
     </>
