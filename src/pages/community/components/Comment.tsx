@@ -184,7 +184,7 @@ function Comment({ communityId, setTotalComments }: CmnProps) {
                       value={editContent}
                       onChange={(e) => setEditContent(e.target.value)}
                       onKeyDown={(e) => handleKeyDown(e, com.commentPk)}
-                      className="w-[400px] xl:w-[630px] bg-grayoe-950 p-2 border border-white rounded focus:outline-none"
+                      className="w-[400px] xl:w-[630px] bg-grayoe-950 p-2 border border-white rounded resize-none focus:outline-none"
                     />
                   ) : (
                     <p className="font-b2-regular xl:font-b1-regular">{com.content}</p>
