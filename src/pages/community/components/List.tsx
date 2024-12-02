@@ -116,7 +116,7 @@ function List() {
       <div className="h-[calc(100vh-56px)] px-6 xl:w-[767px] mx-auto mt-1 flex flex-col justify-between items-center ">
         <div className="w-full">
           {showSearch ? (
-            <Search message={messageRef} onSearch={handleSearch} />
+            <Search message={messageRef} onSearch={handleSearch} onClose={() => setShowSearch(false)} />
           ) : (
             <div className="flex justify-between items-center font-c2">
               <div className="flex flex-col items-center gap-1 cursor-pointer">
