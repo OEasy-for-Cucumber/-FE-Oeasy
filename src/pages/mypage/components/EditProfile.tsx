@@ -55,37 +55,44 @@ function EditProfile({ handleEditModal }: { handleEditModal: () => void }) {
   const editProfile = async (e: React.FormEvent) => {
     e.preventDefault();
     let updatedUser = { ...user };
-    try {
-      const { data: profileData } = await instance.patch(
-        "/member/profile-picture",
-        {
-          file: profileImg
-        },
-        {
-          headers: { "Content-Type": "multipart/form-data" }
+    if (profileImg) {
+      try {
+        const { data: profileData } = await instance.patch(
+          "/member/profile-picture",
+          {
+            file: profileImg
+          },
+          {
+            headers: { "Content-Type": "multipart/form-data" }
+          }
+        );
+        updatedUser = { ...updatedUser, memberImage: profileData.imageUrl };
+      } catch (error) {
+        if (axios.isAxiosError(error)) {
+          console.error("Axios error:", error.response?.data || error.message);
+        } else {
+          console.error("Unexpected error:", error);
         }
-      );
-      updatedUser = { ...updatedUser, memberImage: profileData.imageUrl };
-      console.log("프로필 업데이트 성공");
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        console.error("Axios error:", error.response?.data || error.message);
-      } else {
-        console.error("Unexpected error:", error);
+        return;
       }
     }
 
-    try {
-      const { data: nicknameData } = await instance.patch("/member/nickname", {
-        newNickname
-      });
-      updatedUser = { ...updatedUser, nickname: nicknameData.nickname };
-      console.log("닉네임 변경 성공");
-      handleEditModal();
-    } catch (error) {
-      handleNicknameError(error);
+    if (newNickname && newNickname !== user?.nickname) {
+      try {
+        if (!newNickname) return;
+        const { data: nicknameData } = await instance.patch("/member/nickname", {
+          newNickname
+        });
+        updatedUser = { ...updatedUser, nickname: nicknameData.nickname };
+        console.log("닉네임 변경 성공");
+      } catch (error) {
+        handleNicknameError(error);
+        return;
+      }
     }
+
     setUser(updatedUser);
+    handleEditModal();
   };
 
   const handleNicknameError = (error: unknown) => {
@@ -105,7 +112,7 @@ function EditProfile({ handleEditModal }: { handleEditModal: () => void }) {
   };
 
   const handleNewPasswordModal = () => {
-    if(user?.kakaoId){
+    if (user?.kakaoId) {
       alert("일반가입 회원만 이용 가능합니다.");
       return;
     }

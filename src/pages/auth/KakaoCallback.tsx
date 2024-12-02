@@ -4,6 +4,7 @@ import { useUserStore } from "../../zustand/authStore";
 import instance from "../../api/axios";
 import { AxiosError } from "axios";
 import Cookies from "js-cookie";
+import Loading from "../../components/common/Loading";
 
 function KakaoCallback() {
   const { setUser, setIsLoggedIn } = useUserStore.getState();
@@ -45,7 +46,7 @@ function KakaoCallback() {
     fetchData();
   }, [code]);
 
-  return <div>카카오 로그인 중...</div>;
+  return <Loading/>;
 }
 
 export default KakaoCallback;

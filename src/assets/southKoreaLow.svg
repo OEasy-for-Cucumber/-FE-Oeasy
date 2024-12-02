@@ -1,23 +1,22 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <!-- (c) ammap.com | SVG map of South Korea - Low -->
-<svg min-width="360px" height="auto" viewBox="0 50 650 950" xmlns="http://www.w3.org/2000/svg" xmlns:amcharts="http://amcharts.com/ammap" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1">
+<svg viewBox="0 130 650 750" xmlns="http://www.w3.org/2000/svg" xmlns:amcharts="http://amcharts.com/ammap" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1">
 	<defs>
 		<style type="text/css">
 			.land
 			{
-				fill: #CCCCCC;
+				fill: #0A7136;
 				fill-opacity: 1;
-				stroke-width: 1;
+				stroke-width: 0.5;
   				cursor: pointer;
   				transition: fill 0.3s;
-  				stroke: #fff;
+  				stroke: #C0DACA;
 			}
 			.land:hover {
-  				fill: #2e2e2e; /* 호버 색상 */
+  				fill: #262626;
 			}
-
 			.land.selected {
-  				fill: #2e2e2e; /* 선택된 색상 */
+  				fill: #262626;
 			}
 		</style>
 
