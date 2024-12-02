@@ -10,6 +10,7 @@ function Upload() {
   const location = useLocation();
   const postData = location.state;
   const [images, setImages] = useState<{ file?: File; url?: string }[]>([]);
+  const [deleteList, setDeleteList] = useState<string[]>([]); // 삭제된 이미지 URL 추적
   const titleRef = useRef<HTMLInputElement>(null);
   const contentRef = useRef<HTMLTextAreaElement>(null);
   const user = useUserStore((state) => state.user);
@@ -57,7 +58,17 @@ function Upload() {
   const handleDelClick = (index: number) => {
     const confirmDelete = window.confirm("삭제하시겠습니까?");
     if (confirmDelete) {
-      setImages((prevImages) => prevImages.filter((_, i) => i !== index));
+      const deletedImage = images[index];
+
+      if (deletedImage?.url && !deleteList.includes(deletedImage.url)) {
+        setDeleteList((prevDeleteList) => [...prevDeleteList, deletedImage.url as string]);
+      }
+
+      setImages((prevImages) => {
+        const newImages = [...prevImages];
+        newImages.splice(index, 1); // 이미지를 삭제
+        return newImages;
+      });
     }
   };
 
@@ -95,18 +106,16 @@ function Upload() {
       formData.append("communityId", String(postData.postData.id));
     }
 
-    if (images.length > 0) {
-      for (const image of images) {
-        if (image.file) {
-          formData.append("imgList", image.file);
-        } else if (image.url) {
-          formData.append("deleteList", image.url);
-        }
+    for (const image of images) {
+      if (image.file) {
+        formData.append("imgList", image.file);
+      } else if (image.url) {
+        formData.append("imgList", image.url);
       }
     }
-    console.log("FormData to be submitted:");
-    formData.forEach((value, key) => {
-      console.log(key, value);
+    deleteList.forEach((url, index) => {
+      console.log(`deleteList[${index}]: ${url}`);
+      formData.append("deleteList", url);
     });
 
     try {
