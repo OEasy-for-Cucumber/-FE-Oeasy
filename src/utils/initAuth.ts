@@ -18,7 +18,6 @@ function useUserInitialize() {
       try {
         const { data } = await instance.get("/member/profile");
         if (data) {
-          console.log("Setting user");
           setUser(data);
         }
         setIsLoggedIn(true);
