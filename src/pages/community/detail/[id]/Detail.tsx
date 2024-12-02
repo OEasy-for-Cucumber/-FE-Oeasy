@@ -34,6 +34,7 @@ function Detail() {
   const [showEdit, setShowEdit] = useState(false);
   const [menuPosition, setMenuPosition] = useState<{ top: number; left: number } | null>(null);
   const menuRef = useRef<HTMLImageElement | null>(null);
+  const [totalComments, setTotalComments] = useState(0);
 
   useEffect(() => {
     if (!user) {
@@ -181,7 +182,7 @@ function Detail() {
                   </div>
                   <div className="flex justify-center items-center gap-1">
                     <img src={commentIcon} alt="댓글아이콘" className="w-[14px] h-[14px]" />
-                    {/* <p>{postData.commentCnt}</p> */}
+                    <p>{totalComments}</p>
                   </div>
                   {user?.nickname === postData.nickname && (
                     <>
@@ -251,7 +252,7 @@ function Detail() {
         </div>
         <div className="border-grayoe-900 border-4 w-full xl:hidden" />
         <div className="py-6 px-6">
-          <Comment communityId={cmnId} />
+          <Comment communityId={cmnId} setTotalComments={setTotalComments} />
         </div>
       </div>
     </>
