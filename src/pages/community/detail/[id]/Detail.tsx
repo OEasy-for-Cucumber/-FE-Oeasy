@@ -129,6 +129,28 @@ function Detail() {
     }
   };
 
+  const handleDelete = async () => {
+    const confirmDelete = window.confirm("정말로 이 게시물을 삭제하시겠습니까?");
+    if (!confirmDelete) return;
+
+    const requestDelete = {
+      userId: user?.memberPk,
+      cmnId: data.cmnId
+    };
+
+    try {
+      await instance.delete("/api/community", {
+        data: requestDelete
+      });
+
+      alert("게시물이 삭제되었습니다.");
+      navigate("/community");
+    } catch (error) {
+      console.error("게시물 삭제 중 오류 발생:", error);
+      alert("게시물 삭제에 실패했습니다.");
+    }
+  };
+
   return (
     <>
       <div className="xl:w-[767px] mx-auto">
@@ -174,7 +196,9 @@ function Detail() {
                           <div className="py-2 cursor-pointer  rounded" onClick={handleEdit}>
                             수정
                           </div>
-                          <div className="py-2 cursor-pointer rounded">삭제</div>
+                          <div className="py-2 cursor-pointer rounded" onClick={handleDelete}>
+                            삭제
+                          </div>
                         </div>
                       )}
                     </>

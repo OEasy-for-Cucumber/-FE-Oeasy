@@ -10,11 +10,13 @@ function Upload() {
   const location = useLocation();
   const postData = location.state;
   const [images, setImages] = useState<{ file?: File; url?: string }[]>([]);
+  const [deleteList, setDeleteList] = useState<string[]>([]);
   const titleRef = useRef<HTMLInputElement>(null);
   const contentRef = useRef<HTMLTextAreaElement>(null);
   const user = useUserStore((state) => state.user);
 
   console.log(user);
+  console.log(postData);
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || []);
@@ -36,7 +38,6 @@ function Upload() {
 
         const compressedBlob = await imageCompression(file, options);
 
-        // Blob을 File로 변환
         const convertedFile = new File([compressedBlob], file.name, {
           type: compressedBlob.type
         });
@@ -57,11 +58,19 @@ function Upload() {
   const handleDelClick = (index: number) => {
     const confirmDelete = window.confirm("삭제하시겠습니까?");
     if (confirmDelete) {
-      setImages((prevImages) => prevImages.filter((_, i) => i !== index));
+      const deletedImage = images[index];
+
+      if (deletedImage?.url && !deleteList.includes(deletedImage.url)) {
+        setDeleteList((prevDeleteList) => [...prevDeleteList, deletedImage.url as string]);
+      }
+
+      setImages((prevImages) => {
+        const newImages = [...prevImages];
+        newImages.splice(index, 1);
+        return newImages;
+      });
     }
   };
-
-  console.log(postData);
 
   useEffect(() => {
     if (postData && postData.postData && titleRef.current && contentRef.current) {
@@ -69,7 +78,7 @@ function Upload() {
       contentRef.current.value = postData.postData.content || "";
 
       if (postData.postData.imageUrlList) {
-        setImages(postData.postData.imageUrlList.map((url: string) => ({ url }))); // URL만 상태에 저장
+        setImages(postData.postData.imageUrlList.map((url: string) => ({ url })));
       }
     }
   }, [postData]);
@@ -97,22 +106,26 @@ function Upload() {
       formData.append("communityId", String(postData.postData.id));
     }
 
-    if (images.length > 0) {
-      images.forEach((image, index) => {
-        if (image.file) {
-          // 파일을 formData에 추가
-          formData.append(`imgList[${index}]`, image.file);
-        } else if (image.url) {
-          // URL은 별도 처리
-          formData.append(`imgList[${index}]`, image.url);
-        }
-      });
-    }
+    images.forEach((image) => {
+      if (image.url && !image.file) {
+        formData.append("imgList", image.url);
+      }
+    });
+
+    images.forEach((image) => {
+      if (image.file) {
+        formData.append("imgList", image.file);
+      }
+    });
+
+    deleteList.forEach((url, index) => {
+      console.log(`deleteList[${index}]: ${url}`);
+      formData.append("deleteList", url);
+    });
 
     try {
       if (postData) {
-        // 수정 요청
-        const response = await instance.patch("/api/community/", formData, {
+        const response = await instance.patch("/api/community", formData, {
           headers: {
             "Content-Type": "multipart/form-data"
           }
@@ -120,12 +133,11 @@ function Upload() {
 
         if (response.status === 200) {
           alert("게시물이 수정되었습니다.");
-          navigate(`/detail/${postData.id}`);
+          navigate("/community/list");
         } else {
           throw new Error("게시물 수정에 실패했습니다.");
         }
       } else {
-        // 새 글 작성 요청
         const response = await instance.post("/api/community", formData, {
           headers: {
             "Content-Type": "multipart/form-data"
@@ -192,7 +204,7 @@ function Upload() {
                 onClick={() => handleDelClick(index)}
               >
                 <img
-                  src={image.file ? URL.createObjectURL(image.file) : image.url} // file과 url 구분
+                  src={image.file ? URL.createObjectURL(image.file) : image.url}
                   alt="업로드된 이미지"
                   className="w-full rounded-lg h-full object-cover"
                 />
