@@ -158,7 +158,7 @@ function List() {
                       <p>{post.likeCnt}</p>
                     </div>
                     <div className="flex justify-center items-center gap-1">
-                      <img src={commentIcon} alt="댓글아이" className="w-[14px] h-[14px]" />
+                      <img src={commentIcon} alt="댓글아이콘" className="w-[14px] h-[14px]" />
                       <p>{post.commentCnt}</p>
                     </div>
                   </div>
