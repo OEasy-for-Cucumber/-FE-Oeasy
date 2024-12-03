@@ -91,29 +91,38 @@ function EditProfile({ handleEditModal }: { handleEditModal: () => void }) {
         });
         updatedUser = { ...updatedUser, nickname: nicknameData.nickname };
         showAlert({
-          message: "닉네임이 변경되었습니다."
+          message: "프로필이 변경되었습니다."
         });
       } catch (error) {
         if (axios.isAxiosError(error)) {
           if (error.response?.status === 400) {
-            alert("닉네임 형식이 올바르지 않습니다. 다시 시도해주세요.");
+            showAlert({
+              message: "닉네임 형식이 올바르지 않습니다.",
+              subMessage: "다시 시도해주세요."
+            });
+            return;
           } else if (error.response?.status === 409) {
             showAlert({
               message: "이미 사용중인 닉네임입니다.",
               subMessage: "다른 닉네임으로 변경해주세요."
             });
+            return;
           } else {
-            alert("닉네임 변경 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
+            showAlert({
+              message: "닉네임 변경 중 오류가 발생했습니다.",
+              subMessage: "잠시 후 다시 시도해주세요."
+            });
           }
           console.error("Axios error:", error.response?.data || error.message);
         } else {
-          console.error("Unexpected error:", error);
-          alert("예기치 못한 오류가 발생했습니다. 다시 시도해주세요.");
+          showAlert({
+            message: "예기치 못한 오류가 발생했습니다.",
+            subMessage: "다시 시도해주세요."
+          });
         }
         return;
       }
     }
-
     setUser(updatedUser);
     handleEditModal();
   };
@@ -158,7 +167,7 @@ function EditProfile({ handleEditModal }: { handleEditModal: () => void }) {
             <img src={Xicon} alt="닫기버튼" />
           </button>
           <h1 className="font-b2-semibold">계정 설정</h1>
-          <button type="submit" className={`${!isNickname ? "text-grayoe-400" : "text-[#0A84FF]"} text-xs`}>
+          <button type="submit" disabled={!isNickname} className={`${!isNickname ? "text-grayoe-400" : "text-[#0A84FF]"} text-xs`}>
             저장
           </button>
         </div>

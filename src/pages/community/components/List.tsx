@@ -9,6 +9,8 @@ import { useEffect, useRef, useState } from "react";
 import Search from "./Search";
 import instance from "../../../api/axios";
 import Pagination from "./Pagination";
+import { useUserStore } from "../../../zustand/authStore";
+import useAlert from "../../../hooks/useAlert";
 
 interface contentTypes {
   boardPk: string;
@@ -23,6 +25,8 @@ interface contentTypes {
 
 function List() {
   const [searchParams, setSearchParams] = useSearchParams();
+  const user = useUserStore((state) => state.user);
+  const { showAlert } = useAlert();
   const navigate = useNavigate();
   const currentPage = parseInt(searchParams.get("page") || "1");
   const [showSearch, setShowSearch] = useState(false);
@@ -79,10 +83,16 @@ function List() {
   const handlePostClick = async (post: contentTypes) => {
     try {
       await instance.get(`/api/community/view/${post.boardPk}`);
-
-      navigate(`/community/detail/${post.boardPk}`, {
-        state: { cmnId: post.boardPk }
-      });
+      if (!user) {
+        showAlert({
+          message: "로그인 후 이용해주세요"
+        });
+        navigate("/login");
+      } else {
+        navigate(`/community/detail/${post.boardPk}`, {
+          state: { cmnId: post.boardPk }
+        });
+      }
     } catch (error) {
       console.error("조회수 증가 요청 실패", error);
     }
