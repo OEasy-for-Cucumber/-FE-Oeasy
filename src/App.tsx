@@ -14,7 +14,7 @@ function App(): React.JSX.Element {
   const hideHeader = pathname === "/login";
 
   if(!isInitialize) {
-    return <Loading/>
+    return <Loading className="w-[30%] mx-auto mt-[200px]"/>
   }
 
   return (

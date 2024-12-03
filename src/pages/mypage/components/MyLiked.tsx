@@ -10,7 +10,7 @@ import Pagination from "../../community/components/Pagination";
 
 function MyLiked() {
   const [myLikedPosts, setMyLikedPosts] = useState<Contents[]>();
-  const [searchParams, _setSearchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [totalPages, setToTalPages] = useState(0);
   const user = useUserStore((state) => state.user);
   const currentPage = parseInt(searchParams.get("page") || "1");
@@ -82,13 +82,15 @@ function MyLiked() {
           </div>
         ))
       )}
-      <div className="flex justify-center">
-      <Pagination
+      {myLikedPosts?.length! > 0 && (
+        <div className="flex justify-center">
+          <Pagination
             totalPageNumber={totalPages}
             currentPage={currentPage}
-            setCurrentPage={(page) => _setSearchParams({ page: page.toString() })}
+            setCurrentPage={(page) => setSearchParams({ page: page.toString() })}
           />
-          </div>
+        </div>
+      )}
     </div>
   );
 }
