@@ -1,5 +1,5 @@
 import { useUserStore } from "../../../zustand/authStore"
-import OeProfile from "../../../../public/img/voteOE2.png";
+import OeProfile from "../../../../public/img/likeOeWin.png";
 
 function Complete() {
   const user = useUserStore((state)=>state.user);
