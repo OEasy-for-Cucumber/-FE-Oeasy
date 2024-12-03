@@ -1,13 +1,14 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import Button from "../common/Button";
 import { useUserStore } from "../../zustand/authStore";
-import Sample from "../../../public/img/profilesample.jpg";
+import Sample from "../../../public/img/defaultProfile.png";
 import Logo from "../../.././public/icons/logo.png";
 
 function WebHeader() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
-  const { user, isLoggedIn } = useUserStore.getState();
+  const { isLoggedIn } = useUserStore.getState();
+  const user = useUserStore((state)=>state.user);
 
   const goToLogin = () => {
     navigate("/login");
@@ -35,7 +36,7 @@ function WebHeader() {
 
   return (
     <div
-      className={`w-full min-w-[1440px] h-[80px] px-6 flex items-center fixed ${pathname === "/" ? "bg-greenoe-950" : "bg-grayoe-950"}`}
+      className={`z-50 w-full min-w-[1440px] h-[80px] px-6 flex items-center fixed ${pathname === "/" ? "bg-greenoe-950" : "bg-grayoe-950"}`}
     >
       <div className="flex items-center">
         <button onClick={goToHome} className="text-white text-xl mr-8">

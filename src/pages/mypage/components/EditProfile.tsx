@@ -1,5 +1,5 @@
 import Xicon from "../../../../public/icons/Icon.png";
-import Sample from "../../../../public/img/profilesample.jpg";
+import Sample from "../../../../public/img/defaultProfile.png";
 import Camera from "../../../../public/icons/Camera.png";
 import { useUserStore } from "../../../zustand/authStore";
 import { useNavigate } from "react-router-dom";
@@ -144,7 +144,7 @@ function EditProfile({ handleEditModal }: { handleEditModal: () => void }) {
     <div className="fixed inset-0 flex flex-col items-center justify-center">
       <form
         onSubmit={editProfile}
-        className="bg-grayoe-950 text-white w-full min-w-[360px] max-w-[520px] xl:w-full py-4 relative h-svh"
+        className="bg-grayoe-950 text-white w-full min-w-[360px] max-w-[520px] xl:max-w-none xl:w-[688px] py-4 relative h-svh xl:h-[calc(100vh-120px)]"
       >
         <div className="w-full flex justify-between items-center mt-3 mb-[64px] px-6">
           <button type="button" onClick={handleEditModal} className="text-xl">

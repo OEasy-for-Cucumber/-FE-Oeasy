@@ -1,5 +1,5 @@
 import { useUserStore } from "../../../zustand/authStore"
-import Sample from "../../../../public/img/profilesample.jpg"
+import Sample from "../../../../public/img/defaultProfile.png"
 
 function Complete() {
   const user = useUserStore((state)=>state.user);

@@ -31,8 +31,8 @@ function List() {
   const [sortKeyword, setSortKeyword] = useState("boardPk");
   const [sortType, setSortType] = useState("false");
   const messageRef = useRef<HTMLInputElement>(null);
-  const [searchKeyword, setSearchKeyword] = useState<string>(""); // 검색어 상태 추가
-  const [searchType, setSearchType] = useState<string>("titleAndContent"); // 검색 유형 상태 추가
+  const [searchKeyword, setSearchKeyword] = useState<string>("");
+  const [searchType, setSearchType] = useState<string>("titleAndContent");
   const fetchPosts = async (page: number, keyword = "", type = "titleAndContent") => {
     try {
       const response = await instance.get(`/api/community`, {
@@ -45,7 +45,6 @@ function List() {
           sortType
         }
       });
-      console.log(response.data);
       const { contents, totalPages } = response.data;
       setPosts(contents);
       setTotalPages(totalPages);
@@ -64,19 +63,14 @@ function List() {
     setSearchType(type);
   };
 
-  console.log(posts);
-
   const toggleSortOrder = () => {
     if (sortKeyword === "boardPk" && sortType === "false") {
-      // 현재 최신순인 경우 → 인기순
       setSortKeyword("likeCnt");
       setSortType("false");
     } else if (sortKeyword === "likeCnt" && sortType === "false") {
-      // 현재 인기순인 경우 → 오래된순
       setSortKeyword("boardPk");
       setSortType("true");
     } else {
-      // 현재 오래된순인 경우 → 최신순
       setSortKeyword("boardPk");
       setSortType("false");
     }
@@ -87,7 +81,7 @@ function List() {
       await instance.get(`/api/community/view/${post.boardPk}`);
 
       navigate(`/community/detail/${post.boardPk}`, {
-        state: { cmnId: post.boardPk, viewCnt: post.viewCnt + 1, commentCnt: post.commentCnt }
+        state: { cmnId: post.boardPk }
       });
     } catch (error) {
       console.error("조회수 증가 요청 실패", error);
@@ -113,10 +107,10 @@ function List() {
   }
   return (
     <>
-      <div className="h-[calc(100vh-56px)] px-6 xl:w-[767px] mx-auto mt-1 flex flex-col justify-between items-center ">
-        <div className="w-full">
+      <div className="h-[calc(100vh-60px)] px-6 xl:w-[767px] mx-auto mt-1 flex flex-col justify-between items-center ">
+        <div className="w-full ">
           {showSearch ? (
-            <Search message={messageRef} onSearch={handleSearch} />
+            <Search message={messageRef} onSearch={handleSearch} onClose={() => setShowSearch(false)} />
           ) : (
             <div className="flex justify-between items-center font-c2">
               <div className="flex flex-col items-center gap-1 cursor-pointer">
@@ -140,6 +134,8 @@ function List() {
               </div>
             </div>
           )}
+        </div>
+        <div className="flex-1 w-full overflow-y-auto scrollbar-hidden">
           <div className="flex flex-col divide-y divide-grayoe-800">
             {posts.map((post, index) => (
               <div key={index} className="flex justify-between py-4 gap-2">
@@ -161,7 +157,7 @@ function List() {
                       <p>{post.likeCnt}</p>
                     </div>
                     <div className="flex justify-center items-center gap-1">
-                      <img src={commentIcon} alt="댓글아이" className="w-[14px] h-[14px]" />
+                      <img src={commentIcon} alt="댓글아이콘" className="w-[14px] h-[14px]" />
                       <p>{post.commentCnt}</p>
                     </div>
                   </div>

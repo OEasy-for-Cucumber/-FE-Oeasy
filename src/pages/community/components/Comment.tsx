@@ -6,9 +6,12 @@ import { useEffect, useRef, useState } from "react";
 import { useUserStore } from "../../../zustand/authStore";
 import instance from "../../../api/axios";
 import Pagination from "./Pagination";
+import useConfirm from "../../../hooks/useConfirm";
+import useAlert from "../../../hooks/useAlert";
 
 interface CmnProps {
   communityId: number;
+  setTotalComments: (count: number) => void;
 }
 
 interface Comment {
@@ -20,16 +23,18 @@ interface Comment {
   commentPk: number;
 }
 
-function Comment({ communityId }: CmnProps) {
-  const [showMenu, setShowMenu] = useState<number | null>(null); // 수정/삭제 메뉴를 보여줄 댓글 ID
-  const [editingComment, setEditingComment] = useState<number | null>(null); // 현재 수정 중인 댓글 ID
-  const [currentPage, setCurrentPage] = useState(1); // useState로 currentPage 관리
+function Comment({ communityId, setTotalComments }: CmnProps) {
+  const [showMenu, setShowMenu] = useState<number | null>(null);
+  const [editingComment, setEditingComment] = useState<number | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
   const user = useUserStore((state) => state.user);
   const [comments, setComments] = useState<Comment[]>([]);
   const [totalPages, setTotalPages] = useState(0);
   const commentRef = useRef<HTMLTextAreaElement>(null);
   const [isSending, setIsSending] = useState(false);
-  const [editContent, setEditContent] = useState<string>(""); // 수정 중인 댓글 내용
+  const [editContent, setEditContent] = useState<string>("");
+  const { showConfirm } = useConfirm();
+  const { showAlert } = useAlert();
 
   const fetchComments = async (page: number) => {
     try {
@@ -40,10 +45,10 @@ function Comment({ communityId }: CmnProps) {
           size: 5
         }
       });
-      console.log(response.data);
-      const { contents, totalPages } = response.data;
+      const { contents, totalPages, totalElements } = response.data;
       setComments(contents);
       setTotalPages(totalPages);
+      setTotalComments(totalElements);
     } catch (error) {
       console.error("댓글을 불러오는 중 오류 발생:", error);
     }
@@ -58,9 +63,8 @@ function Comment({ communityId }: CmnProps) {
   }, [communityId, currentPage]);
 
   function formatDate(dateString: string): string {
-    // 밀리초 소수점 제거
-    const cleanedDateString = dateString.split(".")[0]; // "2024-11-29T11:28:58"
-    const date = parseISO(cleanedDateString); // ISO 8601 형식으로 변환
+    const cleanedDateString = dateString.split(".")[0];
+    const date = parseISO(cleanedDateString);
     const now = new Date();
 
     const differenceInHours = (now.getTime() - date.getTime()) / (1000 * 60 * 60);
@@ -80,7 +84,9 @@ function Comment({ communityId }: CmnProps) {
     if (isSending) return;
     const content = commentRef.current?.value || "";
     if (!content) {
-      alert("댓글을 입력해주세요.");
+      showAlert({
+        message: "댓글을 입력해주세요"
+      });
       return;
     }
     setIsSending(true);
@@ -106,9 +112,9 @@ function Comment({ communityId }: CmnProps) {
   };
 
   const handleEdit = (commentPk: number, content: string) => {
-    setEditingComment(commentPk); // 수정 모드로 변경
-    setEditContent(content); // 수정할 내용을 설정
-    setShowMenu(null); // 메뉴 닫기
+    setEditingComment(commentPk);
+    setEditContent(content);
+    setShowMenu(null);
   };
 
   const handleEditSubmit = async (commentPk: number) => {
@@ -126,34 +132,40 @@ function Comment({ communityId }: CmnProps) {
     try {
       await instance.patch("/api/community/comment", requestEdit);
 
-      alert("댓글이 수정되었습니다.");
-      setEditingComment(null); // 수정 모드 종료
+      showAlert({
+        message: "댓글이 수정되었습니다."
+      });
+      setEditingComment(null);
       await fetchComments(currentPage);
     } catch (error) {
       console.error("댓글 수정 중 오류 발생:", error);
-      alert("댓글 수정에 실패했습니다.");
+      showAlert({
+        message: "댓글 수정에 실패했습니다."
+      });
     }
   };
   const handleDelete = async (commentPk: number) => {
-    const confirmDelete = window.confirm("댓글을 삭제하시겠습니까?");
-    if (!confirmDelete) return;
+    showConfirm({
+      message: "댓글을 삭제할까요?",
+      onConfirm: async () => {
+        const requestDelete = {
+          memberId: user?.memberPk,
+          commentId: commentPk
+        };
 
-    const requestDelete = {
-      memberId: user?.memberPk,
-      commentId: commentPk
-    };
+        try {
+          await instance.delete("/api/community/comment", {
+            data: requestDelete
+          });
 
-    try {
-      await instance.delete("/api/community/comment", {
-        data: requestDelete
-      });
-
-      alert("댓글이 삭제되었습니다.");
-      await fetchComments(currentPage);
-    } catch (error) {
-      console.error("댓글 삭제 중 오류 발생:", error);
-      alert("댓글 삭제에 실패했습니다.");
-    }
+          alert("댓글이 삭제되었습니다.");
+          await fetchComments(currentPage);
+        } catch (error) {
+          console.error("댓글 삭제 중 오류 발생:", error);
+          alert("댓글 삭제에 실패했습니다.");
+        }
+      }
+    });
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>, commentPk: number) => {
@@ -182,7 +194,7 @@ function Comment({ communityId }: CmnProps) {
                       value={editContent}
                       onChange={(e) => setEditContent(e.target.value)}
                       onKeyDown={(e) => handleKeyDown(e, com.commentPk)}
-                      className="w-[400px] xl:w-[630px] bg-grayoe-950 p-2 border border-white rounded focus:outline-none"
+                      className="w-[400px] xl:w-[630px] bg-grayoe-950 p-2 border border-white rounded resize-none focus:outline-none"
                     />
                   ) : (
                     <p className="font-b2-regular xl:font-b1-regular">{com.content}</p>
@@ -198,17 +210,14 @@ function Comment({ communityId }: CmnProps) {
                     src={edit}
                     alt="Edit icon"
                     className="w-4 h-4 cursor-pointer"
-                    onClick={() => handleToggleMenu(com.commentPk)} // 댓글 ID로 토글
+                    onClick={() => handleToggleMenu(com.commentPk)}
                   />
                   {showMenu === com.commentPk && (
-                    <div className="absolute top-6 right-0 w-20 bg-grayoe-400 rounded-md shadow-lg flex flex-col">
-                      <button
-                        className="py-2 px-4 text-sm  rounded"
-                        onClick={() => handleEdit(com.commentPk, com.content)}
-                      >
+                    <div className="absolute top-6 right-0 w-14 font-c2 bg-grayoe-400 rounded-md shadow-lg flex flex-col">
+                      <button className="py-2 px-4  rounded" onClick={() => handleEdit(com.commentPk, com.content)}>
                         수정
                       </button>
-                      <button className="py-2 px-4 text-sm  rounded" onClick={() => handleDelete(com.commentPk)}>
+                      <button className="py-2 px-4  rounded" onClick={() => handleDelete(com.commentPk)}>
                         삭제
                       </button>
                     </div>
@@ -224,10 +233,10 @@ function Comment({ communityId }: CmnProps) {
           ))}
         </div>
         <div className=" w-full h-[52px] mx-auto px-4 py-2 bottom-0">
-          <div className="relative w-auto xl:w-[456px]">
+          <div className="relative w-auto xl:w-[700px]">
             <textarea
               ref={commentRef}
-              className="w-full h-9 pl-6 pr-14 py-2 rounded-full focus:outline-none bg-grayoe-400 placeholder-grayoe-200"
+              className="w-full h-9 pl-6 pr-14 py-2 rounded-full font-b2-regular focus:outline-none bg-grayoe-400 placeholder-grayoe-200 resize-none"
               placeholder="내용을 입력하세요."
               onKeyDown={(e) => {
                 if (e.key === "Enter" && !e.shiftKey) {
@@ -244,9 +253,11 @@ function Comment({ communityId }: CmnProps) {
             </button>
           </div>
         </div>
-        <div className="w-full flex justify-center">
-          <Pagination totalPageNumber={totalPages} currentPage={currentPage} setCurrentPage={setCurrentPage} />
-        </div>
+        {comments.length > 0 && (
+          <div className="w-full flex justify-center">
+            <Pagination totalPageNumber={totalPages} currentPage={currentPage} setCurrentPage={setCurrentPage} />
+          </div>
+        )}
       </div>
     </>
   );

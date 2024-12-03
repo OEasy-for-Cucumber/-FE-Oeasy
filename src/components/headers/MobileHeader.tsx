@@ -3,7 +3,7 @@ import HamburgerIcon from "../../assets/Icon.svg";
 import { useState } from "react";
 import HamburgerModal from "./HamburgerModal";
 import { useUserStore } from "../../zustand/authStore";
-import Sample from "../../../public/img/profilesample.jpg";
+import Sample from "../../../public/img/defaultProfile.png";
 
 function MobileHeader() {
   const navigate = useNavigate();
@@ -20,7 +20,6 @@ function MobileHeader() {
   const COMMUNITY = pathname === "/community";
   const RECIPE = pathname === "/recipe";
 
-  // 페이지 이름
   let headerTitle;
   if (MAIN) {
     headerTitle = "Oeasy";

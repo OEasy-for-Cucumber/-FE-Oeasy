@@ -11,9 +11,8 @@ function EmailStep({ email, setEmail = () => {}, isEmail, emailMsg, emailChangeH
   }
 
   return (
-    <>
       <div className="w-full">
-        <div className="">
+        <div>
           <p className="text-lg mb-4">이메일을 입력해주세요</p>
           <p
             className={`${!isEmail ? "redoe" : "text-grayoe-300"} ${
@@ -32,7 +31,6 @@ function EmailStep({ email, setEmail = () => {}, isEmail, emailMsg, emailChangeH
           </p>
         </div>
       </div>
-    </>
   );
 }
 
