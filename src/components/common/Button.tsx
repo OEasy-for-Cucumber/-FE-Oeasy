@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 interface ButtonProps {
   type?: "button" | "submit";
@@ -8,13 +8,7 @@ interface ButtonProps {
   size?: "xs" | "small" | "medium" | "large";
 }
 
-const Button: React.FC<ButtonProps> = ({ 
-  onClick, 
-  children, 
-  type, 
-  isActive = true, 
-  size,
-}) => {
+const Button: React.FC<ButtonProps> = ({ onClick, children, type, isActive = true, size }) => {
   return (
     <button
       type={type}

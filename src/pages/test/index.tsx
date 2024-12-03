@@ -5,8 +5,23 @@ import SockJS from "sockjs-client";
 import sendIcon from "../../../public/icons/send.png";
 import profileImage from "../../../public/img/cuteOE.png";
 import { useUserStore } from "../../zustand/authStore";
+import Confirm from "../../components/common/Confirm";
 
 function Chat() {
+  // confirm 사용방법 시작
+  const [isConfirmVisible, setIsConfirmVisible] = useState(false);
+
+  const handleConfirm = () => {
+    console.log("확인 버튼 클릭");
+    setIsConfirmVisible(false);
+  };
+
+  const handleCancel = () => {
+    console.log("취소 버튼 클릭");
+    setIsConfirmVisible(false);
+  };
+  // 끝 아래로
+
   if (typeof global === "undefined") {
     window.global = window; // 브라우저 환경에서 `global`이 없는 경우 `window`로 설정
   }
@@ -171,6 +186,18 @@ function Chat() {
             <img src={sendIcon} alt="Send" className="w-5 h-5" />
           </button>
         </div>
+      </div>
+      <div>
+        <button className="bg-red-600 p-4 rounded-md" onClick={() => setIsConfirmVisible(true)}>
+          컨펌창 열기
+        </button>
+        <Confirm
+          isVisible={isConfirmVisible}
+          message="게시물을 삭제할까요?"
+          subMessage="삭제한 글은 되돌릴 수 없어요"
+          onConfirm={handleConfirm}
+          onCancel={handleCancel}
+        />
       </div>
     </div>
   );
