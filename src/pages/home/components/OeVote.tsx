@@ -1,14 +1,22 @@
 import { useNavigate } from "react-router-dom";
-import { useVoteChatData } from "../../../hooks/useVoteChatData";
-import { useUserStore } from "../../../zustand/authStore";
+import instance from "../../../api/axios";
+import { useQuery } from "@tanstack/react-query";
 
 function OeVote() {
-  const user = useUserStore((state) => state.user);
   const navigate = useNavigate();
 
-  const { initialVotes } = useVoteChatData(user?.memberPk);
-  const likeVotes = initialVotes.like;
-  const hateVotes = initialVotes.hate;
+  const fetchVoteData = async () => {
+    const res = await instance.get("/api/community/vote-status");
+    return res.data;
+  };
+
+  const { data } = useQuery({
+    queryKey: ["voteData"],
+    queryFn: fetchVoteData
+  });
+
+  const likeVotes = data?.like;
+  const hateVotes = data?.hate;
   const totalVotes = hateVotes + likeVotes;
   const hateWidth = totalVotes === 0 ? 50 : (hateVotes / totalVotes) * 100;
   const likeWidth = totalVotes === 0 ? 50 : (likeVotes / totalVotes) * 100;
