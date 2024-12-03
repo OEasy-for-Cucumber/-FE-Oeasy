@@ -12,6 +12,7 @@ import AccountDeleteModal from "./AccountDeleteModal";
 import ConfirmPasswordModal from "./ConfirmPasswordModal";
 import { useQueryClient } from "@tanstack/react-query";
 import useAlert from "../../../hooks/useAlert";
+import useConfirm from "../../../hooks/useConfirm";
 
 function EditProfile({ handleEditModal }: { handleEditModal: () => void }) {
   const { setUser, clearUser, setIsLoggedIn } = useUserStore.getState();
@@ -30,6 +31,7 @@ function EditProfile({ handleEditModal }: { handleEditModal: () => void }) {
   const [isDeleteModal, setIsDeleteModal] = useState<boolean>(false);
   const queryClinet = useQueryClient();
   const { showAlert } = useAlert();
+  const { showConfirm } = useConfirm();
 
   const baseLabelClass = "transition-all duration-300 text-[13px]";
   const visibleLabelClass = "opacity-100 translate-y-0";
@@ -129,7 +131,9 @@ function EditProfile({ handleEditModal }: { handleEditModal: () => void }) {
 
   const handleNewPasswordModal = () => {
     if (user?.kakaoId) {
-      alert("일반가입 회원만 이용 가능합니다.");
+      showAlert({
+        message: "일반가입 회원만 변경 가능합니다.",
+      });
       return;
     }
     setIsNewPasswordModalOpen((prev) => !prev);
@@ -142,14 +146,17 @@ function EditProfile({ handleEditModal }: { handleEditModal: () => void }) {
   const logoutHandler = async () => {
     // aioe 연결 끊기
     await instance.delete("/aioe/history");
-
-    Cookies.remove("accessToken");
-    if (confirm("로그아웃 하시겠습니까?")) {
+    showConfirm({
+      message: "로그아웃 하시겠습니까?",
+      onConfirm: ()=> {
       clearUser();
+      Cookies.remove("accessToken");
       queryClinet.clear();
       setIsLoggedIn(false);
       navigate("/");
-    } else return;
+      }
+    })
+
   };
 
   const AccountDeleteModalHandler = () => {
