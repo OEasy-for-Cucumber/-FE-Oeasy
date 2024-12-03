@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useUserStore } from "../../../zustand/authStore";
 import SockJS from "sockjs-client";
 import { Client } from "@stomp/stompjs";
+import useAlert from "../../../hooks/useAlert";
 
 interface VoteProps {
   active: "vote" | "chat";
@@ -20,6 +21,7 @@ function Vote({ active, initialVotes, isVoting }: VoteProps) {
   const [votingStatus, setVotingStatus] = useState(isVoting);
   const user = useUserStore((state) => state.user);
   const stompClientRef = useRef<Client | null>(null);
+  const { showAlert } = useAlert();
 
   useEffect(() => {
     setVotingStatus(isVoting);
@@ -63,12 +65,12 @@ function Vote({ active, initialVotes, isVoting }: VoteProps) {
 
   const handleVote = (side: "hate" | "like") => {
     if (!user) {
-      alert("로그인 후 투표해주세요");
+      showAlert({ message: "로그인 후 투표해주세요" });
       return;
     }
 
     if (votingStatus === "like" || votingStatus === "hate") {
-      alert("하루에 한 번 투표 가능합니다");
+      showAlert({ message: "하루에 한 번 투표 가능합니다" });
       return;
     }
 
@@ -110,7 +112,7 @@ function Vote({ active, initialVotes, isVoting }: VoteProps) {
 
   return (
     <>
-      <div className="h-full xl:h-[686px] overflow-y-auto flex justify-center items-center xl:pr-[40px]">
+      <div className="h-full xl:h-[686px] overflow-y-auto flex justify-center items-center xl:pr-[40px] ">
         <div>
           <div className="w-[182px] min-h-[56px] xl:w-[273px] xl:h-[76px] flex flex-col justify-center items-center mx-auto gap-[8px] ">
             <p className="font-h4 xl:font-h2 text-center">오이 좋아하세요?</p>
