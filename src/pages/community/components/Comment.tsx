@@ -105,7 +105,6 @@ function Comment({ communityId, setTotalComments }: CmnProps) {
       await fetchComments(currentPage);
     } catch (error) {
       console.error("댓글 등록 중 오류 발생:", error);
-      alert("댓글 등록에 실패했습니다. 다시 시도해주세요.");
     } finally {
       setIsSending(false);
     }
@@ -119,7 +118,9 @@ function Comment({ communityId, setTotalComments }: CmnProps) {
 
   const handleEditSubmit = async (commentPk: number) => {
     if (!editContent.trim()) {
-      alert("수정할 내용을 입력해주세요.");
+      showAlert({
+        message: "수정할 내용을 입력해주세요."
+      });
       return;
     }
 
