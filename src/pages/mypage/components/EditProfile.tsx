@@ -11,6 +11,7 @@ import axios from "axios";
 import AccountDeleteModal from "./AccountDeleteModal";
 import ConfirmPasswordModal from "./ConfirmPasswordModal";
 import { useQueryClient } from "@tanstack/react-query";
+import useAlert from "../../../hooks/useAlert";
 
 function EditProfile({ handleEditModal }: { handleEditModal: () => void }) {
   const { setUser, clearUser, setIsLoggedIn } = useUserStore.getState();
@@ -28,6 +29,7 @@ function EditProfile({ handleEditModal }: { handleEditModal: () => void }) {
   const [isNewPasswordModalOpen, setIsNewPasswordModalOpen] = useState<boolean>(false);
   const [isDeleteModal, setIsDeleteModal] = useState<boolean>(false);
   const queryClinet = useQueryClient();
+  const { showAlert } = useAlert();
 
   const baseLabelClass = "transition-all duration-300 text-[13px]";
   const visibleLabelClass = "opacity-100 translate-y-0";
@@ -67,6 +69,10 @@ function EditProfile({ handleEditModal }: { handleEditModal: () => void }) {
           }
         );
         updatedUser = { ...updatedUser, memberImage: profileData.imageUrl };
+        showAlert({
+          message: "프로필 이미지가 변경되었습니다."
+        });
+  
       } catch (error) {
         if (axios.isAxiosError(error)) {
           console.error("Axios error:", error.response?.data || error.message);
@@ -77,38 +83,39 @@ function EditProfile({ handleEditModal }: { handleEditModal: () => void }) {
       }
     }
 
-    if (newNickname && newNickname !== user?.nickname) {
+    if (isNickname && newNickname !== user?.nickname) {
       try {
         if (!newNickname) return;
         const { data: nicknameData } = await instance.patch("/member/nickname", {
           newNickname
         });
         updatedUser = { ...updatedUser, nickname: nicknameData.nickname };
-        console.log("닉네임 변경 성공");
+        showAlert({
+          message: "닉네임이 변경되었습니다."
+        });
       } catch (error) {
-        handleNicknameError(error);
+        if (axios.isAxiosError(error)) {
+          if (error.response?.status === 400) {
+            alert("닉네임 형식이 올바르지 않습니다. 다시 시도해주세요.");
+          } else if (error.response?.status === 409) {
+            showAlert({
+              message: "이미 사용중인 닉네임입니다.",
+              subMessage: "다른 닉네임으로 변경해주세요."
+            });
+          } else {
+            alert("닉네임 변경 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
+          }
+          console.error("Axios error:", error.response?.data || error.message);
+        } else {
+          console.error("Unexpected error:", error);
+          alert("예기치 못한 오류가 발생했습니다. 다시 시도해주세요.");
+        }
         return;
       }
     }
 
     setUser(updatedUser);
     handleEditModal();
-  };
-
-  const handleNicknameError = (error: unknown) => {
-    if (axios.isAxiosError(error)) {
-      if (error.response?.status === 400) {
-        alert("닉네임 형식이 올바르지 않습니다. 다시 시도해주세요.");
-      } else if (error.response?.status === 409) {
-        alert("이미 사용 중인 닉네임입니다. 다른 닉네임을 입력해주세요.");
-      } else {
-        alert("닉네임 변경 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
-      }
-      console.error("Axios error:", error.response?.data || error.message);
-    } else {
-      alert("알 수 없는 오류가 발생했습니다. 관리자에게 문의하세요.");
-      console.error("Unexpected error:", error);
-    }
   };
 
   const handleNewPasswordModal = () => {
@@ -141,10 +148,10 @@ function EditProfile({ handleEditModal }: { handleEditModal: () => void }) {
   };
 
   return (
-    <div className="fixed inset-0 flex flex-col items-center justify-center">
+    <div className="fixed inset-0 flex flex-col items-center justify-center z-50">
       <form
         onSubmit={editProfile}
-        className="bg-grayoe-950 text-white w-full min-w-[360px] max-w-[520px] xl:max-w-none xl:w-[688px] py-4 relative h-svh xl:h-[calc(100vh-120px)]"
+        className="mt-1 bg-grayoe-950 text-white w-full min-w-[360px] max-w-[520px] xl:max-w-none xl:w-[688px] relative h-svh xl:h-[calc(100vh-120px)]"
       >
         <div className="w-full flex justify-between items-center mt-3 mb-[64px] px-6">
           <button type="button" onClick={handleEditModal} className="text-xl">

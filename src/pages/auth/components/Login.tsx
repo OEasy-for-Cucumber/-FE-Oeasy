@@ -10,6 +10,7 @@ import Cookies from "js-cookie";
 import PasswordInput from "../../../components/common/PasswordInput";
 import Logo from "../../../../public/icons/logo.png";
 import { AxiosError } from "axios";
+import useAlert from "../../../hooks/useAlert";
 
 function Login() {
   const [email, setEmail] = useState<string>("");
@@ -24,6 +25,7 @@ function Login() {
   const { setIsLoggedIn } = useUserStore.getState();
   const { isActive, setIsActive } = useActiveStore();
   const navigate = useNavigate();
+  const { showAlert } = useAlert();
 
   const baseLabelClass = "transition-all duration-300 text-[13px]";
   const visibleLabelClass = "opacity-100 translate-y-0";
@@ -68,19 +70,24 @@ function Login() {
         email,
         pw: password
       });
-
       Cookies.set("accessToken", response.data.accessToken);
       Cookies.set("refreshToken", response.data.refreshToken);
-
       setIsLoggedIn(true);
-      alert("로그인 성공");
+      showAlert({
+        message: "로그인 성공!"
+      });
       navigate("/");
     } catch (error: unknown) {
       if (error instanceof AxiosError && error.response) {
-        if (error.response.status === 401) {
-          console.log("아이디와 비밀번호를 확인해 주세요.");
+        if (error.response.status === 400) {
+          showAlert({
+            message: "아이디와 비밀번호를 확인해주세요."
+          });
         } else if (error.response.status === 404) {
-          alert("회원정보가 없습니다.");
+          showAlert({
+            message: "회원정보가 없습니다."
+          });
+          return;
         }
       } else {
         console.log("Unknown error:", error);

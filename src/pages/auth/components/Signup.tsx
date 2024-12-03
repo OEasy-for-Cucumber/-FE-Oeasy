@@ -11,6 +11,7 @@ import EmptySquare from "../../../../public/icons/empty-Square.png";
 import instance from "../../../api/axios";
 import { useUserStore } from "../../../zustand/authStore";
 import Cookies from "js-cookie";
+import useAlert from "../../../hooks/useAlert";
 
 function Signup() {
   const [email, setEmail] = useState<string>("");
@@ -28,10 +29,10 @@ function Signup() {
   const [nicknameMsg, setNicknameMsg] = useState<string>("");
   const [passwordMsg, setPasswordMsg] = useState<string>("");
   const [confirmPasswordMsg, setConfirmPasswordMsg] = useState<string>("");
-
   const { setUser, setIsLoggedIn } = useUserStore.getState();
   const [step, setStep] = useState("이메일");
   const navigate = useNavigate();
+  const { showAlert } = useAlert();
 
   const emailChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
@@ -94,7 +95,10 @@ function Signup() {
       Cookies.set("accessToken", response.data);
       registerHandler();
     } catch {
-      alert("이미 사용중인 닉네임입니다.");
+      showAlert({
+        message: "이미 사용중인 닉네임입니다."
+      });
+      return;
     }
   };
 
@@ -131,7 +135,11 @@ function Signup() {
         Cookies.set("accessToken", response.data);
         setStep("비밀번호");
       } catch {
-        alert("이미 사용중인 이메일입니다.");
+        showAlert({
+          message: "이미 사용중인 이메일입니다."
+        });
+        return;
+  
       }
     }
     if (isPassword && isConfirmPassword) {
@@ -149,7 +157,7 @@ function Signup() {
   };
 
   return (
-    <div className="w-full xl:w-[360px] mx-auto h-[calc(100vh-56px)] xl:h-[calc(100vh-80px)] flex-col flex px-4">
+    <div className="w-full xl:w-[520px] mx-auto h-[calc(100vh-56px)] xl:h-[calc(100vh-80px)] flex-col flex px-4">
       <ProgressBar step={step} />
       <form
         onSubmit={(e) => {
