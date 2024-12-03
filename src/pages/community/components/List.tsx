@@ -110,8 +110,8 @@ function List() {
   }
   return (
     <>
-      <div className="h-[calc(100vh-56px)] px-6 xl:w-[767px] mx-auto mt-1 flex flex-col justify-between items-center ">
-        <div className="w-full">
+      <div className="h-[calc(100vh-60px)] px-6 xl:w-[767px] mx-auto mt-1 flex flex-col justify-between items-center ">
+        <div className="w-full ">
           {showSearch ? (
             <Search message={messageRef} onSearch={handleSearch} onClose={() => setShowSearch(false)} />
           ) : (
@@ -137,6 +137,8 @@ function List() {
               </div>
             </div>
           )}
+        </div>
+        <div className="flex-1 w-full overflow-y-auto scrollbar-hidden">
           <div className="flex flex-col divide-y divide-grayoe-800">
             {posts.map((post, index) => (
               <div key={index} className="flex justify-between py-4 gap-2">
