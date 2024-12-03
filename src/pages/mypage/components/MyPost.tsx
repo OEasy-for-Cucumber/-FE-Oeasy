@@ -41,9 +41,11 @@ function MyPost() {
     getMyPostsData();
   }, [currentPage, user]);
 
-  const goToPost = (boardPk:number) => {
-    navigate(`/community/detail/${boardPk}`)
-  }
+  const goToPost = (boardPk: number) => {
+    navigate(`/community/detail/${boardPk}`, {
+      state: { cmnId: boardPk }
+    });
+  };
 
   return (
     <div className="w-full my-5">
@@ -53,7 +55,7 @@ function MyPost() {
         myPosts?.map((post) => (
           <div key={post.boardPk}>
             <div className="w-full py-4 px-6">
-              <button className="flex flex-col" onClick={()=>goToPost(post.boardPk!)}>
+              <button className="flex flex-col" onClick={() => goToPost(post.boardPk!)}>
                 <p className="text-grayoe-300 font-c2 mb-1">{post.createTime}</p>
                 <p className="font-b2-semibold">{post.title}</p>
 

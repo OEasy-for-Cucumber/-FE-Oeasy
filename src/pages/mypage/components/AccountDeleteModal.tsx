@@ -1,36 +1,33 @@
 import React, { useState } from "react";
-import { useActiveStore } from "../../../zustand/isActiveStore";
 import Button from '../../../components/common/Button';
 import instance from "../../../api/axios";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import { useUserStore } from "../../../zustand/authStore";
 
-
 interface AccountDeleteModalProps {
-    AccountDeleteModalHandler: () => void;
-  }
+  AccountDeleteModalHandler: () => void;
+}
 
-  const AccountDeleteModal: React.FC<AccountDeleteModalProps> = ({
-    AccountDeleteModalHandler,
-  }) => {
+const AccountDeleteModal: React.FC<AccountDeleteModalProps> = ({
+  AccountDeleteModalHandler,
+}) => {
   const [inputValue, setInputValue] = useState("");
   const [isMatch, setIsMatch] = useState(false);
-  const {isActive, setIsActive} = useActiveStore.getState();
   const { setIsLoggedIn } = useUserStore.getState();
-
   const navigate = useNavigate();
 
   const targetPhrase = "오이,, 오이오이오이? 오이.. 오이 ㅠㅠ";
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInputValue(e.target.value);
-    if(e.target.value === targetPhrase) {
-        setIsMatch(true);
-        setIsActive(true);
-    }
-    if(inputValue === "" && !isMatch) {
-        setIsActive(false);
+    const value = e.target.value;
+    setInputValue(value);
+
+    // 입력 값이 탈퇴 문구와 일치하는지 검사
+    if (value === targetPhrase) {
+      setIsMatch(true);
+    } else {
+      setIsMatch(false);
     }
   };
 
@@ -60,7 +57,6 @@ interface AccountDeleteModalProps {
       alert("탈퇴 문구가 일치하지 않습니다.");
     }
   };
-  
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-grayoe-950 bg-opacity-80">
@@ -78,16 +74,20 @@ interface AccountDeleteModalProps {
           className="w-full p-2 border-b border-grayoe-400 bg-grayoe-900 focus:outline-none focus:ring-2 focus:ring-green-500 mb-6"
         />
         <div className="flex justify-between gap-3">
-          <Button 
-          onClick={handleCancel}
-          size="medium"
-          isActive={true}>
-            계정유지</Button>
           <Button
-          onClick={handleDelete}
-          size="medium"
-          isActive={isActive}
-          >회원탈퇴</Button>
+            onClick={handleCancel}
+            size="medium"
+            isActive={true}
+          >
+            계정유지
+          </Button>
+          <Button
+            onClick={handleDelete}
+            size="medium"
+            isActive={isMatch}
+          >
+            회원탈퇴
+          </Button>
         </div>
       </div>
     </div>

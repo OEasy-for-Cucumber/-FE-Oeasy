@@ -148,7 +148,7 @@ function Signup() {
   };
 
   return (
-    <div className="w-full xl:w-[360px] mx-auto h-[calc(100vh-56px)] xl:h-[calc(100vh-80px)] flex-col flex px-4">
+    <div className="w-full xl:w-[520px] mx-auto h-[calc(100vh-56px)] xl:h-[calc(100vh-80px)] flex-col flex px-4">
       <ProgressBar step={step} />
       <form
         onSubmit={(e) => {

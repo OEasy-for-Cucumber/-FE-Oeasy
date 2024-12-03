@@ -11,7 +11,7 @@ interface RegionData {
 
 function PriceMap() {
   const [regionData, setRegionData] = useState<RegionData[]>([]);
-  const [isTooltipVisible, setIsTooltipVisible] = useState<boolean>(false);
+  const [isTooltipVisible, _setIsTooltipVisible] = useState<boolean>(false);
   const [isTooltipHover, setIsTooltipHover] = useState<boolean>(false);
   const [tooltip, setTooltip] = useState<{
     visible: boolean;
@@ -21,20 +21,11 @@ function PriceMap() {
     price?: string;
   }>({ visible: false, x: 0, y: 0 });
 
-  const toggleTooltip = () => {
-    setIsTooltipVisible((prev) => !prev);
-  };
-  const hideTooltip = () => {
-    setIsTooltipVisible(false);
-  };
-
-  const hoverTooltip = () => {
-    setIsTooltipHover(true);
-    setIsTooltipVisible(true);
-  };
-
-  const leaveTooltip = () => {
-    setIsTooltipHover(false);
+  const getCurrentDate = () => {
+    const today = new Date();
+    const month = String(today.getMonth() + 1).padStart(2, "0");
+    const day = String(today.getDate()).padStart(2, "0");
+    return `${month}/${day}`;
   };
 
   useEffect(() => {
@@ -55,9 +46,14 @@ function PriceMap() {
       x: event.clientX,
       y: event.clientY,
       region: matchingRegion?.region || regionId,
-      price: matchingRegion?.price || "정보 없음",
+      price: matchingRegion?.price || "정보 없음"
     });
 
+    if (isMobile()) {
+      setTimeout(() => {
+        setTooltip((prev) => ({ ...prev, visible: false }));
+      }, 2000);
+    }
   };
 
   const handleMouseLeaveRegion = () => {
@@ -68,12 +64,7 @@ function PriceMap() {
     setTooltip({ visible: false, x: 0, y: 0 });
   };
 
-  const getCurrentDate = () => {
-    const today = new Date();
-    const month = String(today.getMonth() + 1).padStart(2, "0");
-    const day = String(today.getDate()).padStart(2, "0");
-    return `${month}/${day}`;
-  };
+  const isMobile = () => window.innerWidth <= 768;
 
   return (
     <div className="w-full flex flex-col justify-center px-6 pt-2 h-[calc(100vh-56px)] xl:h-[calc(100vh-80px)]">
@@ -86,25 +77,21 @@ function PriceMap() {
                 src={DangerCircle}
                 alt="참고사항"
                 className="w-[13px] xl:w-[24px] h-[13px] xl:h-[24px] cursor-pointer"
-                onClick={toggleTooltip}
-                onBlur={hideTooltip}
-                onMouseEnter={hoverTooltip}
-                onMouseLeave={leaveTooltip}
+                onMouseEnter={() => setIsTooltipHover(true)}
+                onMouseLeave={() => setIsTooltipHover(false)}
               />
             </button>
             {isTooltipVisible && isTooltipHover && (
-            <div className="absolute left-0 top-full mt-2 py-3 px-4 bg-white text-grayoe-950 text-xs rounded-md border border-grayoe-100 shadow-lg z-10">
-              <p className="mb-1">· 매일 업데이트</p>
-              <p>· 출처: kamis</p>
-            </div>
-          )}
-            <p className="text-[14px] xl:font-h4 text-grayoe-200">
-              가격(원/개당) {getCurrentDate()} 기준
-            </p>
+              <div className="absolute left-0 top-full mt-2 py-3 px-4 bg-white text-grayoe-950 text-xs rounded-md border border-grayoe-100 shadow-lg z-10">
+                <p className="mb-1">· 매일 업데이트</p>
+                <p>· 출처: kamis</p>
+              </div>
+            )}
+            <p className="text-[14px] xl:font-h4 text-grayoe-200">가격(원/개당) {getCurrentDate()} 기준</p>
           </div>
         </div>
         <div
-          className="relative w-[350px] h-auto xl:w-[60%] xl:h-[400px] mx-auto"
+          className="relative w-[350px] h-auto xl:w-[60%] xl:h-[400px] mt-6 mx-auto"
           onMouseLeave={handleMouseLeaveMap}
         >
           <ReactSVG
@@ -114,20 +101,16 @@ function PriceMap() {
               svg.setAttribute("style", "cursor: pointer");
               const paths = svg.querySelectorAll("path");
               paths.forEach((path) => {
-                const regionId = path.id.slice(0, 2); // 지역 ID 추출
+                const regionId = path.id.slice(0, 2);
                 const matchingRegion = regionData.find((data) => data.region === regionId);
-          
-                // 데이터가 있는 지역을 초록색으로 설정
+
                 if (matchingRegion) {
                   path.setAttribute("class", "land price");
                 } else {
                   path.setAttribute("class", "land");
                 }
-          
-                // 이벤트 리스너 추가
                 path.addEventListener("mousemove", handleMouseMove);
                 path.addEventListener("mouseleave", handleMouseLeaveRegion);
-                path.addEventListener("click", handleMouseMove);
               });
             }}
           />
@@ -139,9 +122,7 @@ function PriceMap() {
           style={{ top: tooltip.y + 10, left: tooltip.x + 10 }}
         >
           <p className="font-b2-regular">{tooltip.region}</p>
-          {tooltip.price && !isNaN(Number(tooltip.price))
-        ? Number(tooltip.price).toLocaleString()
-        : "정보 없음"}
+          {tooltip.price && !isNaN(Number(tooltip.price)) ? Number(tooltip.price).toLocaleString() : "정보 없음"}
         </div>
       )}
     </div>

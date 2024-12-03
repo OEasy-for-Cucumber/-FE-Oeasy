@@ -46,7 +46,11 @@ function KakaoCallback() {
     fetchData();
   }, [code]);
 
-  return <Loading/>;
+  return (
+    <div className="w-full">
+      <Loading className="w-[60%] mx-auto"/>;
+    </div>
+  )
 }
 
 export default KakaoCallback;
