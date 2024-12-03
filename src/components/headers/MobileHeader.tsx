@@ -3,7 +3,7 @@ import HamburgerIcon from "../../assets/Icon.svg";
 import { useState } from "react";
 import HamburgerModal from "./HamburgerModal";
 import { useUserStore } from "../../zustand/authStore";
-import Sample from "../../../public/img/profilesample.jpg";
+import Sample from "../../../public/img/defaultProfile.png";
 
 function MobileHeader() {
   const navigate = useNavigate();
@@ -20,7 +20,6 @@ function MobileHeader() {
   const COMMUNITY = pathname === "/community";
   const RECIPE = pathname === "/recipe";
 
-  // 페이지 이름
   let headerTitle;
   if (MAIN) {
     headerTitle = "Oeasy";
@@ -52,7 +51,7 @@ function MobileHeader() {
 
   return (
     <div
-      className={`z-50 w-full min-w-[360px] max-w-[520px] xl:max-w-none px-6 h-[56px] flex justify-between items-center fixed
+      className={`w-full min-w-[360px] max-w-[520px] xl:max-w-none px-6 h-[56px] flex justify-between items-center fixed
     ${pathname === "/" ? "bg-greenoe-950" : "bg-grayoe-950"}`}
     >
       {SIGNUP ? (

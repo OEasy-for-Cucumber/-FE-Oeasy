@@ -3,7 +3,7 @@ import { useState } from "react";
 import EditProfile from "./components/EditProfile";
 import MyPost from "./components/MyPost";
 import MyLiked from "./components/MyLiked";
-import Sample from "../../../public/img/profilesample.jpg";
+import Sample from "../../../public/img/defaultProfile.png";
 
 function MyPage() {
   const user = useUserStore((state)=>state.user);
@@ -19,7 +19,7 @@ function MyPage() {
   const handleLikedClicked = () => setIsClicked(false);
 
   return (
-    <div className="xl:w-[520px] mx-auto">
+    <div className="w-full xl:w-[688px] mx-auto">
       <div className="flex p-4 bg-grayoe-900 rounded-lg items-center my-6 mx-4">
         <div className="w-full flex items-center">
           <img src={!user?.memberImage ? Sample : user?.memberImage} alt="프로필이미지" className="w-[48px] h-[48px] rounded-full" />

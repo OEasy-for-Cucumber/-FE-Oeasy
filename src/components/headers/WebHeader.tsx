@@ -1,13 +1,14 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import Button from "../common/Button";
 import { useUserStore } from "../../zustand/authStore";
-import Sample from "../../../public/img/profilesample.jpg";
+import Sample from "../../../public/img/defaultProfile.png";
 import Logo from "../../.././public/icons/logo.png";
 
 function WebHeader() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
-  const { user, isLoggedIn } = useUserStore.getState();
+  const { isLoggedIn } = useUserStore.getState();
+  const user = useUserStore((state)=>state.user);
 
   const goToLogin = () => {
     navigate("/login");
