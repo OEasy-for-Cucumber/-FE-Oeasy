@@ -31,8 +31,8 @@ function List() {
   const [sortKeyword, setSortKeyword] = useState("boardPk");
   const [sortType, setSortType] = useState("false");
   const messageRef = useRef<HTMLInputElement>(null);
-  const [searchKeyword, setSearchKeyword] = useState<string>(""); // 검색어 상태 추가
-  const [searchType, setSearchType] = useState<string>("titleAndContent"); // 검색 유형 상태 추가
+  const [searchKeyword, setSearchKeyword] = useState<string>("");
+  const [searchType, setSearchType] = useState<string>("titleAndContent");
   const fetchPosts = async (page: number, keyword = "", type = "titleAndContent") => {
     try {
       const response = await instance.get(`/api/community`, {
@@ -45,7 +45,6 @@ function List() {
           sortType
         }
       });
-      console.log(response.data);
       const { contents, totalPages } = response.data;
       setPosts(contents);
       setTotalPages(totalPages);
@@ -63,8 +62,6 @@ function List() {
     setSearchKeyword(keyword);
     setSearchType(type);
   };
-
-  console.log(posts);
 
   const toggleSortOrder = () => {
     if (sortKeyword === "boardPk" && sortType === "false") {
@@ -110,8 +107,8 @@ function List() {
   }
   return (
     <>
-      <div className="h-[calc(100vh-56px)] px-6 xl:w-[767px] mx-auto mt-1 flex flex-col justify-between items-center ">
-        <div className="w-full">
+      <div className="h-[calc(100vh-60px)] px-6 xl:w-[767px] mx-auto mt-1 flex flex-col justify-between items-center ">
+        <div className="w-full ">
           {showSearch ? (
             <Search message={messageRef} onSearch={handleSearch} onClose={() => setShowSearch(false)} />
           ) : (
@@ -137,6 +134,8 @@ function List() {
               </div>
             </div>
           )}
+        </div>
+        <div className="flex-1 w-full overflow-y-auto scrollbar-hidden">
           <div className="flex flex-col divide-y divide-grayoe-800">
             {posts.map((post, index) => (
               <div key={index} className="flex justify-between py-4 gap-2">

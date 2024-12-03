@@ -103,7 +103,7 @@ function Home() {
       {showTopBtn && <TopBtn scrollRef={outerDivRef} />}
       <div
         ref={outerDivRef}
-        className={`overflow-y-auto h-[calc(100vh-56px)] xl:h-[calc(100vh-80px)] [&::-webkit-scrollbar]:hidden`}
+        className={`overflow-y-auto h-[calc(100vh-56px)] xl:h-[calc(100vh-80px)] [&::-webkit-scrollbar]:hidden `}
       >
         <Landing />
         <div className="xl:px-[200px]">
