@@ -7,7 +7,8 @@ import Logo from "../../.././public/icons/logo.png";
 function WebHeader() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
-  const { user, isLoggedIn } = useUserStore.getState();
+  const { isLoggedIn } = useUserStore.getState();
+  const user = useUserStore((state)=>state.user);
 
   const goToLogin = () => {
     navigate("/login");

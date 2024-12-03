@@ -23,7 +23,7 @@ function Search({ message, onSearch, onClose }: SearchProps) {
   };
   return (
     <div className="mx-auto xl:w-[710px] bg-grayoe-950 h-[50px]">
-      <div className="relative w-full xl:w-full my-2 z-10 ">
+      <div className="relative w-full xl:w-full my-2 z-10">
         <div className="flex gap-1 justify-center">
           <div className="w-full">
             <select

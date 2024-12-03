@@ -9,6 +9,7 @@ import Pagination from "./Pagination";
 
 interface CmnProps {
   communityId: number;
+  setTotalComments: (count: number) => void;
 }
 
 interface Comment {
@@ -20,7 +21,7 @@ interface Comment {
   commentPk: number;
 }
 
-function Comment({ communityId }: CmnProps) {
+function Comment({ communityId, setTotalComments }: CmnProps) {
   const [showMenu, setShowMenu] = useState<number | null>(null);
   const [editingComment, setEditingComment] = useState<number | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
@@ -41,9 +42,10 @@ function Comment({ communityId }: CmnProps) {
         }
       });
       console.log(response.data);
-      const { contents, totalPages } = response.data;
+      const { contents, totalPages, totalElements } = response.data;
       setComments(contents);
       setTotalPages(totalPages);
+      setTotalComments(totalElements);
     } catch (error) {
       console.error("댓글을 불러오는 중 오류 발생:", error);
     }
