@@ -216,7 +216,7 @@ function Detail() {
                   postData.imageUrlList.length === 1
                     ? "grid-cols-1"
                     : postData.imageUrlList.length === 3
-                      ? "grid-cols-2 grid-rows-2 xl:grid-cols-3"
+                      ? "grid-cols-2 grid-rows-2 xl:grid-cols-3 xl:grid-rows-1"
                       : "grid-cols-2 xl:grid-cols-3 place-items-center"
                 } grid`}
               >
@@ -226,7 +226,7 @@ function Detail() {
                     src={img}
                     alt={`게시물 이미지 ${index + 1}`}
                     className={`w-full rounded-lg ${postData.imageUrlList.length === 1 ? "h-[300px] " : "h-[180px]"} ${
-                      postData.imageUrlList.length === 3 && index === 0 ? "col-span-2" : ""
+                      postData.imageUrlList.length === 3 && index === 0 ? "col-span-2 xl:col-span-1" : ""
                     }`}
                   />
                 ))}
