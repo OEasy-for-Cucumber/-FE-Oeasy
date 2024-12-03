@@ -116,7 +116,6 @@ function Chat({ chattingList }: ChatProps) {
       });
 
       setMessage("");
-      console.log("Sending message:", { id: user.memberPk, String: message });
     } else {
       console.log("Client is not connected");
     }

@@ -17,9 +17,6 @@ function Upload() {
   const user = useUserStore((state) => state.user);
   const { showAlert } = useAlert();
 
-  console.log(user);
-  console.log(postData);
-
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || []);
 

@@ -7,6 +7,7 @@ import { useUserStore } from "../../../zustand/authStore";
 import instance from "../../../api/axios";
 import Pagination from "./Pagination";
 import useConfirm from "../../../hooks/useConfirm";
+import useAlert from "../../../hooks/useAlert";
 
 interface CmnProps {
   communityId: number;
@@ -33,6 +34,7 @@ function Comment({ communityId, setTotalComments }: CmnProps) {
   const [isSending, setIsSending] = useState(false);
   const [editContent, setEditContent] = useState<string>("");
   const { showConfirm } = useConfirm();
+  const { showAlert } = useAlert();
 
   const fetchComments = async (page: number) => {
     try {
@@ -82,7 +84,9 @@ function Comment({ communityId, setTotalComments }: CmnProps) {
     if (isSending) return;
     const content = commentRef.current?.value || "";
     if (!content) {
-      alert("댓글을 입력해주세요.");
+      showAlert({
+        message: "댓글을 입력해주세요"
+      });
       return;
     }
     setIsSending(true);
@@ -128,12 +132,16 @@ function Comment({ communityId, setTotalComments }: CmnProps) {
     try {
       await instance.patch("/api/community/comment", requestEdit);
 
-      alert("댓글이 수정되었습니다.");
+      showAlert({
+        message: "댓글이 수정되었습니다."
+      });
       setEditingComment(null);
       await fetchComments(currentPage);
     } catch (error) {
       console.error("댓글 수정 중 오류 발생:", error);
-      alert("댓글 수정에 실패했습니다.");
+      showAlert({
+        message: "댓글 수정에 실패했습니다."
+      });
     }
   };
   const handleDelete = async (commentPk: number) => {
@@ -245,9 +253,11 @@ function Comment({ communityId, setTotalComments }: CmnProps) {
             </button>
           </div>
         </div>
-        <div className="w-full flex justify-center">
-          <Pagination totalPageNumber={totalPages} currentPage={currentPage} setCurrentPage={setCurrentPage} />
-        </div>
+        {comments.length > 0 && (
+          <div className="w-full flex justify-center">
+            <Pagination totalPageNumber={totalPages} currentPage={currentPage} setCurrentPage={setCurrentPage} />
+          </div>
+        )}
       </div>
     </>
   );
