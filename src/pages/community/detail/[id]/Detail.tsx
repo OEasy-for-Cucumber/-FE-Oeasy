@@ -41,11 +41,6 @@ function Detail() {
   const { showConfirm } = useConfirm();
 
   useEffect(() => {
-    if (!user) {
-      alert("로그인 후 이용해주세요");
-      navigate("/community");
-      return;
-    }
     if (cmnId) {
       fetchPostData();
     }
@@ -230,7 +225,7 @@ function Detail() {
                     key={index}
                     src={img}
                     alt={`게시물 이미지 ${index + 1}`}
-                    className={`w-full rounded-lg ${postData.imageUrlList.length === 1 ? "h-[200px] " : "h-[180px]"} ${
+                    className={`w-full rounded-lg ${postData.imageUrlList.length === 1 ? "h-[300px] " : "h-[180px]"} ${
                       postData.imageUrlList.length === 3 && index === 0 ? "col-span-2" : ""
                     }`}
                   />
