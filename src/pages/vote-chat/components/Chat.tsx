@@ -4,6 +4,7 @@ import { Client } from "@stomp/stompjs";
 import SockJS from "sockjs-client";
 import sendIcon from "../../../../public/icons/send.png";
 import { useUserStore } from "../../../zustand/authStore";
+import useAlert from "../../../hooks/useAlert";
 
 type Message = {
   id: string | number;
@@ -28,6 +29,7 @@ function Chat({ chattingList }: ChatProps) {
   const [isComposing, setComposing] = useState(false);
   const messageEndRef = useRef<HTMLDivElement>(null);
   const DEFAULT_PROFILE_IMG = "/img/defaultProfile.png";
+  const { showAlert } = useAlert();
 
   useEffect(() => {
     setMessages((prevMessages) => [
@@ -103,7 +105,7 @@ function Chat({ chattingList }: ChatProps) {
 
   const handleSendMessage = () => {
     if (!user) {
-      alert("로그인 후 이용해주세요");
+      showAlert({ message: "로그인 후 이용해주세요" });
       return;
     }
     if (client && message.trim()) {
