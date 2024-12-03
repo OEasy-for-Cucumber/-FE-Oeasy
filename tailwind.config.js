@@ -56,7 +56,7 @@ module.exports = {
         web_cucumber: "url(/img/web_group.png)",
         recipes_btn_bg: "url(/img/button_bg_cucumber.png)",
         noisy_gradients: "url(/img/noisy-gradients.png)",
-        profile_sample: "url(./public/img/profilesample.jpg)",
+        profile_sample: "url(./public/img/defaultProfile.png)",
         aioe_icon: "url(/public/icons/aioe.png)"
       },
       backgroundSize: {

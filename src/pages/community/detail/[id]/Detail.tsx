@@ -1,4 +1,4 @@
-import profileImg from "../../../../../public/img/profilesample.jpg";
+import profileImg from "../../../../../public/img/defaultProfile.png";
 import edit from "../../../../../public/icons/moreIcon.png";
 import show from "../../../../../public/icons/show.png";
 import commentIcon from "../../../../../public/icons/comment.png";

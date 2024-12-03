@@ -108,7 +108,7 @@ function Login() {
 
   return (
     <div className="flex h-[calc(100vh-56px)] xl:h-[calc(100vh-80px)] w-full px-4 justify-center">
-      <div className="hidden xl:flex items-center justify-center mr-[60px]">
+      <div className="hidden xl:flex items-center justify-center mr-[50px]">
         <div className="w-[600px] h-[550px] bg-center bg-cover bg-noisy_gradients from-green-300 to-blue-500 rounded-xl flex items-center justify-center">
           <div className="text-white text-3xl font-bold">
             <h1 className="font-h1 w-[360px]">전세계 97.24%가 모르는 오이의 진실</h1>
@@ -118,7 +118,7 @@ function Login() {
       </div>
 
       <form onSubmit={loginHandler} className="w-full xl:w-[35%] flex flex-col justify-center items-center">
-        <div className="w-full xl:w-[360px]">
+        <div className="w-full xl:w-[400px]">
           <button type="button" onClick={goToHome} className="w-full">
             <img src={Logo} alt="로고" className="w-[160px] mx-auto" />
           </button>

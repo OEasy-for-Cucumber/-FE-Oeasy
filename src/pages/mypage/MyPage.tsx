@@ -3,7 +3,7 @@ import { useState } from "react";
 import EditProfile from "./components/EditProfile";
 import MyPost from "./components/MyPost";
 import MyLiked from "./components/MyLiked";
-import Sample from "../../../public/img/profilesample.jpg";
+import Sample from "../../../public/img/defaultProfile.png";
 
 function MyPage() {
   const user = useUserStore((state)=>state.user);

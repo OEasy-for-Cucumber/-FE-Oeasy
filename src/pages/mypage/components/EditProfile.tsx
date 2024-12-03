@@ -1,5 +1,5 @@
 import Xicon from "../../../../public/icons/Icon.png";
-import Sample from "../../../../public/img/profilesample.jpg";
+import Sample from "../../../../public/img/defaultProfile.png";
 import Camera from "../../../../public/icons/Camera.png";
 import { useUserStore } from "../../../zustand/authStore";
 import { useNavigate } from "react-router-dom";
