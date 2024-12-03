@@ -20,7 +20,7 @@ type QuestionResponse = {
 };
 
 type ErrorResponse = {
-  message?: string; // message가 없을 수도 있으므로 optional 처리
+  message?: string;
 };
 
 function AiOe() {
