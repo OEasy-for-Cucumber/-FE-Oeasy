@@ -11,7 +11,8 @@ interface RegionData {
 
 function PriceMap() {
   const [regionData, setRegionData] = useState<RegionData[]>([]);
-  const [isTooltipVisible, _setIsTooltipVisible] = useState<boolean>(false);
+
+  const [isTooltipVisible, setIsTooltipVisible] = useState<boolean>(false);
   const [isTooltipHover, setIsTooltipHover] = useState<boolean>(false);
   const [tooltip, setTooltip] = useState<{
     visible: boolean;
@@ -20,6 +21,22 @@ function PriceMap() {
     region?: string;
     price?: string;
   }>({ visible: false, x: 0, y: 0 });
+
+  const toggleTooltip = () => {
+    setIsTooltipVisible((prev) => !prev);
+  };
+  const hideTooltip = () => {
+    setIsTooltipVisible(false);
+  };
+
+  const hoverTooltip = () => {
+    setIsTooltipHover(true);
+    setIsTooltipVisible(true);
+  };
+
+  const leaveTooltip = () => {
+    setIsTooltipHover(false);
+  };
 
   const getCurrentDate = () => {
     const today = new Date();
@@ -72,7 +89,13 @@ function PriceMap() {
         <div className="w-full xl:w-[40%]">
           <h3 className="font-h3 xl:font-h1 mb-2">지역별 오이가격</h3>
           <div className="flex gap-1 items-center relative">
-            <button className="flex items-center gap-1">
+            <button
+              className="flex items-center gap-1"
+              onClick={toggleTooltip}
+              onBlur={hideTooltip}
+              onMouseEnter={hoverTooltip}
+              onMouseLeave={leaveTooltip}
+            >
               <img
                 src={DangerCircle}
                 alt="참고사항"
