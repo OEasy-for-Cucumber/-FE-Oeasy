@@ -53,11 +53,7 @@ function Chat({ chattingList }: ChatProps) {
     });
 
     stompClient.onConnect = () => {
-      console.log("Connected to WebSocket");
-
-      // 메시지 구독
       stompClient.subscribe("/topic/message", (msg) => {
-        console.log("메시지 수신:", msg.body);
         try {
           const receivedMessage = JSON.parse(msg.body);
 
@@ -71,7 +67,6 @@ function Chat({ chattingList }: ChatProps) {
           };
 
           setMessages((prevMessages) => [...prevMessages, newMessage]);
-          console.log("Received message:", receivedMessage);
         } catch (error) {
           console.error("Error parsing message:", error);
         }
@@ -80,7 +75,6 @@ function Chat({ chattingList }: ChatProps) {
     };
 
     stompClient.onDisconnect = () => {
-      console.log("Disconnected from WebSocket");
       setClient(null);
     };
 
@@ -122,7 +116,6 @@ function Chat({ chattingList }: ChatProps) {
       });
 
       setMessage("");
-      console.log("Sending message:", { id: user.memberPk, String: message });
     } else {
       console.log("Client is not connected");
     }

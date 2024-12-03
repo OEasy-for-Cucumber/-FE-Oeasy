@@ -17,15 +17,15 @@ const Pagination: React.FC<PaginationProps> = (props) => {
   const scrollTop = () => {
     window.scrollTo({ top: 0 });
   };
-  const [currentPageList, setCurrentPageList] = useState<string[]>([]); // 보여지는 페이지네이션 리스트
-  const [currentListCount, setCurrentListCount] = useState<number>(0); // 현재 페이지네이션 리스트가 몇 단계를 나타내는지 보여줌 ex) 5페이지의 경우 0, 12페이지일 경우 1, 28 페이지일 경우 2
-  const [pageGroupSize, setPageGroupSize] = useState<number>(5); // 한 번에 표시할 페이지 개수 (기본값: 5)
+  const [currentPageList, setCurrentPageList] = useState<string[]>([]);
+  const [currentListCount, setCurrentListCount] = useState<number>(0);
+  const [pageGroupSize, setPageGroupSize] = useState<number>(5);
 
   const updatePageGroupSize = () => {
     if (window.innerWidth >= 1440) {
-      setPageGroupSize(10); // xl 이상 화면에서는 10개
+      setPageGroupSize(10);
     } else {
-      setPageGroupSize(5); // 기본값 5개
+      setPageGroupSize(5);
     }
   };
 
@@ -65,10 +65,10 @@ const Pagination: React.FC<PaginationProps> = (props) => {
         onClick={() => {
           if (props.currentPage > 1) {
             const startPage = currentListCount * pageGroupSize + 1;
-            const previousPage = startPage - 1; // 현재 리스트 시작 페이지보다 한 단계 이전
+            const previousPage = startPage - 1;
             if (previousPage >= 1) {
-              props.setCurrentPage(previousPage); // 이전 페이지로 이동
-              setCurrentListCount(currentListCount - 1); // 리스트 레벨 감소
+              props.setCurrentPage(previousPage);
+              setCurrentListCount(currentListCount - 1);
             }
             scrollTop();
           }
@@ -96,11 +96,11 @@ const Pagination: React.FC<PaginationProps> = (props) => {
         onClick={() => {
           if (props.currentPage < (props.totalPageNumber || 0)) {
             const startPage = currentListCount * pageGroupSize + 1;
-            const endPage = Math.min(startPage + pageGroupSize - 1, props.totalPageNumber || 0); // 현재 리스트의 끝 페이지
-            const nextPage = endPage + 1; // 현재 리스트 끝 페이지보다 한 단계 이후
+            const endPage = Math.min(startPage + pageGroupSize - 1, props.totalPageNumber || 0);
+            const nextPage = endPage + 1;
             if (nextPage <= (props.totalPageNumber || 0)) {
-              props.setCurrentPage(nextPage); // 다음 페이지로 이동
-              setCurrentListCount(currentListCount + 1); // 리스트 레벨 증가
+              props.setCurrentPage(nextPage);
+              setCurrentListCount(currentListCount + 1);
             }
             scrollTop();
           }
