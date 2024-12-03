@@ -11,13 +11,13 @@ function Chat() {
   // confirm 사용방법 시작
   const [isConfirmVisible, setIsConfirmVisible] = useState(false);
 
-  const handleConfirm = (inputValue: string | undefined) => {
-    console.log("입력된 값:", inputValue);
+  const handleConfirm = () => {
+    console.log("확인 버튼 클릭");
     setIsConfirmVisible(false);
   };
 
   const handleCancel = () => {
-    console.log("취소 버튼 클릭됨");
+    console.log("취소 버튼 클릭");
     setIsConfirmVisible(false);
   };
   // 끝 아래로
@@ -192,14 +192,11 @@ function Chat() {
           컨펌창 열기
         </button>
         <Confirm
-          isVisible={isConfirmVisible} // 필수
-          message="비밀번호를 입력해주세요" // 필수
-          subMessage="이 작업을 진행하려면 비밀번호가 필요합니다."
-          onConfirm={handleConfirm} // 필수
-          onCancel={handleCancel} // 필수
-          hasInput={true} // 입력창 활성화 // input창이 필요하면
-          inputPlaceholder="비밀번호 입력" // input창이 필요하면
-          validationText="1234" // 입력값 검증 // input창이 필요하면
+          isVisible={isConfirmVisible}
+          message="게시물을 삭제할까요?"
+          subMessage="삭제한 글은 되돌릴 수 없어요"
+          onConfirm={handleConfirm}
+          onCancel={handleCancel}
         />
       </div>
     </div>
