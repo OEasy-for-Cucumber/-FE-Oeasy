@@ -18,18 +18,14 @@ function Votechat() {
     const fetchInitialVotes = async () => {
       try {
         if (user?.memberPk) {
-          // 유저 정보가 있는 경우
           const response = await instance.get<voteChatRes>(`/api/community/init/${user.memberPk}`);
           const { hate, like, isVoting, chattingList } = response.data;
-          console.log(response);
           setInitialVotes({ hate, like });
           setVoting(isVoting);
           setChatLi(chattingList);
         } else {
-          // 유저 정보가 없는 경우
           const response = await instance.get<voteChatRes>(`/api/community/init`);
           const { hate, like, chattingList } = response.data;
-          console.log(response);
           setInitialVotes({ hate, like });
           setChatLi(chattingList);
         }

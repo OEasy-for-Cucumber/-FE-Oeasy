@@ -4,6 +4,7 @@ import uploadImg from "../../../../public/img/uploadImg.png";
 import { useLocation, useNavigate } from "react-router-dom";
 import instance from "../../../api/axios";
 import { useUserStore } from "../../../zustand/authStore";
+import useAlert from "../../../hooks/useAlert";
 
 function Upload() {
   const navigate = useNavigate();
@@ -14,6 +15,7 @@ function Upload() {
   const titleRef = useRef<HTMLInputElement>(null);
   const contentRef = useRef<HTMLTextAreaElement>(null);
   const user = useUserStore((state) => state.user);
+  const { showAlert } = useAlert();
 
   console.log(user);
   console.log(postData);
@@ -88,19 +90,34 @@ function Upload() {
     const content = contentRef.current?.value || "";
 
     if (!title.trim()) {
-      alert("제목을 입력해주세요.");
-      return;
-    }
-    if (!content.trim()) {
-      alert("내용을 입력해주세요.");
+      showAlert({
+        message: "제목을 입력해주세요."
+      });
       return;
     }
     if (title.length > 70) {
-      alert("제목은 70자까지 입력 가능합니다");
+      showAlert({
+        message: "제목은 70자까지 작성 가능합니다."
+      });
+      return;
+    }
+    if (title.length > 70) {
+      showAlert({
+        message: "제목은 70자까지 작성 가능합니다."
+      });
+      return;
+    }
+
+    if (!content.trim()) {
+      showAlert({
+        message: "내용을 입력해주세요."
+      });
       return;
     }
     if (content.length > 5000) {
-      alert("내용은 5000자 이내로 작성해주세요");
+      showAlert({
+        message: "내용은 5000자 이내로 작성해주세요."
+      });
       return;
     }
 
