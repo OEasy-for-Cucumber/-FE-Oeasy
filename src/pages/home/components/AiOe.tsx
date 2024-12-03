@@ -89,7 +89,7 @@ function AiOe() {
       );
     },
     onError: (error) => {
-      const errorMessage = error.response?.data?.message || "오류 발생";
+      const errorMessage = error.response?.data?.message || "죄송하지만 오이와 관련된 질문만 답변할 수 있어오이!🥒";
       setMessages((prevMessages) => {
         const updatedMessages = prevMessages.filter((msg) => {
           if (!msg || typeof msg.isLoading !== "boolean") return true;
@@ -115,7 +115,7 @@ function AiOe() {
       />
       {aiOe &&
         ReactDOM.createPortal(
-          <div className="fixed left-1/2 xl:left-auto transform xl:transform-none -translate-x-1/2 xl:right-[80px] bottom-0 xl:bottom-[152px] w-full min-w-[360px] max-w-[520px] h-screen xl:w-[390px] xl:h-[600px] bg-grayoe-950 z-50 xl:rounded-2xl">
+          <div className="fixed left-1/2 xl:left-auto transform xl:transform-none -translate-x-1/2 xl:right-[80px] bottom-0 xl:bottom-[152px] w-full min-w-[360px] max-w-[520px] h-screen xl:w-[390px] xl:h-[600px] bg-grayoe-950 z-50 xl:rounded-2xl scroll-mx-0">
             <div className="w-full h-[56px] flex justify-center items-center mb-6 relative">
               <div className="font-b2-semibold">AI OE</div>
               <button className="absolute right-[24px] " onClick={() => setAiOe(false)}>
@@ -128,7 +128,7 @@ function AiOe() {
                 <img src={aioeIcon} alt="ai oe Profile" className="w-10 h-10 rounded-full mr-2" />
                 <div className="flex flex-col gap-1 max-w-[180px] min-w-[20px]">
                   <p className="font-semibold">AI OE</p>
-                  <div className="bg-grayoe-600 rounded-r-xl rounded-bl-xl px-3 py-2 text-white break-words whitespace-pre-wrap">
+                  <div className="bg-grayoe-600 rounded-r-xl rounded-bl-xl px-3 py-2 text-white break-words whitespace-pre-wrap mb-4">
                     안녕하세오이?
                     <br />
                     저는 AI 오이입니다오이! 오이에 관련된 질문을 해주세오이! 🥒
