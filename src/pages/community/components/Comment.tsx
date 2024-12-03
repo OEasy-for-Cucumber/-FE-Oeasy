@@ -184,7 +184,7 @@ function Comment({ communityId, setTotalComments }: CmnProps) {
                       value={editContent}
                       onChange={(e) => setEditContent(e.target.value)}
                       onKeyDown={(e) => handleKeyDown(e, com.commentPk)}
-                      className="w-[400px] xl:w-[630px] bg-grayoe-950 p-2 border border-white rounded focus:outline-none"
+                      className="w-[400px] xl:w-[630px] bg-grayoe-950 p-2 border border-white rounded resize-none focus:outline-none"
                     />
                   ) : (
                     <p className="font-b2-regular xl:font-b1-regular">{com.content}</p>
@@ -226,10 +226,10 @@ function Comment({ communityId, setTotalComments }: CmnProps) {
           ))}
         </div>
         <div className=" w-full h-[52px] mx-auto px-4 py-2 bottom-0">
-          <div className="relative w-auto xl:w-[456px]">
+          <div className="relative w-auto xl:w-[700px]">
             <textarea
               ref={commentRef}
-              className="w-full h-9 pl-6 pr-14 py-2 rounded-full focus:outline-none bg-grayoe-400 placeholder-grayoe-200"
+              className="w-full h-9 pl-6 pr-14 py-2 rounded-full font-b2-regular focus:outline-none bg-grayoe-400 placeholder-grayoe-200 resize-none"
               placeholder="내용을 입력하세요."
               onKeyDown={(e) => {
                 if (e.key === "Enter" && !e.shiftKey) {

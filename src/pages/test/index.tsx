@@ -8,7 +8,7 @@ import { useUserStore } from "../../zustand/authStore";
 import Confirm from "../../components/common/Confirm";
 
 function Chat() {
-  // confrim 사용방법 시작
+  // confirm 사용방법 시작
   const [isConfirmVisible, setIsConfirmVisible] = useState(false);
 
   const handleConfirm = (inputValue: string | undefined) => {

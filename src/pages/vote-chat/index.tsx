@@ -17,20 +17,28 @@ function Votechat() {
   useEffect(() => {
     const fetchInitialVotes = async () => {
       try {
-        const response = await instance.get<voteChatRes>(`/api/community/init/${user?.memberPk}`);
-        const { hate, like, isVoting, chattingList } = response.data;
-        console.log(response);
-        setInitialVotes({ hate, like });
-        setVoting(isVoting);
-        setChatLi(chattingList);
+        if (user?.memberPk) {
+          // 유저 정보가 있는 경우
+          const response = await instance.get<voteChatRes>(`/api/community/init/${user.memberPk}`);
+          const { hate, like, isVoting, chattingList } = response.data;
+          console.log(response);
+          setInitialVotes({ hate, like });
+          setVoting(isVoting);
+          setChatLi(chattingList);
+        } else {
+          // 유저 정보가 없는 경우
+          const response = await instance.get<voteChatRes>(`/api/community/init`);
+          const { hate, like, chattingList } = response.data;
+          console.log(response);
+          setInitialVotes({ hate, like });
+          setChatLi(chattingList);
+        }
       } catch (error) {
         console.error("초기 투표 데이터를 가져오는 중 오류가 발생했습니다.", error);
       }
     };
 
-    if (user?.memberPk) {
-      fetchInitialVotes();
-    }
+    fetchInitialVotes();
   }, [user?.memberPk]);
 
   useEffect(() => {

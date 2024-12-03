@@ -114,22 +114,26 @@ function Upload() {
       formData.append("communityId", String(postData.postData.id));
     }
 
-    images.forEach((image) => {
-      if (image.url && !image.file) {
-        formData.append("imgList", image.url);
-      }
-    });
+    const hasFiles = images.some((image) => image.file);
 
-    images.forEach((image) => {
-      if (image.file) {
-        formData.append("imgList", image.file);
-      }
-    });
+    if (images.length === 0 || !hasFiles) {
+      formData.append("imgList", null as unknown as string);
+    } else {
+      images.forEach((image) => {
+        if (image.file) {
+          formData.append("imgList", image.file);
+        }
+      });
+    }
 
     deleteList.forEach((url, index) => {
       console.log(`deleteList[${index}]: ${url}`);
       formData.append("deleteList", url);
     });
+
+    for (const [key, value] of formData.entries()) {
+      console.log(`${key}:`, value);
+    }
 
     try {
       if (postData) {
@@ -163,6 +167,7 @@ function Upload() {
       console.error("오류 발생:", error);
       alert("작업 중 오류가 발생했습니다. 다시 시도해주세요.");
     }
+    return;
   };
 
   return (
@@ -183,7 +188,7 @@ function Upload() {
           />
           <textarea
             ref={contentRef}
-            className="w-full min-h-[240px] py-4 px-6 bg-grayoe-950 outline-none"
+            className="w-full min-h-[240px] py-4 px-6 bg-grayoe-950 outline-none resize-none"
             placeholder="내용을 입력하세요."
           />
         </div>

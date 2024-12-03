@@ -1,5 +1,5 @@
-import { useState } from "react";
-// import Button from "./Button";
+import { useEffect, useState } from "react";
+import { useActiveStore } from "../../zustand/isActiveStore";
 
 interface ConfirmProps {
   isVisible: boolean;
@@ -23,14 +23,17 @@ const Confirm: React.FC<ConfirmProps> = ({
   validationText = ""
 }) => {
   const [inputValue, setInputValue] = useState("");
+  const { isActive, setIsActive } = useActiveStore();
+
+  useEffect(() => {
+    if (hasInput) {
+      setIsActive(inputValue === validationText);
+    }
+  }, [inputValue, validationText, hasInput, setIsActive]);
 
   if (!isVisible) return null;
 
   const handleConfirm = () => {
-    if (hasInput && validationText && inputValue !== validationText) {
-      alert("입력값이 올바르지 않습니다.");
-      return;
-    }
     onConfirm(hasInput ? inputValue : undefined);
   };
 
@@ -54,17 +57,24 @@ const Confirm: React.FC<ConfirmProps> = ({
         )}
 
         <div className="flex justify-between gap-2">
-          <button onClick={onCancel} className="w-[136px] h-[56px] font-b1-semibold bg-grayoe-400 rounded-lg">
+          <button
+            onClick={onCancel}
+            className={`${hasInput ? "bg-greenoe-600" : "bg-grayoe-400"} w-[136px] h-[56px] font-b1-semibold  rounded-lg`}
+          >
             취소
           </button>
-          <button onClick={handleConfirm} className="w-[136px] h-[56px] font-b1-semibold bg-greenoe-600 rounded-lg">
+          <button
+            disabled={!isActive}
+            onClick={handleConfirm}
+            className={`${hasInput ? "bg-grayoe-400" : "bg-greenoe-600"} w-[136px] h-[56px] font-b1-semibold  rounded-lg`}
+          >
             확인
           </button>
           {/* <Button onClick={onCancel} size="medium" isActive={true}>
             취소
           </Button>
 
-          <Button onClick={handleConfirm} size="medium" isActive={true}>
+          <Button onClick={handleConfirm} size="medium" isActive={isActive}>
             확인
           </Button> */}
         </div>
