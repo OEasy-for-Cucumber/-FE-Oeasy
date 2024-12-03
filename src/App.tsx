@@ -5,6 +5,7 @@ import MobileHeader from "./components/headers/MobileHeader";
 import WebHeader from "./components/headers/WebHeader";
 import { useUserStore } from "./zustand/authStore";
 import useUserInitialize from "./utils/initAuth";
+import Loading from "./components/common/Loading";
 
 function App(): React.JSX.Element {
   const { pathname } = useLocation();
@@ -13,7 +14,7 @@ function App(): React.JSX.Element {
   const hideHeader = pathname === "/login";
 
   if(!isInitialize) {
-    return <div className="text-black">로딩중...</div>
+    return <Loading/>
   }
 
   return (
