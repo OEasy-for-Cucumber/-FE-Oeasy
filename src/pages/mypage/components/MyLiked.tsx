@@ -6,10 +6,12 @@ import { Contents } from "../../../types/myContentsTypes";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useUserStore } from "../../../zustand/authStore";
 import instance from "../../../api/axios";
+import Pagination from "../../community/components/Pagination";
 
 function MyLiked() {
   const [myLikedPosts, setMyLikedPosts] = useState<Contents[]>();
-  const [searchParams, _setSearchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [totalPages, setToTalPages] = useState(0);
   const user = useUserStore((state) => state.user);
   const currentPage = parseInt(searchParams.get("page") || "1");
   const navigate = useNavigate();
@@ -24,15 +26,16 @@ function MyLiked() {
 
   useEffect(() => {
     const getMyLikedPostsData = async () => {
-      const data = await instance.get("/api/community/my-likes", {
+      const response = await instance.get("/api/community/my-likes", {
         params: {
           page: currentPage - 1,
-          size: 10,
+          size: 5,
           memberId: user?.memberPk
         }
       });
-      // 데이터 가져온 후 변환
-      const formattedPosts = data.data.contents.map((post: Contents) => ({
+      const {contents, totalPages} = response.data;
+      setToTalPages(totalPages)
+      const formattedPosts = contents.map((post: Contents) => ({
         ...post,
         createTime: formatDate(post.createTime) // 날짜 포맷 변환
       }));
@@ -57,7 +60,7 @@ function MyLiked() {
             <div className="w-full border-b border-grayoe-900 py-4 px-6">
               <button className="flex flex-col" onClick={() => goToPost(post.boardPk!)}>
                 <p className="text-grayoe-300 font-c2 mb-1">{post.createTime}</p>
-                <p className="font-b2-semibold">{post.title}</p>
+                <p className="font-b2-semibold line-clamp-1">{post.title}</p>
 
                 <div className="flex font-c2 items-center space-x-2 mt-2">
                   <div className="flex space-x-1">
@@ -78,6 +81,15 @@ function MyLiked() {
             <hr className="border-grayoe-900" />
           </div>
         ))
+      )}
+      {myLikedPosts?.length! > 0 && (
+        <div className="flex justify-center">
+          <Pagination
+            totalPageNumber={totalPages}
+            currentPage={currentPage}
+            setCurrentPage={(page) => setSearchParams({ page: page.toString() })}
+          />
+        </div>
       )}
     </div>
   );

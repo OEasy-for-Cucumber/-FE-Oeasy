@@ -4,6 +4,7 @@ import { Dispatch, SetStateAction, useState } from "react";
 import PasswordInput from "../../../components/common/PasswordInput";
 import { ConfirmPasswordModalProp } from "./ConfirmPasswordModal";
 import instance from "../../../api/axios";
+import useAlert from "../../../hooks/useAlert";
 
 interface EditPasswordProp {
   setNewPasswordModalOpen: Dispatch<SetStateAction<boolean>>;
@@ -18,12 +19,12 @@ function EditPassword({
 
   const [isPasswordMatch, setIsPasswordMatch] = useState(true);
   const [isPasswordValid, setIsPasswordValid] = useState(true);
+  const { showAlert } = useAlert();
 
   const baseLabelClass = "transition-all duration-300 text-[13px]";
   const visibleLabelClass = "opacity-100 translate-y-0";
   const hiddenLabelClass = "opacity-0 -translate-1";
 
-  // 비밀번호 유효성 검사 (길이, 특수문자 등)
   const validatePassword = (password: string) => {
     const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
     return passwordRegex.test(password);
@@ -47,10 +48,17 @@ function EditPassword({
       await instance.patch("/member/password", {
         newPw: newPassword
       });
-      alert("비밀번호가 성공적으로 변경되었습니다.");
+      showAlert({
+        message: "비밀번호가 변경되었습니다."
+      });
+
       handleNewPasswordModal();
     } else {
-      alert("비밀번호가 일치하지 않거나 유효하지 않습니다.");
+      showAlert({
+        message: "비밀번호가 일치하지 않거나,",
+        subMessage: "유효하지 않습니다."
+      });
+      return;
     }
   };
 

@@ -83,7 +83,7 @@ const Pagination: React.FC<PaginationProps> = (props) => {
               props.setCurrentPage(parseInt(page));
               scrollTop();
             }}
-            className={`flex justify-center items-center text-center font-c2 xl:font-b2-regular  w-4 h-4 xl:w-8 xl:h-8 ${
+            className={`flex justify-center items-center text-center font-c2 xl:font-b2-regular w-4 h-4 xl:w-8 xl:h-8 ${
               props.currentPage === parseInt(page) ? " cursor-default bg-white text-black rounded-sm" : "cursor-pointer"
             }`}
           >
