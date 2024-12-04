@@ -233,7 +233,7 @@ function Comment({ communityId, setTotalComments }: CmnProps) {
             </div>
           ))}
         </div>
-        <div className=" w-full h-[52px] mx-auto px-4 py-2 bottom-0">
+        <div className=" w-full h-[52px] mx-auto px-2 py-2 bottom-0">
           <div className="relative w-auto xl:w-[700px]">
             <textarea
               ref={commentRef}

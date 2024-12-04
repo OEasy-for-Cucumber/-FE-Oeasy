@@ -1,5 +1,5 @@
 import { useState } from "react";
-import sendIcon from "../../../../public/icons/send.png";
+import search from "../../../../public/icons/Search.png";
 import closeSearch from "../../../../public/icons/deleteIcon.png";
 
 interface SearchProps {
@@ -29,7 +29,7 @@ function Search({ message, onSearch, onClose }: SearchProps) {
             <select
               value={searchType}
               onChange={(e) => setSearchType(e.target.value)}
-              className="absolute left-1 top-1 bottom-1 w-22 h-8 p-2 rounded-l-full rounded-r-full font-b2-regular text-center bg-grayoe-100 text-grayoe-800 focus:outline-none"
+              className="absolute left-1 top-1 bottom-1 w-22 h-7 p-2 rounded-l-full rounded-r-full font-c2 text-center bg-grayoe-100 text-grayoe-800 focus:outline-none"
             >
               <option value="title">제목</option>
               <option value="titleAndContent">제목내용</option>
@@ -39,14 +39,14 @@ function Search({ message, onSearch, onClose }: SearchProps) {
               type="text"
               ref={message}
               placeholder="검색어를 입력해주세요"
-              className="w-full h-10 p-2 pl-24 pr-14 rounded-full focus:outline-none bg-grayoe-400 placeholder-grayoe-200"
+              className="w-full h-9 p-2 pl-24 pr-14 rounded-full focus:outline-none bg-grayoe-400 placeholder-grayoe-200"
               onKeyDown={handleKeyDown}
             />
             <button
-              className="absolute right-6 top-1 bottom-1 w-11 h-8 bg-greenoe-600 text-white rounded-full flex items-center justify-center"
+              className="absolute right-6 top-1 bottom-1 w-11 h-7 bg-greenoe-600 text-white rounded-full flex items-center justify-center"
               onClick={handleSearch}
             >
-              <img src={sendIcon} alt="Send" className="w-5 h-5" />
+              <img src={search} alt="Send" className="w-4 h-4" />
             </button>
           </div>
           <img src={closeSearch} alt="검색창 닫기" className="w-4 h-4 cursor-pointer" onClick={onClose} />
