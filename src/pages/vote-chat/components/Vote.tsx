@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useUserStore } from "../../../zustand/authStore";
 import SockJS from "sockjs-client";
 import { Client } from "@stomp/stompjs";
+import useAlert from "../../../hooks/useAlert";
 
 interface VoteProps {
   active: "vote" | "chat";
@@ -20,8 +21,8 @@ function Vote({ active, initialVotes, isVoting }: VoteProps) {
   const [votingStatus, setVotingStatus] = useState(isVoting);
   const user = useUserStore((state) => state.user);
   const stompClientRef = useRef<Client | null>(null);
+  const { showAlert } = useAlert();
 
-  console.log(isVoting);
   useEffect(() => {
     setVotingStatus(isVoting);
   }, [isVoting]);
@@ -35,19 +36,13 @@ function Vote({ active, initialVotes, isVoting }: VoteProps) {
     const socket = new SockJS(import.meta.env.VITE_APP_WS_URL);
     const client = new Client({
       webSocketFactory: () => socket,
-      debug: (str) => console.log(str),
       onConnect: () => {
-        console.log("STOMP 연결 완료");
-
         client.subscribe("/topic/votes", (message) => {
-          console.log("WebSocket 메시지 원본:", message.body);
           const data = JSON.parse(message.body);
-          console.log("WebSocket 데이터 수신:", data);
 
           if (data.like !== undefined) setLikeVotes(data.like);
           if (data.hate !== undefined) setHateVotes(data.hate);
           if (data.isVoting !== undefined) {
-            console.log("WebSocket에서 수신한 isVoting:", data.isVoting);
             setVotingStatus(data.isVoting);
           }
         });
@@ -70,12 +65,12 @@ function Vote({ active, initialVotes, isVoting }: VoteProps) {
 
   const handleVote = (side: "hate" | "like") => {
     if (!user) {
-      alert("로그인 후 투표해주세요");
+      showAlert({ message: "로그인 후 투표해주세요" });
       return;
     }
 
     if (votingStatus === "like" || votingStatus === "hate") {
-      alert("하루에 한 번 투표 가능합니다");
+      showAlert({ message: "하루에 한 번 투표 가능합니다" });
       return;
     }
 
@@ -88,7 +83,6 @@ function Vote({ active, initialVotes, isVoting }: VoteProps) {
     }
 
     if (stompClientRef.current && stompClientRef.current.connected) {
-      console.log("STOMP 연결 상태:", stompClientRef.current?.connected);
       stompClientRef.current.publish({
         destination: `/app/votes`,
         body: JSON.stringify({
@@ -96,7 +90,6 @@ function Vote({ active, initialVotes, isVoting }: VoteProps) {
           vote: side === "hate" ? false : true
         })
       });
-      console.log(`STOMP 메시지 전송: ${side}-votes`);
     } else {
       console.error("STOMP 연결이 활성화되어 있지 않습니다.");
     }
@@ -119,7 +112,7 @@ function Vote({ active, initialVotes, isVoting }: VoteProps) {
 
   return (
     <>
-      <div className="h-full xl:h-[686px] overflow-y-auto flex justify-center items-center xl:pr-[40px]">
+      <div className="h-full xl:h-[686px] overflow-y-auto flex justify-center items-center xl:pr-[40px] ">
         <div>
           <div className="w-[182px] min-h-[56px] xl:w-[273px] xl:h-[76px] flex flex-col justify-center items-center mx-auto gap-[8px] ">
             <p className="font-h4 xl:font-h2 text-center">오이 좋아하세요?</p>

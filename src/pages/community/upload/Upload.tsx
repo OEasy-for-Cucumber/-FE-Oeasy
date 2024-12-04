@@ -4,6 +4,8 @@ import uploadImg from "../../../../public/img/uploadImg.png";
 import { useLocation, useNavigate } from "react-router-dom";
 import instance from "../../../api/axios";
 import { useUserStore } from "../../../zustand/authStore";
+import useAlert from "../../../hooks/useAlert";
+import useConfirm from "../../../hooks/useConfirm";
 
 function Upload() {
   const navigate = useNavigate();
@@ -14,15 +16,16 @@ function Upload() {
   const titleRef = useRef<HTMLInputElement>(null);
   const contentRef = useRef<HTMLTextAreaElement>(null);
   const user = useUserStore((state) => state.user);
-
-  console.log(user);
-  console.log(postData);
+  const { showAlert } = useAlert();
+  const { showConfirm } = useConfirm();
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || []);
 
     if (images.length + files.length > 6) {
-      alert("사진은 최대 6장까지 첨부 가능합니다");
+      showAlert({
+        message: "사진은 최대 6장까지 첨부 가능합니다"
+      });
       return;
     }
 
@@ -56,20 +59,23 @@ function Upload() {
   };
 
   const handleDelClick = (index: number) => {
-    const confirmDelete = window.confirm("삭제하시겠습니까?");
-    if (confirmDelete) {
-      const deletedImage = images[index];
+    showConfirm({
+      message: "삭제하시겠습니까?",
+      subMessage: "이 작업은 되돌릴 수 없습니다.",
+      onConfirm: () => {
+        const deletedImage = images[index];
 
-      if (deletedImage?.url && !deleteList.includes(deletedImage.url)) {
-        setDeleteList((prevDeleteList) => [...prevDeleteList, deletedImage.url as string]);
+        if (deletedImage?.url && !deleteList.includes(deletedImage.url)) {
+          setDeleteList((prevDeleteList) => [...prevDeleteList, deletedImage.url as string]);
+        }
+
+        setImages((prevImages) => {
+          const newImages = [...prevImages];
+          newImages.splice(index, 1);
+          return newImages;
+        });
       }
-
-      setImages((prevImages) => {
-        const newImages = [...prevImages];
-        newImages.splice(index, 1);
-        return newImages;
-      });
-    }
+    });
   };
 
   useEffect(() => {
@@ -88,19 +94,34 @@ function Upload() {
     const content = contentRef.current?.value || "";
 
     if (!title.trim()) {
-      alert("제목을 입력해주세요.");
-      return;
-    }
-    if (!content.trim()) {
-      alert("내용을 입력해주세요.");
+      showAlert({
+        message: "제목을 입력해주세요."
+      });
       return;
     }
     if (title.length > 70) {
-      alert("제목은 70자까지 입력 가능합니다");
+      showAlert({
+        message: "제목은 70자까지 작성 가능합니다."
+      });
+      return;
+    }
+    if (title.length > 70) {
+      showAlert({
+        message: "제목은 70자까지 작성 가능합니다."
+      });
+      return;
+    }
+
+    if (!content.trim()) {
+      showAlert({
+        message: "내용을 입력해주세요."
+      });
       return;
     }
     if (content.length > 5000) {
-      alert("내용은 5000자 이내로 작성해주세요");
+      showAlert({
+        message: "내용은 5000자 이내로 작성해주세요."
+      });
       return;
     }
 
@@ -126,14 +147,9 @@ function Upload() {
       });
     }
 
-    deleteList.forEach((url, index) => {
-      console.log(`deleteList[${index}]: ${url}`);
+    deleteList.forEach((url) => {
       formData.append("deleteList", url);
     });
-
-    for (const [key, value] of formData.entries()) {
-      console.log(`${key}:`, value);
-    }
 
     try {
       if (postData) {
@@ -144,7 +160,7 @@ function Upload() {
         });
 
         if (response.status === 200) {
-          alert("게시물이 수정되었습니다.");
+          showAlert({ message: "게시물이 수정되었습니다." });
           navigate(`/community/detail/${postData.postData.id}`, { state: { cmnId: postData.postData.id } });
         } else {
           throw new Error("게시물 수정에 실패했습니다.");
@@ -157,7 +173,7 @@ function Upload() {
         });
 
         if (response.status === 200) {
-          alert("게시물이 등록되었습니다.");
+          showAlert({ message: "게시물이 등록되었습니다." });
           navigate("/community");
         } else {
           throw new Error("게시물 등록에 실패했습니다.");
@@ -165,7 +181,6 @@ function Upload() {
       }
     } catch (error) {
       console.error("오류 발생:", error);
-      alert("작업 중 오류가 발생했습니다. 다시 시도해주세요.");
     }
     return;
   };

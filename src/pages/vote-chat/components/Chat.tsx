@@ -4,6 +4,7 @@ import { Client } from "@stomp/stompjs";
 import SockJS from "sockjs-client";
 import sendIcon from "../../../../public/icons/send.png";
 import { useUserStore } from "../../../zustand/authStore";
+import useAlert from "../../../hooks/useAlert";
 
 type Message = {
   id: string | number;
@@ -28,6 +29,7 @@ function Chat({ chattingList }: ChatProps) {
   const [isComposing, setComposing] = useState(false);
   const messageEndRef = useRef<HTMLDivElement>(null);
   const DEFAULT_PROFILE_IMG = "/img/defaultProfile.png";
+  const { showAlert } = useAlert();
 
   useEffect(() => {
     setMessages((prevMessages) => [
@@ -53,11 +55,7 @@ function Chat({ chattingList }: ChatProps) {
     });
 
     stompClient.onConnect = () => {
-      console.log("Connected to WebSocket");
-
-      // 메시지 구독
       stompClient.subscribe("/topic/message", (msg) => {
-        console.log("메시지 수신:", msg.body);
         try {
           const receivedMessage = JSON.parse(msg.body);
 
@@ -71,7 +69,6 @@ function Chat({ chattingList }: ChatProps) {
           };
 
           setMessages((prevMessages) => [...prevMessages, newMessage]);
-          console.log("Received message:", receivedMessage);
         } catch (error) {
           console.error("Error parsing message:", error);
         }
@@ -80,7 +77,6 @@ function Chat({ chattingList }: ChatProps) {
     };
 
     stompClient.onDisconnect = () => {
-      console.log("Disconnected from WebSocket");
       setClient(null);
     };
 
@@ -109,7 +105,7 @@ function Chat({ chattingList }: ChatProps) {
 
   const handleSendMessage = () => {
     if (!user) {
-      alert("로그인 후 이용해주세요");
+      showAlert({ message: "로그인 후 이용해주세요" });
       return;
     }
     if (client && message.trim()) {
@@ -122,7 +118,6 @@ function Chat({ chattingList }: ChatProps) {
       });
 
       setMessage("");
-      console.log("Sending message:", { id: user.memberPk, String: message });
     } else {
       console.log("Client is not connected");
     }

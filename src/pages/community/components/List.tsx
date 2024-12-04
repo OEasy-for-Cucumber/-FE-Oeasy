@@ -9,6 +9,8 @@ import { useEffect, useRef, useState } from "react";
 import Search from "./Search";
 import instance from "../../../api/axios";
 import Pagination from "./Pagination";
+import { useUserStore } from "../../../zustand/authStore";
+import useAlert from "../../../hooks/useAlert";
 
 interface contentTypes {
   boardPk: string;
@@ -23,6 +25,8 @@ interface contentTypes {
 
 function List() {
   const [searchParams, setSearchParams] = useSearchParams();
+  const user = useUserStore((state) => state.user);
+  const { showAlert } = useAlert();
   const navigate = useNavigate();
   const currentPage = parseInt(searchParams.get("page") || "1");
   const [showSearch, setShowSearch] = useState(false);
@@ -31,8 +35,8 @@ function List() {
   const [sortKeyword, setSortKeyword] = useState("boardPk");
   const [sortType, setSortType] = useState("false");
   const messageRef = useRef<HTMLInputElement>(null);
-  const [searchKeyword, setSearchKeyword] = useState<string>(""); // 검색어 상태 추가
-  const [searchType, setSearchType] = useState<string>("titleAndContent"); // 검색 유형 상태 추가
+  const [searchKeyword, setSearchKeyword] = useState<string>("");
+  const [searchType, setSearchType] = useState<string>("titleAndContent");
   const fetchPosts = async (page: number, keyword = "", type = "titleAndContent") => {
     try {
       const response = await instance.get(`/api/community`, {
@@ -45,7 +49,6 @@ function List() {
           sortType
         }
       });
-      console.log(response.data);
       const { contents, totalPages } = response.data;
       setPosts(contents);
       setTotalPages(totalPages);
@@ -64,8 +67,6 @@ function List() {
     setSearchType(type);
   };
 
-  console.log(posts);
-
   const toggleSortOrder = () => {
     if (sortKeyword === "boardPk" && sortType === "false") {
       setSortKeyword("likeCnt");
@@ -82,10 +83,16 @@ function List() {
   const handlePostClick = async (post: contentTypes) => {
     try {
       await instance.get(`/api/community/view/${post.boardPk}`);
-
-      navigate(`/community/detail/${post.boardPk}`, {
-        state: { cmnId: post.boardPk }
-      });
+      if (!user) {
+        showAlert({
+          message: "로그인 후 이용해주세요"
+        });
+        navigate("/login");
+      } else {
+        navigate(`/community/detail/${post.boardPk}`, {
+          state: { cmnId: post.boardPk }
+        });
+      }
     } catch (error) {
       console.error("조회수 증가 요청 실패", error);
     }
@@ -110,8 +117,8 @@ function List() {
   }
   return (
     <>
-      <div className="h-[calc(100vh-56px)] px-6 xl:w-[767px] mx-auto mt-1 flex flex-col justify-between items-center ">
-        <div className="w-full">
+      <div className="h-[calc(100vh-60px)] px-6 xl:w-[767px] mx-auto mt-1 flex flex-col justify-between items-center ">
+        <div className="w-full ">
           {showSearch ? (
             <Search message={messageRef} onSearch={handleSearch} onClose={() => setShowSearch(false)} />
           ) : (
@@ -137,6 +144,8 @@ function List() {
               </div>
             </div>
           )}
+        </div>
+        <div className="flex-1 w-full overflow-y-auto scrollbar-hidden">
           <div className="flex flex-col divide-y divide-grayoe-800">
             {posts.map((post, index) => (
               <div key={index} className="flex justify-between py-4 gap-2">
