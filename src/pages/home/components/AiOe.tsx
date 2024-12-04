@@ -2,6 +2,9 @@ import { useEffect, useRef, useState } from "react";
 import ReactDOM from "react-dom";
 import { AxiosError } from "axios";
 import sendIcon from "../../../../public/icons/send.png";
+import InfoIcon from "../../../../public/icons/InfoSquare.png";
+import Down from "../../../../public/icons/ArrowDown.png";
+import Up from "../../../../public/icons/ArrowUp.png";
 import aioeIcon from "../../../../public/img/chat_aioe.png";
 import loading from "../../../../public/icons/loading.png";
 import instance from "../../../api/axios";
@@ -28,12 +31,17 @@ function AiOe() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [userMes, setUserMes] = useState("");
   const [isComposing, setIsComposing] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const { user } = useUserStore();
   const navigate = useNavigate();
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  const toggleBtn = () => {
+    setIsExpanded((prev) => !prev);
   };
 
   useEffect(() => {
@@ -124,7 +132,26 @@ function AiOe() {
             </div>
 
             <div className="h-[calc(100vh-132px)] xl:h-[468px] px-6 overflow-y-auto">
-              <div className="flex justify-start">
+              <div
+                className={`${isExpanded ? "rounded-t-md" : " rounded-md"} flex flex-row justify-between items-center bg-grayoe-800 h-[36px] p-2 mt-4`}
+              >
+                <img src={InfoIcon} alt="aioe 공지" className="w-[20px] h-[20px]" />
+                <div className="w-full mx-[10px] font-b2-regular">
+                  AI 챗봇 사용법<span className={`${isExpanded ? "hidden" : "inline-block"}`}>...</span>
+                </div>
+                <button onClick={toggleBtn}>
+                  <img src={isExpanded ? Up : Down} alt="aioe 열기 버튼" className="w-[20px] h-[20px]" />
+                </button>
+              </div>
+
+              {isExpanded && (
+                <div className="bg-grayoe-800 font-b2-regular rounded-b-md pl-[38px] indent-1 pb-2">
+                  <p>1. "오이" 키워드 포함 필수</p>
+                  <p>2. 100글자 이내로 질문 가능</p>
+                </div>
+              )}
+
+              <div className="flex justify-start mt-4">
                 <img src={aioeIcon} alt="ai oe Profile" className="w-10 h-10 rounded-full mr-2" />
                 <div className="flex flex-col gap-1 max-w-[180px] min-w-[20px]">
                   <p className="font-semibold">AI OE</p>
