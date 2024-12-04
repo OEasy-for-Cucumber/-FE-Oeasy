@@ -124,8 +124,8 @@ function List() {
           ) : (
             <div className="flex justify-between items-center font-c2">
               <div className="flex flex-col items-center gap-1 cursor-pointer">
-                <div className="flex gap-1">
-                  <img src={filter} alt="필터아이콘" className="w-[14px] h-[14px]" onClick={toggleSortOrder} />
+                <div className="flex gap-1" onClick={toggleSortOrder}>
+                  <img src={filter} alt="필터아이콘" className="w-[14px] h-[14px]" />
                   <p className="font-c2 xl:font-c1">{getSortLabel()}</p>
                 </div>
               </div>
