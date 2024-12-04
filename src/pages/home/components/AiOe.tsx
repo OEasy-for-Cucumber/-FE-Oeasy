@@ -123,34 +123,35 @@ function AiOe() {
       />
       {aiOe &&
         ReactDOM.createPortal(
-          <div className="fixed left-1/2 xl:left-auto transform xl:transform-none -translate-x-1/2 xl:right-[80px] bottom-0 xl:bottom-[152px] w-full min-w-[360px] max-w-[520px] h-screen xl:w-[390px] xl:h-[600px] bg-grayoe-950 z-50 xl:rounded-2xl scroll-mx-0">
-            <div className="w-full h-[56px] flex justify-center items-center mb-6 relative">
+          <div className="fixed left-1/2 xl:left-auto transform xl:transform-none -translate-x-1/2 xl:right-[80px] bottom-0 xl:bottom-[152px] w-full min-w-[360px] max-w-[520px] h-screen xl:w-[390px] xl:h-[600px] bg-grayoe-950 z-50 xl:rounded-2xl">
+            <div className="w-full h-[56px] flex justify-center items-center relative">
               <div className="font-b2-semibold">AI OE</div>
               <button className="absolute right-[24px] " onClick={() => setAiOe(false)}>
                 <img src="/icons/Icon.png" alt="닫기 버튼" />
               </button>
             </div>
 
-            <div className="h-[calc(100vh-132px)] xl:h-[468px] px-6 overflow-y-auto">
-              <div
-                className={`${isExpanded ? "rounded-t-md" : " rounded-md"} flex flex-row justify-between items-center bg-grayoe-800 h-[36px] p-2 mt-4`}
-              >
-                <img src={InfoIcon} alt="aioe 공지" className="w-[20px] h-[20px]" />
-                <div className="w-full mx-[10px] font-b2-regular">
-                  AI 챗봇 사용법<span className={`${isExpanded ? "hidden" : "inline-block"}`}>...</span>
+            <div className="h-[calc(100vh-109px)] xl:h-[492px] px-6 overflow-y-auto scrollbar-hidden">
+              <div className="sticky top-0 bg-grayoe-950">
+                <div
+                  className={`${isExpanded ? "rounded-t-md" : " rounded-md"} flex flex-row w-full min-w-[328px] max-w-[472px] justify-between items-center bg-grayoe-800 h-[36px] p-2`}
+                >
+                  <img src={InfoIcon} alt="aioe 공지" className="w-[20px] h-[20px]" />
+                  <div className="w-full mx-[10px] font-b2-regular">
+                    AI 챗봇 사용법<span className={`${isExpanded ? "hidden" : "inline-block"}`}>...</span>
+                  </div>
+                  <button onClick={toggleBtn}>
+                    <img src={isExpanded ? Up : Down} alt="aioe 열기 버튼" className="w-[20px] h-[20px]" />
+                  </button>
                 </div>
-                <button onClick={toggleBtn}>
-                  <img src={isExpanded ? Up : Down} alt="aioe 열기 버튼" className="w-[20px] h-[20px]" />
-                </button>
+
+                {isExpanded && (
+                  <div className="bg-grayoe-800 font-b2-regular rounded-b-md pl-[38px] indent-1 pb-2">
+                    <p>1. "오이" 키워드 포함 필수</p>
+                    <p>2. 100글자 이내로 질문 가능</p>
+                  </div>
+                )}
               </div>
-
-              {isExpanded && (
-                <div className="bg-grayoe-800 font-b2-regular rounded-b-md pl-[38px] indent-1 pb-2">
-                  <p>1. "오이" 키워드 포함 필수</p>
-                  <p>2. 100글자 이내로 질문 가능</p>
-                </div>
-              )}
-
               <div className="flex justify-start mt-4">
                 <img src={aioeIcon} alt="ai oe Profile" className="w-10 h-10 rounded-full mr-2" />
                 <div className="flex flex-col gap-1 max-w-[180px] min-w-[20px]">
