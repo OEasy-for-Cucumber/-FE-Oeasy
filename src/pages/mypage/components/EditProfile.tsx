@@ -74,14 +74,20 @@ function EditProfile({ handleEditModal }: { handleEditModal: () => void }) {
         showAlert({
           message: "프로필 이미지가 변경되었습니다."
         });
-  
       } catch (error) {
         if (axios.isAxiosError(error)) {
-          console.error("Axios error:", error.response?.data || error.message);
+          if (error.response?.status === 413) {
+            showAlert({
+              message: "파일 크기는 2MB이하여야 합니다.",
+              subMessage: "업로드 가능한 크기 이하로 줄여주세요."
+            });
+            return;
+          } else {
+            console.error("Axios 에러:", error.response?.data);
+          }
         } else {
           console.error("Unexpected error:", error);
         }
-        return;
       }
     }
 
@@ -132,7 +138,7 @@ function EditProfile({ handleEditModal }: { handleEditModal: () => void }) {
   const handleNewPasswordModal = () => {
     if (user?.kakaoId) {
       showAlert({
-        message: "일반가입 회원만 변경 가능합니다.",
+        message: "일반가입 회원만 변경 가능합니다."
       });
       return;
     }
@@ -148,15 +154,14 @@ function EditProfile({ handleEditModal }: { handleEditModal: () => void }) {
     await instance.delete("/aioe/history");
     showConfirm({
       message: "로그아웃 하시겠습니까?",
-      onConfirm: ()=> {
-      clearUser();
-      Cookies.remove("accessToken");
-      queryClinet.clear();
-      setIsLoggedIn(false);
-      navigate("/");
+      onConfirm: () => {
+        clearUser();
+        Cookies.remove("accessToken");
+        queryClinet.clear();
+        setIsLoggedIn(false);
+        navigate("/");
       }
-    })
-
+    });
   };
 
   const AccountDeleteModalHandler = () => {
@@ -174,7 +179,11 @@ function EditProfile({ handleEditModal }: { handleEditModal: () => void }) {
             <img src={Xicon} alt="닫기버튼" />
           </button>
           <h1 className="font-b2-semibold">계정 설정</h1>
-          <button type="submit" disabled={!isNickname} className={`${!isNickname ? "text-grayoe-400" : "text-[#0A84FF]"} text-xs`}>
+          <button
+            type="submit"
+            disabled={!isNickname}
+            className={`${!isNickname ? "text-grayoe-400" : "text-[#0A84FF]"} text-xs`}
+          >
             저장
           </button>
         </div>
