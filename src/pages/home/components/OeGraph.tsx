@@ -155,7 +155,7 @@ function OeGraph() {
             <img
               src={DangerCircle}
               alt="참고사항"
-              className="w-[13px] xl:w-[24px] h-[13px] xl:h-[24px]  cursor-pointer"
+              className="w-[13px] xl:w-[24px] h-[13px] xl:h-[24px] cursor-pointer"
             />
           </button>
 

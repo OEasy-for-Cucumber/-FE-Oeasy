@@ -8,7 +8,7 @@ interface AlertProps {
 const Alert: React.FC<AlertProps> = ({ isVisible, message, subMessage, onClose }) => {
   if (!isVisible) return null;
   return (
-    <div className="fixed inset-0 flex flex-col items-center justify-start">
+    <div className="fixed inset-0 flex flex-col items-center justify-start z-50">
       <div className="bg-grayoe-900 py-4 px-2 xl:py-6 xl:px-4 rounded-lg xl:rounded-2xl shadow-lg w-[200px] h-auto xl:w-[280px]  text-white text-center mt-16 xl:mt-20">
         <p className="font-b2-regular xl:font-b1-regular  mb-2">{message}</p>
         {subMessage && <p className="mb-8 font-c2 xl:font-b2-regular">{subMessage}</p>}

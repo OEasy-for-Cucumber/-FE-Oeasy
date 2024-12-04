@@ -1,10 +1,9 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import EmailStep from "./EmailStep";
 import PasswordStep from "./PasswordStep";
 import Nickname from "./Nickname";
 import Complete from "./Complete";
 import ProgressBar from "./ProgressBar";
-import { useActiveStore } from "../../../zustand/isActiveStore";
 import Button from "../../../components/common/Button";
 import { useNavigate } from "react-router-dom";
 import FullSquare from "../../../../public/icons/full-Square.png";
@@ -12,6 +11,7 @@ import EmptySquare from "../../../../public/icons/empty-Square.png";
 import instance from "../../../api/axios";
 import { useUserStore } from "../../../zustand/authStore";
 import Cookies from "js-cookie";
+import useAlert from "../../../hooks/useAlert";
 
 function Signup() {
   const [email, setEmail] = useState<string>("");
@@ -29,11 +29,10 @@ function Signup() {
   const [nicknameMsg, setNicknameMsg] = useState<string>("");
   const [passwordMsg, setPasswordMsg] = useState<string>("");
   const [confirmPasswordMsg, setConfirmPasswordMsg] = useState<string>("");
-
   const { setUser, setIsLoggedIn } = useUserStore.getState();
   const [step, setStep] = useState("이메일");
-  const { isActive, setIsActive } = useActiveStore();
   const navigate = useNavigate();
+  const { showAlert } = useAlert();
 
   const emailChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
@@ -87,35 +86,30 @@ function Signup() {
     setIsCheckedAccept((prev) => !prev);
   };
 
-  useEffect(() => {
-    if (step === "이메일" && isEmail) {
-      setIsActive(true);
-    } else if (step === "비밀번호" && isPassword && isConfirmPassword) {
-      setIsActive(true);
-    } else if (step === "닉네임" && isNickname && isCheckedAccept) {
-      setIsActive(true);
-    } else {
-      setIsActive(false);
+  const checkedNicknameHandler = async () => {
+    try {
+      const response = await instance.post("/member/check-nickname", {
+        nickname
+      });
+      Cookies.remove("accessToken");
+      Cookies.set("accessToken", response.data);
+      registerHandler();
+    } catch {
+      showAlert({
+        message: "이미 사용중인 닉네임입니다."
+      });
+      return;
     }
-  }, [step, isEmail, isPassword, isConfirmPassword, isNickname, isCheckedAccept]);
+  };
 
   const registerHandler = async () => {
     try {
-      const response = await instance.post(
-        "/member/signup",
-        {
-          email,
-          pw: password,
-          nickname,
-          memberImage: ""
-        },
-        {
-          headers: {
-            "Content-Type": "application/json; charset=UTF-8"
-          }
+      const response = await instance.post("/member/signup", {
+        headers: {
+          "Content-Type": "application/json; charset=UTF-8"
         }
-      );
-      setUser(response.data)
+      });
+      setUser(response.data);
 
       const data = await instance.post("/login/oeasy", {
         email,
@@ -132,14 +126,29 @@ function Signup() {
     }
   };
 
-  const nextStepHandler = () => {
+  const nextStepHandler = async () => {
     if (isEmail) {
-      setStep("비밀번호");
-      setIsActive(false);
+      try {
+        const response = await instance.post("/member/check-email", {
+          email
+        });
+        Cookies.set("accessToken", response.data);
+        setStep("비밀번호");
+      } catch {
+        showAlert({
+          message: "이미 사용중인 이메일입니다."
+        });
+        return;
+  
+      }
     }
     if (isPassword && isConfirmPassword) {
+      const response = await instance.post("/member/check-password", {
+        password
+      });
+      Cookies.remove("accessToken");
+      Cookies.set("accessToken", response.data);
       setStep("닉네임");
-      setIsActive(false);
     }
   };
 
@@ -154,7 +163,7 @@ function Signup() {
         onSubmit={(e) => {
           e.preventDefault();
           if (step === "닉네임" && isNickname && isCheckedAccept) {
-            registerHandler();
+            checkedNicknameHandler();
           } else {
             nextStepHandler();
           }
@@ -213,12 +222,17 @@ function Signup() {
                   </span>
                   개인정보 수집 및 이용에 대한 동의(필수)
                 </p>
-                <Button size="large" type="submit" isActive={isActive}>
+                <Button size="large" type="submit" isActive={isNickname && isCheckedAccept}>
                   가입완료
                 </Button>
               </div>
             ) : (
-              <Button size="large" type="button" onClick={nextStepHandler} isActive={isActive}>
+              <Button
+                size="large"
+                type="button"
+                onClick={nextStepHandler}
+                isActive={step === "이메일" ? isEmail : isPassword && isConfirmPassword}
+              >
                 다음
               </Button>
             )
