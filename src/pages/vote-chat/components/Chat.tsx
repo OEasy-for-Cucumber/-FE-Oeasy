@@ -59,7 +59,7 @@ function Chat({ chattingList }: ChatProps) {
         try {
           const receivedMessage = JSON.parse(msg.body);
 
-          const { id = uuidv4(), profileImg = "", nickname = "Anonymous", content = "" } = receivedMessage;
+          const { id = uuidv4(), profileImg = "", nickname = "익명", content = "" } = receivedMessage;
 
           const newMessage = {
             id,
@@ -70,7 +70,7 @@ function Chat({ chattingList }: ChatProps) {
 
           setMessages((prevMessages) => [...prevMessages, newMessage]);
         } catch (error) {
-          console.error("Error parsing message:", error);
+          console.error("메세지 불러오는데 오류가 생겼습니다", error);
         }
       });
       setClient(stompClient);
