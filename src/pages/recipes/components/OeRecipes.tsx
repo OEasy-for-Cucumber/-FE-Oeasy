@@ -1,10 +1,13 @@
 import { Link } from "react-router-dom";
 import useRecipesData from "../../../hooks/useRecipesData";
+import Loading from "../../../components/common/Loading";
 
 function OeRecipes() {
   const { data: recipes, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } = useRecipesData();
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <>
