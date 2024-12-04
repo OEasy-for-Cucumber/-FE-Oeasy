@@ -10,7 +10,7 @@ const Confirm: React.FC<ConfirmProps> = ({ isVisible, message, subMessage, onCon
   if (!isVisible) return null;
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-grayoe-950 bg-opacity-[0.8]">
+    <div className="fixed inset-0 flex items-center justify-center bg-grayoe-950 bg-opacity-[0.8] z-50">
       <div className="bg-grayoe-900 py-6 px-4 rounded-2xl shadow-lg w-[312px] text-white text-center">
         <p className="font-h5 mb-2">{message}</p>
         {subMessage && <p className="mb-8 font-b2-regular">{subMessage}</p>}
