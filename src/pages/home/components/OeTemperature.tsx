@@ -55,40 +55,35 @@ function OeTemperature() {
         </div>
 
         <p className="text-[72px] xl:text-[120px] font-bold text-greenoe-600">{oeIndexData?.temperature}°</p>
-        <div className="flex items-center">
-        <div className="flex text-grayoe-100 gap-2 xl:gap-3 xl:text-[24px] items-center">
+
+        <div className="flex text-grayoe-100 gap-2 xl:gap-3 xl:text-[24px] items-center relative">
           <button
             onClick={toggleTooltip}
             onBlur={hideTooltip}
             onMouseEnter={hoverTooltip}
             onMouseLeave={leaveTooltip}
-            className="flex items-center gap-1"
+            className="flex items-center gap-1 z-20 relative"
           >
             <img
               src={DangerCircle}
               alt="참고사항"
-              className="w-[13px] xl:w-[24px] h-[13px] xl:h-[24px]  cursor-pointer"
+              className="w-[13px] xl:w-[24px] h-[13px] xl:h-[24px] cursor-pointer"
             />
+            {isTooltipVisible && isTooltipHover && (
+              <div className="absolute top-full left-0 -translate-x mt-2 w-[220px] xl:w-[350px] xl:text-[14px] py-3 px-4 bg-white text-grayoe-950 text-xs rounded-md border border-grayoe-100 shadow-lg z-10">
+                <p className="mb-1">· OE지수란?</p>
+                <p>
+                  오이가 잘 자라는 온도는 18~28°C로 불쾌지수처럼 현재 기온에 따라 오이가 느끼는 행복감의 정도를
+                  나타냅니다.
+                </p>
+                <p>기온에 따라 바뀌는 오이를 구경하세요!</p>
+              </div>
+            )}
           </button>
-
-          {isTooltipVisible && isTooltipHover && (
-            <div className="absolute xl:w-[350px] xl:text-[14px] left-0 bottom-20 mt-2 py-3 px-4 bg-white text-grayoe-950 text-xs rounded-md border border-grayoe-100 shadow-lg z-10">
-              <p className="mb-1">· OE지수란?</p>
-              <p>
-                오이가 잘 자라는 온도는 18~28°C로 불쾌지수처럼 현재 기온에 따라 오이가 느끼는 행복감의 정도를
-                나타냅니다.
-              </p>
-              <p>날씨에 따라 달라지는 오이 상태를 구경하세요.</p>
-            </div>
-          )}
-        </div>
-
-        <div className="flex">
-        <p>18</p>
+          <p>18</p>
           <img src={ShortLine} alt="ShortLine" className="w-[40px] h-1 xl:hidden" />
           <img src={LongLine} alt="LongLine" className="xl:w-[120px] h-1 hidden xl:flex" />
           <p>28</p>
-        </div>
         </div>
 
         <div className="w-full xl:w-[650px] ml-auto absolute right-0 top-[180px]">
