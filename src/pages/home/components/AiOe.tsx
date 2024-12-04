@@ -2,6 +2,9 @@ import { useEffect, useRef, useState } from "react";
 import ReactDOM from "react-dom";
 import { AxiosError } from "axios";
 import sendIcon from "../../../../public/icons/send.png";
+import InfoIcon from "../../../../public/icons/InfoSquare.png";
+import Down from "../../../../public/icons/ArrowDown.png";
+import Up from "../../../../public/icons/ArrowUp.png";
 import aioeIcon from "../../../../public/img/chat_aioe.png";
 import loading from "../../../../public/icons/loading.png";
 import instance from "../../../api/axios";
@@ -20,7 +23,7 @@ type QuestionResponse = {
 };
 
 type ErrorResponse = {
-  message?: string; // message가 없을 수도 있으므로 optional 처리
+  message?: string;
 };
 
 function AiOe() {
@@ -28,12 +31,17 @@ function AiOe() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [userMes, setUserMes] = useState("");
   const [isComposing, setIsComposing] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const { user } = useUserStore();
   const navigate = useNavigate();
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  const toggleBtn = () => {
+    setIsExpanded((prev) => !prev);
   };
 
   useEffect(() => {
@@ -89,7 +97,7 @@ function AiOe() {
       );
     },
     onError: (error) => {
-      const errorMessage = error.response?.data?.message || "오류 발생";
+      const errorMessage = error.response?.data?.message || "죄송하지만 오이와 관련된 질문만 답변할 수 있어오이!🥒";
       setMessages((prevMessages) => {
         const updatedMessages = prevMessages.filter((msg) => {
           if (!msg || typeof msg.isLoading !== "boolean") return true;
@@ -115,7 +123,7 @@ function AiOe() {
       />
       {aiOe &&
         ReactDOM.createPortal(
-          <div className="fixed left-1/2 xl:left-auto transform xl:transform-none -translate-x-1/2 xl:right-[80px] bottom-0 xl:bottom-[152px] w-full min-w-[360px] max-w-[520px] h-screen xl:w-[390px] xl:h-[600px] bg-grayoe-950 z-50 xl:rounded-2xl">
+          <div className="fixed left-1/2 xl:left-auto transform xl:transform-none -translate-x-1/2 xl:right-[80px] bottom-0 xl:bottom-[152px] w-full min-w-[360px] max-w-[520px] h-screen xl:w-[390px] xl:h-[600px] bg-grayoe-950 z-50 xl:rounded-2xl scroll-mx-0">
             <div className="w-full h-[56px] flex justify-center items-center mb-6 relative">
               <div className="font-b2-semibold">AI OE</div>
               <button className="absolute right-[24px] " onClick={() => setAiOe(false)}>
@@ -124,11 +132,30 @@ function AiOe() {
             </div>
 
             <div className="h-[calc(100vh-132px)] xl:h-[468px] px-6 overflow-y-auto">
-              <div className="flex justify-start">
+              <div
+                className={`${isExpanded ? "rounded-t-md" : " rounded-md"} flex flex-row justify-between items-center bg-grayoe-800 h-[36px] p-2 mt-4`}
+              >
+                <img src={InfoIcon} alt="aioe 공지" className="w-[20px] h-[20px]" />
+                <div className="w-full mx-[10px] font-b2-regular">
+                  AI 챗봇 사용법<span className={`${isExpanded ? "hidden" : "inline-block"}`}>...</span>
+                </div>
+                <button onClick={toggleBtn}>
+                  <img src={isExpanded ? Up : Down} alt="aioe 열기 버튼" className="w-[20px] h-[20px]" />
+                </button>
+              </div>
+
+              {isExpanded && (
+                <div className="bg-grayoe-800 font-b2-regular rounded-b-md pl-[38px] indent-1 pb-2">
+                  <p>1. "오이" 키워드 포함 필수</p>
+                  <p>2. 100글자 이내로 질문 가능</p>
+                </div>
+              )}
+
+              <div className="flex justify-start mt-4">
                 <img src={aioeIcon} alt="ai oe Profile" className="w-10 h-10 rounded-full mr-2" />
                 <div className="flex flex-col gap-1 max-w-[180px] min-w-[20px]">
                   <p className="font-semibold">AI OE</p>
-                  <div className="bg-grayoe-600 rounded-r-xl rounded-bl-xl px-3 py-2 text-white break-words whitespace-pre-wrap">
+                  <div className="bg-grayoe-600 rounded-r-xl rounded-bl-xl px-3 py-2 text-white break-words whitespace-pre-wrap mb-4">
                     안녕하세오이?
                     <br />
                     저는 AI 오이입니다오이! 오이에 관련된 질문을 해주세오이! 🥒

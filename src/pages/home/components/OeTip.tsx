@@ -37,8 +37,8 @@ const OeTip: FC<scrollRefProps> = ({ scrollRef }) => {
   return (
     <section className="flex flex-col items-center justify-center h-[calc(100vh-56px)] xl:h-[calc(100vh-80px)] px-[35px] xl:p-0">
       <div className="flex flex-col gap-2 w-[281px] xl:w-[500px] mx-auto">
-        <div className="font-h6 xl:font-h3 flex justify-center">오이에 대해 얼마나 알고 계신가요?</div>
-        <div className="font-h3 xl:font-h1 flex justify-center">우리 오이는</div>
+        <div className="font-h6 xl:font-h3 text-center">오이에 대해 얼마나 알고 계신가요?</div>
+        <div className="font-h3 xl:font-h1 text-center">우리 오이는</div>
       </div>
 
       <div

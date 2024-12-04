@@ -194,7 +194,7 @@ function Chat() {
         <Confirm
           isVisible={isConfirmVisible}
           message="게시물을 삭제할까요?"
-          subMessage="삭제한 글은 되돌릴 수 없어요"
+          subMessage="삭제한 글은 되돌릴 수 없어요" // 선택
           onConfirm={handleConfirm}
           onCancel={handleCancel}
         />

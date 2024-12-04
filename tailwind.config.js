@@ -48,8 +48,7 @@ module.exports = {
         }
       },
       fontFamily: {
-        LuckiestGuy: ["Luckiest Guy"],
-        SBAggroB: ["SBAggroB"]
+        LuckiestGuy: ["Luckiest Guy"]
       },
       backgroundImage: {
         mobile_cucumber: "url(/img/mobile_group.png)",
