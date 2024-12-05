@@ -4,7 +4,7 @@ import postHeart from "../../../../public/icons/heart.png";
 import commentIcon from "../../../../public/icons/comment.png";
 import filter from "../../../../public/icons/filterIcon.png";
 import search from "../../../../public/icons/Search.png";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import Search from "./Search";
 import instance from "../../../api/axios";
@@ -80,6 +80,17 @@ function List() {
     }
   };
 
+  const handleUploadClick = () => {
+    if (!user) {
+      showAlert({
+        message: "로그인 후 이용해주세요"
+      });
+      navigate("/login");
+    } else {
+      navigate("/community/upload");
+    }
+  };
+
   const handlePostClick = async (post: contentTypes) => {
     try {
       await instance.get(`/api/community/view/${post.boardPk}`);
@@ -136,11 +147,13 @@ function List() {
                 >
                   <img src={search} alt="검색" />
                 </div>
-                <Link to="/community/upload">
-                  <button className="w-14 h-8 xl:w-16 font-c2 xl:font-c1 rounded-[4px] bg-grayoe-400 px-3 py-2 ">
-                    글쓰기
-                  </button>
-                </Link>
+
+                <button
+                  className="w-14 h-8 xl:w-16 font-c2 xl:font-c1 rounded-[4px] bg-grayoe-400 px-3 py-2 "
+                  onClick={handleUploadClick}
+                >
+                  글쓰기
+                </button>
               </div>
             </div>
           )}

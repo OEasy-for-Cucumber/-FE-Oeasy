@@ -46,7 +46,7 @@ function Comment({ communityId, setTotalComments }: CmnProps) {
         }
       });
       const { contents, totalPages, totalElements } = response.data;
-      setComments(contents);
+      setComments(contents.reverse());
       setTotalPages(totalPages);
       setTotalComments(totalElements);
     } catch (error) {
