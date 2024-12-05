@@ -46,18 +46,22 @@ instance.interceptors.response.use(
 
     if (error.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
+
       console.log("토큰 만료 401 에러");
+
       try {
         const refreshToken = Cookies.get("refreshToken");
-
-        const { data } = await refreshInstance.post("/auth/refresh", {
-          headers: {
-            Authorization: `Bearer ${refreshToken}`
+        const { data } = await refreshInstance.post(
+          "/auth/refresh",
+          {},
+          {
+            headers: {
+              Authorization: `Bearer ${refreshToken}`
+            }
           }
-        });
+        );
         Cookies.set("accessToken", data.accessToken);
         console.log("토큰 재발급");
-
         originalRequest.headers["Authorization"] = `Bearer ${data.accessToken}`;
         return instance(originalRequest);
       } catch (refreshError) {
@@ -69,7 +73,6 @@ instance.interceptors.response.use(
         return Promise.reject(refreshError);
       }
     }
-
     return Promise.reject(error);
   }
 );
