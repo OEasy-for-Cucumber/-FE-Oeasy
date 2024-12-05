@@ -56,6 +56,12 @@ function AiOe() {
     scrollToBottom();
   }, [messages]);
 
+  useEffect(() => {
+    if (aiOe) {
+      scrollToBottom();
+    }
+  }, [aiOe]);
+
   const aiOeStart = async () => {
     if (!user) {
       alert("로그인 후 이용해주세요");
@@ -73,6 +79,7 @@ function AiOe() {
     }
 
     setAiOe(true);
+    scrollToBottom();
   };
 
   const addMessage = (sender: "user" | "bot", content: string, isLoading: boolean = false) => {

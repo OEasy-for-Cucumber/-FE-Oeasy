@@ -25,7 +25,7 @@ function OeVote() {
     hateVotes > likeVotes ? "font-h4 xl:font-h3 text-white" : "font-b1-semibold xl:font-h4 text-grayoe-200";
   const likeFont =
     likeVotes > hateVotes ? "font-h4 xl:font-h3 text-white" : "font-b1-semibold xl:font-h4 text-grayoe-200";
-  const hateWinImg = likeVotes > hateVotes ? "/img/hateOeWin.png" : "/img/hateOeLoose.png";
+  const hateWinImg = likeVotes < hateVotes ? "/img/hateOeWin.png" : "/img/hateOeLoose.png";
   const likeWinImg = likeVotes > hateVotes ? "/img/likeOeWin.png" : "/img/likeOeLoose.png";
   const hateBg = hateVotes > likeVotes ? "bg-redoe-500 " : "bg-redoe-50";
   const likeBg = likeVotes > hateVotes ? "bg-redoe-500" : "bg-redoe-50";
@@ -40,7 +40,7 @@ function OeVote() {
             <img
               src={hateWinImg}
               alt="hateOeLoose"
-              className={`${hateVotes > likeVotes ? "w-[159px] h-[182px] xl:w-[292px] xl:h-[320px]" : "w-[139px] h-[150px] xl:w-[214px] xl:h-[250px]"} `}
+              className={`${hateVotes > likeVotes ? "w-[159px] h-[182px] xl:w-[292px] xl:h-[320px]" : "w-[139px] h-[150px] xl:w-[214px] xl:h-[250px]"}`}
             />
           </div>
           <div className="flex flex-col justify-end items-end">
