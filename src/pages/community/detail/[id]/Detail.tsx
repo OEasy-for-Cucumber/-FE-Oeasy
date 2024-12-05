@@ -12,6 +12,7 @@ import instance from "../../../../api/axios";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useUserStore } from "../../../../zustand/authStore";
 import useConfirm from "../../../../hooks/useConfirm";
+import useAlert from "../../../../hooks/useAlert";
 
 interface PostData {
   id: number;
@@ -39,6 +40,7 @@ function Detail() {
   const menuRef = useRef<HTMLImageElement | null>(null);
   const [totalComments, setTotalComments] = useState(0);
   const { showConfirm } = useConfirm();
+  const { showAlert } = useAlert();
 
   useEffect(() => {
     if (cmnId) {
@@ -60,7 +62,6 @@ function Detail() {
       setLikedCount(response.data.likes);
     } catch (error) {
       console.error("게시물 데이터를 가져오는 중 오류 발생:", error);
-      alert("게시물 데이터를 불러오는 데 실패했습니다.");
     }
   };
 
@@ -80,11 +81,8 @@ function Detail() {
       } else {
         setLikedCount((prev: number) => prev - 1);
       }
-
-      console.log("좋아요 상태 동기화 성공:", response.data);
     } catch (error) {
       console.error("좋아요 상태 업데이트 실패:", error);
-      alert("좋아요 상태를 업데이트하는 데 실패했습니다.");
     }
   };
 
@@ -147,11 +145,11 @@ function Detail() {
             data: requestDelete
           });
 
-          alert("게시물이 삭제되었습니다.");
+          showAlert({ message: "게시물이 삭제되었습니다." });
           navigate("/community");
         } catch (error) {
           console.error("게시물 삭제 중 오류 발생:", error);
-          alert("게시물 삭제에 실패했습니다.");
+          showAlert({ message: "게시물 삭제에 실패했습니다." });
         }
       }
     });
@@ -225,7 +223,7 @@ function Detail() {
                     key={index}
                     src={img}
                     alt={`게시물 이미지 ${index + 1}`}
-                    className={`w-full rounded-lg ${postData.imageUrlList.length === 1 ? "h-[300px] " : "h-[180px]"} ${
+                    className={`w-full rounded-lg ${postData.imageUrlList.length === 1 ? "h-auto" : "h-[180px]"} ${
                       postData.imageUrlList.length === 3 && index === 0 ? "col-span-2 xl:col-span-1" : ""
                     }`}
                   />
