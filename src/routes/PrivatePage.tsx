@@ -12,7 +12,6 @@ function PrivatePage() {
             navigate("/login");
         }
     },[])
-
   return isLoggedIn ? <Outlet/> : <Login/>;
 }
 
