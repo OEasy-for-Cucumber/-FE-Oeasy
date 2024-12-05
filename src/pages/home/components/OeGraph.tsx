@@ -133,7 +133,7 @@ function OeGraph() {
   return (
     <div className="w-full h-[calc(100vh-56px)] xl:h-[calc(100vh-80px)] px-6 flex flex-col justify-center">
       <div className="w-full truncate">
-        <h3 className="font-h3 mb-2 xl:font-h1">이번주 오이가격</h3>
+        <h3 className="font-h3 mb-2 xl:font-h1">이번달 오이가격</h3>
         <div className="flex gap-1 items-center relative">
           <button
             onClick={toggleTooltip}

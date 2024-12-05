@@ -6,6 +6,7 @@ import ShortLine from "../../../../public/icons/ShortLine.png";
 import LongLine from "../../../../public/icons/LongLine.png";
 import { OEIndexType } from "../../../types/oeIndexTypes";
 import DangerCircle from "../../../../public/icons/Danger Circle.png";
+import GroupOE from "../../../../public/img/GroupOE.png";
 
 function OeTemperature() {
   const [oeIndexData, setOeIndexData] = useState<OEIndexType>();
@@ -77,6 +78,7 @@ function OeTemperature() {
                   나타냅니다.
                 </p>
                 <p>기온에 따라 바뀌는 오이를 구경하세요!</p>
+                <img src={GroupOE} alt="오이캐릭터모음" className="mt-4"/>
               </div>
             )}
           </button>
