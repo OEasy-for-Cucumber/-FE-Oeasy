@@ -2,7 +2,7 @@ import { useState } from "react";
 import search from "../../../../public/icons/Search.png";
 import closeSearch from "../../../../public/icons/deleteIcon.png";
 import down from "../../../../public/icons/ArrowDown.png";
-import up from "../../../../public/icons/Arrowup.png";
+import up from "../../../../public/icons/ArrowUp.png";
 
 interface SearchProps {
   message: React.RefObject<HTMLInputElement>;
