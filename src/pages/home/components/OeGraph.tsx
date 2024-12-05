@@ -63,16 +63,6 @@ function OeGraph() {
     getOePrice();
   }, []);
 
-  useEffect(() => {
-    const getOePriceUpdate = async () => {
-      await instance.post("/graph/average/update", {
-        startDate: formattedStartDate,
-        endDate: formattedEndDate
-      });
-    };
-    getOePriceUpdate();
-  }, []);
-
   if (isLoading) {
     return <Loading />;
   }
