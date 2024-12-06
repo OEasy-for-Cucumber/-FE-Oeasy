@@ -171,19 +171,20 @@ function EditProfile({ handleEditModal }: { handleEditModal: () => void }) {
 
   return (
     <div className="fixed inset-0 flex flex-col items-center justify-center z-50">
+      
       <form
         onSubmit={editProfile}
         className="mt-1 bg-grayoe-950 text-white w-full min-w-[360px] max-w-[520px] xl:max-w-none xl:w-[688px] relative h-svh xl:h-[calc(100vh-120px)]"
       >
         <div className="w-full flex justify-between items-center mt-3 mb-[64px] px-6">
-          <button type="button" onClick={handleEditModal} className="text-xl">
+          <button type="button" onClick={handleEditModal} className="text-xl xl:hidden">
             <img src={Xicon} alt="닫기버튼" />
           </button>
-          <h1 className="font-b2-semibold">계정 설정</h1>
+          <h1 className="font-b2-semibold xl:font-h3 xl:mr-auto">계정 설정</h1>
           <button
             type="submit"
             disabled={!isNickname}
-            className={`${!isNickname ? "text-grayoe-400" : "text-[#0A84FF]"} text-xs`}
+            className={`${!isNickname ? "text-grayoe-400" : "text-[#0A84FF]"} text-xs xl:text-lg xl:ml-auto`}
           >
             저장
           </button>
@@ -220,7 +221,7 @@ function EditProfile({ handleEditModal }: { handleEditModal: () => void }) {
           </div>
 
           <div className="px-6 grid gap-3">
-            <div className="mb-4">
+            <div className="mb-2">
               <p className={`text-sm ${newNickname === "" || isNickname ? "text-grayoe-300" : "redoe"}`}>닉네임</p>
               <Input
                 value={newNickname}
@@ -230,21 +231,21 @@ function EditProfile({ handleEditModal }: { handleEditModal: () => void }) {
                 onClick={resetNicknameValue}
               />
               {isNickname === false && newNickname !== "" ? (
-                <p className={`redoe ${visibleLabelClass} ${baseLabelClass}`}>{nicknameMsg}</p>
+                <p className={`redoe ${visibleLabelClass} ${baseLabelClass} mt-1`}>{nicknameMsg}</p>
               ) : (
                 <p className={`${hiddenLabelClass} ${baseLabelClass}`}></p>
               )}
             </div>
 
-            <div className="mb-4">
-              <label className="block text-grayoe-300 text-sm mb-1">이메일</label>
-              <p className="text-grayoe-300">{user?.email}</p>
+            <div className="mb-2">
+              <label className="block text-grayoe-300 text-sm mb-3">이메일</label>
+              <p className="text-grayoe-400">{user?.email}</p>
               <hr className="border-grayoe-700 mt-2" />
             </div>
 
             <div className="items-center">
               <div className="">
-                <label className="block text-grayoe-300 text-sm mb-1">비밀번호</label>
+                <label className="block text-grayoe-300 text-sm mb-3">비밀번호</label>
                 <div className="flex justify-between items-center">
                   <div className="text-grayoe-300">●●●●●●●●</div>
                   <button

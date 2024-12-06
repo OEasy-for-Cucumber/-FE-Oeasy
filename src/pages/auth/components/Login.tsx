@@ -28,7 +28,7 @@ function Login() {
   const { showAlert } = useAlert();
 
   const baseLabelClass = "transition-all duration-300 text-[13px]";
-  const visibleLabelClass = "opacity-100 translate-y-0";
+  const visibleLabelClass = "opacity-100 translate-y-0 mt-3";
   const hiddenLabelClass = "opacity-0 -translate-1";
 
   const emailHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -115,7 +115,7 @@ function Login() {
 
   return (
     <div className="flex h-[calc(100vh-56px)] xl:h-[calc(100vh-80px)] w-full px-6 justify-center">
-      <div className="hidden xl:flex items-center justify-center mr-[122px]">
+      <div className="hidden xl:flex items-center justify-center mr-[56px]">
         <div className="w-[610px] h-[500px] bg-center bg-cover bg-noisy_gradients from-green-300 to-blue-500 rounded-xl flex items-center justify-center">
           <div className="text-white text-3xl font-bold">
             <h1 className="font-h1 w-[360px]">전세계 97.24%가 모르는 오이의 진실</h1>
@@ -125,7 +125,7 @@ function Login() {
       </div> 
 
       <form onSubmit={loginHandler} className="w-full xl:w-[35%] flex flex-col justify-center">
-        <div className="w-full xl:w-[400px]">
+        <div className="w-full mx-auto xl:w-[312px]">
           <button type="button" onClick={goToHome} className="w-full">
             <img src={Logo} alt="로고" className="w-[160px] mx-auto" />
           </button>
@@ -145,7 +145,7 @@ function Login() {
               isValid={isEmail}
               onClick={resetEmailValue}
             />
-            {isEmail === false && email !== "" && <p className="text-[12px] redoe">{emailMsg}</p>}
+            {isEmail === false && email !== "" && <p className="mt-1 text-[12px] redoe">{emailMsg}</p>}
           </div>
 
           <div className="grid mb-[32px]">
@@ -164,7 +164,7 @@ function Login() {
               placeholder="비밀번호"
               isValid={isPassword}
             />
-            {isPassword === false && password !== "" && <p className="text-[12px] redoe">{passwordMsg}</p>}
+            {isPassword === false && password !== "" && <p className="mt-1 text-[12px] redoe">{passwordMsg}</p>}
           </div>
 
           <Button type="submit" isActive={isActive} size="large">
