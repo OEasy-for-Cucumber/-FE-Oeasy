@@ -161,6 +161,7 @@ function EditProfile({ handleEditModal }: { handleEditModal: () => void }) {
         navigate("/");
       }
     });
+    localStorage.clear();
     await instance.delete("/aioe/history");
     console.log("ㅃ2");
   };
