@@ -1,8 +1,7 @@
 import edit from "../../../../public/icons/moreIcon.png";
-import sendIcon from "../../../../public/icons/send.png";
 import { formatDistanceToNow, parseISO, format } from "date-fns";
 import { ko } from "date-fns/locale";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useUserStore } from "../../../zustand/authStore";
 import instance from "../../../api/axios";
 import Pagination from "./Pagination";
@@ -30,7 +29,7 @@ function Comment({ communityId, setTotalComments }: CmnProps) {
   const user = useUserStore((state) => state.user);
   const [comments, setComments] = useState<Comment[]>([]);
   const [totalPages, setTotalPages] = useState(0);
-  const commentRef = useRef<HTMLTextAreaElement>(null);
+  const [commentContent, setCommentContent] = useState<string>("");
   const [isSending, setIsSending] = useState(false);
   const [editContent, setEditContent] = useState<string>("");
   const { showConfirm } = useConfirm();
@@ -82,8 +81,7 @@ function Comment({ communityId, setTotalComments }: CmnProps) {
 
   const handleSendComment = async () => {
     if (isSending) return;
-    const content = commentRef.current?.value || "";
-    if (!content) {
+    if (!commentContent.trim) {
       showAlert({
         message: "댓글을 입력해주세요"
       });
@@ -93,15 +91,13 @@ function Comment({ communityId, setTotalComments }: CmnProps) {
     const requestComment = {
       communityId,
       memberId: user?.memberPk,
-      content,
+      content: commentContent,
       size: 5
     };
 
     try {
       await instance.post(`/api/community/comment`, requestComment);
-      if (commentRef.current) {
-        commentRef.current.value = "";
-      }
+      setCommentContent("");
       await fetchComments(currentPage);
     } catch (error) {
       console.error("댓글 등록 중 오류 발생:", error);
@@ -195,7 +191,7 @@ function Comment({ communityId, setTotalComments }: CmnProps) {
                       value={editContent}
                       onChange={(e) => setEditContent(e.target.value)}
                       onKeyDown={(e) => handleKeyDown(e, com.commentPk)}
-                      className="w-[400px] xl:w-[630px] bg-grayoe-950 p-2 border border-white rounded resize-none focus:outline-none"
+                      className="w-[400px] xl:w-[630px] bg-grayoe-950 p-2 border font-b2-regular xl:font-b1-regular border-grayoe-600 rounded resize-none focus:outline-none"
                     />
                   ) : (
                     <p className="font-b2-regular xl:font-b1-regular">{com.content}</p>
@@ -233,32 +229,38 @@ function Comment({ communityId, setTotalComments }: CmnProps) {
             </div>
           ))}
         </div>
-        <div className=" w-full h-[52px] mx-auto px-2 py-2 bottom-0">
-          <div className="relative w-auto xl:w-[700px]">
-            <textarea
-              ref={commentRef}
-              className="w-full h-9 pl-6 pr-14 py-2 rounded-full font-b2-regular focus:outline-none bg-grayoe-400 placeholder-grayoe-200 resize-none"
-              placeholder="내용을 입력하세요."
-              onKeyDown={(e) => {
-                if (e.key === "Enter" && !e.shiftKey) {
-                  e.preventDefault();
-                  handleSendComment();
-                }
-              }}
-            />
+
+        <div className="w-full px-4 py-2 bg-grayoe-400 rounded-md h-[116px]  xl:w-[700px] flex flex-col justify-between gap-1">
+          <p className="mt-1 font-b2-semibold xl:font-b1-semibold">{user?.nickname}</p>
+          <textarea
+            value={commentContent}
+            onChange={(e) => setCommentContent(e.target.value)}
+            className="w-full mt-1 h-auto font-b2-regular xl:font-b1-regular focus:outline-none bg-grayoe-400 placeholder-grayoe-200 resize-none"
+            placeholder="댓글을 입력해주세요."
+            onKeyDown={(e) => {
+              if (e.key === "Enter" && !e.shiftKey) {
+                e.preventDefault();
+                handleSendComment();
+              }
+            }}
+          />
+          <div className="flex justify-end">
             <button
               onClick={handleSendComment}
-              className="absolute right-1 top-1 bottom-1 w-11 h-7 bg-greenoe-600 text-white rounded-full flex items-center justify-center"
+              disabled={isSending || !commentContent.trim()}
+              className={`w-11 h-7 font-b2-regular xl:font-b1-regular text-${commentContent.trim() ? "greenoe-600" : "grayoe-200"} rounded-md flex justify-center items-center `}
             >
-              <img src={sendIcon} alt="Send" className="w-5 h-5" />
+              등록
             </button>
           </div>
         </div>
-        {comments.length > 0 && (
-          <div className="w-full flex justify-center">
-            <Pagination totalPageNumber={totalPages} currentPage={currentPage} setCurrentPage={setCurrentPage} />
-          </div>
-        )}
+        <div>
+          {comments.length > 0 && (
+            <div className="w-full flex justify-center">
+              <Pagination totalPageNumber={totalPages} currentPage={currentPage} setCurrentPage={setCurrentPage} />
+            </div>
+          )}
+        </div>
       </div>
     </>
   );
