@@ -62,3 +62,12 @@ img {
 .scrollbar-hidden::-webkit-scrollbar {
   display: none;
 }
+
+.scrollbar-custom::-webkit-scrollbar-thumb {
+  border-radius: 2px;
+  background: #d21f1f !important;
+}
+.scrollbar-custom {
+  overflow-y: auto;
+  overflow-x: auto;
+}

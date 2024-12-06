@@ -1,5 +1,5 @@
 import imageCompression from "browser-image-compression";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import uploadImg from "../../../../public/img/uploadImg.png";
 import { useLocation, useNavigate } from "react-router-dom";
 import instance from "../../../api/axios";
@@ -13,8 +13,8 @@ function Upload() {
   const postData = location.state;
   const [images, setImages] = useState<{ file?: File; url?: string }[]>([]);
   const [deleteList, setDeleteList] = useState<string[]>([]);
-  const titleRef = useRef<HTMLInputElement>(null);
-  const contentRef = useRef<HTMLTextAreaElement>(null);
+  const [title, setTitle] = useState(""); // 제목 상태
+  const [content, setContent] = useState("");
   const user = useUserStore((state) => state.user);
   const { showAlert } = useAlert();
   const { showConfirm } = useConfirm();
@@ -79,10 +79,9 @@ function Upload() {
   };
 
   useEffect(() => {
-    if (postData && postData.postData && titleRef.current && contentRef.current) {
-      titleRef.current.value = postData.postData.title || "";
-      contentRef.current.value = postData.postData.content || "";
-
+    if (postData?.postData) {
+      setTitle(postData.postData.title || "");
+      setContent(postData.postData.content || "");
       if (postData.postData.imageUrlList) {
         setImages(postData.postData.imageUrlList.map((url: string) => ({ url })));
       }
@@ -90,9 +89,6 @@ function Upload() {
   }, [postData]);
 
   const handleSubmit = async () => {
-    const title = titleRef.current?.value || "";
-    const content = contentRef.current?.value || "";
-
     if (!title.trim()) {
       showAlert({
         message: "제목을 입력해주세요."
@@ -190,19 +186,27 @@ function Upload() {
       <div className="xl:w-[767px] mx-auto">
         <div className="flex justify-between py-4 px-6 xl:px-2">
           <p className="font-h5">글쓰기</p>
-          <button className="w-14 h-8 font-c2 rounded-[4px] bg-grayoe-400 px-3 py-2" onClick={handleSubmit}>
+          <button
+            className={`w-14 h-8 font-c2 rounded-[4px] px-3 py-2 ${
+              title.trim() && content.trim() ? "bg-grayoe-400" : "bg-grayoe-800 text-grayoe-500 cursor-not-allowed"
+            }`}
+            onClick={handleSubmit}
+            disabled={!title.trim() || !content.trim()}
+          >
             등록
           </button>
         </div>
         <div className="border-grayoe-900 border-4 w-full xl:hidden" />
         <div className="flex flex-col justify-center items-start font-b2-regular xl:font-b1-regular divide-y divide-grayoe-900">
           <input
-            ref={titleRef}
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
             className="w-full h-auto py-4 px-6 bg-grayoe-950 outline-none"
             placeholder="제목을 입력하세요."
           />
           <textarea
-            ref={contentRef}
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
             className="w-full min-h-[240px] py-4 px-6 bg-grayoe-950 outline-none resize-none"
             placeholder="내용을 입력하세요."
           />

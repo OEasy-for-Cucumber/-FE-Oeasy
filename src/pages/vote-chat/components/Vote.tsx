@@ -3,6 +3,7 @@ import { useUserStore } from "../../../zustand/authStore";
 import SockJS from "sockjs-client";
 import { Client } from "@stomp/stompjs";
 import useAlert from "../../../hooks/useAlert";
+import { useNavigate } from "react-router-dom";
 
 interface VoteProps {
   active: "vote" | "chat";
@@ -22,6 +23,7 @@ function Vote({ active, initialVotes, isVoting }: VoteProps) {
   const user = useUserStore((state) => state.user);
   const stompClientRef = useRef<Client | null>(null);
   const { showAlert } = useAlert();
+  const navigate = useNavigate();
 
   useEffect(() => {
     setVotingStatus(isVoting);
@@ -66,7 +68,7 @@ function Vote({ active, initialVotes, isVoting }: VoteProps) {
   const handleVote = (side: "hate" | "like") => {
     if (!user) {
       showAlert({ message: "로그인 후 투표해주세요" });
-      return;
+      navigate("/login");
     }
 
     if (votingStatus === "like" || votingStatus === "hate") {
@@ -86,7 +88,7 @@ function Vote({ active, initialVotes, isVoting }: VoteProps) {
       stompClientRef.current.publish({
         destination: `/app/votes`,
         body: JSON.stringify({
-          id: user.memberPk,
+          id: user?.memberPk,
           vote: side === "hate" ? false : true
         })
       });
