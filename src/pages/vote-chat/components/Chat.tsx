@@ -5,6 +5,7 @@ import SockJS from "sockjs-client";
 import sendIcon from "../../../../public/icons/send.png";
 import { useUserStore } from "../../../zustand/authStore";
 import useAlert from "../../../hooks/useAlert";
+import { useNavigate } from "react-router-dom";
 
 type Message = {
   id: string | number;
@@ -30,6 +31,7 @@ function Chat({ chattingList }: ChatProps) {
   const messageEndRef = useRef<HTMLDivElement>(null);
   const DEFAULT_PROFILE_IMG = "/img/defaultProfile.png";
   const { showAlert } = useAlert();
+  const navigate = useNavigate();
 
   useEffect(() => {
     setMessages((prevMessages) => [
@@ -59,7 +61,7 @@ function Chat({ chattingList }: ChatProps) {
         try {
           const receivedMessage = JSON.parse(msg.body);
 
-          const { id = uuidv4(), profileImg = "", nickname = "Anonymous", content = "" } = receivedMessage;
+          const { id = uuidv4(), profileImg = "", nickname = "익명", content = "" } = receivedMessage;
 
           const newMessage = {
             id,
@@ -70,7 +72,7 @@ function Chat({ chattingList }: ChatProps) {
 
           setMessages((prevMessages) => [...prevMessages, newMessage]);
         } catch (error) {
-          console.error("Error parsing message:", error);
+          console.error("메세지 불러오는데 오류가 생겼습니다", error);
         }
       });
       setClient(stompClient);
@@ -106,6 +108,7 @@ function Chat({ chattingList }: ChatProps) {
   const handleSendMessage = () => {
     if (!user) {
       showAlert({ message: "로그인 후 이용해주세요" });
+      navigate("/login");
       return;
     }
     if (client && message.trim()) {
@@ -131,9 +134,9 @@ function Chat({ chattingList }: ChatProps) {
   };
 
   return (
-    <div className="flex flex-col justify-between w-full xl:w-[488px] xl:h-[686px] xl:my-auto xl:bg-grayoe-900 xl:rounded-2xl">
+    <div className="flex flex-col justify-between w-full xl:w-[488px] xl:h-[686px] xl:my-auto xl:bg-grayoe-900 xl:rounded-2xl ">
       <div className="relative pt-4 mx-4 xl:mx-0">
-        <div className="flex flex-col xl:px-4 xl:h-[634px] overflow-y-auto gap-4">
+        <div className="flex flex-col xl:px-4 xl:h-[634px] overflow-y-auto scrollbar-hidden gap-4  ">
           {messages.map((msg, index) =>
             msg.nickname === user?.nickname ? (
               <div key={`${msg.id}-${index}`} className="flex justify-end items-start">

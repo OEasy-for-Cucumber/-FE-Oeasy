@@ -150,7 +150,6 @@ function EditProfile({ handleEditModal }: { handleEditModal: () => void }) {
   };
 
   const logoutHandler = async () => {
-    await instance.delete("/aioe/history");
     showConfirm({
       message: "로그아웃 하시겠습니까?",
       onConfirm: () => {
@@ -162,6 +161,8 @@ function EditProfile({ handleEditModal }: { handleEditModal: () => void }) {
         navigate("/");
       }
     });
+    localStorage.clear();
+    await instance.delete("/aioe/history");
   };
 
   const AccountDeleteModalHandler = () => {
