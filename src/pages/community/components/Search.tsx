@@ -65,7 +65,7 @@ function Search({ message, onSearch }: SearchProps) {
       </div>
       <div className="relative">
         {isDropdownOpen && (
-          <div className="absolute left-0 top-0 w-22 bg-grayoe-600  rounded-md">
+          <div className="absolute left-0 top-0 w-22 bg-grayoe-950 border border-grayoe-600 rounded-md">
             {options.map((option) => (
               <div
                 key={option.value}
