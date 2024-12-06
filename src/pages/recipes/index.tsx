@@ -12,7 +12,7 @@ function Recipes() {
   };
 
   return (
-    <section className="px-6 xl:px-0 xl:w-[688px] xl:mx-auto ">
+    <section className="px-6 xl:px-0 xl:w-[864px] xl:mx-auto ">
       <button
         className="w-full border px-[24px] py-[16px] my-[24px] rounded-lg border-greenoe-600 bg-greenoe-50 bg-recipes_btn_bg bg-no-repeat bg-right bg-contain text-black text-left"
         onClick={randomRecipeBtn}
