@@ -36,9 +36,9 @@ function WebSearch({ message, onSearch }: SearchProps) {
 
   return (
     <div className="w-full bg-grayoe-950 ">
-      <div className="w-full flex gap-1 justify-between items-center border border-solid border-grayoe-600 ">
+      <div className="w-full h-8 flex justify-between items-center rounded-md border border-solid border-grayoe-600 ">
         <div className="flex justify-center items-center gap-2 ">
-          <div className=" w-auto px-1 h-8 flex items-center justify-center  font-b2-regular text-center ">
+          <div className=" w-auto px-1  flex items-center justify-center  font-b2-regular text-center ">
             <img
               src={isDropdownOpen ? up : down}
               alt="드롭다운"
