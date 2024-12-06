@@ -64,7 +64,7 @@ function OeGraph() {
   }, []);
 
   if (isLoading) {
-    return <Loading />;
+    return <Loading className="w-[30%] mx-auto mt-[200px]"/>;
   }
 
   const series =
