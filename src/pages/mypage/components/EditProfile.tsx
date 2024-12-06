@@ -150,7 +150,6 @@ function EditProfile({ handleEditModal }: { handleEditModal: () => void }) {
   };
 
   const logoutHandler = async () => {
-    await instance.delete("/aioe/history");
     showConfirm({
       message: "로그아웃 하시겠습니까?",
       onConfirm: () => {
@@ -160,6 +159,8 @@ function EditProfile({ handleEditModal }: { handleEditModal: () => void }) {
         queryClinet.clear();
         setIsLoggedIn(false);
         navigate("/");
+        localStorage.removeItem("aiOeMessages");
+        instance.delete("/aioe/history");
       }
     });
   };
