@@ -4,7 +4,7 @@ import postHeart from "../../../../public/icons/heart.png";
 import commentIcon from "../../../../public/icons/comment.png";
 import filter from "../../../../public/icons/filterIcon.png";
 import search from "../../../../public/icons/Search.png";
-import closeSearch from "../../../../public/icons/dropUp.png";
+import close from "../../../../public/icons/icon.png";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import Search from "./Search";
@@ -145,58 +145,41 @@ function List() {
   return (
     <>
       <div className="h-[calc(100vh-90px)] px-6 xl:w-[864px] mx-auto mt-1 flex flex-col justify-between items-center ">
-        {showSearch ? (
+        {showSearch && (
           <div className="w-full xl:hidden">
             <Search message={messageRef} onSearch={handleSearch} />
-            <div className="flex pt-4 pb-1 gap-1 cursor-pointer justify-between">
-              <div className="flex">
-                <img src={filter} alt="필터아이콘" className="w-[14px] h-[14px]" onClick={toggleSortOrder} />
-                <p className="font-c2 xl:font-c1" onClick={toggleSortOrder}>
-                  {getSortLabel()}
-                </p>
-              </div>
-
-              <img
-                src={closeSearch}
-                alt="검색창 닫기"
-                className="mx-2 w-4 h-4"
-                onClick={() => {
-                  setShowSearch(false);
-                  setSearchKeyword("");
-                }}
-              />
-            </div>
-          </div>
-        ) : (
-          <div className="w-full ">
-            <div className="flex justify-between items-center font-c2">
-              <div className="flex flex-col items-center gap-1 cursor-pointer">
-                <div className="flex gap-1" onClick={toggleSortOrder}>
-                  <img src={filter} alt="필터아이콘" className="w-[14px] h-[14px]" />
-                  <p className="font-c2 xl:font-c1">{getSortLabel()}</p>
-                </div>
-              </div>
-              <div className="flex gap-1">
-                <div
-                  className="block w-8 h-8 p-2 border border-grayoe-400 rounded-md bg-grayoe-900 cursor-pointer xl:hidden"
-                  onClick={() => setShowSearch(true)}
-                >
-                  <img src={search} alt="검색" />
-                </div>
-                <div className="hidden xl:block w-[294px] h-8">
-                  <WebSearch message={messageRef} onSearch={handleSearch} />
-                </div>
-
-                <button
-                  className="w-14 h-8 xl:w-16 font-c2 xl:font-c1 rounded-[4px] bg-grayoe-400 px-3 py-2 "
-                  onClick={handleUploadClick}
-                >
-                  글쓰기
-                </button>
-              </div>
-            </div>
           </div>
         )}
+
+        <div className="w-full pt-4 ">
+          <div className="flex justify-between items-center font-c2">
+            <div className="flex flex-col items-center gap-1 cursor-pointer">
+              <div className="flex gap-1" onClick={toggleSortOrder}>
+                <img src={filter} alt="필터아이콘" className="w-[14px] h-[14px]" />
+                <p className="font-c2 xl:font-c1">{getSortLabel()}</p>
+              </div>
+            </div>
+            <div className="flex gap-1">
+              <div
+                className="block w-8 h-8 p-2 border border-grayoe-400 rounded-md bg-grayoe-900 cursor-pointer xl:hidden"
+                onClick={() => setShowSearch((prev) => !prev)}
+              >
+                <img src={showSearch ? close : search} alt="검색" />
+              </div>
+              <div className="hidden xl:block w-[294px] h-8">
+                <WebSearch message={messageRef} onSearch={handleSearch} />
+              </div>
+
+              <button
+                className="w-14 h-8 xl:w-16 font-c2 xl:font-c1 rounded-[4px] bg-grayoe-400 px-3 py-2 "
+                onClick={handleUploadClick}
+              >
+                글쓰기
+              </button>
+            </div>
+          </div>
+        </div>
+
         <div className="flex-1 w-full overflow-y-auto scrollbar-hidden">
           <div className="flex flex-col divide-y divide-grayoe-800">
             {posts.map((post, index) => (
