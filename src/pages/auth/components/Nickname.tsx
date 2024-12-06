@@ -33,7 +33,7 @@ function Nickname({ nickname, setNickname=()=>{}, isNickname, nicknameMsg, nickn
         <p
           className={`${"redoe"} ${
             isNickname === false && nickname !== "" ? visibleLabelClass : hiddenLabelClass
-          } ${baseLabelClass}`}
+          } ${baseLabelClass} mt-1`}
         >
           {nicknameMsg}
         </p>

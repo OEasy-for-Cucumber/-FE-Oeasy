@@ -71,9 +71,9 @@ const AccountDeleteModal: React.FC<AccountDeleteModalProps> = ({
           value={inputValue}
           onChange={handleInputChange}
           placeholder="탈퇴문구 입력"
-          className="w-full p-2 border-b border-grayoe-400 bg-grayoe-900 focus:outline-none focus:ring-2 focus:ring-green-500 mb-6"
+          className="w-full p-2 border-b border-grayoe-400 bg-grayoe-900 placeholder-grayoe-400 focus:outline-none"
         />
-        <div className="flex justify-between gap-3">
+        <div className="flex justify-between gap-2 mt-[72px]">
           <Button
             onClick={handleCancel}
             size="medium"
