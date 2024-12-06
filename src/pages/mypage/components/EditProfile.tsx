@@ -159,10 +159,10 @@ function EditProfile({ handleEditModal }: { handleEditModal: () => void }) {
         queryClinet.clear();
         setIsLoggedIn(false);
         navigate("/");
+        localStorage.removeItem("aiOeMessages");
+        instance.delete("/aioe/history");
       }
     });
-    localStorage.clear();
-    await instance.delete("/aioe/history");
   };
 
   const AccountDeleteModalHandler = () => {
