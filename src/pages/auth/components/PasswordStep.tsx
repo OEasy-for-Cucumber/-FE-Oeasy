@@ -38,7 +38,7 @@ function PasswordStep({
           <p
             className={`${"redoe"} ${
               isPassword === false && password !== "" ? visibleLabelClass : hiddenLabelClass
-            } ${baseLabelClass}`}
+            } ${baseLabelClass} mt-1`}
           >
             {passwordMsg}
           </p>
@@ -46,7 +46,7 @@ function PasswordStep({
           <p
             className={`${!isConfirmPassword ? "redoe" : "text-grayoe-300"} ${
               confirmPassword ? visibleLabelClass : hiddenLabelClass
-            } ${baseLabelClass}`}
+            } ${baseLabelClass} mt-6`}
           >
             비밀번호 재입력
           </p>
@@ -61,7 +61,7 @@ function PasswordStep({
           <p
             className={`${"redoe"} ${
               isConfirmPassword === false && confirmPassword !== "" ? visibleLabelClass : hiddenLabelClass
-            } ${baseLabelClass}`}
+            } ${baseLabelClass} mt-1`}
           >
             {confirmPasswordMsg}
           </p>

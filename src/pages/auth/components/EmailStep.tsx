@@ -25,7 +25,7 @@ function EmailStep({ email, setEmail = () => {}, isEmail, emailMsg, emailChangeH
           <p
             className={`${"redoe"} ${
               isEmail === false && email !== "" ? visibleLabelClass : hiddenLabelClass
-            } ${baseLabelClass}`}
+            } ${baseLabelClass} mt-1`}
           >
             {emailMsg}
           </p>

@@ -157,7 +157,7 @@ function Signup() {
   };
 
   return (
-    <div className="w-full xl:w-[520px] mx-auto h-[calc(100vh-56px)] xl:h-[calc(100vh-80px)] flex-col flex px-4">
+    <div className="w-full xl:w-[520px] mx-auto h-[calc(100vh-56px)] xl:h-[calc(100vh-80px)] flex-col flex px-6 xl:py-[80px]">
       <ProgressBar step={step} />
       <form
         onSubmit={(e) => {
@@ -213,7 +213,7 @@ function Signup() {
             step === "닉네임" ? (
               <div className="w-full">
                 <p className="mx-auto text-sm flex items-center mb-6">
-                  <span onClick={checkedChangeHandler} className="mr-3 mt-1 cursor-pointer">
+                  <span onClick={checkedChangeHandler} className="mr-2 cursor-pointer">
                     {isCheckedAccept ? (
                       <img src={FullSquare} alt="checked" />
                     ) : (

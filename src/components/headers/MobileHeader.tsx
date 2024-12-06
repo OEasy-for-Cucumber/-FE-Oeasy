@@ -51,7 +51,7 @@ function MobileHeader() {
 
   return (
     <div
-      className={`w-full min-w-[360px] max-w-[520px] xl:max-w-none px-6 h-[56px] flex justify-between items-center fixed
+      className={`w-full min-w-[360px] max-w-[520px] xl:max-w-none px-3 py-[18px] h-[56px] flex justify-between items-center fixed
     ${pathname === "/" ? "bg-greenoe-950" : "bg-grayoe-950"}`}
     >
       {SIGNUP ? (
@@ -59,14 +59,14 @@ function MobileHeader() {
       ) : (
         <>
           <button onClick={toggleModal}>
-            <img src={HamburgerIcon} alt="메뉴아이콘" />
+            <img src={HamburgerIcon} alt="메뉴아이콘" className="p-2"/>
           </button>
           {isModalOpen && (
             <HamburgerModal toggleModal={isModalOpen} onClose={toggleModal} setIsModalOpen={setIsModalOpen} />
           )}
           <p>{headerTitle}</p>
           {!isLoggedIn ? (
-            <button onClick={goToLogin} className="text-xs">
+            <button onClick={goToLogin} className="text-xs p-2">
               Login
             </button>
           ) : pathname === "/mypage" ? (
