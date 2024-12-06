@@ -13,19 +13,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useUserStore } from "../../../../zustand/authStore";
 import useConfirm from "../../../../hooks/useConfirm";
 import useAlert from "../../../../hooks/useAlert";
-
-interface PostData {
-  id: number;
-  title: string;
-  content: string;
-  nickname: string;
-  createdAt: string;
-  profileImg: string;
-  likes: number;
-  imageUrlList: Array<string>;
-  liked: boolean;
-  view: number;
-}
+import { PostData } from "../../../../types/postDataTypes";
 
 function Detail() {
   const navigate = useNavigate();
@@ -41,6 +29,7 @@ function Detail() {
   const [totalComments, setTotalComments] = useState(0);
   const { showConfirm } = useConfirm();
   const { showAlert } = useAlert();
+  const [selectedImage, setSelectedImage] = useState<number | null>(null);
 
   useEffect(() => {
     if (cmnId) {
@@ -155,6 +144,17 @@ function Detail() {
     });
   };
 
+  const handleImageClick = (index: number) => {
+    setSelectedImage(index);
+  };
+
+  const handleCloseModal = () => {
+    setSelectedImage(null);
+  };
+
+  const handleIndicatorClick = (index: number) => {
+    setSelectedImage(index);
+  };
   return (
     <>
       <div className="xl:w-[864px] mx-auto">
@@ -230,8 +230,36 @@ function Detail() {
                     src={img}
                     alt={`게시물 이미지 ${index + 1}`}
                     className={`w-full rounded-lg ${postData.imageUrlList.length === 1 ? "h-auto" : postData.imageUrlList.length === 2 ? "w-full h-[180px] xl:h-[240px]" : "w-[162px] xl:w-full h-[180px] xl:h-[180px]"} `}
+                    onClick={() => handleImageClick(index)}
                   />
                 ))}
+              </div>
+            )}
+
+            {selectedImage !== null && postData && (
+              <div className="fixed top-0 left-0 w-full h-full bg-black flex flex-col items-center justify-center z-50">
+                <button className="absolute top-2 left-4 text-white text-2xl" onClick={handleCloseModal}>
+                  ✕
+                </button>
+                <div>
+                  <img
+                    src={postData.imageUrlList[selectedImage]}
+                    alt="확대된 이미지"
+                    className="max-w-full max-h-screen rounded-lg"
+                  />
+                </div>
+
+                {postData.imageUrlList.length > 1 && (
+                  <div className="flex gap-2 mt-4">
+                    {postData.imageUrlList.map((_, index) => (
+                      <button
+                        key={index}
+                        className={`w-3 h-3 rounded-full ${index === selectedImage ? "bg-white" : "bg-gray-400"}`}
+                        onClick={() => handleIndicatorClick(index)}
+                      />
+                    ))}
+                  </div>
+                )}
               </div>
             )}
 
