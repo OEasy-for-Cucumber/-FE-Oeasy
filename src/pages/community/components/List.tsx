@@ -4,6 +4,7 @@ import postHeart from "../../../../public/icons/heart.png";
 import commentIcon from "../../../../public/icons/comment.png";
 import filter from "../../../../public/icons/filterIcon.png";
 import search from "../../../../public/icons/Search.png";
+import closeSearch from "../../../../public/icons/dropUp.png";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import Search from "./Search";
@@ -11,6 +12,7 @@ import instance from "../../../api/axios";
 import Pagination from "./Pagination";
 import { useUserStore } from "../../../zustand/authStore";
 import useAlert from "../../../hooks/useAlert";
+import WebSearch from "./WebSearch";
 
 interface contentTypes {
   boardPk: string;
@@ -126,13 +128,47 @@ function List() {
       return format(date, "yy.MM.dd");
     }
   }
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 1440) {
+        setShowSearch(false);
+        setSearchKeyword("");
+      }
+    };
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.addEventListener("resize", handleResize);
+    };
+  }, []);
+
   return (
     <>
       <div className="h-[calc(100vh-90px)] px-6 xl:w-[864px] mx-auto mt-1 flex flex-col justify-between items-center ">
-        <div className="w-full ">
-          {showSearch ? (
-            <Search message={messageRef} onSearch={handleSearch} onClose={() => setShowSearch(false)} />
-          ) : (
+        {showSearch ? (
+          <div className="w-full xl:hidden">
+            <Search message={messageRef} onSearch={handleSearch} />
+            <div className="flex pt-4 gap-1 cursor-pointer justify-between">
+              <div className="flex">
+                <img src={filter} alt="필터아이콘" className="w-[14px] h-[14px]" onClick={toggleSortOrder} />
+                <p className="font-c2 xl:font-c1" onClick={toggleSortOrder}>
+                  {getSortLabel()}
+                </p>
+              </div>
+
+              <img
+                src={closeSearch}
+                alt="검색창 닫기"
+                className="mx-2 w-4 h-4"
+                onClick={() => {
+                  setShowSearch(false);
+                  setSearchKeyword("");
+                }}
+              />
+            </div>
+          </div>
+        ) : (
+          <div className="w-full ">
             <div className="flex justify-between items-center font-c2">
               <div className="flex flex-col items-center gap-1 cursor-pointer">
                 <div className="flex gap-1" onClick={toggleSortOrder}>
@@ -140,12 +176,15 @@ function List() {
                   <p className="font-c2 xl:font-c1">{getSortLabel()}</p>
                 </div>
               </div>
-              <div className="flex gap-2">
+              <div className="flex gap-1">
                 <div
-                  className="w-8 h-8 p-2 border border-grayoe-400 rounded-md bg-grayoe-900 cursor-pointer"
+                  className="block w-8 h-8 p-2 border border-grayoe-400 rounded-md bg-grayoe-900 cursor-pointer xl:hidden"
                   onClick={() => setShowSearch(true)}
                 >
                   <img src={search} alt="검색" />
+                </div>
+                <div className="hidden xl:block w-[294px] h-8">
+                  <WebSearch message={messageRef} onSearch={handleSearch} />
                 </div>
 
                 <button
@@ -156,8 +195,8 @@ function List() {
                 </button>
               </div>
             </div>
-          )}
-        </div>
+          </div>
+        )}
         <div className="flex-1 w-full overflow-y-auto scrollbar-hidden">
           <div className="flex flex-col divide-y divide-grayoe-800">
             {posts.map((post, index) => (

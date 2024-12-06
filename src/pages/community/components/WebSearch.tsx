@@ -8,7 +8,7 @@ interface SearchProps {
   onSearch: (searchType: string) => void;
 }
 
-function Search({ message, onSearch }: SearchProps) {
+function WebSearch({ message, onSearch }: SearchProps) {
   const [searchType, setSearchType] = useState<string>("title");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
@@ -35,10 +35,10 @@ function Search({ message, onSearch }: SearchProps) {
   };
 
   return (
-    <div className="mx-auto w-full bg-grayoe-950  ">
-      <div className="w-full h-[58px] xl:w-full py-1  flex gap-1 justify-between items-center border border-solid border-b-grayoe-600 border-x-0 border-t-0">
+    <div className="w-full bg-grayoe-950 ">
+      <div className="w-full flex gap-1 justify-between items-center border border-solid border-grayoe-600 ">
         <div className="flex justify-center items-center gap-2 ">
-          <div className=" w-auto h-8 flex items-center justify-center  font-b2-regular xl:font-b1-regular text-center ">
+          <div className=" w-auto px-1 h-8 flex items-center justify-center  font-b2-regular text-center ">
             <img
               src={isDropdownOpen ? up : down}
               alt="드롭다운"
@@ -65,11 +65,11 @@ function Search({ message, onSearch }: SearchProps) {
       </div>
       <div className="relative">
         {isDropdownOpen && (
-          <div className="absolute left-0 top-0 w-22 bg-grayoe-600  rounded-md">
+          <div className="absolute left-0 top-1 w-22 border border-grayoe-600 rounded-md">
             {options.map((option) => (
               <div
                 key={option.value}
-                className="px-4 py-2 w-22  cursor-pointer text-white font-c2 text-start"
+                className="px-3 py-1 w-22 cursor-pointer text-white font-c2 text-start"
                 onClick={() => handleOptionClick(option.value)}
               >
                 {option.label}
@@ -82,4 +82,4 @@ function Search({ message, onSearch }: SearchProps) {
   );
 }
 
-export default Search;
+export default WebSearch;
