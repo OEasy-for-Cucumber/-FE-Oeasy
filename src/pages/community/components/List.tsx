@@ -4,7 +4,7 @@ import postHeart from "../../../../public/icons/heart.png";
 import commentIcon from "../../../../public/icons/comment.png";
 import filter from "../../../../public/icons/filterIcon.png";
 import search from "../../../../public/icons/Search.png";
-import close from "../../../../public/icons/icon.png";
+import close from "../../../../public/icons/Icon.png";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import Search from "./Search";
