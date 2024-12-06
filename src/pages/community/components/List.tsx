@@ -128,7 +128,7 @@ function List() {
   }
   return (
     <>
-      <div className="h-[calc(100vh-90px)] px-6 xl:w-[767px] mx-auto mt-1 flex flex-col justify-between items-center ">
+      <div className="h-[calc(100vh-90px)] px-6 xl:w-[864px] mx-auto mt-1 flex flex-col justify-between items-center ">
         <div className="w-full ">
           {showSearch ? (
             <Search message={messageRef} onSearch={handleSearch} onClose={() => setShowSearch(false)} />

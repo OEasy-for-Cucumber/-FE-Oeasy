@@ -157,7 +157,7 @@ function Detail() {
 
   return (
     <>
-      <div className="xl:w-[767px] mx-auto">
+      <div className="xl:w-[864px] mx-auto">
         <div className="px-6 py-6 divide-y divide-grayoe-800">
           {!postData ? (
             <p>로딩중</p>
@@ -210,22 +210,26 @@ function Detail() {
             <p className="font-b2-regular xl:font-b1-regular">{postData?.content ?? "내용이 없습니다."}</p>
             {postData?.imageUrlList && postData.imageUrlList.length > 0 && (
               <div
-                className={`min-h-[204px]  gap-2 justify-center pt-6 ${
+                className={`pt-6 ${
                   postData.imageUrlList.length === 1
-                    ? "grid-cols-1"
-                    : postData.imageUrlList.length === 3
-                      ? "grid-cols-2 grid-rows-2 xl:grid-cols-3 xl:grid-rows-1"
-                      : "grid-cols-2 xl:grid-cols-3 place-items-center"
-                } grid`}
+                    ? ""
+                    : postData.imageUrlList.length === 2
+                      ? "grid grid-rows-1 gap-2 pb-2 grid-cols-2"
+                      : postData.imageUrlList.length === 3
+                        ? "grid-rows-1 gap-2 pb-2 xl:grid-cols-3 xl:grid-rows-1"
+                        : postData.imageUrlList.length === 4
+                          ? "grid-rows-1 gap-2 pb-2 xl:grid-cols-2 xl:grid-rows-2"
+                          : "grid-rows-1 gap-2 pb-2 xl:grid-cols-3 xl:grid-rows-2"
+                } xl:grid xl:gap-2 xl:justify-center ${
+                  postData.imageUrlList.length > 1 ? "overflow-x-auto scrollbar-hidden flex xl:grid" : ""
+                }`}
               >
                 {postData.imageUrlList.map((img: string, index: number) => (
                   <img
                     key={index}
                     src={img}
                     alt={`게시물 이미지 ${index + 1}`}
-                    className={`w-full rounded-lg ${postData.imageUrlList.length === 1 ? "h-auto" : "h-[180px]"} ${
-                      postData.imageUrlList.length === 3 && index === 0 ? "col-span-2 xl:col-span-1" : ""
-                    }`}
+                    className={`w-full rounded-lg ${postData.imageUrlList.length === 1 ? "h-auto" : postData.imageUrlList.length === 2 ? "w-full h-[180px] xl:h-[240px]" : "w-[162px] xl:w-full h-[180px] xl:h-[180px]"} `}
                   />
                 ))}
               </div>
