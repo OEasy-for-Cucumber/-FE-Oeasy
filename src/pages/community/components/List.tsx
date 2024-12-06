@@ -148,7 +148,7 @@ function List() {
         {showSearch ? (
           <div className="w-full xl:hidden">
             <Search message={messageRef} onSearch={handleSearch} />
-            <div className="flex pt-4 gap-1 cursor-pointer justify-between">
+            <div className="flex pt-4 pb-1 gap-1 cursor-pointer justify-between">
               <div className="flex">
                 <img src={filter} alt="필터아이콘" className="w-[14px] h-[14px]" onClick={toggleSortOrder} />
                 <p className="font-c2 xl:font-c1" onClick={toggleSortOrder}>
