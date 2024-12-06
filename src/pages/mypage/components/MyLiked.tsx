@@ -13,7 +13,7 @@ function MyLiked() {
   const [searchParams, setSearchParams] = useSearchParams();
   const [totalPages, setToTalPages] = useState(0);
   const user = useUserStore((state) => state.user);
-  const currentPage = parseInt(searchParams.get("page") || "1");
+  const currentPage = parseInt(searchParams.get("likedPage") || "1");
   const navigate = useNavigate();
 
   const formatDate = (dateString: string): string => {
@@ -87,7 +87,7 @@ function MyLiked() {
           <Pagination
             totalPageNumber={totalPages}
             currentPage={currentPage}
-            setCurrentPage={(page) => setSearchParams({ page: page.toString() })}
+            setCurrentPage={(page) => setSearchParams({ likedPage: page.toString() })}
           />
         </div>
       )}
