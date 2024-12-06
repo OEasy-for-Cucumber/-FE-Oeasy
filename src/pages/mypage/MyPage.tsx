@@ -20,6 +20,7 @@ function MyPage() {
 
   return (
     <div className="w-full xl:w-[688px] mx-auto">
+      <h1 className="hidden xl:flex font-h3 mx-4">마이페이지</h1>
       <div className="flex p-4 bg-grayoe-900 rounded-lg items-center my-6 mx-4">
         <div className="w-full flex items-center">
           <img src={!user?.memberImage ? Sample : user?.memberImage} alt="프로필이미지" className="w-[48px] h-[48px] rounded-full" />
@@ -31,16 +32,16 @@ function MyPage() {
       </div>
       {isEditModalOpen && <EditProfile handleEditModal={handleEditModal} />}
 
-      <div className="w-full flex mt-[50px]">
+      <div className="w-full flex mt-6">
         <button
           onClick={handlePostClicked}
-          className={`w-1/2 p-2 border-b-2 ${!isClicked ? "border-grayoe-900" : "border-greenoe-600"} text-center`}
+          className={`w-1/2 p-3 border-b-2 ${!isClicked ? "border-grayoe-900 text-grayoe-400" : "border-greenoe-600"} text-center text-[14px]`}
         >
           게시글
         </button>
         <button
           onClick={handleLikedClicked}
-          className={`w-1/2 p-2 border-b-2 ${isClicked ? "border-grayoe-900" : "border-greenoe-600"} text-center`}
+          className={`w-1/2 p-2 border-b-2 ${isClicked ? "border-grayoe-900 text-grayoe-400" : "border-greenoe-600"} text-center text-[14px]`}
         >
           좋아요
         </button>
