@@ -48,7 +48,7 @@ function KakaoCallback() {
 
   return (
     <div className="w-full">
-      <Loading className="w-[60%] mx-auto"/>;
+      <Loading className="w-[30%] mx-auto mt-[200px]"/>
     </div>
   )
 }
