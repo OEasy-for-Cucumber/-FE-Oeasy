@@ -8,14 +8,14 @@ interface AlertProps {
 const Alert: React.FC<AlertProps> = ({ isVisible, message, subMessage, onClose }) => {
   if (!isVisible) return null;
   return (
-    <div className="fixed inset-0 flex flex-col items-center justify-start mt-2 z-50">
-      <div className="bg-grayoe-900 text-white rounded-lg shadow-lg w-[280px] h-auto xl:w-[400px] px-4 py-3">
-        <div className="flex flex-col mb-2">
-        <p className="font-medium text-[14px] xl:text-[16px]">{message}</p>
-        {subMessage && <p className="text-[12px] xl:text-[14px] text-gray-400">{subMessage}</p>}</div>
+    <div className="w-full fixed inset-0 flex flex-col items-center justify-center z-50 bg-[#040404] bg-opacity-80 px-[24px]">
+      <div className="bg-grayoe-900 text-white rounded-2xl shadow-lg w-full max-w-[336px] xl:w-[336px] p-[24px]">
+        <div className="flex flex-col mb-6">
+        <p className="font-h6">{message}</p>
+        {subMessage && <p className="font-b2-regular text-white text-[14px] mt-2">{subMessage}</p>}</div>
         <button
           onClick={onClose}
-          className="flex text-center ml-auto px-4 py-1 mt-1 bg-green-600 text-white rounded-md hover:bg-green-700 focus:outline-none text-sm"
+          className="p-2 flex text-center ml-auto text-greenoe-600 font-b2-semibold focus:outline-none"
         >
           확인
         </button>
