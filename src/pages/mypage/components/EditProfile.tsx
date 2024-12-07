@@ -93,7 +93,12 @@ function EditProfile({ handleEditModal }: { handleEditModal: () => void }) {
 
     if (isNickname && newNickname !== user?.nickname) {
       try {
-        if (!newNickname) return;
+        if (!newNickname){
+          showAlert({
+            message: "닉네임을 입력해주세요."
+          })
+          return;
+        }
         const { data: nicknameData } = await instance.patch("/member/nickname", {
           newNickname
         });
@@ -138,7 +143,7 @@ function EditProfile({ handleEditModal }: { handleEditModal: () => void }) {
   const handleNewPasswordModal = () => {
     if (user?.kakaoId) {
       showAlert({
-        message: "카카오 로그인 회원은 이용할 수 없습니다."
+        message: "카카오 로그인은 이용할 수 없습니다."
       });
       return;
     }
@@ -170,7 +175,7 @@ function EditProfile({ handleEditModal }: { handleEditModal: () => void }) {
   };
 
   return (
-    <div className="fixed inset-0 flex flex-col items-center justify-center z-50">
+    <div className="fixed inset-0 flex flex-col items-center justify-center z-50 w-full min-w-[360px] max-w-[520px] xl:max-w-none xl:w-[688px] h-svh mx-auto">
       
       <form
         onSubmit={editProfile}

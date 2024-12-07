@@ -64,7 +64,7 @@ function OeGraph() {
   }, []);
 
   if (isLoading) {
-    return <Loading className="w-[30%] mx-auto mt-[200px]"/>;
+    return <Loading className="w-[30%] mx-auto mt-[200px]"/>
   }
 
   const series =
@@ -96,7 +96,7 @@ function OeGraph() {
         rotateAlways: true
       }
     },
-    yaxis: { show: false },
+    yaxis: { show: true },
     stroke: {
       curve: "smooth"
     },
@@ -128,13 +128,13 @@ function OeGraph() {
   };
 
   const lastIndex = oePriceData.length - 1;
-  const todayPrice = oePriceData.length > 0 ? oePriceData[lastIndex] : { price: 0, date: "" }; // 기본값 설정
+  const todayPrice = oePriceData.length > 0 ? oePriceData[lastIndex] : { price: 0, date: "" };
 
   return (
     <div className="w-full h-[calc(100vh-56px)] xl:h-[calc(100vh-80px)] px-6 flex flex-col justify-center">
       <div className="w-full truncate">
         <h3 className="font-h3 mb-2 xl:font-h1">이번달 오이가격</h3>
-        <div className="flex gap-1 items-center relative">
+        <div className="flex gap-1 items-center relative mb-[40px]">
           <button
             onClick={toggleTooltip}
             onBlur={hideTooltip}
@@ -158,22 +158,22 @@ function OeGraph() {
           <p className="text-[14px] xl:font-h4 text-grayoe-200">가격(원/개당)</p>
         </div>
 
-        <div className="w-full xl:flex xl:space-x-8 items-center">
-          <div className="mt-4 w-full h-[280px] xl:w-[60%] xl:h-[400px]">
+        <div className="w-full xl:flex items-center">
+          <div className="w-full h-[280px] xl:w-[70%] xl:h-[340px] mr-[40px]">
             <ReactApexChart type="area" options={options} series={series} width="100%" height="100%" />
           </div>
 
-          <div className="w-full xl:w-[40%]">
+          <div className="w-full xl:w-[30%]">
             <div className="flex space-x-4 mt-4 xl:space-x-0 w-full xl:flex-col xl:gap-4">
               <div className="grid items-center bg-white rounded-lg shadow-md py-1 w-[50%] xl:w-full h-[128px] px-4">
                 <div className="flex justify-start">
                   <img src={IncIcon} alt="상승아이콘" className="w-[20px]" />
                   <span className="text-sm text-black font-b1-semibold ml-1">전일대비</span>
                 </div>
-                <span className="text-xl font-h3 text-red-500 ml-auto">
+                <span className="text-xl font-h2 text-red-500 ml-auto">
                   {oePriceData.length > 0
                     ? oePriceData[oePriceData.length - 1].price - oePriceData[oePriceData.length - 2].price
-                    : 0}
+                    : 0} 원
                 </span>
               </div>
 
@@ -182,8 +182,8 @@ function OeGraph() {
                   <img src={GraphIcon} alt="가격아이콘" className="w-[18px] h-[18px]" />
                   <span className="text-sm text-black font-b1-semibold ml-1">오늘 가격</span>
                 </div>
-                <span className="text-xl font-h3 text-grayoe-950 ml-auto truncate">
-                  {todayPrice.price > 0 ? todayPrice.price.toLocaleString() : "정보 없음"}
+                <span className="text-xl font-h2 text-grayoe-950 ml-auto truncate">
+                  {todayPrice.price > 0 ? `${todayPrice.price.toLocaleString()} 원` : "정보 없음"}
                 </span>
               </div>
             </div>

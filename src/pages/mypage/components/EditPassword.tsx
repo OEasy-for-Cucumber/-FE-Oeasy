@@ -68,15 +68,15 @@ function EditPassword({
   };
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-grayoe-950">
-      <div className="bg-grayoe-950 text-white w-full min-w-[360px] max-w-[360px] xl:max-w-none xl:w-[360px] py-4 relative h-svh xl:h-[calc(100vh-120px)] mx-4 flex flex-col">
+    <div className="fixed inset-0 flex flex-col items-center justify-center z-50 w-full min-w-[360px] max-w-[520px] xl:max-w-none xl:w-[688px] h-svh mx-auto bg-grayoe-950">
+      <div className="mt-1 bg-grayoe-950 text-white w-full min-w-[360px] max-w-[520px] xl:max-w-none xl:w-[312px] relative h-svh xl:h-[calc(100vh-120px)]">
         <div className="relative flex justify-center items-center mb-3">
           <h1 className="font-b2-semibold absolute left-1/2 transform -translate-x-1/2 top-3">비밀번호 변경</h1>
           <button type="button" className="absolute left-4 top-3">
             <img src={Xicon} onClick={closeModalHandler} alt="닫기" />
           </button>
         </div>
-        <form onSubmit={handleSubmit} className="px-4 mt-[70px] flex flex-col flex-grow">
+        <form onSubmit={handleSubmit} className="px-4 mt-[70px] flex flex-col flex-grow h-svh xl:h-[calc(100vh-120px)]">
           <div className="grid mb-4">
             <p
               className={`${!isPasswordValid ? "redoe" : "text-grayoe-300"} ${
@@ -121,7 +121,7 @@ function EditPassword({
             )}
           </div>
   
-          <div className="mt-auto mb-2">
+          <div className="mt-auto mb-[100px] xl:mb-[80px]">
             <Button size="large">완료</Button>
           </div>
         </form>

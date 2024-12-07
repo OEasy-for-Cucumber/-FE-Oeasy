@@ -73,9 +73,6 @@ function Login() {
       Cookies.set("accessToken", response.data.accessToken);
       Cookies.set("refreshToken", response.data.refreshToken);
       setIsLoggedIn(true);
-      showAlert({
-        message: "로그인 성공!"
-      });
       navigate("/");
     } catch (error: unknown) {
       if (error instanceof AxiosError && error.response) {
