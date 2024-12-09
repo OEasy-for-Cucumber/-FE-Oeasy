@@ -1,9 +1,30 @@
 import { Link } from "react-router-dom";
 import useRecipesData from "../../../hooks/useRecipesData";
 import Loading from "../../../components/common/Loading";
+import { useEffect, useRef } from "react";
 
 function OeRecipes() {
   const { data: recipes, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } = useRecipesData();
+  const loaderRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (!loaderRef.current || !hasNextPage || isFetchingNextPage) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          fetchNextPage();
+        }
+      },
+      { root: null, rootMargin: "100px", threshold: 0 }
+    );
+
+    observer.observe(loaderRef.current);
+
+    return () => {
+      observer.disconnect(); // 메모리 누수 방지
+    };
+  }, [fetchNextPage, hasNextPage, isFetchingNextPage]);
 
   if (isLoading) {
     return <Loading />;
@@ -21,15 +42,10 @@ function OeRecipes() {
           ))}
         </div>
       ))}
-      {hasNextPage && (
-        <button
-          onClick={() => fetchNextPage()}
-          disabled={isFetchingNextPage}
-          className="w-full bg-grayoe-600 rounded-lg h-[56px] mb-4"
-        >
-          {isFetchingNextPage ? "Loading..." : "더보기"}
-        </button>
-      )}
+
+      <div ref={loaderRef} className="w-full h-[56px] flex items-center justify-center mb-4">
+        {isFetchingNextPage && <Loading />}
+      </div>
     </>
   );
 }
