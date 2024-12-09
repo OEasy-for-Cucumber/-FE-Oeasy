@@ -48,6 +48,7 @@ function OeGraph() {
   };
   const formattedStartDate = formatDate(startDate);
   const formattedEndDate = formatDate(currentDate);
+  
   useEffect(() => {
     const getOePrice = async () => {
       try {
