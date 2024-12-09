@@ -11,15 +11,6 @@ const instance = axios.create({
   }
 });
 
-const refreshInstance = axios.create({
-  baseURL: import.meta.env.VITE_APP_BASE_URL,
-  timeout: 5000,
-  withCredentials: true,
-  headers: {
-    "Content-Type": "application/json"
-  }
-});
-
 instance.interceptors.request.use(
   (config) => {
     const token = Cookies.get("accessToken");
@@ -50,16 +41,8 @@ instance.interceptors.response.use(
       console.log("토큰 만료 401 에러");
 
       try {
-        const refreshToken = Cookies.get("refreshToken");
-        const { data } = await refreshInstance.post(
-          "/auth/refresh",
-          {},
-          {
-            headers: {
-              Authorization: `Bearer ${refreshToken}`
-            }
-          }
-        );
+        const { data } = await instance.post(
+          "/auth/refresh");
         Cookies.set("accessToken", data.accessToken);
         console.log("토큰 재발급");
         originalRequest.headers["Authorization"] = `Bearer ${data.accessToken}`;
@@ -67,7 +50,6 @@ instance.interceptors.response.use(
       } catch (refreshError) {
         console.error("토큰 갱신 실패:", refreshError);
         Cookies.remove("accessToken");
-        Cookies.remove("refreshToken");
         setIsLoggedIn(false);
         window.location.href = "/login";
         return Promise.reject(refreshError);

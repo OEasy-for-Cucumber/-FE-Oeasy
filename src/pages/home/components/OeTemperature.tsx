@@ -62,13 +62,13 @@ const OeTemperature: FC<scrollRefProps> = ({ scrollRef }) => {
   useScrollEvent(handleScrollAnimation, scrollRef);
 
   return (
-    <div className="px-6 h-[calc(100vh-56px)] xl:h-[calc(100vh-80px)] flex justify-center items-center xl:items-start xl:pt-6">
+    <div className="px-6 h-[calc(100vh-56px)] xl:h-[calc(100vh-80px)] flex justify-center items-center xl:items-start xl:pt-[10%]">
       <div className="w-full h-[540px] relative">
-        <h3 className="font-h3 xl:text-[48px] xl:mb-4">오늘의 OE지수</h3>
-        <div className="flex gap-2 items-center py-1 mb-8">
-          <img src={LocationIcon} alt="locationIcon" className="xl:w-[20px]" />
-          <p className="font-b2-regular xl:text-[24px]">서울 영등포구</p>
-          <p className="font-c2 text-grayoe-300 xl:text-[16px]">{timeOnly} 기준</p>
+        <h3 className="font-h3 xl:font-h2 xl:mb-4">오늘의 OE지수</h3>
+        <div className="flex gap-1 items-center py-1 mb-8">
+          <img src={LocationIcon} alt="locationIcon" className="w-[11px] h-[13px] xl:w-[14px] xl:h-[16px]" />
+          <p className="font-b2-regular xl:font-h5 text-grayoe-100">서울 영등포구</p>
+          <p className="font-c2 text-grayoe-300 xl:font-b1-regular xl:mt-1">{timeOnly} 기준</p>
         </div>
 
         <div className={`${animation.animationOne ? "animate-fade-in-up" : "opacity-0"}`}>
@@ -115,7 +115,7 @@ const OeTemperature: FC<scrollRefProps> = ({ scrollRef }) => {
 
           <div className="flex flex-col w-[285px] xl:w-[462px] relative">
             <img src={Union} alt="말풍선" className="w-[285px] xl:w-[462px] left-0" />
-            <p className="w-full px-4 text-center absolute top-[45%] text-black font-semibold text-[14px] xl:text-[24px]">
+            <p className="w-full px-4 text-center absolute top-[45%] text-black font-b1-semibold xl:font-h5">
               {oeIndexData?.word}
             </p>
           </div>

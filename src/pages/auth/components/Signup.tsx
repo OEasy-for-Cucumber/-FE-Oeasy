@@ -117,7 +117,6 @@ function Signup() {
       });
 
       Cookies.set("accessToken", data.data.accessToken);
-      Cookies.set("refreshToken", data.data.refreshToken);
 
       setIsLoggedIn(true);
       setStep("가입완료");

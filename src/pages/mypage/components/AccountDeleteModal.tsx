@@ -55,7 +55,6 @@ const AccountDeleteModal: React.FC<AccountDeleteModalProps> = ({
           message:"계정이 탈퇴되었습니다."
         });
         Cookies.remove("accessToken");
-        Cookies.remove("refreshToken");
         setIsLoggedIn(false);
         navigate("/");
       } catch (error) {

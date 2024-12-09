@@ -161,7 +161,6 @@ function EditProfile({ handleEditModal }: { handleEditModal: () => void }) {
       onConfirm: () => {
         clearUser();
         Cookies.remove("accessToken");
-        Cookies.remove("refreshToken");
         queryClinet.clear();
         setIsLoggedIn(false);
         navigate("/");
