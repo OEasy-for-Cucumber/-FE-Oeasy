@@ -23,7 +23,8 @@ interface Comment {
 }
 
 function Comment({ communityId, setTotalComments }: CmnProps) {
-  const [showMenu, setShowMenu] = useState<number | null>(null);
+  const [showMenu, setShowMenu] = useState<boolean>(false);
+  const [activeCommentPk, setActiveCommentPk] = useState<number | null>(null);
   const [editingComment, setEditingComment] = useState<number | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const user = useUserStore((state) => state.user);
@@ -56,8 +57,7 @@ function Comment({ communityId, setTotalComments }: CmnProps) {
   useEffect(() => {
     fetchComments(currentPage);
     window.scrollTo({
-      top: document.body.scrollHeight,
-      behavior: "smooth"
+      top: document.body.scrollHeight
     });
   }, [communityId, currentPage]);
 
@@ -76,7 +76,8 @@ function Comment({ communityId, setTotalComments }: CmnProps) {
   }
 
   const handleToggleMenu = (commentPk: number) => {
-    setShowMenu((prevPk) => (prevPk === commentPk ? null : commentPk));
+    setShowMenu((prev) => (prev && activeCommentPk === commentPk ? false : true));
+    setActiveCommentPk(commentPk === activeCommentPk ? null : commentPk);
   };
 
   const handleSendComment = async () => {
@@ -109,10 +110,18 @@ function Comment({ communityId, setTotalComments }: CmnProps) {
   const handleEdit = (commentPk: number, content: string) => {
     setEditingComment(commentPk);
     setEditContent(content);
-    setShowMenu(null);
+    setShowMenu(false);
   };
 
   const handleEditSubmit = async (commentPk: number) => {
+    const prevComment = comments.find((comment) => comment.commentPk === commentPk);
+
+    if (prevComment?.content === editContent.trim()) {
+      showAlert({
+        message: "변경된 내용이 없습니다"
+      });
+      return;
+    }
     if (!editContent.trim()) {
       showAlert({
         message: "수정할 내용을 입력해주세요."
@@ -155,7 +164,7 @@ function Comment({ communityId, setTotalComments }: CmnProps) {
             data: requestDelete
           });
 
-          alert("댓글이 삭제되었습니다.");
+          showAlert({ message: "댓글이 삭제되었습니다." });
           await fetchComments(currentPage);
         } catch (error) {
           console.error("댓글 삭제 중 오류 발생:", error);
@@ -209,15 +218,18 @@ function Comment({ communityId, setTotalComments }: CmnProps) {
                     className="w-4 h-4 cursor-pointer"
                     onClick={() => handleToggleMenu(com.commentPk)}
                   />
-                  {showMenu === com.commentPk && (
-                    <div className="absolute top-6 right-0 w-14 font-c2 bg-grayoe-400 rounded-md shadow-lg flex flex-col">
-                      <button className="py-2 px-4  rounded" onClick={() => handleEdit(com.commentPk, com.content)}>
-                        수정
-                      </button>
-                      <button className="py-2 px-4  rounded" onClick={() => handleDelete(com.commentPk)}>
-                        삭제
-                      </button>
-                    </div>
+                  {showMenu && activeCommentPk === com.commentPk && (
+                    <>
+                      <div className="fixed top-0 left-0 w-[100%] h-[100%] z-10 " onClick={() => setShowMenu(false)} />
+                      <div className="absolute z-20 top-6 right-0 w-14 font-c2 bg-grayoe-400 rounded-md shadow-lg flex flex-col">
+                        <button className="py-2 px-4  rounded" onClick={() => handleEdit(com.commentPk, com.content)}>
+                          수정
+                        </button>
+                        <button className="py-2 px-4  rounded" onClick={() => handleDelete(com.commentPk)}>
+                          삭제
+                        </button>
+                      </div>
+                    </>
                   )}
                   {editingComment === com.commentPk && (
                     <button className="mt-2  font-bold" onClick={() => handleEditSubmit(com.commentPk)}>
@@ -230,7 +242,7 @@ function Comment({ communityId, setTotalComments }: CmnProps) {
           ))}
         </div>
 
-        <div className="w-full px-4 py-2 bg-grayoe-400 rounded-md h-[116px]  xl:w-[700px] flex flex-col justify-between gap-1">
+        <div className="w-full px-4 py-2 bg-grayoe-400 rounded-md h-[116px]  flex flex-col justify-between gap-1">
           <p className="mt-1 font-b2-semibold xl:font-b1-semibold">{user?.nickname}</p>
           <textarea
             value={commentContent}

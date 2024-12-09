@@ -25,7 +25,7 @@ function RecipeDetail() {
     <section className="xl:w-[864px] mx-auto">
       {selectRecipe && (
         <>
-          <img src={selectRecipe.recipeImg} alt={selectRecipe.title} className="h-[360px] xl:h-[520px] w-full " />
+          <img src={selectRecipe.recipeImg} alt={selectRecipe.title} className=" xl:h-[600px] w-full xl:object-cover" />
           <div className="mx-6 my-[34px]">
             <h5 className="font-h5 mb-2">{selectRecipe.title}</h5>
             <p className="font-b1-regular">{selectRecipe.tip}</p>

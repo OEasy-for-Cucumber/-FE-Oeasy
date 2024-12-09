@@ -93,7 +93,7 @@ function Chat({ chattingList }: ChatProps) {
 
   useEffect(() => {
     const scrollToBottom = () => {
-      messageEndRef.current?.scrollIntoView({ behavior: "smooth" });
+      messageEndRef.current?.scrollIntoView();
     };
 
     scrollToBottom();

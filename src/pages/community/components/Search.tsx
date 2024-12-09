@@ -38,7 +38,7 @@ function Search({ message, onSearch }: SearchProps) {
     <div className="mx-auto w-full bg-grayoe-950  ">
       <div className="w-full h-[58px] xl:w-full py-1  flex gap-1 justify-between items-center border border-solid border-b-grayoe-600 border-x-0 border-t-0">
         <div className="flex justify-center items-center gap-2 ">
-          <div className=" min-w-12 max-w-20 h-8 flex items-center justify-center  font-b2-regular xl:font-b1-regular text-center ">
+          <div className=" min-w-14 max-w-20 h-8 flex items-center justify-center  font-b2-regular xl:font-b1-regular text-center ">
             <img
               src={isDropdownOpen ? up : down}
               alt="드롭다운"
