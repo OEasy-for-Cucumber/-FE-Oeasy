@@ -15,11 +15,17 @@ interface InputProps {
 
 const PasswordInput: React.FC<InputProps> = ({ value, minLength, onChange, placeholder, isValid, defaultValue }) => {
   const [isClicked, setIsClicked] = useState(false);
-  const borderColorClass = value === "" ? "border-grayoe-700" : isValid ? "border-[#008CCC]" : "border-[#FF453A]";
+  const [isFocused, setIsFocused] = useState(false);
 
   const handleClicked = () => {
     setIsClicked((prev) => !prev);
   };
+
+  const borderColorClass = isFocused
+    ? isValid
+      ? "border-[#008CCC]" 
+      : "border-[#FF453A]"
+    : "border-grayoe-700";
 
   return (
     <div className="relative">
@@ -28,13 +34,15 @@ const PasswordInput: React.FC<InputProps> = ({ value, minLength, onChange, place
         value={value}
         minLength={minLength}
         onChange={onChange}
-        className={`focus:outline-none text-[16px] w-full h-[48px] placeholder-grayoe-400 bg-grayoe-950 outline-none border-b-[1.5px] ${borderColorClass}`}
+        onFocus={() => setIsFocused(true)}
+        onBlur={() => setIsFocused(false)}
+        className={`focus:outline-none text-[16px] py-2 w-full placeholder-grayoe-400 bg-grayoe-950 outline-none border-b-[1.5px] ${borderColorClass}`}
         placeholder={placeholder}
         defaultValue={defaultValue}
       />
-      {value && (
-        <button onClick={handleClicked} tabIndex={-1} type="reset" className="absolute bottom-4 right-1">
-          <img src={!isClicked ? HideIcon : ShowIcon} alt="블라인드버튼" className="w-4" />
+      {value && isFocused && (
+        <button onClick={handleClicked} tabIndex={-1} type="button" className="absolute bottom-4 right-1">
+          <img src={!isClicked ? HideIcon : ShowIcon} alt="비밀번호 보기/숨기기 버튼" className="w-4" />
         </button>
       )}
     </div>

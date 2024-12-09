@@ -83,7 +83,7 @@ function OeTemperature() {
             )}
           </button>
           <p>18</p>
-          <img src={ShortLine} alt="ShortLine" className="w-[40px] h-1 xl:hidden" />
+          <img src={ShortLine} alt="ShortLine" className="w-[60px] h-1 xl:hidden" />
           <img src={LongLine} alt="LongLine" className="xl:w-[120px] h-1 hidden xl:flex" />
           <p>28</p>
         </div>
@@ -93,9 +93,9 @@ function OeTemperature() {
             <img src={oeIndexData?.imgUrl} alt="날뛰는오이" className="w-[220px] xl:w-[400px]" />
           </div>
 
-          <div className="flex flex-col w-full">
-            <img src={Union} alt="말풍선" className="w-[285px] xl:w-[462px] relative left-0" />
-            <p className="absolute bottom-9 left-[5%] xl:bottom-14 text-black font-semibold text-[14px] xl:text-[24px]">
+          <div className="flex flex-col w-[285px] xl:w-[462px] relative">
+            <img src={Union} alt="말풍선" className="w-[285px] xl:w-[462px] left-0" />
+            <p className="w-full px-4 text-center absolute top-[45%] text-black font-semibold text-[14px] xl:text-[24px]">
               {oeIndexData?.word}
             </p>
           </div>

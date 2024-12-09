@@ -27,10 +27,6 @@ function Login() {
   const navigate = useNavigate();
   const { showAlert } = useAlert();
 
-  const baseLabelClass = "transition-all duration-300 text-[13px]";
-  const visibleLabelClass = "opacity-100 translate-y-0 mt-3";
-  const hiddenLabelClass = "opacity-0 -translate-1";
-
   const emailHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -129,8 +125,8 @@ function Login() {
           <div className="grid">
             <p
               className={`${!isEmail ? "redoe" : "text-grayoe-300"} ${
-                email ? visibleLabelClass : hiddenLabelClass
-              } ${baseLabelClass}`}
+                email ? "label-visible" : "label-hidden"
+          } base-label`}
             >
               이메일
             </p>
@@ -148,8 +144,8 @@ function Login() {
           <div className="grid mb-[32px]">
             <p
               className={`${!isPassword ? "redoe" : "text-grayoe-300"} ${
-                password ? visibleLabelClass : hiddenLabelClass
-              } ${baseLabelClass}`}
+                password ? "label-visible" : "label-hidden"
+          } base-label`}
             >
               비밀번호
             </p>

@@ -13,6 +13,7 @@ import ConfirmPasswordModal from "./ConfirmPasswordModal";
 import { useQueryClient } from "@tanstack/react-query";
 import useAlert from "../../../hooks/useAlert";
 import useConfirm from "../../../hooks/useConfirm";
+import Button from "../../../components/common/Button";
 
 function EditProfile({ handleEditModal }: { handleEditModal: () => void }) {
   const { setUser, clearUser, setIsLoggedIn } = useUserStore.getState();
@@ -23,6 +24,7 @@ function EditProfile({ handleEditModal }: { handleEditModal: () => void }) {
 
   const [isNickname, setIsNickname] = useState<boolean>(true);
   const [nicknameMsg, setNicknameMsg] = useState<string>("");
+  const [isMatch, setIsMatch] = useState(false);
 
   const [profileImg, setProfileImg] = useState<File | null>();
   const [profileImgUrl, setProfileImgUrl] = useState<string>();
@@ -33,10 +35,6 @@ function EditProfile({ handleEditModal }: { handleEditModal: () => void }) {
   const { showAlert } = useAlert();
   const { showConfirm } = useConfirm();
 
-  const baseLabelClass = "transition-all duration-300 text-[13px]";
-  const visibleLabelClass = "opacity-100 translate-y-0";
-  const hiddenLabelClass = "opacity-0 -translate-1";
-
   const changeNicknameHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
     const regex = /^[a-zA-Z0-9가-힣\s]+(?![ㄱ-ㅎㅏ-ㅣ])$/;
@@ -44,8 +42,10 @@ function EditProfile({ handleEditModal }: { handleEditModal: () => void }) {
     if (!regex.test(value)) {
       setNicknameMsg("한글,영문,숫자로 최대 8자이내로 지어주세요.");
       setIsNickname(false);
+      setIsMatch(false);
     } else {
       setIsNickname(true);
+      setIsMatch(true);
     }
   };
 
@@ -54,6 +54,7 @@ function EditProfile({ handleEditModal }: { handleEditModal: () => void }) {
     const file = e.target.files[0];
     setProfileImg(file);
     setProfileImgUrl(URL.createObjectURL(file));
+    setIsMatch(true);
   };
 
   const editProfile = async (e: React.FormEvent) => {
@@ -93,10 +94,10 @@ function EditProfile({ handleEditModal }: { handleEditModal: () => void }) {
 
     if (isNickname && newNickname !== user?.nickname) {
       try {
-        if (!newNickname){
+        if (!newNickname) {
           showAlert({
             message: "닉네임을 입력해주세요."
-          })
+          });
           return;
         }
         const { data: nicknameData } = await instance.patch("/member/nickname", {
@@ -175,26 +176,19 @@ function EditProfile({ handleEditModal }: { handleEditModal: () => void }) {
   };
 
   return (
-    <div className="fixed inset-0 flex flex-col items-center justify-center z-50 w-full min-w-[360px] max-w-[520px] xl:max-w-none xl:w-[688px] h-svh mx-auto">
-      
+    <div className="fixed inset-0 flex flex-col items-center justify-center z-50 w-full max-w-[520px] xl:max-w-none bg-black bg-opacity-80 h-svh mx-auto">
       <form
         onSubmit={editProfile}
-        className="mt-1 bg-grayoe-950 text-white w-full min-w-[360px] max-w-[520px] xl:max-w-none xl:w-[688px] relative h-svh xl:h-[calc(100vh-120px)]"
+        className="bg-grayoe-950 text-white w-full min-w-[360px] max-w-[520px] xl:max-w-none xl:w-[512px] relative h-svh xl:h-auto xl:rounded-2xl xl:px-6 xl:py-6"
       >
-        <div className="w-full flex justify-between items-center mt-3 mb-[64px] px-6">
-          <button type="button" onClick={handleEditModal} className="text-xl xl:hidden">
-            <img src={Xicon} alt="닫기버튼" />
-          </button>
-          <h1 className="font-b2-semibold xl:font-h3 xl:mr-auto">계정 설정</h1>
-          <button
-            type="submit"
-            disabled={!isNickname}
-            className={`${!isNickname ? "text-grayoe-400" : "text-[#0A84FF]"} text-xs xl:text-lg xl:ml-auto`}
-          >
-            저장
+        <div className="w-full flex items-center my-4 mb-[64px] xl:m-0 justify-between px-6 xl:px-0">
+          <div className="xl:hidden w-8"></div>
+          <h1 className="font-b2-semibold xl:font-h4">계정 설정</h1>
+          <button type="button" onClick={handleEditModal}>
+            <img src={Xicon} alt="닫기버튼"/>
           </button>
         </div>
-        <div>
+        <div className="px-6 xl:px-0">
           <div className="relative w-[100px] mx-auto my-[36px] flex justify-center">
             {!profileImgUrl ? (
               <img
@@ -225,7 +219,7 @@ function EditProfile({ handleEditModal }: { handleEditModal: () => void }) {
             </label>
           </div>
 
-          <div className="px-6 grid gap-3">
+          <div className="grid gap-3">
             <div className="mb-2">
               <p className={`text-sm ${newNickname === "" || isNickname ? "text-grayoe-300" : "redoe"}`}>닉네임</p>
               <Input
@@ -236,9 +230,9 @@ function EditProfile({ handleEditModal }: { handleEditModal: () => void }) {
                 onClick={resetNicknameValue}
               />
               {isNickname === false && newNickname !== "" ? (
-                <p className={`redoe ${visibleLabelClass} ${baseLabelClass} mt-1`}>{nicknameMsg}</p>
+                <p className={`redoe label-visible base-label mt-1`}>{nicknameMsg}</p>
               ) : (
-                <p className={`${hiddenLabelClass} ${baseLabelClass}`}></p>
+                <p className="base-label label-hidden"></p>
               )}
             </div>
 
@@ -266,8 +260,8 @@ function EditProfile({ handleEditModal }: { handleEditModal: () => void }) {
             </div>
           </div>
         </div>
-        <div className="border-b-8 my-6 border-grayoe-900" />
-        <div className="flex gap-5 w-full mt-6 text-sm text-grayoe-300 bg-grayoe-950 items-center justify-center font-c2">
+        <div className="border-b-8 my-6 border-grayoe-900 xl:hidden" />
+        <div className="flex gap-5 w-full text-sm text-grayoe-300 bg-grayoe-950 items-center justify-center font-c2 xl:mt-4">
           <button type="button" onClick={logoutHandler}>
             로그아웃
           </button>
@@ -275,6 +269,11 @@ function EditProfile({ handleEditModal }: { handleEditModal: () => void }) {
           <button type="button" onClick={AccountDeleteModalHandler}>
             회원탈퇴
           </button>
+        </div>
+        <div className="mt-10 px-6 xl:px-0">
+          <Button type="submit" size="large" isActive={isMatch}>
+            저장
+          </Button>
         </div>
       </form>
       {isNewPasswordModalOpen && <ConfirmPasswordModal handleNewPasswordModal={handleNewPasswordModal} />}

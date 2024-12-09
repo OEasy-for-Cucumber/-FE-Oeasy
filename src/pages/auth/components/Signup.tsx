@@ -157,7 +157,7 @@ function Signup() {
   };
 
   return (
-    <div className="w-full xl:w-[360px] max-w-[360px] mx-auto h-[calc(100vh-56px)] xl:h-[calc(100vh-80px)] flex-col flex px-6 xl:py-[80px]">
+    <div className="w-full xl:w-[520px] max-w-[520px] mx-auto h-[calc(100vh-56px)] xl:h-[calc(100vh-80px)] flex-col flex px-4 xl:py-[80px]">
       <ProgressBar step={step} />
       <form
         onSubmit={(e) => {
@@ -212,8 +212,8 @@ function Signup() {
           {step !== "가입완료" ? (
             step === "닉네임" ? (
               <div className="w-full">
-                <p className="mx-auto text-sm flex items-center mb-6">
-                  <span onClick={checkedChangeHandler} className="mr-2 cursor-pointer">
+                <button type="button" onClick={checkedChangeHandler} className="text-sm flex mb-4">
+                  <span className="mr-2 cursor-pointer">
                     {isCheckedAccept ? (
                       <img src={FullSquare} alt="checked" />
                     ) : (
@@ -221,7 +221,7 @@ function Signup() {
                     )}
                   </span>
                   개인정보 수집 및 이용에 대한 동의(필수)
-                </p>
+                </button>
                 <Button size="large" type="submit" isActive={isNickname && isCheckedAccept}>
                   가입완료
                 </Button>

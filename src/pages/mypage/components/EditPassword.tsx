@@ -1,10 +1,10 @@
-import Xicon from "../../../../public/icons/Icon.png";
 import Button from "../../../components/common/Button";
 import { Dispatch, SetStateAction, useState } from "react";
 import PasswordInput from "../../../components/common/PasswordInput";
 import { ConfirmPasswordModalProp } from "./ConfirmPasswordModal";
 import instance from "../../../api/axios";
 import useAlert from "../../../hooks/useAlert";
+import LeftArrow from "../../../../public/icons/leftArrow.png";
 
 interface EditPasswordProp {
   setNewPasswordModalOpen: Dispatch<SetStateAction<boolean>>;
@@ -17,13 +17,9 @@ function EditPassword({
   const [newPassword, setNewPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  const [isPasswordMatch, setIsPasswordMatch] = useState(true);
-  const [isPasswordValid, setIsPasswordValid] = useState(true);
+  const [isPasswordMatch, setIsPasswordMatch] = useState(false);
+  const [isPasswordValid, setIsPasswordValid] = useState(false);
   const { showAlert } = useAlert();
-
-  const baseLabelClass = "transition-all duration-300 text-[13px]";
-  const visibleLabelClass = "opacity-100 translate-y-0 mt-2";
-  const hiddenLabelClass = "opacity-0 -translate-1";
 
   const validatePassword = (password: string) => {
     const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
@@ -68,20 +64,20 @@ function EditPassword({
   };
 
   return (
-    <div className="fixed inset-0 flex flex-col items-center justify-center z-50 w-full min-w-[360px] max-w-[520px] xl:max-w-none xl:w-[688px] h-svh mx-auto bg-grayoe-950">
-      <div className="mt-1 bg-grayoe-950 text-white w-full min-w-[360px] max-w-[520px] xl:max-w-none xl:w-[312px] relative h-svh xl:h-[calc(100vh-120px)]">
-        <div className="relative flex justify-center items-center mb-3">
-          <h1 className="font-b2-semibold absolute left-1/2 transform -translate-x-1/2 top-3">비밀번호 변경</h1>
-          <button type="button" className="absolute left-4 top-3">
-            <img src={Xicon} onClick={closeModalHandler} alt="닫기" />
+    <div className="fixed inset-0 flex flex-col items-center justify-center z-50 w-full min-w-[360px] max-w-[520px] xl:max-w-none h-svh mx-auto bg-black bg-opacity-80">
+      <form onSubmit={handleSubmit} className="bg-grayoe-950 text-white w-full min-w-[360px] max-w-[520px] xl:max-w-none xl:w-[512px] relative h-svh xl:h-[400px] xl:rounded-2xl xl:px-6 xl:py-6 px-6 pb-[40px] flex flex-col">
+        <div className="flex items-center py-[18px] xl:pt-2 xl:pb-6 justify-between xl:justify-start mb-[40px] xl:mb-0">
+          <button type="button" className="w-[18px] h-[18px] xl:w-[24px] xl:h-[24px] mr-3">
+            <img src={LeftArrow} onClick={closeModalHandler} alt="뒤로가기" />
           </button>
+          <h1 className="font-b2-semibold xl:font-h4">비밀번호 변경</h1>
+          <div className="xl:hidden w-8"></div>
         </div>
-        <form onSubmit={handleSubmit} className="px-4 mt-[70px] flex flex-col flex-grow h-svh xl:h-[calc(100vh-120px)]">
-          <div className="grid mb-4">
+          <div className="grid">
             <p
               className={`${!isPasswordValid ? "redoe" : "text-grayoe-300"} ${
-                newPassword ? visibleLabelClass : hiddenLabelClass
-              } ${baseLabelClass}`}
+                newPassword ? "label-visible" : "label-hidden"
+          } base-label`}
             >
               새 비밀번호
             </p>
@@ -103,8 +99,8 @@ function EditPassword({
           <div className="grid mb-4">
             <p
               className={`${!isPasswordMatch ? "redoe" : "text-grayoe-300"} ${
-                confirmPassword ? visibleLabelClass : hiddenLabelClass
-              } ${baseLabelClass}`}
+                confirmPassword ? "label-visible" : "label-hidden"
+          } base-label`}
             >
               새 비밀번호 재입력
             </p>
@@ -121,14 +117,13 @@ function EditPassword({
             )}
           </div>
   
-          <div className="mt-auto mb-[100px] xl:mb-[80px]">
-            <Button size="large">완료</Button>
+          <div className="mt-auto xl:mt-auto">
+            <Button size="large" isActive={isPasswordMatch}>완료</Button>
           </div>
         </form>
-      </div>
     </div>
   );
-  
+   
 }
 
 export default EditPassword;
