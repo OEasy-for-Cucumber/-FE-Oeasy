@@ -109,7 +109,7 @@ module.exports = {
   },
 
   plugins: [
-    plugin(function ({ addUtilities }) {
+    plugin(function ({ addUtilities, addComponents }) {
       addUtilities({
         ".font-h1": {
           fontSize: "48px",
@@ -176,7 +176,18 @@ module.exports = {
         ".redoe": { color: "#ff453a" },
         ".red-light": { color: "#fff2f1" },
         ".blueoe": { color: "#0a84ff" },
-        ".blue-light": { color: "#edf9ff" }
+        ".blue-light": { color: "#edf9ff" },
+
+        // Custom Label Styles
+        ".base-label": {
+          "@apply transition-all duration-300 text-[13px]": {}
+        },
+        ".label-visible": {
+          "@apply opacity-100 translate-y-0": {}
+        },
+        ".label-hidden": {
+          "@apply opacity-0 -translate-y-1": {}
+        }
       });
     })
   ]

@@ -1,6 +1,5 @@
 import { useState } from "react";
 import Button from "../../../components/common/Button";
-import { useActiveStore } from "../../../zustand/isActiveStore";
 import EditPassword from "./EditPassword";
 import { useUserStore } from "../../../zustand/authStore";
 import instance from "../../../api/axios";
@@ -12,25 +11,16 @@ export interface ConfirmPasswordModalProp {
 
 function ConfirmPasswordModal({ handleNewPasswordModal }: ConfirmPasswordModalProp) {
   const [prevPassword, setPrevPassword] = useState<string>("");
-  const { isActive, setIsActive } = useActiveStore.getState();
   const [newPasswordModalOpen, setNewPasswordModalOpen] = useState(false);
   const user = useUserStore((state) => state.user);
   const { showAlert } = useAlert();
 
-  useState(() => {
-    setIsActive(false);
-  });
-
   const handleCancel = () => {
     handleNewPasswordModal();
-    setIsActive(false);
   };
 
   const handlePrevPasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPrevPassword(e.target.value);
-    if (prevPassword !== "") {
-      setIsActive(true);
-    }
   };
 
   const handleConfirmPrevPassword = async () => {
@@ -50,7 +40,7 @@ function ConfirmPasswordModal({ handleNewPasswordModal }: ConfirmPasswordModalPr
   };
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-grayoe-950 bg-opacity-80">
+    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-80">
       <div className="bg-grayoe-900 text-white rounded-lg p-6 w-[350px] max-w-md">
         <h2 className="text-lg font-bold text-center mb-4">비밀번호 변경</h2>
         <input
@@ -64,9 +54,12 @@ function ConfirmPasswordModal({ handleNewPasswordModal }: ConfirmPasswordModalPr
           <Button type="button" onClick={handleCancel} size="medium" isActive={true}>
             취소
           </Button>
-          <Button type="button" onClick={handleConfirmPrevPassword} size="medium" isActive={isActive}>
+          <button
+            onClick={handleConfirmPrevPassword}
+            className="px-[68px] py-4 bg-grayoe-400 flex justify-center items-center rounded-md transition-all duration-300 truncate opacity-100 hover:opacity-60 bg-[#2E2E2E]cursor-not-allowed"
+          >
             확인
-          </Button>
+          </button>
         </div>
       </div>
       {newPasswordModalOpen && (

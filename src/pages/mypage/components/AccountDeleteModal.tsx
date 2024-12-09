@@ -4,6 +4,7 @@ import instance from "../../../api/axios";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import { useUserStore } from "../../../zustand/authStore";
+import useAlert from "../../../hooks/useAlert";
 
 interface AccountDeleteModalProps {
   AccountDeleteModalHandler: () => void;
@@ -16,6 +17,7 @@ const AccountDeleteModal: React.FC<AccountDeleteModalProps> = ({
   const [isMatch, setIsMatch] = useState(false);
   const { setIsLoggedIn } = useUserStore.getState();
   const navigate = useNavigate();
+  const { showAlert } = useAlert();
 
   const targetPhrase = "오이,, 오이오이오이? 오이.. 오이 ㅠㅠ";
 
@@ -23,7 +25,6 @@ const AccountDeleteModal: React.FC<AccountDeleteModalProps> = ({
     const value = e.target.value;
     setInputValue(value);
 
-    // 입력 값이 탈퇴 문구와 일치하는지 검사
     if (value === targetPhrase) {
       setIsMatch(true);
     } else {
@@ -36,17 +37,25 @@ const AccountDeleteModal: React.FC<AccountDeleteModalProps> = ({
   };
 
   const handleDelete = async () => {
+    if(!isMatch) {
+      showAlert({
+        message: "탈퇴 문구와 일치하지 않습니다."
+      })
+      return;
+    }
     if (isMatch) {
       try {
-        const data = await instance.delete("/member/delete", {
+        await instance.delete("/member/delete", {
           data: {
             confirmationMessage: inputValue,
           },
         });
-        console.log(data);
+        
+        showAlert({
+          message:"계정이 탈퇴되었습니다."
+        });
         Cookies.remove("accessToken");
         Cookies.remove("refreshToken");
-        alert("계정이 탈퇴되었습니다.");
         setIsLoggedIn(false);
         navigate("/");
       } catch (error) {
@@ -81,13 +90,12 @@ const AccountDeleteModal: React.FC<AccountDeleteModalProps> = ({
           >
             계정유지
           </Button>
-          <Button
+          <button
             onClick={handleDelete}
-            size="medium"
-            isActive={isMatch}
+            className={`px-[68px] py-4 bg-grayoe-400 flex justify-center items-center rounded-md transition-all duration-300 truncate  ${isMatch ? "opacity-100" : "hover:opacity-60 bg-[#2E2E2E]cursor-not-allowed"} `}
           >
             회원탈퇴
-          </Button>
+          </button>
         </div>
       </div>
     </div>

@@ -20,8 +20,8 @@ function ProgressBar({ step }: ProgressBarProps) {
     step === "가입완료" 
     ? null 
     : 
-    <div className="w-full px-[96px] py-[32px]">
-    <div className="w-full bg-[#EEFFF4] rounded-full h-[4px]">
+    <div className="w-full py-[32px]">
+    <div className="w-[168px] mx-auto bg-[#EEFFF4] rounded-full h-[4px]">
       <div
         className="bg-green-500 h-[4px] rounded-full transition-all duration-300"
         style={{ width: `${getProgress()}%` }}
