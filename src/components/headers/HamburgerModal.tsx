@@ -46,20 +46,20 @@ function HamburgerModal({
               <button className="text-white text-2xl absolute top-3 right-6" onClick={closeHandler}>
                 <img src={Xicon} alt="닫기버튼" />
               </button>
-              <div className="text-grayoe-300 text-2xl mt-[88px]">
-                <button onClick={goToHome} className="hover:text-white pb-3">
+              <div className="text-grayoe-400 font-h4 mt-[90px]">
+                <button onClick={goToHome} className="hover:text-white py-2">
                   홈
                 </button>
-                <hr className="border-grayoe-900 py-1" />
-                <button onClick={goToCommunity} className="hover:text-white pb-3">
+                <hr className="border-grayoe-900" />
+                <button onClick={goToCommunity} className="hover:text-white py-2">
                   오이 커뮤니티
                 </button>
-                <hr className="border-grayoe-900 py-1" />
-                <button onClick={goToVote} className="hover:text-white pb-3">
+                <hr className="border-grayoe-900" />
+                <button onClick={goToVote} className="hover:text-white py-2">
                   오이 투표
                 </button>
-                <hr className="border-grayoe-900 py-1" />
-                <button onClick={goToRecipes} className="hover:text-white">
+                <hr className="border-grayoe-900" />
+                <button onClick={goToRecipes} className="hover:text-white py-2">
                   오이 레시피
                 </button>
               </div>

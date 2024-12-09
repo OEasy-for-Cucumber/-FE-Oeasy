@@ -21,7 +21,7 @@ const Input: React.FC<InputProps> = ({ type, value, maxLength, onChange, placeho
         value={value}
         maxLength={maxLength}
         onChange={onChange}
-        className={`w-full h-[48px] placeholder-grayoe-400 bg-grayoe-950 outline-none border-b-[1.5px] ${borderColorClass}`}
+        className={`focus:outline-none w-full h-[48px] placeholder-grayoe-400 bg-grayoe-950 outline-none border-b-[1.5px] ${borderColorClass}`}
         placeholder={placeholder}
         defaultValue={defaultValue}
       />

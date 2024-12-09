@@ -51,13 +51,14 @@ function MyLiked() {
   };
 
   return (
-    <div className="w-full my-5">
+    <div className="w-full">
       {myLikedPosts?.length === 0 ? (
-        <div className="text-center mt-10">좋아요한 게시글이 없습니다.</div>
+        <div className="text-center mt-8">좋아요한 게시글이 없습니다.</div>
       ) : (
         myLikedPosts?.map((post) => (
           <div key={post.boardPk}>
-            <div className="w-full border-b border-grayoe-900 py-4 px-6">
+            <hr className="border-grayoe-900" />
+            <div className="w-full py-4 px-6">
               <button className="flex flex-col" onClick={() => goToPost(post.boardPk!)}>
                 <p className="text-grayoe-300 font-c2 mb-1">{post.createTime}</p>
                 <p className="font-b2-semibold line-clamp-1">{post.title}</p>
@@ -78,7 +79,6 @@ function MyLiked() {
                 </div>
               </button>
             </div>
-            <hr className="border-grayoe-900" />
           </div>
         ))
       )}
