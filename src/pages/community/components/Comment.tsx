@@ -56,8 +56,7 @@ function Comment({ communityId, setTotalComments }: CmnProps) {
   useEffect(() => {
     fetchComments(currentPage);
     window.scrollTo({
-      top: document.body.scrollHeight,
-      behavior: "smooth"
+      top: document.body.scrollHeight
     });
   }, [communityId, currentPage]);
 
@@ -113,6 +112,14 @@ function Comment({ communityId, setTotalComments }: CmnProps) {
   };
 
   const handleEditSubmit = async (commentPk: number) => {
+    const prevComment = comments.find((comment) => comment.commentPk === commentPk);
+
+    if (prevComment?.content === editContent.trim()) {
+      showAlert({
+        message: "변경된 내용이 없습니다"
+      });
+      return;
+    }
     if (!editContent.trim()) {
       showAlert({
         message: "수정할 내용을 입력해주세요."
@@ -155,7 +162,7 @@ function Comment({ communityId, setTotalComments }: CmnProps) {
             data: requestDelete
           });
 
-          alert("댓글이 삭제되었습니다.");
+          showAlert({ message: "댓글이 삭제되었습니다." });
           await fetchComments(currentPage);
         } catch (error) {
           console.error("댓글 삭제 중 오류 발생:", error);
@@ -230,7 +237,7 @@ function Comment({ communityId, setTotalComments }: CmnProps) {
           ))}
         </div>
 
-        <div className="w-full px-4 py-2 bg-grayoe-400 rounded-md h-[116px]  xl:w-[700px] flex flex-col justify-between gap-1">
+        <div className="w-full px-4 py-2 bg-grayoe-400 rounded-md h-[116px]  flex flex-col justify-between gap-1">
           <p className="mt-1 font-b2-semibold xl:font-b1-semibold">{user?.nickname}</p>
           <textarea
             value={commentContent}
