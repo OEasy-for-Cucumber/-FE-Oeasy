@@ -38,14 +38,14 @@ function WebSearch({ message, onSearch }: SearchProps) {
     <div className="w-full bg-grayoe-950 ">
       <div className="w-full h-8 flex justify-between items-center rounded-md border border-solid border-grayoe-600 ">
         <div className="flex justify-center items-center gap-2 ">
-          <div className=" w-auto px-1  flex items-center justify-center  font-b2-regular text-center ">
+          <div className="w-auto px-1  flex items-center justify-center  font-b2-regular text-center ">
             <img
               src={isDropdownOpen ? up : down}
               alt="드롭다운"
               onClick={() => setIsDropdownOpen(!isDropdownOpen)}
               className="w-4 h-4 cursor-pointer mr-1 "
             />
-            {options.find((opt) => opt.value === searchType)?.label}
+            <p className="min-w-[30px] max-w-[58px]">{options.find((opt) => opt.value === searchType)?.label}</p>
           </div>
 
           <p className="font-b2-regular text-grayoe-600">|</p>
