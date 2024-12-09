@@ -31,7 +31,6 @@ export interface User {
   email?: string;
   nickname?: string;
   accessToken?: string;
-  refreshToken?: string;
   lastVoteTime?: number | null;
   memberImage? :string | null;
   kakaoId?:number;

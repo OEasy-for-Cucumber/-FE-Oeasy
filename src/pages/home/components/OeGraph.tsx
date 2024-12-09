@@ -6,6 +6,7 @@ import GraphIcon from "../../../../public/icons/graphicon.png";
 import ReactApexChart from "react-apexcharts";
 import { ApexOptions } from "apexcharts";
 import Loading from "../../../components/common/Loading";
+import SlotNumber from "./SlotNumber";
 
 interface PriceData {
   date: string;
@@ -64,7 +65,7 @@ function OeGraph() {
   }, []);
 
   if (isLoading) {
-    return <Loading className="w-[30%] mx-auto mt-[200px]"/>
+    return <Loading className="w-[30%] mx-auto mt-[200px]" />;
   }
 
   const series =
@@ -133,7 +134,7 @@ function OeGraph() {
   return (
     <div className="w-full h-[calc(100vh-56px)] xl:h-[calc(100vh-80px)] px-6 flex flex-col justify-center">
       <div className="w-full truncate">
-        <h3 className="font-h3 mb-2 xl:font-h1">이번달 오이가격</h3>
+        <h3 className="font-h3 mb-2 xl:font-h2">이번달 오이가격</h3>
         <div className="flex gap-1 items-center relative mb-[40px]">
           <button
             onClick={toggleTooltip}
@@ -145,7 +146,7 @@ function OeGraph() {
             <img
               src={DangerCircle}
               alt="참고사항"
-              className="w-[13px] xl:w-[24px] h-[13px] xl:h-[24px] cursor-pointer"
+              className="w-[13px] h-[13px] xl:w-[16px] xl:h-[16px] cursor-pointer"
             />
           </button>
 
@@ -155,7 +156,7 @@ function OeGraph() {
               <p>· 출처: kamis</p>
             </div>
           )}
-          <p className="text-[14px] xl:font-h4 text-grayoe-200">가격(원/개당)</p>
+          <p className="font-b2-regular xl:font-b1-regular text-grayoe-200">가격(원/개당)</p>
         </div>
 
         <div className="w-full xl:flex items-center">
@@ -170,10 +171,14 @@ function OeGraph() {
                   <img src={IncIcon} alt="상승아이콘" className="w-[20px]" />
                   <span className="text-sm text-black font-b1-semibold ml-1">전일대비</span>
                 </div>
-                <span className="text-xl font-h2 text-red-500 ml-auto">
-                  {oePriceData.length > 0
-                    ? oePriceData[oePriceData.length - 1].price - oePriceData[oePriceData.length - 2].price
-                    : 0} 원
+                <span className="font-h3 xl:font-h2 text-red-500 ml-auto">
+                  <SlotNumber
+                    targetValue={
+                      oePriceData.length > 0
+                        ? oePriceData[oePriceData.length - 1].price - oePriceData[oePriceData.length - 2].price
+                        : 0
+                    }
+                  />
                 </span>
               </div>
 
@@ -182,8 +187,8 @@ function OeGraph() {
                   <img src={GraphIcon} alt="가격아이콘" className="w-[18px] h-[18px]" />
                   <span className="text-sm text-black font-b1-semibold ml-1">오늘 가격</span>
                 </div>
-                <span className="text-xl font-h2 text-grayoe-950 ml-auto truncate">
-                  {todayPrice.price > 0 ? `${todayPrice.price.toLocaleString()} 원` : "정보 없음"}
+                <span className="font-h3 xl:font-h2 text-grayoe-950 ml-auto truncate">
+                  <SlotNumber targetValue={todayPrice.price > 0 ? todayPrice.price : 0} />
                 </span>
               </div>
             </div>
