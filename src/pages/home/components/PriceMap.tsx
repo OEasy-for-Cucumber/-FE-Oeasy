@@ -1,19 +1,21 @@
 import { ReactSVG } from "react-svg";
 import mapSvg from "../../../assets/southKoreaLow.svg";
-import { useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import DangerCircle from "../../../../public/icons/Danger Circle.png";
 import instance from "../../../api/axios";
+import { scrollRefProps } from "../../../types/scrollRef";
+import { useScrollEvent } from "../../../hooks/useScrollEvent";
 
 interface RegionData {
   region: string;
   price: string;
 }
 
-function PriceMap() {
+const PriceMap: FC<scrollRefProps> = ({ scrollRef }) => {
   const [regionData, setRegionData] = useState<RegionData[]>([]);
-
   const [isTooltipVisible, setIsTooltipVisible] = useState<boolean>(false);
   const [isTooltipHover, setIsTooltipHover] = useState<boolean>(false);
+  const [animation, setAnimation] = useState({ animationOne: false });
   const [tooltip, setTooltip] = useState<{
     visible: boolean;
     x: number;
@@ -83,6 +85,18 @@ function PriceMap() {
 
   const isMobile = () => window.innerWidth <= 768;
 
+  const handleScrollAnimation = () => {
+    if (scrollRef.current) {
+      const scrollTop = scrollRef.current.scrollTop;
+      const viewportHeight = window.innerHeight;
+
+      setAnimation(() => ({
+        animationOne: scrollTop >= viewportHeight * 3.3
+      }));
+    }
+  };
+  useScrollEvent(handleScrollAnimation, scrollRef);
+
   return (
     <div className="w-full flex flex-col justify-center px-6 pt-2 h-[calc(100vh-56px)] xl:h-[calc(100vh-80px)]">
       <div className="w-full xl:flex xl:justify-between xl:h-[600px]">
@@ -114,7 +128,7 @@ function PriceMap() {
           </div>
         </div>
         <div
-          className="relative w-[350px] h-auto xl:w-[60%] xl:h-[400px] mt-6 mx-auto"
+          className={`${animation.animationOne ? "animate-fade-in-up" : "opacity-0"} relative w-[350px] h-auto xl:w-[60%] xl:h-[400px] mt-6 mx-auto`}
           onMouseLeave={handleMouseLeaveMap}
         >
           <ReactSVG
@@ -150,6 +164,6 @@ function PriceMap() {
       )}
     </div>
   );
-}
+};
 
 export default PriceMap;

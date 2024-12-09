@@ -166,7 +166,7 @@ function List() {
               >
                 <img src={showSearch ? close : search} alt="검색" />
               </div>
-              <div className="hidden xl:block w-[294px] h-8">
+              <div className="hidden xl:block w-[300px] h-8">
                 <WebSearch message={messageRef} onSearch={handleSearch} />
               </div>
 
