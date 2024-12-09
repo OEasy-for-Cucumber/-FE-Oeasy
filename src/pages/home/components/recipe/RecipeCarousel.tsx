@@ -55,7 +55,10 @@ const RecipeCarousel = () => {
             <ul className={`${ulSt} -translate-x-[75px] xl:translate-x-0 xl:-translate-y-[75px]`}>
               {[...buttonImage, ...buttonImage]?.map((button, index) => (
                 <li key={index} className={sizeSt}>
-                  <img src={button} className={`${sizeSt} rounded-lg xl:rounded-xl`} />
+                  <img
+                    src={button}
+                    className={`${sizeSt} rounded-lg xl:rounded-xl xl:object-cover xl:h-full xl:w-full`}
+                  />
                 </li>
               ))}
             </ul>

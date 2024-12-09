@@ -7,7 +7,7 @@ function Landing() {
             <div>EVERYTHING</div>
             <div>YOU NEVER KNEW</div>
             <div className="flex flex-row">
-              ABOUT<p className="ml-7 text-green-600 drop-shadow-[2px_2px_20px_rgba(0,200,83,0.25)]">CUCUMBER</p>
+              ABOUT<p className="ml-7 text-greenoe-600 drop-shadow-[2px_2px_20px_rgba(0,200,83,0.25)]">CUCUMBER</p>
             </div>
           </div>
 
@@ -15,7 +15,7 @@ function Landing() {
             EVERYTHING
             <div>YOU NEVER</div>
             <div>KNEW ABOUT</div>
-            <div className="text-green-600 drop-shadow-[2px_2px_20px_rgba(0,200,83,0.25)]">CUCUMBER</div>
+            <div className="text-greenoe-600 drop-shadow-[2px_2px_20px_rgba(0,200,83,0.25)]">CUCUMBER</div>
           </div>
         </div>
       </div>
