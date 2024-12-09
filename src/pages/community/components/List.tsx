@@ -184,13 +184,13 @@ function List() {
           <div className="flex flex-col divide-y divide-grayoe-800">
             {posts.map((post, index) => (
               <div key={index} className="flex justify-between py-4 gap-2">
-                <div className="flex flex-col gap-[8px] flex-[8.5]">
-                  <div
-                    className="truncate-title font-b2-semibold xl:font-b1-semibold cursor-pointer"
+                <div className="flex flex-col gap-[8px]">
+                  <p
+                    className="inline-block font-b2-semibold xl:font-b1-semibold cursor-pointer"
                     onClick={() => handlePostClick(post)}
                   >
                     {post.title}
-                  </div>
+                  </p>
 
                   <div className="flex gap-2 font-c2 xl:font-c1">
                     <p className="text-grayoe-300">
@@ -209,9 +209,10 @@ function List() {
                 </div>
                 {post.thumbnailUrl && (
                   <img
-                    className="w-[48px] h-[48px] xl:w-[56px] xl:h-[56px] rounded-md"
+                    className="w-[48px] h-[48px] xl:w-[56px] xl:h-[56px] rounded-md cursor-pointer"
                     src={post.thumbnailUrl}
                     alt="post 썸네일 이미지"
+                    onClick={() => handlePostClick(post)}
                   />
                 )}
               </div>
