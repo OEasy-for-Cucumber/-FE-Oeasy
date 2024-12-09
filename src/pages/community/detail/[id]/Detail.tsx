@@ -30,6 +30,7 @@ function Detail() {
   const { showConfirm } = useConfirm();
   const { showAlert } = useAlert();
   const [selectedImage, setSelectedImage] = useState<number | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     if (cmnId) {
@@ -146,9 +147,11 @@ function Detail() {
 
   const handleImageClick = (index: number) => {
     setSelectedImage(index);
+    setIsModalOpen(true);
   };
 
   const handleCloseModal = () => {
+    setIsModalOpen(false);
     setSelectedImage(null);
   };
 
@@ -236,31 +239,37 @@ function Detail() {
               </div>
             )}
 
-            {selectedImage !== null && postData && (
-              <div className="fixed top-0 left-0 w-full h-full bg-black flex flex-col items-center justify-center z-50">
-                <button className="absolute top-2 left-4 text-white text-2xl" onClick={handleCloseModal}>
+            {isModalOpen && postData && selectedImage !== null && (
+              <>
+                <div
+                  className="fixed top-0 left-0 w-full h-full z-10 bg-black "
+                  onClick={() => setIsModalOpen(false)}
+                />
+                <button className="fixed top-[80px] left-4 text-white text-2xl z-30" onClick={handleCloseModal}>
                   ✕
                 </button>
-                <div>
-                  <img
-                    src={postData.imageUrlList[selectedImage]}
-                    alt="확대된 이미지"
-                    className="max-w-full max-h-screen rounded-lg"
-                  />
-                </div>
-
-                {postData.imageUrlList.length > 1 && (
-                  <div className="flex gap-2 mt-4">
-                    {postData.imageUrlList.map((_, index) => (
-                      <button
-                        key={index}
-                        className={`w-3 h-3 rounded-full ${index === selectedImage ? "bg-white" : "bg-gray-400"}`}
-                        onClick={() => handleIndicatorClick(index)}
-                      />
-                    ))}
+                <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-auto h-auto flex flex-col items-center justify-center z-20">
+                  <div>
+                    <img
+                      src={postData.imageUrlList[selectedImage]}
+                      alt="확대된 이미지"
+                      className="max-w-full max-h-screen rounded-lg"
+                    />
                   </div>
-                )}
-              </div>
+
+                  {postData.imageUrlList.length > 1 && (
+                    <div className="flex gap-2 mt-4">
+                      {postData.imageUrlList.map((_, index) => (
+                        <button
+                          key={index}
+                          className={`w-3 h-3 rounded-full ${index === selectedImage ? "bg-white" : "bg-gray-400"}`}
+                          onClick={() => handleIndicatorClick(index)}
+                        />
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </>
             )}
 
             <div className="flex justify-start items-center gap-1 pt-6">
