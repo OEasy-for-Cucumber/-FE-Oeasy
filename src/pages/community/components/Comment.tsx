@@ -217,14 +217,22 @@ function Comment({ communityId, setTotalComments }: CmnProps) {
                     onClick={() => handleToggleMenu(com.commentPk)}
                   />
                   {showMenu === com.commentPk && (
-                    <div className="absolute top-6 right-0 w-14 font-c2 bg-grayoe-400 rounded-md shadow-lg flex flex-col">
-                      <button className="py-2 px-4  rounded" onClick={() => handleEdit(com.commentPk, com.content)}>
-                        수정
-                      </button>
-                      <button className="py-2 px-4  rounded" onClick={() => handleDelete(com.commentPk)}>
-                        삭제
-                      </button>
-                    </div>
+                    <>
+                      <div className="fixed top-0 left-0 w-[100%] h-[100%] z-10 " onClick={() => setShowMenu(null)} />
+                      <div
+                        className="absolute z-20 top-6 right-0 w-14 font-c2 bg-grayoe-400 rounded-md shadow-lg flex flex-col"
+                        // onBlur={() => {
+                        //   setShowMenu(null);
+                        // }}
+                      >
+                        <button className="py-2 px-4  rounded" onClick={() => handleEdit(com.commentPk, com.content)}>
+                          수정
+                        </button>
+                        <button className="py-2 px-4  rounded" onClick={() => handleDelete(com.commentPk)}>
+                          삭제
+                        </button>
+                      </div>
+                    </>
                   )}
                   {editingComment === com.commentPk && (
                     <button className="mt-2  font-bold" onClick={() => handleEditSubmit(com.commentPk)}>
