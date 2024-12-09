@@ -58,9 +58,9 @@ function ConfirmPasswordModal({ handleNewPasswordModal }: ConfirmPasswordModalPr
           value={prevPassword}
           onChange={handlePrevPasswordChange}
           placeholder="이전 비밀번호를 입력해주세요."
-          className="w-full p-2 border-b border-grayoe-400 bg-grayoe-900 focus:outline-none focus:ring-2 focus:ring-green-500 mb-6"
+          className="w-full py-1 border-b border-grayoe-400 bg-grayoe-900 placeholder-grayoe-400 focus:outline-none my-8"
         />
-        <div className="flex justify-between gap-3">
+        <div className="flex justify-between gap-2 mt-8">
           <Button type="button" onClick={handleCancel} size="medium" isActive={true}>
             취소
           </Button>

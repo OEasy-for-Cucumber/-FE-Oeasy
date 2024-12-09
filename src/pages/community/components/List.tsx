@@ -4,6 +4,7 @@ import postHeart from "../../../../public/icons/heart.png";
 import commentIcon from "../../../../public/icons/comment.png";
 import filter from "../../../../public/icons/filterIcon.png";
 import search from "../../../../public/icons/Search.png";
+import close from "../../../../public/icons/Icon.png";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import Search from "./Search";
@@ -11,6 +12,7 @@ import instance from "../../../api/axios";
 import Pagination from "./Pagination";
 import { useUserStore } from "../../../zustand/authStore";
 import useAlert from "../../../hooks/useAlert";
+import WebSearch from "./WebSearch";
 
 interface contentTypes {
   boardPk: string;
@@ -126,49 +128,69 @@ function List() {
       return format(date, "yy.MM.dd");
     }
   }
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 1440) {
+        setShowSearch(false);
+        setSearchKeyword("");
+      }
+    };
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.addEventListener("resize", handleResize);
+    };
+  }, []);
+
   return (
     <>
-      <div className="h-[calc(100vh-90px)] px-6 xl:w-[767px] mx-auto mt-1 flex flex-col justify-between items-center ">
-        <div className="w-full ">
-          {showSearch ? (
-            <Search message={messageRef} onSearch={handleSearch} onClose={() => setShowSearch(false)} />
-          ) : (
-            <div className="flex justify-between items-center font-c2">
-              <div className="flex flex-col items-center gap-1 cursor-pointer">
-                <div className="flex gap-1" onClick={toggleSortOrder}>
-                  <img src={filter} alt="필터아이콘" className="w-[14px] h-[14px]" />
-                  <p className="font-c2 xl:font-c1">{getSortLabel()}</p>
-                </div>
-              </div>
-              <div className="flex gap-2">
-                <div
-                  className="w-8 h-8 p-2 border border-grayoe-400 rounded-md bg-grayoe-900 cursor-pointer"
-                  onClick={() => setShowSearch(true)}
-                >
-                  <img src={search} alt="검색" />
-                </div>
+      <div className="h-[calc(100vh-90px)] px-6 xl:w-[864px] mx-auto mt-1 flex flex-col justify-between items-center ">
+        {showSearch && (
+          <div className="w-full xl:hidden">
+            <Search message={messageRef} onSearch={handleSearch} />
+          </div>
+        )}
 
-                <button
-                  className="w-14 h-8 xl:w-16 font-c2 xl:font-c1 rounded-[4px] bg-grayoe-400 px-3 py-2 "
-                  onClick={handleUploadClick}
-                >
-                  글쓰기
-                </button>
+        <div className="w-full pt-4 ">
+          <div className="flex justify-between items-center font-c2">
+            <div className="flex flex-col items-center gap-1 cursor-pointer">
+              <div className="flex gap-1" onClick={toggleSortOrder}>
+                <img src={filter} alt="필터아이콘" className="w-[14px] h-[14px]" />
+                <p className="font-c2 xl:font-c1">{getSortLabel()}</p>
               </div>
             </div>
-          )}
+            <div className="flex gap-1">
+              <div
+                className="block w-8 h-8 p-2 border border-grayoe-400 rounded-md bg-grayoe-900 cursor-pointer xl:hidden"
+                onClick={() => setShowSearch((prev) => !prev)}
+              >
+                <img src={showSearch ? close : search} alt="검색" />
+              </div>
+              <div className="hidden xl:block w-[294px] h-8">
+                <WebSearch message={messageRef} onSearch={handleSearch} />
+              </div>
+
+              <button
+                className="w-14 h-8 xl:w-16 font-c2 xl:font-c1 rounded-[4px] bg-grayoe-400 px-3 py-2 "
+                onClick={handleUploadClick}
+              >
+                글쓰기
+              </button>
+            </div>
+          </div>
         </div>
+
         <div className="flex-1 w-full overflow-y-auto scrollbar-hidden">
           <div className="flex flex-col divide-y divide-grayoe-800">
             {posts.map((post, index) => (
               <div key={index} className="flex justify-between py-4 gap-2">
-                <div className="flex flex-col gap-[8px] flex-[8.5]">
-                  <div
-                    className="truncate-title font-b2-semibold xl:font-b1-semibold cursor-pointer"
+                <div className="flex flex-col gap-[8px]">
+                  <p
+                    className="inline-block font-b2-semibold xl:font-b1-semibold cursor-pointer"
                     onClick={() => handlePostClick(post)}
                   >
                     {post.title}
-                  </div>
+                  </p>
 
                   <div className="flex gap-2 font-c2 xl:font-c1">
                     <p className="text-grayoe-300">
@@ -187,9 +209,10 @@ function List() {
                 </div>
                 {post.thumbnailUrl && (
                   <img
-                    className="w-[48px] h-[48px] xl:w-[56px] xl:h-[56px] rounded-md"
+                    className="w-[48px] h-[48px] xl:w-[56px] xl:h-[56px] rounded-md cursor-pointer"
                     src={post.thumbnailUrl}
                     alt="post 썸네일 이미지"
+                    onClick={() => handlePostClick(post)}
                   />
                 )}
               </div>

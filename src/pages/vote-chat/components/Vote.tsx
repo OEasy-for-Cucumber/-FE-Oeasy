@@ -3,6 +3,8 @@ import { useUserStore } from "../../../zustand/authStore";
 import SockJS from "sockjs-client";
 import { Client } from "@stomp/stompjs";
 import useAlert from "../../../hooks/useAlert";
+import { useNavigate } from "react-router-dom";
+import useConfirm from "../../../hooks/useConfirm";
 
 interface VoteProps {
   active: "vote" | "chat";
@@ -22,6 +24,8 @@ function Vote({ active, initialVotes, isVoting }: VoteProps) {
   const user = useUserStore((state) => state.user);
   const stompClientRef = useRef<Client | null>(null);
   const { showAlert } = useAlert();
+  const { showConfirm } = useConfirm();
+  const navigate = useNavigate();
 
   useEffect(() => {
     setVotingStatus(isVoting);
@@ -63,36 +67,45 @@ function Vote({ active, initialVotes, isVoting }: VoteProps) {
     };
   }, []);
 
-  const handleVote = (side: "hate" | "like") => {
+  const handleVote = async (side: "hate" | "like") => {
     if (!user) {
       showAlert({ message: "로그인 후 투표해주세요" });
+      navigate("/login");
       return;
     }
 
     if (votingStatus === "like" || votingStatus === "hate") {
-      showAlert({ message: "하루에 한 번 투표 가능합니다" });
+      showAlert({ message: "앗 투표는 신중하게 하셔야죠 ㅎㅎ 안타까오이,," });
       return;
     }
 
-    if (side === "hate") {
-      setIsHateClicked(true);
-      setTimeout(() => setIsHateClicked(false), 300);
-    } else {
-      setIsLikeClicked(true);
-      setTimeout(() => setIsLikeClicked(false), 300);
-    }
+    const isHateVote = side === "hate";
+    const message = isHateVote ? "'오이려 싫어'에 투표하시겠습니까?" : "'오이려 좋아'에 투표하시겠습니까?";
 
-    if (stompClientRef.current && stompClientRef.current.connected) {
-      stompClientRef.current.publish({
-        destination: `/app/votes`,
-        body: JSON.stringify({
-          id: user.memberPk,
-          vote: side === "hate" ? false : true
-        })
-      });
-    } else {
-      console.error("STOMP 연결이 활성화되어 있지 않습니다.");
-    }
+    showConfirm({
+      message,
+      onConfirm: async () => {
+        if (isHateVote) {
+          setTimeout(() => setIsHateClicked(false), 500);
+          setIsHateClicked(true);
+        } else {
+          setTimeout(() => setIsLikeClicked(false), 500);
+          setIsLikeClicked(true);
+        }
+
+        if (stompClientRef.current && stompClientRef.current.connected) {
+          stompClientRef.current.publish({
+            destination: `/app/votes`,
+            body: JSON.stringify({
+              id: user?.memberPk,
+              vote: !isHateVote
+            })
+          });
+        } else {
+          console.error("STOMP 연결이 활성화되어 있지 않습니다.");
+        }
+      }
+    });
   };
 
   const totalVotes = hateVotes + likeVotes;
@@ -107,8 +120,6 @@ function Vote({ active, initialVotes, isVoting }: VoteProps) {
   const likeBg = likeVotes > hateVotes ? "bg-redoe-500" : "bg-redoe-50";
   const hateWinImg = hateVotes > likeVotes ? "/img/hateOeWin.png" : "/img/hateOeLoose.png";
   const likeWinImg = likeVotes > hateVotes ? "/img/likeOeWin.png" : "/img/likeOeLoose.png";
-  const isVoteAllowed =
-    !user?.lastVoteTime || new Date(user.lastVoteTime).setHours(0, 0, 0, 0) !== new Date().setHours(0, 0, 0, 0);
 
   return (
     <>
@@ -145,13 +156,7 @@ function Vote({ active, initialVotes, isVoting }: VoteProps) {
               className={`p-4 flex justify-start items-center xl:items-end cursor-pointer rounded-l-[8px] ${hateBg} ${
                 isHateClicked ? "shadow-inset-down" : "shadow-3d"
               } ${hateWidth === 100 ? "w-full" : hateWidth === 75 ? "w-3/4" : "w-1/2"} transition-all duration-300`}
-              onClick={() => {
-                if (isVoteAllowed) {
-                  handleVote("hate");
-                } else {
-                  alert("하루에 한 번만 투표할 수 있습니다.");
-                }
-              }}
+              onClick={() => handleVote("hate")}
             >
               <div className={`text-left ${hateFont}`}>
                 <p>{hateVotes !== undefined ? hateVotes.toLocaleString() : "0"}</p>
@@ -162,13 +167,7 @@ function Vote({ active, initialVotes, isVoting }: VoteProps) {
               className={`p-4 flex justify-end items-center xl:items-end cursor-pointer  rounded-r-[8px] ${likeBg} ${
                 isLikeClicked ? "shadow-inset-down" : "shadow-3d"
               } ${likeWidth === 100 ? "w-full" : likeWidth === 75 ? "w-3/4" : "w-1/2"} transition-all duration-300`}
-              onClick={() => {
-                if (isVoteAllowed) {
-                  handleVote("like");
-                } else {
-                  alert("하루에 한 번만 투표할 수 있습니다.");
-                }
-              }}
+              onClick={() => handleVote("like")}
             >
               <div className={`text-left ${likeFont}`}>
                 <p>{likeVotes !== undefined ? likeVotes.toLocaleString() : "0"}</p>
