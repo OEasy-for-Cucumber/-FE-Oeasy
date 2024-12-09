@@ -20,12 +20,11 @@ function KakaoCallback() {
         const res = await instance.post(`/login/kakao/callback?code=${encodedCode}`, {
           headers: { "Content-Type": "application/json" }
         });
-        const { accessToken, refreshToken, email, nickname, memberPk } = res.data;
+        const { accessToken, email, nickname, memberPk } = res.data;
         Cookies.set("accessToken", res.data.accessToken);
-        Cookies.set("refreshToken", res.data.refreshToken);
 
-        if (accessToken && refreshToken && email && nickname) {
-          setUser({ accessToken, refreshToken, email, nickname, memberPk });
+        if (accessToken && email && nickname) {
+          setUser({ accessToken, email, nickname, memberPk });
           setIsLoggedIn(true);
           navigate("/");
         } else {

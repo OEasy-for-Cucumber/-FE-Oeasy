@@ -67,7 +67,6 @@ function Login() {
         pw: password
       });
       Cookies.set("accessToken", response.data.accessToken);
-      Cookies.set("refreshToken", response.data.refreshToken);
       setIsLoggedIn(true);
       navigate("/");
     } catch (error: unknown) {
