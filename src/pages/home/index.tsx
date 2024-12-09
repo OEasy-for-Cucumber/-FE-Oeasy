@@ -108,9 +108,9 @@ function Home() {
         <Landing />
         <div className="xl:px-[200px]">
           <OeTip scrollRef={outerDivRef} />
-          <OeVote />
-          <OeTemperature />
-          <PriceMap />
+          <OeVote scrollRef={outerDivRef} />
+          <OeTemperature scrollRef={outerDivRef} />
+          <PriceMap scrollRef={outerDivRef} />
           <OeGraph />
           <Recipe />
         </div>
