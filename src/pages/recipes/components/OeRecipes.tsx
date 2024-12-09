@@ -4,11 +4,11 @@ import Loading from "../../../components/common/Loading";
 import { useEffect, useRef } from "react";
 
 function OeRecipes() {
-  const { data: recipes, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } = useRecipesData();
+  const { data: recipes, fetchNextPage, hasNextPage, isLoading } = useRecipesData();
   const loaderRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    if (!loaderRef.current || !hasNextPage || isFetchingNextPage) return;
+    if (!loaderRef.current || !hasNextPage) return;
 
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -24,10 +24,14 @@ function OeRecipes() {
     return () => {
       observer.disconnect(); // 메모리 누수 방지
     };
-  }, [fetchNextPage, hasNextPage, isFetchingNextPage]);
+  }, [fetchNextPage, hasNextPage]);
 
   if (isLoading) {
-    return <Loading />;
+    return (
+      <div className="flex justify-center items-center h-[calc(100vh-200px)]">
+        <Loading className="w-[180px] xl:w-[300px]" />
+      </div>
+    );
   }
 
   return (
@@ -43,9 +47,7 @@ function OeRecipes() {
         </div>
       ))}
 
-      <div ref={loaderRef} className="w-full h-[56px] flex items-center justify-center mb-4">
-        {isFetchingNextPage && <Loading />}
-      </div>
+      <div ref={loaderRef} className="w-full h-[56px] flex items-center justify-center mb-4"></div>
     </>
   );
 }
