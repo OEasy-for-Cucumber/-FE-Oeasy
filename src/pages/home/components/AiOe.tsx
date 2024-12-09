@@ -11,6 +11,7 @@ import instance from "../../../api/axios";
 import { useUserStore } from "../../../zustand/authStore";
 import { useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
+import useAlert from "../../../hooks/useAlert";
 
 type Message = {
   sender: "user" | "bot";
@@ -34,6 +35,7 @@ function AiOe() {
   const [isExpanded, setIsExpanded] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const { user } = useUserStore();
+  const { showAlert } = useAlert();
   const navigate = useNavigate();
 
   const scrollToBottom = () => {
@@ -64,10 +66,12 @@ function AiOe() {
 
   const aiOeStart = async () => {
     if (!user) {
-      alert("로그인 후 이용해주세요");
+      showAlert({
+        message: "로그인 후 이용해주세요"
+      });
       navigate("/login");
-      return;
     }
+
     try {
       await instance.post("/aioe/start");
     } catch (error: unknown) {
