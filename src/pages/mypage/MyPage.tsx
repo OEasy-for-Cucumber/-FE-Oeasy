@@ -21,7 +21,7 @@ function MyPage() {
   return (
     <div className="w-full xl:w-[688px] mx-auto">
       <h1 className="hidden xl:flex font-h3 mx-4">마이페이지</h1>
-      <div className="flex p-4 bg-grayoe-900 rounded-lg items-center my-6 mx-4">
+      <div className="flex p-4 bg-grayoe-900 rounded-lg items-center my-6 mx-4 xl:mx-0">
         <div className="w-full flex items-center">
           <img src={!user?.memberImage ? Sample : user?.memberImage} alt="프로필이미지" className="w-[48px] h-[48px] rounded-full" />
           <h6 className="font-h6 ml-2">{user?.nickname}</h6>

@@ -1,3 +1,4 @@
+import { useState } from "react";
 import DeleteIcon from "../../../public/icons/deleteIcon.png";
 
 interface InputProps {
@@ -11,8 +12,24 @@ interface InputProps {
   onClick?: () => void;
 }
 
-const Input: React.FC<InputProps> = ({ type, value, maxLength, onChange, placeholder, isValid, defaultValue, onClick }) => {
-  const borderColorClass = value === "" ? "border-grayoe-700" : isValid ? "border-[#008CCC]" : "border-[#FF453A]";
+const Input: React.FC<InputProps> = ({
+  type,
+  value,
+  maxLength,
+  onChange,
+  placeholder,
+  isValid,
+  defaultValue,
+  onClick,
+}) => {
+  const [isFocused, setIsFocused] = useState(false);
+
+  const borderColorClass = isFocused
+  ? isValid
+    ? "border-[#008CCC]"
+    : "border-[#FF453A]"
+  : "border-grayoe-700";
+
 
   return (
     <div className="relative">
@@ -21,12 +38,20 @@ const Input: React.FC<InputProps> = ({ type, value, maxLength, onChange, placeho
         value={value}
         maxLength={maxLength}
         onChange={onChange}
+        onFocus={() => setIsFocused(true)}
+        onBlur={() => setIsFocused(false)}
         className={`focus:outline-none w-full h-[48px] placeholder-grayoe-400 bg-grayoe-950 outline-none border-b-[1.5px] ${borderColorClass}`}
         placeholder={placeholder}
         defaultValue={defaultValue}
       />
-      {value && (
-        <button onClick={onClick} tabIndex={-1} type="reset" className="absolute bottom-4 right-1">
+
+      {isFocused && value && (
+        <button
+          onClick={onClick}
+          tabIndex={-1}
+          type="reset"
+          className="absolute bottom-4 right-1"
+        >
           <img src={DeleteIcon} alt="삭제버튼" className="w-4" />
         </button>
       )}

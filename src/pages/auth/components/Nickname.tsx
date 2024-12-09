@@ -2,9 +2,6 @@ import Input from "../../../components/common/Input";
 import { StepProps } from "../../../types/authPropsTypes";
 
 function Nickname({ nickname, setNickname=()=>{}, isNickname, nicknameMsg, nicknameChangeHandler = () => {} }: StepProps) {
-  const baseLabelClass = "transition-all duration-300 text-[13px]";
-  const visibleLabelClass = "opacity-100 translate-y-0";
-  const hiddenLabelClass = "opacity-0 -translate-1";
 
   const resetNicknameValue = () => {
     setNickname("");
@@ -16,8 +13,8 @@ function Nickname({ nickname, setNickname=()=>{}, isNickname, nicknameMsg, nickn
         <p className="text-lg mb-4">닉네임을 입력해주세요</p>
         <p
           className={`${!isNickname ? "redoe" : "text-grayoe-300"} ${
-            nickname ? visibleLabelClass : hiddenLabelClass
-          } ${baseLabelClass}`}
+            nickname ?"label-visible" : "label-hidden"
+          } base-label`}
         >
           닉네임
         </p>
@@ -32,8 +29,8 @@ function Nickname({ nickname, setNickname=()=>{}, isNickname, nicknameMsg, nickn
         />
         <p
           className={`${"redoe"} ${
-            isNickname === false && nickname !== "" ? visibleLabelClass : hiddenLabelClass
-          } ${baseLabelClass} mt-1`}
+            isNickname === false && nickname !== "" ? "label-visible" : "label-hidden"
+          } base-label mt-1`}
         >
           {nicknameMsg}
         </p>
