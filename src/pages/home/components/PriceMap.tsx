@@ -1,6 +1,6 @@
+import { FC, useEffect, useState } from "react";
 import { ReactSVG } from "react-svg";
 import mapSvg from "../../../assets/southKoreaLow.svg";
-import { FC, useEffect, useState } from "react";
 import DangerCircle from "../../../../public/icons/Danger Circle.png";
 import instance from "../../../api/axios";
 import { scrollRefProps } from "../../../types/scrollRef";
@@ -85,7 +85,6 @@ const PriceMap: FC<scrollRefProps> = ({ scrollRef }) => {
     setTooltip({ visible: false, x: 0, y: 0 });
   };
 
-
   const handleScrollAnimation = () => {
     if (scrollRef.current) {
       const scrollTop = scrollRef.current.scrollTop;
@@ -94,9 +93,15 @@ const PriceMap: FC<scrollRefProps> = ({ scrollRef }) => {
       setAnimation(() => ({
         animationOne: scrollTop >= viewportHeight * 3.3
       }));
+
+      setTooltip((prev) => ({ ...prev, visible: false }));
     }
   };
   useScrollEvent(handleScrollAnimation, scrollRef);
+
+  useEffect(() => {
+    setTooltip((prev) => ({ ...prev, visible: false }));
+  }, [regionData]);
 
   return (
     <div className="w-full flex flex-col justify-center px-6 pt-2 h-[calc(100vh-56px)] xl:h-[calc(100vh-80px)]">
