@@ -24,6 +24,8 @@ const PriceMap: FC<scrollRefProps> = ({ scrollRef }) => {
     price?: string;
   }>({ visible: false, x: 0, y: 0 });
 
+  const isMobile = () => window.innerWidth <= 768;
+
   const toggleTooltip = () => {
     setIsTooltipVisible((prev) => !prev);
   };
@@ -71,7 +73,7 @@ const PriceMap: FC<scrollRefProps> = ({ scrollRef }) => {
     if (isMobile()) {
       setTimeout(() => {
         setTooltip((prev) => ({ ...prev, visible: false }));
-      }, 2000);
+      }, 3000);
     }
   };
 
@@ -83,7 +85,6 @@ const PriceMap: FC<scrollRefProps> = ({ scrollRef }) => {
     setTooltip({ visible: false, x: 0, y: 0 });
   };
 
-  const isMobile = () => window.innerWidth <= 768;
 
   const handleScrollAnimation = () => {
     if (scrollRef.current) {
@@ -146,7 +147,7 @@ const PriceMap: FC<scrollRefProps> = ({ scrollRef }) => {
                 } else {
                   path.setAttribute("class", "land");
                 }
-                path.addEventListener("mousemove", handleMouseMove);
+                path.addEventListener("mouseup", handleMouseMove);
                 path.addEventListener("mouseleave", handleMouseLeaveRegion);
               });
             }}
