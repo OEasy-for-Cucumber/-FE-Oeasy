@@ -67,7 +67,7 @@ const AccountDeleteModal: React.FC<AccountDeleteModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-grayoe-950 bg-opacity-80">
+    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-80">
       <div className="bg-grayoe-900 text-white rounded-lg p-6 w-[90%] max-w-md">
         <h2 className="text-lg font-bold text-center mb-4">정말 떠나실 건가요?</h2>
         <p className="text-sm text-center mb-6">
