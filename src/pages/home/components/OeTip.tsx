@@ -41,18 +41,20 @@ const OeTip: FC<scrollRefProps> = ({ scrollRef }) => {
         <div className="font-h3 xl:font-h2 text-center">우리 오이는</div>
       </div>
 
-      <div
-        className={`${animation.animationOne ? "animate-fade-in-up will-change-scroll" : "opacity-0"} w-[281px] transition-opacity xl:w-full mx-auto`}
-      >
-        <img src={quotes} alt="큰따옴표" className="w-[39px] xl:w-[60px] h-[29px] xl:h-[44px] my-10 mx-auto" />
+      <div className="w-[281px] xl:w-full mx-auto will-change-transform">
+        <img
+          src={quotes}
+          alt="큰따옴표"
+          className={`${animation.animationOne ? "animate-fade-in-up" : "opacity-0"} w-[39px] xl:w-[60px] h-[29px] xl:h-[44px] my-10 mx-auto`}
+        />
       </div>
 
       {tipList && (
-        <div
-          className={`${animation.animationTwo ? "animate-fade-in-up will-change-scroll" : "opacity-0"} transition-opacity`}
-        >
-          <img src={tipList.mobileImg} className="xl:hidden" />
-          <img src={tipList.webImg} className="hidden xl:block h-[422px]" />
+        <div className="will-change-transform">
+          <div className={`${animation.animationTwo ? "animate-fade-in-up" : "opacity-0"}`}>
+            <img src={tipList.mobileImg} className="xl:hidden" />
+            <img src={tipList.webImg} className="hidden xl:block h-[422px]" />
+          </div>
         </div>
       )}
     </section>
