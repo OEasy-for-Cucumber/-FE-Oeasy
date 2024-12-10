@@ -42,13 +42,15 @@ const OeTip: FC<scrollRefProps> = ({ scrollRef }) => {
       </div>
 
       <div
-        className={`${animation.animationOne ? "animate-fade-in-up" : "opacity-0"} w-[281px] transition-opacity xl:w-full mx-auto`}
+        className={`${animation.animationOne ? "animate-fade-in-up will-change-scroll" : "opacity-0"} w-[281px] transition-opacity xl:w-full mx-auto`}
       >
         <img src={quotes} alt="큰따옴표" className="w-[39px] xl:w-[60px] h-[29px] xl:h-[44px] my-10 mx-auto" />
       </div>
 
       {tipList && (
-        <div className={`${animation.animationTwo ? "animate-fade-in-up" : "opacity-0"} transition-opacity`}>
+        <div
+          className={`${animation.animationTwo ? "animate-fade-in-up will-change-scroll" : "opacity-0"} transition-opacity`}
+        >
           <img src={tipList.mobileImg} className="xl:hidden" />
           <img src={tipList.webImg} className="hidden xl:block h-[422px]" />
         </div>
