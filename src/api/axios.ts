@@ -30,12 +30,22 @@ instance.interceptors.response.use(
     const originalRequest = error.config;
     const { setIsLoggedIn } = useUserStore.getState();
 
-    if ((originalRequest.url === "/aioe/start" && error.response?.status === 401) || error.response?.status === 400) {
+    const errorCode: string | undefined = error.response?.data?.code;
+
+    // if ((originalRequest.url === "/aioe/start" && error.response?.status === 401) || error.response?.status === 400) {
+    //   console.warn("오류 무시");
+    //   return Promise.reject(error);
+    // }
+
+    if (
+      (originalRequest.url === "/aioe/start" && errorCode === "EXPIRED_ACCESS_TOKEN") ||
+      error.response?.status === 400
+    ) {
       console.warn("오류 무시");
       return Promise.reject(error);
     }
 
-    if (error.response?.status === 401 && !originalRequest._retry) {
+    if (errorCode === "EXPIRED_ACCESS_TOKEN" && !originalRequest._retry) {
       originalRequest._retry = true;
 
       console.log("토큰 만료 401 에러");
@@ -43,12 +53,15 @@ instance.interceptors.response.use(
       try {
         const { data } = await instance.post(
           "/auth/refresh");
+
         Cookies.set("accessToken", data.accessToken);
         console.log("토큰 재발급");
+
         originalRequest.headers["Authorization"] = `Bearer ${data.accessToken}`;
         return instance(originalRequest);
       } catch (refreshError) {
         console.error("토큰 갱신 실패:", refreshError);
+        
         Cookies.remove("accessToken");
         setIsLoggedIn(false);
         window.location.href = "/login";

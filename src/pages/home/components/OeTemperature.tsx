@@ -62,7 +62,7 @@ const OeTemperature: FC<scrollRefProps> = ({ scrollRef }) => {
   useScrollEvent(handleScrollAnimation, scrollRef);
 
   return (
-    <div className="px-6 h-[calc(100vh-56px)] xl:h-[calc(100vh-80px)] flex justify-center items-center xl:items-start xl:pt-[10%]">
+    <div className="px-6 h-[calc(100vh-56px)] xl:h-[calc(100vh-80px)] flex justify-center items-center xl:items-start xl:pt-[5%]">
       <div className="w-full h-[540px] relative">
         <h3 className="font-h3 xl:font-h2 xl:mb-4">오늘의 OE지수</h3>
         <div className="flex gap-1 items-center py-1 mb-8">
