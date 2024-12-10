@@ -26,12 +26,10 @@ const OeTip: FC<scrollRefProps> = ({ scrollRef }) => {
       const scrollTop = scrollRef.current.scrollTop;
       const viewportHeight = window.innerHeight;
 
-      window.requestAnimationFrame(() => {
-        setAnimation(() => ({
-          animationOne: scrollTop >= viewportHeight * 0.4,
-          animationTwo: scrollTop >= viewportHeight * 0.7
-        }));
-      });
+      setAnimation(() => ({
+        animationOne: scrollTop >= viewportHeight * 0.4,
+        animationTwo: scrollTop >= viewportHeight * 0.7
+      }));
     }
   };
   useScrollEvent(handleScrollAnimation, scrollRef);
