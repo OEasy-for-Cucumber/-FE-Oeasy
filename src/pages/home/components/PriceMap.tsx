@@ -1,6 +1,6 @@
+import { FC, useEffect, useState } from "react";
 import { ReactSVG } from "react-svg";
 import mapSvg from "../../../assets/southKoreaLow.svg";
-import { FC, useEffect, useState } from "react";
 import DangerCircle from "../../../../public/icons/Danger Circle.png";
 import instance from "../../../api/axios";
 import { scrollRefProps } from "../../../types/scrollRef";
@@ -57,6 +57,26 @@ const PriceMap: FC<scrollRefProps> = ({ scrollRef }) => {
     getRegionPrice();
   }, []);
 
+  const handleTouchMove = (event: TouchEvent) => {
+    const target = event.target as SVGElement;
+    const regionId = target.id.slice(0, 2);
+
+    const matchingRegion = regionData.find((data) => data.region === regionId);
+    setTooltip({
+      visible: true,
+      x: event.touches[0].clientX,
+      y: event.touches[0].clientY,
+      region: matchingRegion?.region || regionId,
+      price: matchingRegion?.price || "정보 없음"
+    });
+
+    if (isMobile()) {
+      setTimeout(() => {
+        setTooltip((prev) => ({ ...prev, visible: false }));
+      }, 3000);
+    }
+  };
+
   const handleMouseMove = (event: React.MouseEvent | MouseEvent) => {
     const target = event.target as SVGElement;
     const regionId = target.id.slice(0, 2);
@@ -85,7 +105,6 @@ const PriceMap: FC<scrollRefProps> = ({ scrollRef }) => {
     setTooltip({ visible: false, x: 0, y: 0 });
   };
 
-
   const handleScrollAnimation = () => {
     if (scrollRef.current) {
       const scrollTop = scrollRef.current.scrollTop;
@@ -94,9 +113,15 @@ const PriceMap: FC<scrollRefProps> = ({ scrollRef }) => {
       setAnimation(() => ({
         animationOne: scrollTop >= viewportHeight * 3.3
       }));
+
+      setTooltip((prev) => ({ ...prev, visible: false }));
     }
   };
   useScrollEvent(handleScrollAnimation, scrollRef);
+
+  useEffect(() => {
+    setTooltip((prev) => ({ ...prev, visible: false }));
+  }, [regionData]);
 
   return (
     <div className="w-full flex flex-col justify-center px-6 pt-2 h-[calc(100vh-56px)] xl:h-[calc(100vh-80px)]">
@@ -148,6 +173,7 @@ const PriceMap: FC<scrollRefProps> = ({ scrollRef }) => {
                   path.setAttribute("class", "land");
                 }
                 path.addEventListener("mouseup", handleMouseMove);
+                path.addEventListener("touchmove", handleTouchMove);
                 path.addEventListener("mouseleave", handleMouseLeaveRegion);
               });
             }}
