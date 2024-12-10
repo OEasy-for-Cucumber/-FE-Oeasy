@@ -134,7 +134,7 @@ function AiOe() {
       />
       {aiOe &&
         ReactDOM.createPortal(
-          <div className="fixed left-1/2 top-[env(safe-area-inset-top)] xl:left-auto transform xl:transform-none -translate-x-1/2 xl:right-[80px] bottom-0 xl:bottom-[152px] w-full min-w-[360px] max-w-[520px] h-screen xl:w-[390px] xl:h-[600px] bg-grayoe-950 z-50 xl:rounded-2xl">
+          <div className="fixed left-1/2 top-[env(safe-area-inset-top)] xl:top-[140px] xl:left-auto transform xl:transform-none -translate-x-1/2 xl:right-[80px] w-full min-w-[360px] max-w-[520px] h-screen xl:w-[390px] xl:h-[600px] bg-grayoe-950 z-50 xl:rounded-2xl">
             <div className="w-full h-[56px] flex justify-center items-center relative">
               <div className="font-b2-semibold">AI OE</div>
               <button className="absolute right-[24px] " onClick={() => setAiOe(false)}>
