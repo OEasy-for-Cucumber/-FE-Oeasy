@@ -64,7 +64,7 @@ function EditPassword({
   };
 
   return (
-    <div className="fixed inset-0 flex flex-col items-center justify-center z-50 w-full min-w-[360px] max-w-[520px] xl:max-w-none h-svh mx-auto bg-black bg-opacity-80">
+    <div className="fixed inset-0 flex flex-col items-center justify-center z-50 w-full w-full xl:max-w-none h-svh mx-auto xl:bg-black xl:bg-opacity-80 bg-grayoe-950">
       <form onSubmit={handleSubmit} className="bg-grayoe-950 text-white w-full min-w-[360px] max-w-[520px] xl:max-w-none xl:w-[512px] relative h-svh xl:h-[400px] xl:rounded-2xl xl:px-6 xl:py-6 px-6 pb-[40px] flex flex-col">
         <div className="flex items-center py-[18px] xl:pt-2 xl:pb-6 justify-between xl:justify-start mb-[40px] xl:mb-0">
           <button type="button" className="w-[18px] h-[18px] xl:w-[24px] xl:h-[24px] mr-3">
