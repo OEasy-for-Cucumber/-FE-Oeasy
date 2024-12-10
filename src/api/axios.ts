@@ -48,11 +48,10 @@ instance.interceptors.response.use(
     if (errorCode === "EXPIRED_ACCESS_TOKEN" && !originalRequest._retry) {
       originalRequest._retry = true;
 
-      console.log("토큰 만료 401 에러");
+      console.log("토큰 만료 - EXPIRED_ACCESS_TOKEN, 재발급 요청");
 
       try {
-        const { data } = await instance.post(
-          "/auth/refresh");
+        const { data } = await instance.post("/auth/refresh");
 
         Cookies.set("accessToken", data.accessToken);
         console.log("토큰 재발급");
@@ -68,6 +67,12 @@ instance.interceptors.response.use(
         return Promise.reject(refreshError);
       }
     }
+
+    if (error.response?.status === 401) {
+      console.warn("401 인증 에러 발생");
+      return Promise.reject(error);
+    }
+
     return Promise.reject(error);
   }
 );

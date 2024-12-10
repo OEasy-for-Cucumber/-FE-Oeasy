@@ -1,6 +1,6 @@
+import { FC, useEffect, useState } from "react";
 import { ReactSVG } from "react-svg";
 import mapSvg from "../../../assets/southKoreaLow.svg";
-import { FC, useEffect, useState } from "react";
 import DangerCircle from "../../../../public/icons/Danger Circle.png";
 import instance from "../../../api/axios";
 import { scrollRefProps } from "../../../types/scrollRef";
@@ -15,6 +15,7 @@ const PriceMap: FC<scrollRefProps> = ({ scrollRef }) => {
   const [regionData, setRegionData] = useState<RegionData[]>([]);
   const [isTooltipVisible, setIsTooltipVisible] = useState<boolean>(false);
   const [isTooltipHover, setIsTooltipHover] = useState<boolean>(false);
+  const [_isSvgTooltipVisible, setIsSvgTooltipVisible] = useState<boolean>(false);
   const [animation, setAnimation] = useState({ animationOne: false });
   const [tooltip, setTooltip] = useState<{
     visible: boolean;
@@ -24,20 +25,46 @@ const PriceMap: FC<scrollRefProps> = ({ scrollRef }) => {
     price?: string;
   }>({ visible: false, x: 0, y: 0 });
 
-  const toggleTooltip = () => {
-    setIsTooltipVisible((prev) => !prev);
-  };
+  // const toggleTooltip = (x: number, y: number, region?: string, price?: string) => {
+  //   setIsSvgTooltipVisible((prev) => !prev);
+  //   setTooltip({
+  //     visible: !isSvgTooltipVisible,
+  //     x,
+  //     y,
+  //     region,
+  //     price,
+  //   });
+  // };
+
   const hideTooltip = () => {
-    setIsTooltipVisible(false);
+    setIsSvgTooltipVisible(false);
+    setTooltip((prev) => ({ ...prev, visible: false }));
   };
 
-  const hoverTooltip = () => {
+  const hoverTooltip = (x: number, y: number, region?: string, price?: string) => {
+    setIsSvgTooltipVisible(true);
+    setTooltip({
+      visible: true,
+      x,
+      y,
+      region,
+      price,
+    });
+  };
+
+  const leaveTooltip = () => {
+    setIsSvgTooltipVisible(false);
+    hideTooltip();
+  };
+
+  const showInfoTooltip = () => {
     setIsTooltipHover(true);
     setIsTooltipVisible(true);
   };
 
-  const leaveTooltip = () => {
+  const hideInfoTooltip = () => {
     setIsTooltipHover(false);
+    setIsTooltipVisible(false);
   };
 
   const getCurrentDate = () => {
@@ -55,35 +82,29 @@ const PriceMap: FC<scrollRefProps> = ({ scrollRef }) => {
     getRegionPrice();
   }, []);
 
+  const handleTouchStart = (event: TouchEvent) => {
+    const target = event.target as SVGElement;
+    const regionId = target.id.slice(0, 2);
+    const matchingRegion = regionData.find((data) => data.region === regionId);
+
+    hoverTooltip(event.touches[0].clientX, event.touches[0].clientY, matchingRegion?.region || regionId, matchingRegion?.price || "정보 없음");
+  };
+
   const handleMouseMove = (event: React.MouseEvent | MouseEvent) => {
     const target = event.target as SVGElement;
     const regionId = target.id.slice(0, 2);
-
     const matchingRegion = regionData.find((data) => data.region === regionId);
-    setTooltip({
-      visible: true,
-      x: event.clientX,
-      y: event.clientY,
-      region: matchingRegion?.region || regionId,
-      price: matchingRegion?.price || "정보 없음"
-    });
 
-    if (isMobile()) {
-      setTimeout(() => {
-        setTooltip((prev) => ({ ...prev, visible: false }));
-      }, 2000);
-    }
+    hoverTooltip(event.clientX, event.clientY, matchingRegion?.region || regionId, matchingRegion?.price || "정보 없음");
   };
 
   const handleMouseLeaveRegion = () => {
-    setTooltip((prev) => ({ ...prev, visible: false }));
+    leaveTooltip();
   };
 
   const handleMouseLeaveMap = () => {
-    setTooltip({ visible: false, x: 0, y: 0 });
+    hideTooltip();
   };
-
-  const isMobile = () => window.innerWidth <= 768;
 
   const handleScrollAnimation = () => {
     if (scrollRef.current) {
@@ -91,11 +112,17 @@ const PriceMap: FC<scrollRefProps> = ({ scrollRef }) => {
       const viewportHeight = window.innerHeight;
 
       setAnimation(() => ({
-        animationOne: scrollTop >= viewportHeight * 3.3
+        animationOne: scrollTop >= viewportHeight * 3.3,
       }));
+
+      hideTooltip();
     }
   };
   useScrollEvent(handleScrollAnimation, scrollRef);
+
+  useEffect(() => {
+    hideTooltip();
+  }, [regionData]);
 
   return (
     <div className="w-full flex flex-col justify-center px-6 pt-2 h-[calc(100vh-56px)] xl:h-[calc(100vh-80px)]">
@@ -105,17 +132,13 @@ const PriceMap: FC<scrollRefProps> = ({ scrollRef }) => {
           <div className="flex gap-1 items-center relative">
             <button
               className="flex items-center gap-1"
-              onClick={toggleTooltip}
-              onBlur={hideTooltip}
-              onMouseEnter={hoverTooltip}
-              onMouseLeave={leaveTooltip}
+              onMouseEnter={showInfoTooltip}
+              onMouseLeave={hideInfoTooltip}
             >
               <img
                 src={DangerCircle}
                 alt="참고사항"
                 className="w-[13px] h-[13px] xl:w-[16px] xl:h-[16px] cursor-pointer"
-                onMouseEnter={() => setIsTooltipHover(true)}
-                onMouseLeave={() => setIsTooltipHover(false)}
               />
             </button>
             {isTooltipVisible && isTooltipHover && (
@@ -147,6 +170,7 @@ const PriceMap: FC<scrollRefProps> = ({ scrollRef }) => {
                   path.setAttribute("class", "land");
                 }
                 path.addEventListener("mousemove", handleMouseMove);
+                path.addEventListener("touchstart", handleTouchStart);
                 path.addEventListener("mouseleave", handleMouseLeaveRegion);
               });
             }}
