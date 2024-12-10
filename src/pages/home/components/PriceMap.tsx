@@ -23,6 +23,10 @@ const PriceMap: FC<scrollRefProps> = ({ scrollRef }) => {
     region?: string;
     price?: string;
   }>({ visible: false, x: 0, y: 0 });
+  
+  let touchTimeout: NodeJS.Timeout | null = null;
+
+  const isMobile = () => window.innerWidth <= 768;
 
   const toggleTooltip = () => {
     setIsTooltipVisible((prev) => !prev);
@@ -56,6 +60,11 @@ const PriceMap: FC<scrollRefProps> = ({ scrollRef }) => {
   }, []);
 
   const handleTouchStart = (event: TouchEvent) => {
+    if (touchTimeout) return; // Prevent repeated execution within a short interval
+    touchTimeout = setTimeout(() => {
+      touchTimeout = null;
+    }, 300);
+
     const target = event.target as SVGElement;
     const regionId = target.id.slice(0, 2);
 
@@ -68,6 +77,11 @@ const PriceMap: FC<scrollRefProps> = ({ scrollRef }) => {
       price: matchingRegion?.price || "정보 없음"
     });
 
+    if (isMobile()) {
+      setTimeout(() => {
+        setTooltip((prev) => ({ ...prev, visible: false }));
+      }, 3000);
+    }
   };
 
   const handleMouseMove = (event: React.MouseEvent | MouseEvent) => {
@@ -83,6 +97,11 @@ const PriceMap: FC<scrollRefProps> = ({ scrollRef }) => {
       price: matchingRegion?.price || "정보 없음"
     });
 
+    if (isMobile()) {
+      setTimeout(() => {
+        setTooltip((prev) => ({ ...prev, visible: false }));
+      }, 3000);
+    }
   };
 
   const handleMouseLeaveRegion = () => {
