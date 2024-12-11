@@ -36,7 +36,7 @@ function WebHeader() {
 
   return (
     <div
-      className={`z-50 w-full min-w-[1440px] h-[80px] px-[80px] flex items-center fixed ${pathname === "/" ? "bg-greenoe-950" : "bg-grayoe-950"}`}
+      className={`w-full min-w-[1440px] h-[80px] px-[80px] flex items-center fixed ${pathname === "/" ? "bg-greenoe-950" : "bg-grayoe-950"}`}
     >
       <div className="flex items-center">
         <button onClick={goToHome} className="text-white text-xl mr-8">
