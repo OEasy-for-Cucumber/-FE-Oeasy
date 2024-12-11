@@ -32,6 +32,11 @@ body::-webkit-scrollbar {
   display: none;
 }
 
+input {
+  -webkit-appearance: none;
+  -webkit-border-radius: 0;
+}
+
 img {
   /* 이미지 잔상 방지 */
   -webkit-user-drag: none;
