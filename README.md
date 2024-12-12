@@ -14,6 +14,7 @@
 | 개발 기간 | 2024-10-15 ~ 2024-12-18 |
 | 프로젝트 명 | Oeasy |
 | 주제 | 호불호가 심한 채소인 오이를 주제로 다양한 정보를 제공하고 소통할 수 있는 커뮤니티 사이트입니다. |
+| 사이트링크 | https://oeasy.world |
 
 
 </div>
@@ -56,9 +57,21 @@
 </div>
 </details>
 
+### 마이페이지
+> * 회원정보 수정, 로그아웃, 회원탈퇴가 가능합니다.
+> * 내가 쓴 게시물과 좋아요한 게시물을 불러옵니다.
+<details>
+<summary>미리보기</summary>
+<div markdown="1">
+
+<img src="./readme-images/my1.png"  width="350" height="400"/>
+<img src="./readme-images/my1-1.png"  width="650" height="400"/>
+ <br>
+</div>
+</details>
 
 ### Main
-> * 내가 구독한 인플루언서, 인기상품, 인기 인플루언서, 후기를 확인할 수 있습니다.
+> * 오이와 관련된 전문지식, 날씨에 따른 오이 상태변화, 지역별 가격, 이번달 가격, 오이 레시피를 확인할 수 있습니다.
 
 <details>
 <summary>미리보기</summary>
@@ -71,9 +84,25 @@
 </div>
 </details>
 
-### Store (Payment)
-> * 스토어에서 카테고리별로 상품을 확인하고 구매할 수 있습니다.
-> * 상품 상세페이지에서 상품 이미지와, 문의를 남길 수 있습니다.
+### AI-OE(ChatJPT)
+> * 오이와 관련된 정보를 질문하고 답변을 받을 수 있습니다.
+
+<details>
+<summary>미리보기</summary>
+<div markdown="1">
+
+<img src="./readme-images/main1.png"  width="350" height="400"/>
+<img src="./readme-images/main1-1.png"  width="650" height="400"/>
+
+ <br>
+</div>
+</details>
+
+### 오이 커뮤니티
+> * 자유롭게 게시물 및 댓글을 작성할 수 있습니다.
+> * 최신순, 인기순, 오래된 순으로 글을 정렬할 수 있습니다.
+> * 조회수와 좋아요를 확인할 수 있습니다.
+> * 특정 게시물을 검색을 통해 찾을 수 있습니다.
 <details>
 <summary>미리보기</summary>
 <div markdown="1">
@@ -82,19 +111,15 @@
 <img src="./readme-images/store1.png"  width="650" height="400"/>
 <img src="./readme-images/store2-2.png"  width="350" height="450"/>
 <img src="./readme-images/store2.png"  width="650" height="450"/>
-<img src="./readme-images/store3-3.png"  width="350" height="450"/>
-<img src="./readme-images/store3.png"  width="650" height="450"/>
-<img src="./readme-images/store4-4.png"  width="350" height="450"/>
-<img src="./readme-images/store4.png"  width="650" height="450"/>
-<img src="./readme-images/store5-5.png"  width="350" height="450"/>
-<img src="./readme-images/store5.png"  width="650" height="450"/>
  <br>
 </div>
 </details>
 
 
-### Influencer List
-> * 인플루언서를 구독하고 그 인플루언서의 진행중인 공구 상품과 정보를 얻을 수 있습니다.
+### 오이 투표와 채팅
+> * 하루에 한번 투표할 수 있습니다.
+> * 유저들의 투표수 현황을 확인 할 수 있습니다.
+> * 사이트에 접속한 유저들이 서로 실시간 채팅을 할 수 있습니다.
 <details>
 <summary>미리보기</summary>
 <div markdown="1">
@@ -106,42 +131,10 @@
 </div>
 </details>
 
-
-### Chat
-> * 자주 방문하던 플랫폼의 인플루언서와 채팅을 통해 실시간 소통이 가능합니다.
-<details>
-<summary>미리보기</summary>
-<div markdown="1">
-
-<img src="./readme-images/chat1.png"  width="350" height="400"/>
-<img src="./readme-images/chat1-1.png"  width="650" height="400"/>
-
- <br>
-</div>
-</details>
-
-
-### Mypage (Influencer/user)
-> * 인플루언서 마이페이지 > 진행중인 공구, 지나간 공구, 주문내역, 리뷰관리, 상품등록관리, 개인정보 수정
-> * 일반유저 마이페이지 > 주문내역, 리뷰관리, 개인정보 수정
-<details>
-<summary>미리보기</summary>
-<div markdown="1">
-
-<img src="./readme-images/my1.png"  width="350" height="400"/>
-<img src="./readme-images/my1-1.png"  width="650" height="400"/>
-<img src="./readme-images/my2.png"  width="350" height="400"/>
-<img src="./readme-images/my2-2.png"  width="650" height="400"/>
-<img src="./readme-images/my3.png"  width="350" height="400"/>
-<img src="./readme-images/my3-3.png"  width="650" height="400"/>
-
- <br>
-</div>
-</details>
-
-
-### Search 
-> * 검색 기능으로 원하는 상품 검색과, 최근 검색어 확인이 가능합니다.
+### 오이 레시피
+> * 오이가 들어간 레시피를 무한 스크롤을 통해 볼 수 있습니다.
+> * 특정 레시피를 좋아요할 수 있습니다.
+> * 검색을 통해 원하는 레시피를 찾을 수 있습니다.
 <details>
 <summary>미리보기</summary>
 <div markdown="1">
