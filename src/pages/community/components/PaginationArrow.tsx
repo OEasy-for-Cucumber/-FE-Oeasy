@@ -1,5 +1,5 @@
-import leftArrow from "../../../../public/icons/leftArrow.webp";
-import rightArrow from "../../../../public/icons/rightArrow.webp";
+import leftArrow from "@/assets/icons/leftArrow.webp";
+import rightArrow from "@/assets/icons/rightArrow.webp";
 
 interface buttonProps {
   arrowType: "left" | "right";

@@ -1,9 +1,9 @@
 import { useLocation, useNavigate } from "react-router-dom";
-import HamburgerIcon from "../../assets/Icon.svg";
+import HamburgerIcon from "@/assets/Icon.svg";
 import { useState } from "react";
 import HamburgerModal from "./HamburgerModal";
-import { useUserStore } from "../../zustand/authStore";
-import Sample from "../../../public/img/defaultProfile.webp";
+import Sample from "@/assets/img/defaultProfile.webp";
+import { useUserStore } from "@/zustand/authStore";
 
 function MobileHeader() {
   const navigate = useNavigate();

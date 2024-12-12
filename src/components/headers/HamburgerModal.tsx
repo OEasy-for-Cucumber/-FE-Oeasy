@@ -1,5 +1,5 @@
 import { useLocation, useNavigate } from "react-router-dom";
-import Xicon from "../../../public/icons/Icon.webp";
+import Xicon from "@/assets/icons/Icon.webp";
 import ReactDOM from "react-dom";
 
 function HamburgerModal({

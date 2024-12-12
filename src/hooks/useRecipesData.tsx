@@ -1,6 +1,6 @@
+import instance from "@/api/axios";
+import { RecipeResponse } from "@/types/recipes";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { RecipeResponse } from "../types/recipes";
-import instance from "../api/axios";
 
 function useRecipesData() {
   return useInfiniteQuery<RecipeResponse>({

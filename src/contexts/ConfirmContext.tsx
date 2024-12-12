@@ -1,6 +1,6 @@
 // ConfirmContext.tsx
+import Confirm from "@/components/common/Confirm";
 import React, { createContext, useState, ReactNode } from "react";
-import Confirm from "../components/common/Confirm";
 
 export interface ConfirmContextValue {
   showConfirm: (options: { message: string; subMessage?: string; onConfirm: () => void }) => void;

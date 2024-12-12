@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import instance from "../../../../api/axios";
 import { useQuery } from "@tanstack/react-query";
-import Loading from "../../../../components/common/Loading";
+import instance from "@/api/axios";
+import Loading from "@/components/common/Loading";
 
 const RecipeCarousel = () => {
   const [topImage, setTopImage] = useState<string[]>([]);

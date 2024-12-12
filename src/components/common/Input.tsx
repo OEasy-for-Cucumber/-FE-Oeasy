@@ -1,5 +1,5 @@
 import { useState } from "react";
-import DeleteIcon from "../../../public/icons/deleteIcon.webp";
+import DeleteIcon from "@/assets/icons/deleteIcon.webp";
 
 interface InputProps {
   type?: "text" | "password" | "number" | "email";
@@ -20,16 +20,11 @@ const Input: React.FC<InputProps> = ({
   placeholder,
   isValid,
   defaultValue,
-  onClick,
+  onClick
 }) => {
   const [isFocused, setIsFocused] = useState(false);
 
-  const borderColorClass = isFocused
-  ? isValid
-    ? "border-[#008CCC]"
-    : "border-[#FF453A]"
-  : "border-grayoe-700";
-
+  const borderColorClass = isFocused ? (isValid ? "border-[#008CCC]" : "border-[#FF453A]") : "border-grayoe-700";
 
   return (
     <div className="relative">
@@ -46,12 +41,7 @@ const Input: React.FC<InputProps> = ({
       />
 
       {isFocused && value && (
-        <button
-          onClick={onClick}
-          tabIndex={-1}
-          type="reset"
-          className="absolute bottom-4 right-1"
-        >
+        <button onClick={onClick} tabIndex={-1} type="reset" className="absolute bottom-4 right-1">
           <img src={DeleteIcon} alt="삭제버튼" className="w-4" />
         </button>
       )}
