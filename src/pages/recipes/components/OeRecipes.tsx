@@ -45,7 +45,7 @@ function OeRecipes() {
   if (isLoading) {
     return (
       <div className="flex justify-center items-center h-[calc(100vh-200px)]">
-        <Loading className="w-[180px] xl:w-[300px]" />
+        <Loading />
       </div>
     );
   }
