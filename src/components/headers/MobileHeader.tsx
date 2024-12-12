@@ -3,7 +3,7 @@ import HamburgerIcon from "../../assets/Icon.svg";
 import { useState } from "react";
 import HamburgerModal from "./HamburgerModal";
 import { useUserStore } from "../../zustand/authStore";
-import Sample from "../../../public/img/defaultProfile.png";
+import Sample from "../../../public/img/defaultProfile.webp";
 
 function MobileHeader() {
   const navigate = useNavigate();

@@ -1,10 +1,10 @@
 import Button from "../../../components/common/Button";
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import PasswordInput from "../../../components/common/PasswordInput";
 import { ConfirmPasswordModalProp } from "./ConfirmPasswordModal";
 import instance from "../../../api/axios";
 import useAlert from "../../../hooks/useAlert";
-import LeftArrow from "../../../../public/icons/leftArrow.png";
+import LeftArrow from "../../../../public/icons/leftArrow.webp";
 
 interface EditPasswordProp {
   setNewPasswordModalOpen: Dispatch<SetStateAction<boolean>>;
@@ -20,6 +20,12 @@ function EditPassword({
   const [isPasswordMatch, setIsPasswordMatch] = useState(false);
   const [isPasswordValid, setIsPasswordValid] = useState(false);
   const { showAlert } = useAlert();
+  const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
+
+  useEffect(() => {
+    setIsModalVisible(true);
+    return () => setIsModalVisible(false);
+  }, []);
 
   const validatePassword = (password: string) => {
     const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
@@ -64,7 +70,9 @@ function EditPassword({
   };
 
   return (
-    <div className="fixed inset-0 flex flex-col items-center justify-center z-50 w-full w-full xl:max-w-none h-svh mx-auto xl:bg-black xl:bg-opacity-80 bg-grayoe-950">
+    <div className={`modal ${isModalVisible ? "open" : ""} z-50`}>
+
+    {/* <div className="fixed inset-0 flex flex-col items-center justify-center z-50 w-full w-full xl:max-w-none h-svh mx-auto xl:bg-black xl:bg-opacity-80 bg-grayoe-950"> */}
       <form onSubmit={handleSubmit} className="bg-grayoe-950 text-white w-full min-w-[360px] max-w-[520px] xl:max-w-none xl:w-[512px] relative h-svh xl:h-[400px] xl:rounded-2xl xl:px-6 xl:py-6 px-6 pb-[40px] flex flex-col">
         <div className="flex items-center py-[18px] xl:pt-2 xl:pb-6 justify-between xl:justify-start mb-[40px] xl:mb-0">
           <button type="button" className="w-[18px] h-[18px] xl:w-[24px] xl:h-[24px] mr-3">

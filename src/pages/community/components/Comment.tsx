@@ -1,4 +1,4 @@
-import edit from "../../../../public/icons/moreIcon.png";
+import edit from "../../../../public/icons/moreIcon.webp";
 import { formatDistanceToNow, parseISO, format } from "date-fns";
 import { ko } from "date-fns/locale";
 import { useEffect, useState } from "react";
@@ -189,7 +189,7 @@ function Comment({ communityId, setTotalComments }: CmnProps) {
             <div key={com.commentPk} className="flex justify-between pt-4">
               <div className="flex gap-2">
                 <img
-                  src={com.profileImg ?? "/img/defaultProfile.png"}
+                  src={com.profileImg ?? "/img/defaultProfile.webp"}
                   alt="프로필이미지"
                   className="w-6 h-6 rounded-full"
                 />

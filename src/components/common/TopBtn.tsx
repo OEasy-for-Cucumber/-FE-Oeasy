@@ -1,5 +1,5 @@
 import { FC } from "react";
-import topBtn from "../../../public/icons/up_btn.png";
+import topBtn from "../../../public/icons/up_btn.webp";
 import { scrollRefProps } from "../../types/scrollRef";
 
 const TopBtn: FC<scrollRefProps> = ({ scrollRef }) => {

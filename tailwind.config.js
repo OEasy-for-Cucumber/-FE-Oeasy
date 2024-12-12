@@ -51,12 +51,12 @@ module.exports = {
         LuckiestGuy: ["Luckiest Guy"]
       },
       backgroundImage: {
-        mobile_cucumber: "url(/img/mobile_group.png)",
-        web_cucumber: "url(/img/web_group.png)",
-        recipes_btn_bg: "url(/img/button_bg_cucumber.png)",
-        noisy_gradients: "url(/img/noisy-gradients.png)",
-        profile_sample: "url(./public/img/defaultProfile.png)",
-        aioe_icon: "url(/public/icons/aioe.png)"
+        mobile_cucumber: "url(/img/mobile_group.webp)",
+        web_cucumber: "url(/img/web_group.webp)",
+        recipes_btn_bg: "url(/img/button_bg_cucumber.webp)",
+        noisy_gradients: "url(/img/noisy-gradients.webp)",
+        profile_sample: "url(./public/img/defaultProfile.webp)",
+        aioe_icon: "url(/public/icons/aioe.webp)"
       },
       backgroundSize: {
         "81%": "81%",

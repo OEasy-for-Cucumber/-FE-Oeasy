@@ -2,8 +2,8 @@ import { v4 as uuidv4 } from "uuid";
 import { useEffect, useRef, useState } from "react";
 import { Client } from "@stomp/stompjs";
 import SockJS from "sockjs-client";
-import sendIcon from "../../../public/icons/send.png";
-import profileImage from "../../../public/img/cuteOE.png";
+import sendIcon from "../../../public/icons/send.webp";
+import profileImage from "../../../public/img/chat_aioe.webp";
 import { useUserStore } from "../../zustand/authStore";
 import Confirm from "../../components/common/Confirm";
 
