@@ -50,8 +50,7 @@
 <summary>미리보기</summary>
 <div markdown="1">
 
-<img src="./readme-images/login2.png"  width="350" height="400"/>
-<img src="./readme-images/login1.png"  width="650" height="400"/>
+<img src="./readme-images/login.png"  width="350" height="400"/>
 
  <br>
 </div>
@@ -64,8 +63,7 @@
 <summary>미리보기</summary>
 <div markdown="1">
 
-<img src="./readme-images/my1.png"  width="350" height="400"/>
-<img src="./readme-images/my1-1.png"  width="650" height="400"/>
+<img src="./readme-images/mypage.png"  width="350" height="400"/>
  <br>
 </div>
 </details>
