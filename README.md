@@ -51,6 +51,7 @@
 <div markdown="1">
 
 <img src="./readme-images/login.png"  width="700" height="400"/>
+<img src="./readme-images/loginM.png"  width="240" height="400"/>
 
  <br>
 </div>
@@ -64,6 +65,7 @@
 <div markdown="1">
 
 <img src="./readme-images/mypage.png"  width="700" height="400"/>
+<img src="./readme-images/mypageM.png"  width="240" height="400"/>
  <br>
 </div>
 </details>
@@ -88,7 +90,8 @@
 <summary>미리보기</summary>
 <div markdown="1">
 
-<img src="./readme-images/aioe.png"  width="350" height=auto/>
+<img src="./readme-images/aioe.png"  width="250" height="400"/>
+<img src="./readme-images/aioeM.png"  width="240" height="400"/>
 
  <br>
 </div>
@@ -103,7 +106,8 @@
 <summary>미리보기</summary>
 <div markdown="1">
     
-<img src="./readme-images/community.png"  width="700" height="450"/>
+<img src="./readme-images/community.png"  width="700" height="400"/>
+<img src="./readme-images/communityM.png"  width="240" height="400"/>
  <br>
 </div>
 </details>
@@ -118,6 +122,7 @@
 <div markdown="1">
 
 <img src="./readme-images/votechat.png"  width="700" height="400"/>
+<img src="./readme-images/votechatM.png"  width="240" height="400"/>
 
  <br>
 </div>
@@ -132,6 +137,7 @@
 <div markdown="1">
 
 <img src="./readme-images/recipe.png"  width="700" height="400"/>
+<img src="./readme-images/recipeM.png"  width="240" height="400"/>
 
  <br>
 </div>
