@@ -3,7 +3,7 @@ import OeRecipes from "./components/OeRecipes";
 import instance from "../../api/axios";
 import Oven from "../../../public/img/oven.webp";
 import Heart from "../../../public/img/recipe_heart.webp";
-import ArrowRight from "../../../public/icons/rightArrow.png";
+import ArrowRight from "../../../public/icons/rightArrow.webp";
 
 function Recipes() {
   const navigate = useNavigate();
