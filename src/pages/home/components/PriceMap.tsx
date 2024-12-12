@@ -1,7 +1,7 @@
 import { FC, useEffect, useState } from "react";
 import { ReactSVG } from "react-svg";
 import mapSvg from "../../../assets/southKoreaLow.svg";
-import DangerCircle from "../../../../public/icons/Danger Circle.png";
+import DangerCircle from "../../../../public/icons/Danger Circle.webp";
 import instance from "../../../api/axios";
 import { scrollRefProps } from "../../../types/scrollRef";
 import { useScrollEvent } from "../../../hooks/useScrollEvent";

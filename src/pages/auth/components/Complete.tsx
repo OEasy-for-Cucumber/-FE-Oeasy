@@ -1,5 +1,5 @@
 import { useUserStore } from "../../../zustand/authStore"
-import Congratulation from "../../../../public/img/congratulation.png";
+import Congratulation from "../../../../public/img/congratulation.webp";
 
 function Complete() {
   const user = useUserStore((state)=>state.user);

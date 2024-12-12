@@ -1,6 +1,6 @@
-import Xicon from "../../../../public/icons/Icon.png";
-import Sample from "../../../../public/img/defaultProfile.png";
-import Camera from "../../../../public/icons/Camera.png";
+import Xicon from "../../../../public/icons/Icon.webp";
+import Sample from "../../../../public/img/defaultProfile.webp";
+import Camera from "../../../../public/icons/Camera.webp";
 import { useUserStore } from "../../../zustand/authStore";
 import { useNavigate } from "react-router-dom";
 import Input from "../../../components/common/Input";
@@ -190,7 +190,7 @@ function EditProfile({ handleEditModal }: { handleEditModal: () => void }) {
         >
           <div className="w-full flex items-center py-4 mb-[64px] xl:m-0 justify-between px-6 xl:px-0">
             <div className="xl:hidden w-8"></div>
-            <h1 className="font-b2-semibold xl:font-h4">계정 설정</h1>
+            <p className="font-b2-semibold xl:font-h4">계정 설정</p>
             <button type="button" onClick={handleEditModal}>
               <img src={Xicon} alt="닫기버튼" />
             </button>
