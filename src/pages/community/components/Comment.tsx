@@ -1,12 +1,12 @@
-import edit from "../../../../public/icons/moreIcon.webp";
+import { useUserStore } from "@/zustand/authStore";
+import edit from "@/assets/icons/moreIcon.webp";
 import { formatDistanceToNow, parseISO, format } from "date-fns";
 import { ko } from "date-fns/locale";
 import { useEffect, useState } from "react";
-import { useUserStore } from "../../../zustand/authStore";
-import instance from "../../../api/axios";
+import useConfirm from "@/hooks/useConfirm";
+import useAlert from "@/hooks/useAlert";
+import instance from "@/api/axios";
 import Pagination from "./Pagination";
-import useConfirm from "../../../hooks/useConfirm";
-import useAlert from "../../../hooks/useAlert";
 
 interface CmnProps {
   communityId: number;

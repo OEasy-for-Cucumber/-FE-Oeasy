@@ -1,10 +1,11 @@
 import { useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { useUserStore } from "../../zustand/authStore";
-import instance from "../../api/axios";
+
 import { AxiosError } from "axios";
 import Cookies from "js-cookie";
-import Loading from "../../components/common/Loading";
+import { useUserStore } from "@/zustand/authStore";
+import instance from "@/api/axios";
+import Loading from "@/components/common/Loading";
 
 function KakaoCallback() {
   const { setUser, setIsLoggedIn } = useUserStore.getState();
@@ -49,7 +50,7 @@ function KakaoCallback() {
     <div className="w-full">
       <Loading/>
     </div>
-  )
+  );
 }
 
 export default KakaoCallback;

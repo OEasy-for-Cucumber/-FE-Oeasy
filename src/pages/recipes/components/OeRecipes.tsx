@@ -1,11 +1,17 @@
 import { Link } from "react-router-dom";
-import useRecipesData from "../../../hooks/useRecipesData";
-import Loading from "../../../components/common/Loading";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import Heart from "@/assets/icons/recipeLike.webp";
+import FullHeart from "@/assets/icons/recipeLikeFull.webp";
+import { useUserStore } from "@/zustand/authStore";
+import instance from "@/api/axios";
+import Loading from "@/components/common/Loading";
+import useRecipesData from "@/hooks/useRecipesData";
 
 function OeRecipes() {
   const { data: recipes, fetchNextPage, hasNextPage, isLoading } = useRecipesData();
+  const { user } = useUserStore();
   const loaderRef = useRef<HTMLDivElement | null>(null);
+  const [likedRecipes, setLikedRecipes] = useState<number[]>([]);
 
   useEffect(() => {
     if (!loaderRef.current || !hasNextPage) return;
@@ -26,6 +32,16 @@ function OeRecipes() {
     };
   }, [fetchNextPage, hasNextPage]);
 
+  const handleLikeClick = async (recipeId: number) => {
+    try {
+      await instance.get(`/api/recipe/like/${user?.memberPk}/${recipeId}`);
+
+      setLikedRecipes((prev) => (prev.includes(recipeId) ? prev.filter((id) => id !== recipeId) : [...prev, recipeId]));
+    } catch (error) {
+      console.error("좋아요 처리 실패:", error);
+    }
+  };
+
   if (isLoading) {
     return (
       <div className="flex justify-center items-center h-[calc(100vh-200px)]">
@@ -39,10 +55,31 @@ function OeRecipes() {
       {recipes?.pages.map((page) => (
         <div key={page.nowPage} className="grid grid-cols-2 xl:grid-cols-4 gap-4 justify-items-center mb-4">
           {page.list.map((recipe) => (
-            <Link to={`/recipe-detail/${recipe.id}`} key={recipe.id}>
-              <img src={recipe.imgUrl} alt={recipe.title} className="w-[225px] h-[148px] object-cover rounded" />
-              <div className="py-2 font-b1-semibold">{recipe.title}</div>
-            </Link>
+            <div key={recipe.id}>
+              <Link to={`/recipe-detail/${recipe.id}`}>
+                <div className="relative">
+                  <img
+                    src={recipe.imgUrl}
+                    alt={recipe.title}
+                    className="w-[225px] h-[148px] object-cover rounded relative"
+                  />
+                  <button
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleLikeClick(recipe.id);
+                    }}
+                    className="absolute right-0 bottom-0"
+                  >
+                    <img
+                      src={likedRecipes.includes(recipe.id) ? FullHeart : Heart}
+                      alt="레시피 좋아요 버튼"
+                      className="w-[48px] h-[48px]"
+                    />
+                  </button>
+                </div>
+                <div className="py-2 font-b1-semibold">{recipe.title}</div>
+              </Link>
+            </div>
           ))}
         </div>
       ))}

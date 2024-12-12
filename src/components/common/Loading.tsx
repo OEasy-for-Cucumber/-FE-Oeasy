@@ -1,4 +1,4 @@
-import loading from "../../../public/img/loading.webm";
+import loading from "@/assets/img/loading.webm";
 
 function Loading() {
   return (

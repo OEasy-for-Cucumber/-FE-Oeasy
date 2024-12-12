@@ -12,7 +12,6 @@ const KakaoCallback = lazy(() => import("../pages/auth/KakaoCallback"));
 const Votechat = lazy(() => import("../pages/vote-chat"));
 const Community = lazy(() => import("../pages/community"));
 const MyPage = lazy(() => import("../pages/mypage/MyPage"));
-const Test = lazy(() => import("../pages/test"));
 const RecipeDetail = lazy(() => import("../pages/recipes/detail/[id]"));
 const Detail = lazy(() => import("../pages/community/detail/[id]/Detail"));
 const Upload = lazy(() => import("../pages/community/upload/Upload"));
@@ -27,7 +26,7 @@ const router = createBrowserRouter([
           <Suspense fallback={<Loading />}>
             <Home />
           </Suspense>
-        ),
+        )
       },
       {
         path: "/login",
@@ -35,7 +34,7 @@ const router = createBrowserRouter([
           <Suspense fallback={<Loading />}>
             <Login />
           </Suspense>
-        ),
+        )
       },
       {
         path: "/signup",
@@ -43,7 +42,7 @@ const router = createBrowserRouter([
           <Suspense fallback={<Loading />}>
             <Signup />
           </Suspense>
-        ),
+        )
       },
       {
         path: "/recipe",
@@ -51,7 +50,7 @@ const router = createBrowserRouter([
           <Suspense fallback={<Loading />}>
             <Recipes />
           </Suspense>
-        ),
+        )
       },
       {
         path: "/kakao/callback",
@@ -59,7 +58,7 @@ const router = createBrowserRouter([
           <Suspense fallback={<Loading />}>
             <KakaoCallback />
           </Suspense>
-        ),
+        )
       },
       {
         path: "/vote-chat",
@@ -67,7 +66,7 @@ const router = createBrowserRouter([
           <Suspense fallback={<Loading />}>
             <Votechat />
           </Suspense>
-        ),
+        )
       },
       {
         path: "/community",
@@ -75,7 +74,7 @@ const router = createBrowserRouter([
           <Suspense fallback={<Loading />}>
             <Community />
           </Suspense>
-        ),
+        )
       },
       {
         path: "/community/:page",
@@ -83,7 +82,7 @@ const router = createBrowserRouter([
           <Suspense fallback={<Loading />}>
             <Community />
           </Suspense>
-        ),
+        )
       },
       {
         element: <PrivatePage />,
@@ -94,17 +93,9 @@ const router = createBrowserRouter([
               <Suspense fallback={<Loading />}>
                 <MyPage />
               </Suspense>
-            ),
-          },
-        ],
-      },
-      {
-        path: "/test",
-        element: (
-          <Suspense fallback={<Loading />}>
-            <Test />
-          </Suspense>
-        ),
+            )
+          }
+        ]
       },
       {
         path: "/community/detail/:id",
@@ -112,7 +103,7 @@ const router = createBrowserRouter([
           <Suspense fallback={<Loading />}>
             <Detail />
           </Suspense>
-        ),
+        )
       },
       {
         path: "/community/detail/:id/:page",
@@ -120,7 +111,7 @@ const router = createBrowserRouter([
           <Suspense fallback={<Loading />}>
             <Detail />
           </Suspense>
-        ),
+        )
       },
       {
         path: "/recipe-detail/:id",
@@ -128,7 +119,7 @@ const router = createBrowserRouter([
           <Suspense fallback={<Loading />}>
             <RecipeDetail />
           </Suspense>
-        ),
+        )
       },
       {
         path: "/community/upload",
@@ -136,10 +127,10 @@ const router = createBrowserRouter([
           <Suspense fallback={<Loading />}>
             <Upload />
           </Suspense>
-        ),
-      },
-    ],
-  },
+        )
+      }
+    ]
+  }
 ]);
 
 export default router;

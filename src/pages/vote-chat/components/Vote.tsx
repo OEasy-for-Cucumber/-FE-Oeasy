@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from "react";
-import { useUserStore } from "../../../zustand/authStore";
 import SockJS from "sockjs-client";
 import { Client } from "@stomp/stompjs";
-import useAlert from "../../../hooks/useAlert";
 import { useNavigate } from "react-router-dom";
-import useConfirm from "../../../hooks/useConfirm";
+import { useUserStore } from "@/zustand/authStore";
+import useAlert from "@/hooks/useAlert";
+import useConfirm from "@/hooks/useConfirm";
 
 interface VoteProps {
   active: "vote" | "chat";
@@ -118,8 +118,8 @@ function Vote({ active, initialVotes, isVoting }: VoteProps) {
     likeVotes > hateVotes ? "font-h4 xl:font-h3 text-white" : "font-b1-semibold xl:font-h4 text-grayoe-200";
   const hateBg = hateVotes > likeVotes ? "bg-redoe-500 " : "bg-redoe-50";
   const likeBg = likeVotes > hateVotes ? "bg-redoe-500" : "bg-redoe-50";
-  const hateWinImg = hateVotes > likeVotes ? "/img/hateOeWin.webp" : "/img/hateOeLoose.webp";
-  const likeWinImg = likeVotes > hateVotes ? "/img/likeOeWin.webp" : "/img/likeOeLoose.webp";
+  const hateWinImg = hateVotes > likeVotes ? "src/assets/img/hateOeWin.webp" : "src/assets/img/hateOeLoose.webp";
+  const likeWinImg = likeVotes > hateVotes ? "src/assets/img/likeOeWin.webp" : "src/assets/img/likeOeLoose.webp";
 
   return (
     <>

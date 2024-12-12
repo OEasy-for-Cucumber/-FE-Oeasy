@@ -1,19 +1,19 @@
-import edit from "../../../../../public/icons/moreIcon.webp";
-import show from "../../../../../public/icons/show.webp";
-import commentIcon from "../../../../../public/icons/comment.webp";
-import emptyHeart from "../../../../../public/icons/heart.webp";
-import fullHeart from "../../../../../public/icons/fullHeart.webp";
-import defaultImg from "../../../../../public/img/defaultProfile.webp";
-import Comment from "../../components/Comment";
+import edit from "@/assets/icons/moreIcon.webp";
+import show from "@/assets/icons/show.webp";
+import commentIcon from "@/assets/icons/comment.webp";
+import emptyHeart from "@/assets/icons/heart.webp";
+import fullHeart from "@/assets/icons/fullHeart.webp";
+import defaultImg from "@/assets/img/defaultProfile.webp";
 import { useEffect, useRef, useState } from "react";
 import { parseISO, format, formatDistanceToNow } from "date-fns";
 import { ko } from "date-fns/locale";
-import instance from "../../../../api/axios";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useUserStore } from "../../../../zustand/authStore";
-import useConfirm from "../../../../hooks/useConfirm";
-import useAlert from "../../../../hooks/useAlert";
-import { PostData } from "../../../../types/postDataTypes";
+import { PostData } from "@/types/postDataTypes";
+import { useUserStore } from "@/zustand/authStore";
+import useConfirm from "@/hooks/useConfirm";
+import useAlert from "@/hooks/useAlert";
+import instance from "@/api/axios";
+import Comment from "../../components/Comment";
 
 function Detail() {
   const navigate = useNavigate();

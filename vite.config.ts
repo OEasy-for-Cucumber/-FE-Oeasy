@@ -1,19 +1,19 @@
-import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
-import svgr from 'vite-plugin-svgr';
-// import fs from "fs";
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
+import svgr from "vite-plugin-svgr";
+import path from "path";
 
-// https://vite.dev/config/
 export default defineConfig({
   plugins: [react(), svgr()],
+  resolve: {
+    alias: {
+      "@": path.resolve(__dirname, "./src")
+    }
+  },
   define: {
     global: "window"
   },
   server: {
-    // https: {
-    //   key: fs.readFileSync("./localhost+2-key.pem"),
-    //   cert: fs.readFileSync("./localhost+2.pem")
-    // },
     host: "localhost",
     port: 3000
   }

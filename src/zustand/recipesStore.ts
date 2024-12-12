@@ -1,6 +1,6 @@
+import instance from "@/api/axios";
+import { selectRecipe } from "@/types/recipes";
 import { create } from "zustand";
-import { selectRecipe } from "../types/recipes";
-import instance from "../api/axios";
 
 interface RecipeStore {
   selectRecipe: selectRecipe | null;

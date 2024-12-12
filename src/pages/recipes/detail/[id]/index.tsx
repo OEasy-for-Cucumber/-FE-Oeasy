@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import instance from "../../../../api/axios";
-import { selectRecipe } from "../../../../types/recipes";
+import { selectRecipe } from "@/types/recipes";
+import instance from "@/api/axios";
 
 function RecipeDetail() {
   const { id } = useParams();
