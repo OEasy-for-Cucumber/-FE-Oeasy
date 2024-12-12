@@ -4,7 +4,7 @@ import PasswordInput from "../../../components/common/PasswordInput";
 import { ConfirmPasswordModalProp } from "./ConfirmPasswordModal";
 import instance from "../../../api/axios";
 import useAlert from "../../../hooks/useAlert";
-import LeftArrow from "../../../../public/icons/leftArrow.png";
+import LeftArrow from "../../../../public/icons/leftArrow.webp";
 
 interface EditPasswordProp {
   setNewPasswordModalOpen: Dispatch<SetStateAction<boolean>>;

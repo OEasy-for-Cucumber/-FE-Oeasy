@@ -3,9 +3,9 @@ import instance from "../../../api/axios";
 import { useUserStore } from "../../../zustand/authStore";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { Contents } from "../../../types/myContentsTypes";
-import Heart from "../../../../public/icons/heart.png";
-import Show from "../../../../public/icons/show.png";
-import Coment from "../../../../public/icons/comment.png";
+import Heart from "../../../../public/icons/heart.webp";
+import Show from "../../../../public/icons/show.webp";
+import Coment from "../../../../public/icons/comment.webp";
 import Pagination from "../../community/components/Pagination";
 
 function MyPost() {

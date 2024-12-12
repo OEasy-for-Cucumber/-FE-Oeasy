@@ -1,9 +1,9 @@
-import edit from "../../../../../public/icons/moreIcon.png";
-import show from "../../../../../public/icons/show.png";
-import commentIcon from "../../../../../public/icons/comment.png";
-import emptyHeart from "../../../../../public/icons/heart.png";
-import fullHeart from "../../../../../public/icons/fullHeart.png";
-import defaultImg from "../../../../../public/img/defaultProfile.png";
+import edit from "../../../../../public/icons/moreIcon.webp";
+import show from "../../../../../public/icons/show.webp";
+import commentIcon from "../../../../../public/icons/comment.webp";
+import emptyHeart from "../../../../../public/icons/heart.webp";
+import fullHeart from "../../../../../public/icons/fullHeart.webp";
+import defaultImg from "../../../../../public/img/defaultProfile.webp";
 import Comment from "../../components/Comment";
 import { useEffect, useRef, useState } from "react";
 import { parseISO, format, formatDistanceToNow } from "date-fns";

@@ -1,5 +1,5 @@
 import { FC, useEffect, useState } from "react";
-import quotes from "../../../../public/img/quotes.png";
+import quotes from "../../../../public/img/quotes.webp";
 import instance from "../../../api/axios";
 import { OeData } from "../../../types/oeTip";
 import { useScrollEvent } from "../../../hooks/useScrollEvent";

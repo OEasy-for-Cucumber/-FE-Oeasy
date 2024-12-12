@@ -1,10 +1,10 @@
 import { formatDistanceToNow, parseISO, format } from "date-fns";
 import { ko } from "date-fns/locale";
-import postHeart from "../../../../public/icons/heart.png";
-import commentIcon from "../../../../public/icons/comment.png";
-import filter from "../../../../public/icons/filterIcon.png";
-import search from "../../../../public/icons/Search.png";
-import close from "../../../../public/icons/Icon.png";
+import postHeart from "../../../../public/icons/heart.webp";
+import commentIcon from "../../../../public/icons/comment.webp";
+import filter from "../../../../public/icons/filterIcon.webp";
+import search from "../../../../public/icons/Search.webp";
+import close from "../../../../public/icons/Icon.webp";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import Search from "./Search";

@@ -1,12 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 import ReactDOM from "react-dom";
 import { AxiosError } from "axios";
-import sendIcon from "../../../../public/icons/send.png";
-import InfoIcon from "../../../../public/icons/InfoSquare.png";
-import Down from "../../../../public/icons/ArrowDown.png";
-import Up from "../../../../public/icons/ArrowUp.png";
-import aioeIcon from "../../../../public/img/chat_aioe.png";
-import loading from "../../../../public/icons/loading.png";
+import sendIcon from "../../../../public/icons/send.webp";
+import InfoIcon from "../../../../public/icons/InfoSquare.webp";
+import Down from "../../../../public/icons/ArrowDown.webp";
+import Up from "../../../../public/icons/ArrowUp.webp";
+import aioeIcon from "../../../../public/img/chat_aioe.webp";
+import loading from "../../../../public/icons/loading.webp";
 import instance from "../../../api/axios";
 import { useUserStore } from "../../../zustand/authStore";
 import { useNavigate } from "react-router-dom";
@@ -138,7 +138,7 @@ function AiOe() {
             <div className="w-full h-[56px] flex justify-center items-center relative">
               <div className="font-b2-semibold">AI OE</div>
               <button className="absolute right-[24px] " onClick={() => setAiOe(false)}>
-                <img src="/icons/Icon.png" alt="닫기 버튼" />
+                <img src="/icons/Icon.webp" alt="닫기 버튼" />
               </button>
             </div>
 

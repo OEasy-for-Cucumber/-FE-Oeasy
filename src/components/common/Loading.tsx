@@ -1,4 +1,4 @@
-import loading from "../../../public/img/loading.gif";
+import loading from "../../../public/img/loading.webm";
 
 interface LoadingProps {
   className?: string;
@@ -6,9 +6,9 @@ interface LoadingProps {
 
 function Loading({ className }: LoadingProps) {
   return (
-    <>
-      <img src={loading} alt="로딩 중.." className={className} />
-    </>
+    <video autoPlay muted loop>
+      <source src={loading} type="video/webm" className={className} />
+    </video>
   );
 }
 
