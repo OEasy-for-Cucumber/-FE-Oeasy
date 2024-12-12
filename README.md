@@ -183,6 +183,6 @@
 
 
 
-### [👊 URR 노션 바로가기](https://www.notion.so/11cedee0214880e8baece311bb09fce5)
+### [👊 Oeasy 노션 바로가기](https://www.notion.so/11cedee0214880e8baece311bb09fce5)
 
 
