@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import Heart from "@/assets/icons/recipeLike.webp";
 import FullHeart from "@/assets/icons/recipeLikeFull.webp";
@@ -12,6 +12,7 @@ function OeRecipes() {
   const { user } = useUserStore();
   const loaderRef = useRef<HTMLDivElement | null>(null);
   const [likedRecipes, setLikedRecipes] = useState<number[]>([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!loaderRef.current || !hasNextPage) return;
@@ -33,10 +34,24 @@ function OeRecipes() {
   }, [fetchNextPage, hasNextPage]);
 
   const handleLikeClick = async (recipeId: number) => {
-    try {
-      await instance.get(`/api/recipe/like/${user?.memberPk}/${recipeId}`);
+    if (!user) {
+      navigate("/login");
+      return;
+    }
 
-      setLikedRecipes((prev) => (prev.includes(recipeId) ? prev.filter((id) => id !== recipeId) : [...prev, recipeId]));
+    const isLiked = likedRecipes.push(recipeId);
+
+    const newLikedRecipes = isLiked ? likedRecipes.filter((id) => id !== recipeId) : [...likedRecipes, recipeId];
+
+    console.log(newLikedRecipes);
+
+    try {
+      await instance.post("/api/recipe/board/like-check", {
+        memberPk: user.memberPk,
+        recipeList: !isLiked
+      });
+
+      setLikedRecipes(newLikedRecipes);
     } catch (error) {
       console.error("좋아요 처리 실패:", error);
     }
@@ -71,7 +86,7 @@ function OeRecipes() {
                     className="absolute right-0 bottom-0"
                   >
                     <img
-                      src={likedRecipes.includes(recipe.id) ? FullHeart : Heart}
+                      src={likedRecipes ? FullHeart : Heart}
                       alt="레시피 좋아요 버튼"
                       className="w-[48px] h-[48px]"
                     />
@@ -84,7 +99,7 @@ function OeRecipes() {
         </div>
       ))}
 
-      <div ref={loaderRef} className="w-full h-[56px] flex items-center justify-center mb-4"></div>
+      <div ref={loaderRef}></div>
     </>
   );
 }

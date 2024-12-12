@@ -114,7 +114,7 @@ function Home() {
           <OeVote scrollRef={outerDivRef} />
           <OeTemperature scrollRef={outerDivRef} />
           <PriceMap scrollRef={outerDivRef} />
-          <Suspense fallback={<Loading/>}>
+          <Suspense fallback={<Loading />}>
             <OeChart />
           </Suspense>
           <Recipe />
