@@ -4,7 +4,6 @@ import App from "../App";
 import PrivatePage from "./PrivatePage";
 import Loading from "../components/common/Loading";
 
-// 페이지 컴포넌트를 동적으로 import
 const Home = lazy(() => import("../pages/home"));
 const Login = lazy(() => import("../pages/auth/components/Login"));
 const Signup = lazy(() => import("../pages/auth/components/Signup"));
