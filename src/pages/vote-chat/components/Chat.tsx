@@ -29,7 +29,7 @@ function Chat({ chattingList }: ChatProps) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [isComposing, setComposing] = useState(false);
   const messageEndRef = useRef<HTMLDivElement>(null);
-  const DEFAULT_PROFILE_IMG = "/img/defaultProfile.webp";
+  const DEFAULT_PROFILE_IMG = "src/assets/img/defaultProfile.webp";
   const { showAlert } = useAlert();
   const navigate = useNavigate();
 

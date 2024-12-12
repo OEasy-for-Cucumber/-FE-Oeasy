@@ -42,8 +42,8 @@ const OeVote: FC<scrollRefProps> = ({ scrollRef }) => {
     hateVotes > likeVotes ? "font-h4 xl:font-h3 text-white" : "font-b1-semibold xl:font-h4 text-grayoe-200";
   const likeFont =
     likeVotes > hateVotes ? "font-h4 xl:font-h3 text-white" : "font-b1-semibold xl:font-h4 text-grayoe-200";
-  const hateWinImg = likeVotes < hateVotes ? "/img/hateOeWin.webp" : "/img/hateOeLoose.webp";
-  const likeWinImg = likeVotes > hateVotes ? "/img/likeOeWin.webp" : "/img/likeOeLoose.webp";
+  const hateWinImg = likeVotes < hateVotes ? "src/assets/img/hateOeWin.webp" : "src/assets/img/hateOeLoose.webp";
+  const likeWinImg = likeVotes > hateVotes ? "src/assets/img/likeOeWin.webp" : "src/assets/img/likeOeLoose.webp";
   const hateBg = hateVotes > likeVotes ? "bg-redoe-500 " : "bg-redoe-50";
   const likeBg = likeVotes > hateVotes ? "bg-redoe-500" : "bg-redoe-50";
 

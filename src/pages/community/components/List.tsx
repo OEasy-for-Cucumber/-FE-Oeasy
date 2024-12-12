@@ -3,7 +3,7 @@ import { ko } from "date-fns/locale";
 import postHeart from "@/assets/icons/heart.webp";
 import commentIcon from "@/assets/icons/comment.webp";
 import filter from "@/assets/icons/filterIcon.webp";
-import search from ".@/assets/icons/Search.webp";
+import search from "@/assets/icons/Search.webp";
 import close from "@/assets/icons/Icon.webp";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";

@@ -83,7 +83,7 @@ function MyPost() {
         ))
       )}
 
-      {myPosts!.length! > 0 && (
+      {myPosts && myPosts.length > 0 && (
         <div className="flex justify-center">
           <Pagination
             totalPageNumber={totalPages}
