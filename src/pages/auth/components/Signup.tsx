@@ -6,7 +6,7 @@ import Complete from "./Complete";
 import ProgressBar from "./ProgressBar";
 import { useNavigate } from "react-router-dom";
 import FullSquare from "@/assets/icons/full-Square.webp";
-import EmptySquare from "@/assets/public/icons/empty-Square.webp";
+import EmptySquare from "@/assets/icons/empty-Square.webp";
 import Cookies from "js-cookie";
 import { useUserStore } from "@/zustand/authStore";
 import useAlert from "@/hooks/useAlert";
