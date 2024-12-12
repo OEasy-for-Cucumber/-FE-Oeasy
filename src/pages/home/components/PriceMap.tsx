@@ -1,10 +1,10 @@
 import { FC, useEffect, useState } from "react";
 import { ReactSVG } from "react-svg";
-import mapSvg from "../../../assets/southKoreaLow.svg";
-import DangerCircle from "../../../../public/icons/Danger Circle.webp";
-import instance from "../../../api/axios";
-import { scrollRefProps } from "../../../types/scrollRef";
-import { useScrollEvent } from "../../../hooks/useScrollEvent";
+import mapSvg from "@/assets/southKoreaLow.svg";
+import DangerCircle from "@/assets/icons/Danger Circle.webp";
+import { scrollRefProps } from "@/types/scrollRef";
+import { useScrollEvent } from "@/hooks/useScrollEvent";
+import instance from "@/api/axios";
 
 interface RegionData {
   region: string;
@@ -48,7 +48,7 @@ const PriceMap: FC<scrollRefProps> = ({ scrollRef }) => {
       x,
       y,
       region,
-      price,
+      price
     });
   };
 
@@ -87,7 +87,12 @@ const PriceMap: FC<scrollRefProps> = ({ scrollRef }) => {
     const regionId = target.id.slice(0, 2);
     const matchingRegion = regionData.find((data) => data.region === regionId);
 
-    hoverTooltip(event.touches[0].clientX, event.touches[0].clientY, matchingRegion?.region || regionId, matchingRegion?.price || "정보 없음");
+    hoverTooltip(
+      event.touches[0].clientX,
+      event.touches[0].clientY,
+      matchingRegion?.region || regionId,
+      matchingRegion?.price || "정보 없음"
+    );
   };
 
   const handleMouseMove = (event: React.MouseEvent | MouseEvent) => {
@@ -95,7 +100,12 @@ const PriceMap: FC<scrollRefProps> = ({ scrollRef }) => {
     const regionId = target.id.slice(0, 2);
     const matchingRegion = regionData.find((data) => data.region === regionId);
 
-    hoverTooltip(event.clientX, event.clientY, matchingRegion?.region || regionId, matchingRegion?.price || "정보 없음");
+    hoverTooltip(
+      event.clientX,
+      event.clientY,
+      matchingRegion?.region || regionId,
+      matchingRegion?.price || "정보 없음"
+    );
   };
 
   const handleMouseLeaveRegion = () => {
@@ -112,7 +122,7 @@ const PriceMap: FC<scrollRefProps> = ({ scrollRef }) => {
       const viewportHeight = window.innerHeight;
 
       setAnimation(() => ({
-        animationOne: scrollTop >= viewportHeight * 3.3,
+        animationOne: scrollTop >= viewportHeight * 3.3
       }));
 
       hideTooltip();
@@ -130,11 +140,7 @@ const PriceMap: FC<scrollRefProps> = ({ scrollRef }) => {
         <div className="w-full xl:w-[40%]">
           <h3 className="font-h3 xl:font-h2 mb-2">지역별 오이가격</h3>
           <div className="flex gap-1 items-center relative">
-            <button
-              className="flex items-center gap-1"
-              onMouseEnter={showInfoTooltip}
-              onMouseLeave={hideInfoTooltip}
-            >
+            <button className="flex items-center gap-1" onMouseEnter={showInfoTooltip} onMouseLeave={hideInfoTooltip}>
               <img
                 src={DangerCircle}
                 alt="참고사항"

@@ -1,5 +1,5 @@
+import Alert from "@/components/common/Alert";
 import React, { createContext, useState, ReactNode } from "react";
-import Alert from "../components/common/Alert";
 
 interface AlertOptions {
   message: string;

@@ -2,10 +2,10 @@ import { v4 as uuidv4 } from "uuid";
 import { useEffect, useRef, useState } from "react";
 import { Client } from "@stomp/stompjs";
 import SockJS from "sockjs-client";
-import sendIcon from "../../../../public/icons/send.webp";
-import { useUserStore } from "../../../zustand/authStore";
-import useAlert from "../../../hooks/useAlert";
+import sendIcon from "@/assets/icons/send.webp";
 import { useNavigate } from "react-router-dom";
+import { useUserStore } from "@/zustand/authStore";
+import useAlert from "@/hooks/useAlert";
 
 type Message = {
   id: string | number;

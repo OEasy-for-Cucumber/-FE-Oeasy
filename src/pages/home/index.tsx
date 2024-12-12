@@ -1,16 +1,15 @@
-import TopBtn from "../../components/common/TopBtn";
-import Landing from "./components/Landing";
-// import OeGraph from "./components/OeGraph";
-import OeTip from "./components/OeTip";
-import AiOe from "./components/AiOe";
-import Recipe from "./components/recipe/Recipe";
+import { useScrollEvent } from "@/hooks/useScrollEvent";
 import { useEffect, useRef, useState } from "react";
-import { useScrollEvent } from "../../hooks/useScrollEvent";
-import PriceMap from "./components/PriceMap";
-import OeTemperature from "./components/OeTemperature";
-import OeVote from "./components/OeVote";
 import React, { Suspense } from "react";
-import Loading from "../../components/common/Loading";
+import AiOe from "./components/AiOe";
+import TopBtn from "@/components/common/TopBtn";
+import Landing from "./components/Landing";
+import OeTip from "./components/OeTip";
+import OeVote from "./components/OeVote";
+import OeTemperature from "./components/OeTemperature";
+import PriceMap from "./components/PriceMap";
+import Loading from "@/components/common/Loading";
+import Recipe from "./components/recipe/Recipe";
 
 function Home() {
   const outerDivRef = useRef<HTMLDivElement | null>(null);
@@ -115,9 +114,9 @@ function Home() {
           <OeVote scrollRef={outerDivRef} />
           <OeTemperature scrollRef={outerDivRef} />
           <PriceMap scrollRef={outerDivRef} />
-          <Suspense fallback={<Loading className="w-[30%] justify-center"/>}>
-      <OeChart />
-    </Suspense>
+          <Suspense fallback={<Loading className="w-[30%] justify-center" />}>
+            <OeChart />
+          </Suspense>
           <Recipe />
         </div>
       </div>

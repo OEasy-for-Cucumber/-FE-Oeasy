@@ -1,9 +1,9 @@
 import { useNavigate } from "react-router-dom";
 import OeRecipes from "./components/OeRecipes";
-import instance from "../../api/axios";
-import Oven from "../../../public/img/oven.webp";
-import Heart from "../../../public/img/recipe_heart.webp";
-import ArrowRight from "../../../public/icons/rightArrow.webp";
+import Oven from "@/assets/img/oven.webp";
+import Heart from "@/assets/img/recipe_heart.webp";
+import ArrowRight from "@/assets/icons/rightArrow.webp";
+import instance from "@/api/axios";
 
 function Recipes() {
   const navigate = useNavigate();

@@ -1,11 +1,11 @@
 import { Link } from "react-router-dom";
-import useRecipesData from "../../../hooks/useRecipesData";
-import Loading from "../../../components/common/Loading";
 import { useEffect, useRef, useState } from "react";
-import Heart from "../../../../public/icons/recipeLike.webp";
-import FullHeart from "../../../../public/icons/recipeLikeFull.webp";
-import { useUserStore } from "../../../zustand/authStore";
-import instance from "../../../api/axios";
+import Heart from "@/assets/icons/recipeLike.webp";
+import FullHeart from "@/assets/icons/recipeLikeFull.webp";
+import { useUserStore } from "@/zustand/authStore";
+import instance from "@/api/axios";
+import Loading from "@/components/common/Loading";
+import useRecipesData from "@/hooks/useRecipesData";
 
 function OeRecipes() {
   const { data: recipes, fetchNextPage, hasNextPage, isLoading } = useRecipesData();

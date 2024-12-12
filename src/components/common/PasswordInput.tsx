@@ -1,5 +1,5 @@
-import ShowIcon from "../../../public/icons/ShowPW.webp";
-import HideIcon from "../../../public/icons/Hide.webp";
+import ShowIcon from "@/assets/icons/ShowPW.webp";
+import HideIcon from "@/assets/icons/Hide.webp";
 import { useState } from "react";
 
 interface InputProps {

@@ -1,11 +1,16 @@
-import Input from "../../../components/common/Input";
-import { StepProps } from "../../../types/authPropsTypes";
+import Input from "@/components/common/Input";
+import { StepProps } from "@/types/authPropsTypes";
 
-function Nickname({ nickname, setNickname=()=>{}, isNickname, nicknameMsg, nicknameChangeHandler = () => {} }: StepProps) {
-
+function Nickname({
+  nickname,
+  setNickname = () => {},
+  isNickname,
+  nicknameMsg,
+  nicknameChangeHandler = () => {}
+}: StepProps) {
   const resetNicknameValue = () => {
     setNickname("");
-  }
+  };
 
   return (
     <>
@@ -13,7 +18,7 @@ function Nickname({ nickname, setNickname=()=>{}, isNickname, nicknameMsg, nickn
         <p className="text-lg mb-4">닉네임을 입력해주세요</p>
         <p
           className={`${!isNickname ? "redoe" : "text-grayoe-300"} ${
-            nickname ?"label-visible" : "label-hidden"
+            nickname ? "label-visible" : "label-hidden"
           } base-label`}
         >
           닉네임

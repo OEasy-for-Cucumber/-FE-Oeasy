@@ -1,9 +1,9 @@
 import { useNavigate } from "react-router-dom";
-import instance from "../../../api/axios";
 import { useQuery } from "@tanstack/react-query";
-import { scrollRefProps } from "../../../types/scrollRef";
 import { FC, useState } from "react";
-import { useScrollEvent } from "../../../hooks/useScrollEvent";
+import { scrollRefProps } from "@/types/scrollRef";
+import instance from "@/api/axios";
+import { useScrollEvent } from "@/hooks/useScrollEvent";
 
 const OeVote: FC<scrollRefProps> = ({ scrollRef }) => {
   const [animation, setAnimation] = useState({ animationOne: false, animationTwo: false });

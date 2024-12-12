@@ -1,11 +1,11 @@
 import { useEffect } from "react";
-import { useUserStore } from "../zustand/authStore";
-import instance from "../api/axios";
 import Cookies from "js-cookie";
+import { useUserStore } from "@/zustand/authStore";
+import instance from "@/api/axios";
 
 function useUserInitialize() {
   const { setIsLoggedIn, setIsInitialized } = useUserStore.getState();
-  const setUser = useUserStore((state)=>state.setUser);
+  const setUser = useUserStore((state) => state.setUser);
   const token = Cookies.get("accessToken");
 
   useEffect(() => {
@@ -14,7 +14,7 @@ function useUserInitialize() {
         setIsInitialized(true);
         return;
       }
-  
+
       try {
         const { data } = await instance.get("/member/profile");
         if (data) {
@@ -27,10 +27,9 @@ function useUserInitialize() {
         setIsInitialized(true);
       }
     };
-  
+
     initUser();
   }, [token, setUser, setIsLoggedIn, setIsInitialized]);
-  
 }
 
 export default useUserInitialize;
