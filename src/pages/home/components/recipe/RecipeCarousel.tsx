@@ -31,7 +31,7 @@ const RecipeCarousel = () => {
   }, [data]);
 
   if (isLoading) {
-    return <Loading className="h-[280px] w-[280px] mx-auto xl:h-[400px] xl:w-[400px] xl:m-0 xl:my-auto" />;
+    return <Loading/>;
   }
 
   if (error) {
