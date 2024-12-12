@@ -1,12 +1,12 @@
-import LocationIcon from "../../../../public/icons/Location.png";
+import LocationIcon from "../../../../public/icons/Location.webp";
 import { FC, useEffect, useState } from "react";
 import instance from "../../../api/axios";
-import Union from "../../../../public/img/Union.png";
-import ShortLine from "../../../../public/icons/ShortLine.png";
-import LongLine from "../../../../public/icons/LongLine.png";
+import Union from "../../../../public/img/Union.webp";
+import ShortLine from "../../../../public/icons/ShortLine.webp";
+import LongLine from "../../../../public/icons/LongLine.webp";
 import { OEIndexType } from "../../../types/oeIndexTypes";
-import DangerCircle from "../../../../public/icons/Danger Circle.png";
-import GroupOE from "../../../../public/img/GroupOE.png";
+import DangerCircle from "../../../../public/icons/Danger Circle.webp";
+import GroupOE from "../../../../public/img/GroupOE.webp";
 import { scrollRefProps } from "../../../types/scrollRef";
 import { useScrollEvent } from "../../../hooks/useScrollEvent";
 

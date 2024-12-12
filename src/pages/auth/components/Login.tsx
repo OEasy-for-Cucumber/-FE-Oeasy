@@ -3,12 +3,12 @@ import Button from "../../../components/common/Button";
 import Input from "../../../components/common/Input";
 import { useActiveStore } from "../../../zustand/isActiveStore";
 import { useNavigate } from "react-router-dom";
-import kakaologo from "../../../../public/icons/kakaologo.png";
+import kakaologo from "../../../../public/icons/kakaologo.webp";
 import instance from "../../../api/axios";
 import { useUserStore } from "../../../zustand/authStore";
 import Cookies from "js-cookie";
 import PasswordInput from "../../../components/common/PasswordInput";
-import Logo from "../../../../public/icons/logo.png";
+import Logo from "../../../../public/icons/logo.webp";
 import { AxiosError } from "axios";
 import useAlert from "../../../hooks/useAlert";
 

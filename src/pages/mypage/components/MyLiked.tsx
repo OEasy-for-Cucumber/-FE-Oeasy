@@ -1,6 +1,6 @@
-import Heart from "../../../../public/icons/heart.png";
-import Show from "../../../../public/icons/show.png";
-import Coment from "../../../../public/icons/comment.png";
+import Heart from "../../../../public/icons/heart.webp";
+import Show from "../../../../public/icons/show.webp";
+import Coment from "../../../../public/icons/comment.webp";
 import { useEffect, useState } from "react";
 import { Contents } from "../../../types/myContentsTypes";
 import { useNavigate, useSearchParams } from "react-router-dom";

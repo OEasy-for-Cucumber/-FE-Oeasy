@@ -1,8 +1,8 @@
-import DangerCircle from "../../../../public/icons/Danger Circle.png";
+import DangerCircle from "../../../../public/icons/Danger Circle.webp";
 import { useEffect, useState } from "react";
 import instance from "../../../api/axios";
-import IncIcon from "../../../../public/icons/inc-icon.png";
-import GraphIcon from "../../../../public/icons/graphicon.png";
+import IncIcon from "../../../../public/icons/inc-icon.webp";
+import GraphIcon from "../../../../public/icons/graphicon.webp";
 import ReactApexChart from "react-apexcharts";
 import { ApexOptions } from "apexcharts";
 import Loading from "../../../components/common/Loading";

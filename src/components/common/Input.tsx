@@ -1,5 +1,5 @@
 import { useState } from "react";
-import DeleteIcon from "../../../public/icons/deleteIcon.png";
+import DeleteIcon from "../../../public/icons/deleteIcon.webp";
 
 interface InputProps {
   type?: "text" | "password" | "number" | "email";

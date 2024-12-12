@@ -118,8 +118,8 @@ function Vote({ active, initialVotes, isVoting }: VoteProps) {
     likeVotes > hateVotes ? "font-h4 xl:font-h3 text-white" : "font-b1-semibold xl:font-h4 text-grayoe-200";
   const hateBg = hateVotes > likeVotes ? "bg-redoe-500 " : "bg-redoe-50";
   const likeBg = likeVotes > hateVotes ? "bg-redoe-500" : "bg-redoe-50";
-  const hateWinImg = hateVotes > likeVotes ? "/img/hateOeWin.png" : "/img/hateOeLoose.png";
-  const likeWinImg = likeVotes > hateVotes ? "/img/likeOeWin.png" : "/img/likeOeLoose.png";
+  const hateWinImg = hateVotes > likeVotes ? "/img/hateOeWin.webp" : "/img/hateOeLoose.webp";
+  const likeWinImg = likeVotes > hateVotes ? "/img/likeOeWin.webp" : "/img/likeOeLoose.webp";
 
   return (
     <>

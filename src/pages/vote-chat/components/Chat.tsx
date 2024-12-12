@@ -2,7 +2,7 @@ import { v4 as uuidv4 } from "uuid";
 import { useEffect, useRef, useState } from "react";
 import { Client } from "@stomp/stompjs";
 import SockJS from "sockjs-client";
-import sendIcon from "../../../../public/icons/send.png";
+import sendIcon from "../../../../public/icons/send.webp";
 import { useUserStore } from "../../../zustand/authStore";
 import useAlert from "../../../hooks/useAlert";
 import { useNavigate } from "react-router-dom";
@@ -29,7 +29,7 @@ function Chat({ chattingList }: ChatProps) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [isComposing, setComposing] = useState(false);
   const messageEndRef = useRef<HTMLDivElement>(null);
-  const DEFAULT_PROFILE_IMG = "/img/defaultProfile.png";
+  const DEFAULT_PROFILE_IMG = "/img/defaultProfile.webp";
   const { showAlert } = useAlert();
   const navigate = useNavigate();
 
