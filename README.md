@@ -50,7 +50,7 @@
 <summary>미리보기</summary>
 <div markdown="1">
 
-<img src="./readme-images/login.png"  width="350" height="400"/>
+<img src="./readme-images/login.png"  width="700" height="400"/>
 
  <br>
 </div>
@@ -63,7 +63,7 @@
 <summary>미리보기</summary>
 <div markdown="1">
 
-<img src="./readme-images/mypage.png"  width="350" height="400"/>
+<img src="./readme-images/mypage.png"  width="700" height="400"/>
  <br>
 </div>
 </details>
@@ -75,8 +75,7 @@
 <summary>미리보기</summary>
 <div markdown="1">
 
-<img src="./readme-images/main1.png"  width="350" height="400"/>
-<img src="./readme-images/main1-1.png"  width="650" height="400"/>
+<img src="./readme-images/Group.png"  width="700" height=auto/>
 
  <br>
 </div>
@@ -89,8 +88,7 @@
 <summary>미리보기</summary>
 <div markdown="1">
 
-<img src="./readme-images/main1.png"  width="350" height="400"/>
-<img src="./readme-images/main1-1.png"  width="650" height="400"/>
+<img src="./readme-images/aioe.png"  width="350" height=auto/>
 
  <br>
 </div>
@@ -104,11 +102,8 @@
 <details>
 <summary>미리보기</summary>
 <div markdown="1">
-
-<img src="./readme-images/store1-1.png"  width="350" height="400"/>
-<img src="./readme-images/store1.png"  width="650" height="400"/>
-<img src="./readme-images/store2-2.png"  width="350" height="450"/>
-<img src="./readme-images/store2.png"  width="650" height="450"/>
+    
+<img src="./readme-images/community.png"  width="700" height="450"/>
  <br>
 </div>
 </details>
@@ -122,8 +117,7 @@
 <summary>미리보기</summary>
 <div markdown="1">
 
-<img src="./readme-images/inf1.png"  width="350" height="400"/>
-<img src="./readme-images/inf1-1.png"  width="650" height="400"/>
+<img src="./readme-images/votechat.png"  width="700" height="400"/>
 
  <br>
 </div>
@@ -137,8 +131,7 @@
 <summary>미리보기</summary>
 <div markdown="1">
 
-<img src="./readme-images/search1-1.png"  width="350" height="400"/>
-<img src="./readme-images/search1.png"  width="650" height="400"/>
+<img src="./readme-images/recipe.png"  width="700" height="400"/>
 
  <br>
 </div>
@@ -152,21 +145,21 @@
 
 ### ◻ React - Typescript
 
-> 코드 스플리팅과 서버 사이드 렌더링을 통해 필요한 페이지에 한해 초기 로딩 속도를 줄이고, App Routing과 같은 개발자가 쉽게 사용할 수 있는 라우팅 방식을 이용하기 위해 선택했습니다.
+> 타입 오류를 사전에 발견하여 버그를 줄일 수 있고 코드 자동완성, 인텔리센스, 리팩토링이 간편하여 유지보수가 용이하다는 점에 선택하였습니다.
 
 
 ### ◻ Tanstack query
 
-> 제품 목록, 사용자 정보, 등 다양한 데이터 페칭이 필요한 상황에서 불필요한 네트워크 요청을 줄여 성능을 최적화하고 필요한 곳에 전역적으로 서버 상태를 관리하기 위해서 선택했습니다.
+> 다양한 데이터 페칭이 필요한 상황에서 불필요한 네트워크 요청을 줄여 성능을 최적화하고 필요한 곳에 전역적으로 서버 상태를 관리하기 위해서 선택했습니다.
 
 
 ### ◻ Zustand
 
-> 장바구니, UI 상태을 관리하기 위해 보일러 플레이팅이 적고 확장성을 갖춘 전역 관리 라이브러리인 zustand를 선택했습니다.
+> 유저 상태을 관리하기 위해 보일러 플레이팅이 적고 확장성을 갖춘 전역 관리 라이브러리인 zustand를 선택했습니다.
 
 ### ◻ tailwindcss
 
-> 처음부터 스타일을 작성하는 것이 아닌 사전에 정의된 유틸리티 클래스를 사용하여 스타일을 빠르게 적용할 수 있고, 사용하지 않는 스타일을 제거하는 특징 또한 가지고 있기에 선택했습니다.
+> 디자인시스템을 초기에 정의해두어 사용하기 간편하고 기본으로 제공하는 반응형 css 적용이 편리하여 사용했습니다.
 
 <br><br>
 
