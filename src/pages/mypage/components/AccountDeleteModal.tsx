@@ -1,18 +1,16 @@
 import React, { useState } from "react";
-import Button from '../../../components/common/Button';
-import instance from "../../../api/axios";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
-import { useUserStore } from "../../../zustand/authStore";
-import useAlert from "../../../hooks/useAlert";
+import { useUserStore } from "@/zustand/authStore";
+import useAlert from "@/hooks/useAlert";
+import instance from "@/api/axios";
+import Button from "@/components/common/Button";
 
 interface AccountDeleteModalProps {
   AccountDeleteModalHandler: () => void;
 }
 
-const AccountDeleteModal: React.FC<AccountDeleteModalProps> = ({
-  AccountDeleteModalHandler,
-}) => {
+const AccountDeleteModal: React.FC<AccountDeleteModalProps> = ({ AccountDeleteModalHandler }) => {
   const [inputValue, setInputValue] = useState("");
   const [isMatch, setIsMatch] = useState(false);
   const { setIsLoggedIn } = useUserStore.getState();
@@ -37,22 +35,22 @@ const AccountDeleteModal: React.FC<AccountDeleteModalProps> = ({
   };
 
   const handleDelete = async () => {
-    if(!isMatch) {
+    if (!isMatch) {
       showAlert({
         message: "탈퇴 문구와 일치하지 않습니다."
-      })
+      });
       return;
     }
     if (isMatch) {
       try {
         await instance.delete("/member/delete", {
           data: {
-            confirmationMessage: inputValue,
-          },
+            confirmationMessage: inputValue
+          }
         });
-        
+
         showAlert({
-          message:"계정이 탈퇴되었습니다."
+          message: "계정이 탈퇴되었습니다."
         });
         Cookies.remove("accessToken");
         setIsLoggedIn(false);
@@ -70,9 +68,7 @@ const AccountDeleteModal: React.FC<AccountDeleteModalProps> = ({
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-80">
       <div className="bg-grayoe-900 text-white rounded-lg p-6 w-[90%] max-w-md">
         <h2 className="text-lg font-bold text-center mb-4">정말 떠나실 건가요?</h2>
-        <p className="text-sm text-center mb-6">
-          탈퇴 시 아래 문구를 똑같이 입력해주세요
-        </p>
+        <p className="text-sm text-center mb-6">탈퇴 시 아래 문구를 똑같이 입력해주세요</p>
         <div className="text-center mb-4 font-bold text-lg">{targetPhrase}</div>
         <input
           type="text"
@@ -82,11 +78,7 @@ const AccountDeleteModal: React.FC<AccountDeleteModalProps> = ({
           className="w-full p-2 border-b border-grayoe-400 bg-grayoe-900 placeholder-grayoe-400 focus:outline-none"
         />
         <div className="flex justify-between gap-2 mt-[72px]">
-          <Button
-            onClick={handleCancel}
-            size="medium"
-            isActive={true}
-          >
+          <Button onClick={handleCancel} size="medium" isActive={true}>
             계정유지
           </Button>
           <button

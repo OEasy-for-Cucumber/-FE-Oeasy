@@ -1,14 +1,14 @@
 import { useLocation, useNavigate } from "react-router-dom";
+import Sample from "@/assets/img/defaultProfile.webp";
+import Logo from "@/assets/icons/logo.webp";
+import { useUserStore } from "@/zustand/authStore";
 import Button from "../common/Button";
-import { useUserStore } from "../../zustand/authStore";
-import Sample from "../../../public/img/defaultProfile.webp";
-import Logo from "../../.././public/icons/logo.webp";
 
 function WebHeader() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const { isLoggedIn } = useUserStore.getState();
-  const user = useUserStore((state)=>state.user);
+  const user = useUserStore((state) => state.user);
 
   const goToLogin = () => {
     navigate("/login");

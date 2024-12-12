@@ -1,20 +1,20 @@
-import Xicon from "../../../../public/icons/Icon.webp";
-import Sample from "../../../../public/img/defaultProfile.webp";
-import Camera from "../../../../public/icons/Camera.webp";
-import { useUserStore } from "../../../zustand/authStore";
+import Xicon from "@/assets/icons/Icon.webp";
+import Sample from "@/assets/img/defaultProfile.webp";
+import Camera from "@/assets/icons/Camera.webp";
 import { useNavigate } from "react-router-dom";
-import Input from "../../../components/common/Input";
 import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
-import instance from "../../../api/axios";
 import axios from "axios";
 import AccountDeleteModal from "./AccountDeleteModal";
 import ConfirmPasswordModal from "./ConfirmPasswordModal";
 import { useQueryClient } from "@tanstack/react-query";
-import useAlert from "../../../hooks/useAlert";
-import useConfirm from "../../../hooks/useConfirm";
-import Button from "../../../components/common/Button";
 import "./modalStyle.css";
+import { useUserStore } from "@/zustand/authStore";
+import useAlert from "@/hooks/useAlert";
+import useConfirm from "@/hooks/useConfirm";
+import instance from "@/api/axios";
+import Input from "@/components/common/Input";
+import Button from "@/components/common/Button";
 
 function EditProfile({ handleEditModal }: { handleEditModal: () => void }) {
   const { setUser, clearUser, setIsLoggedIn } = useUserStore.getState();

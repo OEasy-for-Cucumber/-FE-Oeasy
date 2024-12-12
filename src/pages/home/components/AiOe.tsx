@@ -1,17 +1,17 @@
 import { useEffect, useRef, useState } from "react";
 import ReactDOM from "react-dom";
 import { AxiosError } from "axios";
-import sendIcon from "../../../../public/icons/send.webp";
-import InfoIcon from "../../../../public/icons/InfoSquare.webp";
-import Down from "../../../../public/icons/ArrowDown.webp";
-import Up from "../../../../public/icons/ArrowUp.webp";
-import aioeIcon from "../../../../public/img/chat_aioe.webp";
-import loading from "../../../../public/icons/loading.webp";
-import instance from "../../../api/axios";
-import { useUserStore } from "../../../zustand/authStore";
+import sendIcon from "@/assets/icons/send.webp";
+import InfoIcon from "@/assets/icons/InfoSquare.webp";
+import Down from "@/assets/icons/ArrowDown.webp";
+import Up from "@/assets/icons/ArrowUp.webp";
+import aioeIcon from "@/assets/img/chat_aioe.webp";
+import loading from "@/assets/icons/loading.webp";
 import { useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
-import useAlert from "../../../hooks/useAlert";
+import { useUserStore } from "@/zustand/authStore";
+import useAlert from "@/hooks/useAlert";
+import instance from "@/api/axios";
 
 type Message = {
   sender: "user" | "bot";

@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import Chat from "./components/Chat";
 import Vote from "./components/Vote";
-import useWebActive from "../../hooks/useWebActive";
-import instance from "../../api/axios";
-import { useUserStore } from "../../zustand/authStore";
-import { voteChatRes } from "../../types/initialVoteChatTypes";
+import useWebActive from "@/hooks/useWebActive";
+import { useUserStore } from "@/zustand/authStore";
+import instance from "@/api/axios";
+import { voteChatRes } from "@/types/initialVoteChatTypes";
 
 function Votechat() {
   const [active, setActive] = useState<"vote" | "chat">("vote");

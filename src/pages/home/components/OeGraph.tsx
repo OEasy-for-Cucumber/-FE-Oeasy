@@ -1,12 +1,13 @@
-import DangerCircle from "../../../../public/icons/Danger Circle.webp";
+import DangerCircle from "@/assets/icons/Danger Circle.webp";
 import { useEffect, useState } from "react";
-import instance from "../../../api/axios";
-import IncIcon from "../../../../public/icons/inc-icon.webp";
-import GraphIcon from "../../../../public/icons/graphicon.webp";
+import IncIcon from "@/assets/icons/inc-icon.webp";
+import GraphIcon from "@/assets/icons/graphicon.webp";
 import ReactApexChart from "react-apexcharts";
 import { ApexOptions } from "apexcharts";
-import Loading from "../../../components/common/Loading";
+
 import SlotNumber from "./SlotNumber";
+import instance from "@/api/axios";
+import Loading from "@/components/common/Loading";
 
 interface PriceData {
   date: string;
@@ -48,7 +49,7 @@ function OeGraph() {
   };
   const formattedStartDate = formatDate(startDate);
   const formattedEndDate = formatDate(currentDate);
-  
+
   useEffect(() => {
     const getOePrice = async () => {
       try {
@@ -66,7 +67,7 @@ function OeGraph() {
   }, []);
 
   if (isLoading) {
-    return <Loading className="w-[30%] mx-auto mt-[200px]" />;
+    return <Loading/>;
   }
 
   const series =

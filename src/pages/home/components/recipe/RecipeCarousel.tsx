@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import instance from "../../../../api/axios";
 import { useQuery } from "@tanstack/react-query";
-import Loading from "../../../../components/common/Loading";
+import instance from "@/api/axios";
+import Loading from "@/components/common/Loading";
 
 const RecipeCarousel = () => {
   const [topImage, setTopImage] = useState<string[]>([]);
@@ -31,7 +31,7 @@ const RecipeCarousel = () => {
   }, [data]);
 
   if (isLoading) {
-    return <Loading className="h-[280px] w-[280px] mx-auto xl:h-[400px] xl:w-[400px] xl:m-0 xl:my-auto" />;
+    return <Loading/>;
   }
 
   if (error) {

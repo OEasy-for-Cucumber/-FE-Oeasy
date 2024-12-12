@@ -1,12 +1,12 @@
-import Heart from "../../../../public/icons/heart.webp";
-import Show from "../../../../public/icons/show.webp";
-import Coment from "../../../../public/icons/comment.webp";
+import Heart from "@/assets/icons/heart.webp";
+import Show from "@/assets/icons/show.webp";
+import Coment from "@/assets/icons/comment.webp";
 import { useEffect, useState } from "react";
-import { Contents } from "../../../types/myContentsTypes";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { useUserStore } from "../../../zustand/authStore";
-import instance from "../../../api/axios";
-import Pagination from "../../community/components/Pagination";
+import { Contents } from "@/types/myContentsTypes";
+import { useUserStore } from "@/zustand/authStore";
+import instance from "@/api/axios";
+import Pagination from "@/pages/community/components/Pagination";
 
 function MyLiked() {
   const [myLikedPosts, setMyLikedPosts] = useState<Contents[]>();
@@ -33,8 +33,8 @@ function MyLiked() {
           memberId: user?.memberPk
         }
       });
-      const {contents, totalPages} = response.data;
-      setToTalPages(totalPages)
+      const { contents, totalPages } = response.data;
+      setToTalPages(totalPages);
       const formattedPosts = contents.map((post: Contents) => ({
         ...post,
         createTime: formatDate(post.createTime) // 날짜 포맷 변환
@@ -82,7 +82,7 @@ function MyLiked() {
           </div>
         ))
       )}
-      {myLikedPosts?.length! > 0 && (
+      {myLikedPosts && myLikedPosts.length > 0 && (
         <div className="flex justify-center">
           <Pagination
             totalPageNumber={totalPages}

@@ -1,14 +1,14 @@
-import LocationIcon from "../../../../public/icons/Location.webp";
+import LocationIcon from "@/assets/icons/Location.webp";
 import { FC, useEffect, useState } from "react";
-import instance from "../../../api/axios";
-import Union from "../../../../public/img/Union.webp";
-import ShortLine from "../../../../public/icons/ShortLine.webp";
-import LongLine from "../../../../public/icons/LongLine.webp";
-import { OEIndexType } from "../../../types/oeIndexTypes";
-import DangerCircle from "../../../../public/icons/Danger Circle.webp";
-import GroupOE from "../../../../public/img/GroupOE.webp";
-import { scrollRefProps } from "../../../types/scrollRef";
-import { useScrollEvent } from "../../../hooks/useScrollEvent";
+import Union from "@/assets/img/Union.webp";
+import ShortLine from "@/assets/icons/ShortLine.webp";
+import LongLine from "@/assets/icons/LongLine.webp";
+import DangerCircle from "@/assets/icons/Danger Circle.webp";
+import GroupOE from "@/assets/img/GroupOE.webp";
+import { scrollRefProps } from "@/types/scrollRef";
+import { OEIndexType } from "@/types/oeIndexTypes";
+import instance from "@/api/axios";
+import { useScrollEvent } from "@/hooks/useScrollEvent";
 
 const OeTemperature: FC<scrollRefProps> = ({ scrollRef }) => {
   const [animation, setAnimation] = useState({ animationOne: false, animationTwo: false });

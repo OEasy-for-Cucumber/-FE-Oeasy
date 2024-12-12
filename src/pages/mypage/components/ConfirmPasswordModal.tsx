@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
-import Button from "../../../components/common/Button";
 import EditPassword from "./EditPassword";
-import { useUserStore } from "../../../zustand/authStore";
-import instance from "../../../api/axios";
-import useAlert from "../../../hooks/useAlert";
 import "./modalStyle.css";
-
+import { useUserStore } from "@/zustand/authStore";
+import useAlert from "@/hooks/useAlert";
+import instance from "@/api/axios";
+import Button from "@/components/common/Button";
 
 export interface ConfirmPasswordModalProp {
   handleNewPasswordModal: () => void;
@@ -39,6 +38,7 @@ function ConfirmPasswordModal({ handleNewPasswordModal }: ConfirmPasswordModalPr
       });
       setNewPasswordModalOpen(true);
     } catch (error) {
+      console.log(error);
       showAlert({
         message: "인증 실패",
         subMessage: "비밀번호를 다시 확인해주세요."
