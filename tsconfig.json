@@ -2,6 +2,10 @@
   "files": [],
   "references": [{ "path": "./tsconfig.app.json" }, { "path": "./tsconfig.node.json" }],
   "compilerOptions": {
+    "baseUrl": ".", // 프로젝트 루트를 기준으로 설정
+    "paths": {
+      "@/*": ["src/*"] // @/*를 src/*로 매핑
+    },
     "allowJs": true,
     "types": ["node"]
   }
