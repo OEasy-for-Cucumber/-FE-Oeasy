@@ -1,6 +1,9 @@
 import { useNavigate } from "react-router-dom";
 import OeRecipes from "./components/OeRecipes";
 import instance from "../../api/axios";
+import Oven from "../../../public/img/oven.webp";
+import Heart from "../../../public/img/recipe_heart.webp";
+import ArrowRight from "../../../public/icons/rightArrow.webp";
 
 function Recipes() {
   const navigate = useNavigate();
@@ -12,16 +15,42 @@ function Recipes() {
   };
 
   return (
-    <section className="px-6 xl:px-0 xl:w-[864px] xl:mx-auto ">
-      <button
-        className="w-full border px-[24px] py-[16px] my-[24px] rounded-lg border-greenoe-600 bg-greenoe-50 bg-recipes_btn_bg bg-no-repeat bg-right bg-contain text-black text-left"
-        onClick={randomRecipeBtn}
-      >
-        <div className="text-sm xl:text-base">Oeasy픽</div>
-        <div className="font-h5 xl:text-2xl">
-          오늘의 <span className="text-greenoe-600">오이요리</span> 추천 받기
+    <section className="px-6 xl:px-0 xl:w-[864px] xl:mx-auto">
+      <div className="my-[24px]">
+        <div className="w-full border border-greenoe-600 py-[16px] pl-[24px] mb-4 rounded-lg relative">
+          <h5 className="font-h5 mb-2">오이로 뭐 해먹지?</h5>
+          <button
+            onClick={randomRecipeBtn}
+            className="flex flex-row justify-between items-center w-[125px] h-[20px] px-2 py-[2px] bg-greenoe-600 rounded-full font-c2"
+          >
+            오늘 요리 추천 받기
+            <img src={ArrowRight} alt="랜덤버튼" className="w-[14px] h-[14px]" />
+          </button>
+
+          <img
+            src={Oven}
+            alt="랜덤레시피 버튼 오븐 이미지"
+            className="w-[62px] h-[68px] absolute right-[23px] top-[11px]"
+          />
         </div>
-      </button>
+
+        <div className="w-full border border-greenoe-600 py-[16px] pl-[24px] rounded-lg relative">
+          <h5 className="font-h5 mb-2">나 오이 좋아하네</h5>
+          <button
+            onClick={randomRecipeBtn}
+            className="flex flex-row justify-between items-center w-[132px] h-[20px] px-2 py-[2px] bg-greenoe-600 rounded-full font-c2"
+          >
+            내가 좋아요한 레시피
+            <img src={ArrowRight} alt="랜덤버튼" className="w-[14px] h-[14px]" />
+          </button>
+
+          <img
+            src={Heart}
+            alt="랜덤레시피 버튼 오븐 이미지"
+            className="w-[63px] h-[60px] absolute right-[23px] top-[15px]"
+          />
+        </div>
+      </div>
 
       <OeRecipes />
     </section>
