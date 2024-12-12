@@ -1,6 +1,5 @@
 import TopBtn from "../../components/common/TopBtn";
 import Landing from "./components/Landing";
-// import OeGraph from "./components/OeGraph";
 import OeTip from "./components/OeTip";
 import AiOe from "./components/AiOe";
 import Recipe from "./components/recipe/Recipe";
@@ -115,9 +114,9 @@ function Home() {
           <OeVote scrollRef={outerDivRef} />
           <OeTemperature scrollRef={outerDivRef} />
           <PriceMap scrollRef={outerDivRef} />
-          <Suspense fallback={<Loading className="w-[30%] justify-center"/>}>
-      <OeChart />
-    </Suspense>
+          <Suspense fallback={<Loading className="w-[30%] justify-center" />}>
+            <OeChart />
+          </Suspense>
           <Recipe />
         </div>
       </div>
