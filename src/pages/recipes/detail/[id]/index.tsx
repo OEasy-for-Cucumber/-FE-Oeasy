@@ -6,12 +6,14 @@ import { useQuery } from "@tanstack/react-query";
 import { useUserStore } from "@/zustand/authStore";
 import Heart from "@/assets/icons/recipeLike.webp";
 import FullHeart from "@/assets/icons/recipeLikeFull.webp";
+import useAlert from "@/hooks/useAlert";
 
 function RecipeDetail() {
   const { id } = useParams();
   const { user } = useUserStore();
   const [selectRecipe, setSelectRecipe] = useState<selectRecipe>();
   const navigate = useNavigate();
+  const { showAlert } = useAlert();
 
   const body2 = "font-b2-regular text-grayoe-100";
 
@@ -41,6 +43,9 @@ function RecipeDetail() {
   const handleLikeClick = async () => {
     const memberPk = user?.memberPk;
     if (!user) {
+      showAlert({
+        message: "로그인 후 이용해주세요"
+      });
       navigate("/login");
       return;
     }

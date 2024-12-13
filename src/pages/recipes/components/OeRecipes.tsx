@@ -6,6 +6,7 @@ import { useUserStore } from "@/zustand/authStore";
 import instance from "@/api/axios";
 import Loading from "@/components/common/Loading";
 import useRecipesData from "@/hooks/useRecipesData";
+import useAlert from "@/hooks/useAlert";
 
 interface LikeType {
   recipePk: number;
@@ -18,6 +19,7 @@ function OeRecipes() {
   const loaderRef = useRef<HTMLDivElement | null>(null);
   const [likedRecipesMap, setLikedRecipesMap] = useState<Record<number, boolean>>({});
   const navigate = useNavigate();
+  const { showAlert } = useAlert();
 
   useEffect(() => {
     const fetchLikeStatus = async () => {
@@ -67,6 +69,9 @@ function OeRecipes() {
   const handleLikeClick = async (recipeId: number) => {
     const memberPk = user?.memberPk;
     if (!user) {
+      showAlert({
+        message: "로그인 후 이용해주세요"
+      });
       navigate("/login");
       return;
     }
