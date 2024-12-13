@@ -242,13 +242,13 @@ function Detail() {
             {isModalOpen && postData && selectedImage !== null && (
               <>
                 <div
-                  className="fixed top-0 left-0 w-full h-full z-10 bg-black "
+                  className="fixed top-0 left-0 w-full h-full z-60 bg-black "
                   onClick={() => setIsModalOpen(false)}
                 />
-                <button className="fixed top-[80px] left-4 text-white text-2xl z-30" onClick={handleCloseModal}>
+                <button className="fixed top-4 left-4 text-white text-2xl z-70" onClick={handleCloseModal}>
                   ✕
                 </button>
-                <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-auto h-auto flex flex-col items-center justify-center z-20">
+                <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-auto h-auto flex flex-col items-center justify-center z-70">
                   <div>
                     <img
                       src={postData.imageUrlList[selectedImage]}

@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import OeRecipes from "./components/OeRecipes";
-import Oven from "@/assets/img/oven.webp";
+import Hat from "@/assets/img/oven.webp";
 import Heart from "@/assets/img/recipe_heart.webp";
 import ArrowRight from "@/assets/icons/rightArrow.webp";
 import instance from "@/api/axios";
@@ -17,28 +17,28 @@ function Recipes() {
   return (
     <section className="px-6 xl:px-0 xl:w-[864px] xl:mx-auto">
       <div className="my-[24px]">
-        <div className="w-full border border-greenoe-600 py-[16px] pl-[24px] mb-4 rounded-lg relative">
+        <div className="w-full border border-greenoe-800 py-[16px] pl-[24px] mb-4 rounded-lg relative">
           <h5 className="font-h5 mb-2">오이로 뭐 해먹지?</h5>
           <button
             onClick={randomRecipeBtn}
-            className="flex flex-row justify-between items-center w-[125px] h-[20px] px-2 py-[2px] bg-greenoe-600 rounded-full font-c2"
+            className="flex flex-row justify-between items-center w-[125px] h-[20px] px-2 py-[2px] bg-greenoe-800 rounded-full font-c2"
           >
             오늘 요리 추천 받기
             <img src={ArrowRight} alt="랜덤버튼" className="w-[14px] h-[14px]" />
           </button>
 
           <img
-            src={Oven}
+            src={Hat}
             alt="랜덤레시피 버튼 오븐 이미지"
             className="w-[62px] h-[68px] absolute right-[23px] top-[11px]"
           />
         </div>
 
-        <div className="w-full border border-greenoe-600 py-[16px] pl-[24px] rounded-lg relative">
+        <div className="w-full border border-greenoe-800 py-[16px] pl-[24px] rounded-lg relative">
           <h5 className="font-h5 mb-2">나 오이 좋아하네</h5>
           <button
             onClick={randomRecipeBtn}
-            className="flex flex-row justify-between items-center w-[132px] h-[20px] px-2 py-[2px] bg-greenoe-600 rounded-full font-c2"
+            className="flex flex-row justify-between items-center w-[132px] h-[20px] px-2 py-[2px] bg-greenoe-800 rounded-full font-c2"
           >
             내가 좋아요한 레시피
             <img src={ArrowRight} alt="랜덤버튼" className="w-[14px] h-[14px]" />

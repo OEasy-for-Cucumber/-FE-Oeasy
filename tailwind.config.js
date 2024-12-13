@@ -11,7 +11,9 @@ module.exports = {
     extend: {
       zIndex: {
         50: "50",
-        10: "10"
+        10: "10",
+        60: "60",
+        70: "70"
       },
       colors: {
         grayoe: {

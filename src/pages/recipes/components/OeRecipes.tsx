@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import Heart from "@/assets/icons/recipeLike.webp";
 import FullHeart from "@/assets/icons/recipeLikeFull.webp";
@@ -12,6 +12,7 @@ function OeRecipes() {
   const { user } = useUserStore();
   const loaderRef = useRef<HTMLDivElement | null>(null);
   const [likedRecipes, setLikedRecipes] = useState<number[]>([]);
+  // const navigate = useNavigate();
 
   useEffect(() => {
     if (!loaderRef.current || !hasNextPage) return;
@@ -33,12 +34,33 @@ function OeRecipes() {
   }, [fetchNextPage, hasNextPage]);
 
   const handleLikeClick = async (recipeId: number) => {
-    try {
-      await instance.get(`/api/recipe/like/${user?.memberPk}/${recipeId}`);
+    if (!user) {
+      console.error("User is not logged in.");
+      return;
+    }
 
-      setLikedRecipes((prev) => (prev.includes(recipeId) ? prev.filter((id) => id !== recipeId) : [...prev, recipeId]));
+    // 현재 좋아요 상태 확인
+    const isLiked = likedRecipes.includes(recipeId);
+
+    // 상태 업데이트
+    const updatedLikedRecipes = isLiked
+      ? likedRecipes.filter((id) => id !== recipeId) // 좋아요 취소
+      : [...likedRecipes, recipeId];
+
+    setLikedRecipes(updatedLikedRecipes);
+
+    try {
+      // 서버에 좋아요 상태 전송
+      const res = await instance.post("/api/recipe/board/like-check", {
+        memberPk: user?.memberPk,
+        recipeList: updatedLikedRecipes
+      });
+
+      console.log("좋아요 상태 업데이트 성공:", res.data);
     } catch (error) {
       console.error("좋아요 처리 실패:", error);
+      // 실패 시 상태 복구 (옵션)
+      setLikedRecipes(likedRecipes);
     }
   };
 
@@ -84,7 +106,7 @@ function OeRecipes() {
         </div>
       ))}
 
-      <div ref={loaderRef} className="w-full h-[56px] flex items-center justify-center mb-4"></div>
+      <div ref={loaderRef}></div>
     </>
   );
 }
