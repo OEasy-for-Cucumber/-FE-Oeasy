@@ -55,10 +55,11 @@ function MyPost() {
       {myPosts?.length === 0 ? (
         <div className="text-center mt-8">작성한 게시글이 없습니다.</div>
       ) : (
-        myPosts?.map((post) => (
+        <div className="w-full xl:h-[500px]">
+        {myPosts?.map((post) => (
           <div key={post.boardPk}>
             <hr className="border-grayoe-900" />
-            <div className="w-full py-4 px-6 ">
+            <div className="w-full py-4 px-6">
               <button className="flex flex-col" onClick={() => goToPost(post.boardPk!)}>
                 <p className="text-grayoe-300 font-c2 mb-1">{post.createTime}</p>
                 <p className="font-b2-semibold line-clamp-1">{post.title}</p>
@@ -81,10 +82,10 @@ function MyPost() {
             </div>
           </div>
         ))
-      )}
+      }</div>)}
 
       {myPosts && myPosts.length > 0 && (
-        <div className="flex justify-center">
+        <div className="flex justify-center xl:mt-[50px]">
           <Pagination
             totalPageNumber={totalPages}
             currentPage={currentPage}

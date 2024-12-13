@@ -6,6 +6,7 @@ import WebHeader from "./components/headers/WebHeader";
 import { useUserStore } from "./zustand/authStore";
 import useUserInitialize from "./utils/initAuth";
 import Loading from "./components/common/Loading";
+import Footer from "./components/common/Footer";
 
 function App(): React.JSX.Element {
   const { pathname } = useLocation();
@@ -26,6 +27,7 @@ function App(): React.JSX.Element {
         </div>
         <div className="pt-[56px] xl:pt-[80px]">
           <Outlet />
+          {pathname !== "/" && (<Footer/>)} 
         </div>
       </Layout>
     </>

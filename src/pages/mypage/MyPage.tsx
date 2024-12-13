@@ -19,7 +19,7 @@ function MyPage() {
   const handleLikedClicked = () => setIsClicked(false);
 
   return (
-    <div className="w-full xl:w-[688px] mx-auto">
+    <div className="w-full xl:w-[688px] mx-auto h-svh">
       <p className="hidden xl:flex font-h3 mx-4">마이페이지</p>
       <div className="flex p-4 bg-grayoe-900 rounded-lg items-center my-6 mx-4 xl:mx-0">
         <div className="w-full flex items-center">
