@@ -30,8 +30,13 @@ jobs:
           VITE_APP_KAKAO_REDIRECT_URI: ${{ secrets.VITE_APP_KAKAO_REDIRECT_URI }}
           VITE_APP_WS_URL: ${{ secrets.VITE_APP_WS_URL }}
 
-      - name: 빌드한 파일 S3에 업로드
-        run: aws s3 sync dist/ s3://${{ secrets.AWS_S3_BUCKET_NAME }}
+     - name: 빌드한 파일 S3에 업로드
+       run: |
+          find dist -type f -name "*.webp" -exec aws s3 cp {} s3://${{ secrets.AWS_S3_BUCKET_NAME }}/{} --content-type image/webp --metadata-directive REPLACE \;
+          find dist -type f -name "*.webm" -exec aws s3 cp {} s3://${{ secrets.AWS_S3_BUCKET_NAME }}/{} --content-type video/webm --metadata-directive REPLACE \;
+          aws s3 sync dist/ s3://${{ secrets.AWS_S3_BUCKET_NAME }}
+
+        
 
       - name: CloudFront 캐시 무력화 설정
         uses: chetan/invalidate-cloudfront-action@v2
