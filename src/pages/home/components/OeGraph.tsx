@@ -187,7 +187,7 @@ function OeGraph() {
                 ) : (
                   <>
                     <div className="flex justify-start">
-                      <img src={decIcon} alt="하강아이콘" className="w-[20px]" />
+                      <img src={decIcon} alt="인하아이콘" className="w-[20px]" />
                       <span className="text-sm text-black font-b1-semibold ml-1">전일대비</span>
                     </div>
                     <span className="font-h3 xl:font-h2 text-[#0A84FF] ml-auto">
