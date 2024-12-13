@@ -56,7 +56,6 @@ module.exports = {
         mobile_cucumber: "url(src/assets/img/mobile_group.webp)",
         web_cucumber: "url(src/assets/img/web_group.webp)",
         recipes_btn_bg: "url(src/assets/img/button_bg_cucumber.webp)",
-        noisy_gradients: "url(src/assets/img/noisy-gradients.webp)",
         profile_sample: "url(src/assets/img/defaultProfile.webp)",
         aioe_icon: "url(src/assets/icons/aioe.webp)"
       },

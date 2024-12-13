@@ -11,6 +11,7 @@ import instance from "@/api/axios";
 import PasswordInput from "@/components/common/PasswordInput";
 import Button from "@/components/common/Button";
 import Input from "@/components/common/Input";
+import LoginBg from "@/assets/img/noisy-gradients.webp";
 
 function Login() {
   const [email, setEmail] = useState<string>("");
@@ -107,12 +108,12 @@ function Login() {
 
   return (
     <div className="flex h-[calc(100vh-56px)] xl:h-[calc(100vh-80px)] w-full px-6 justify-center">
-      <div className="hidden xl:flex items-center justify-center mr-[56px]">
-        <div className="w-[610px] h-[500px] bg-center bg-cover bg-noisy_gradients from-green-300 to-blue-500 rounded-xl flex items-center justify-center">
-          <div className="text-white text-3xl font-bold">
-            <h1 className="font-h1 w-[360px]">전세계 97.24%가 모르는 오이의 진실</h1>
-            <h4 className="font-h4 mt-[40px]">- Oeasy</h4>
-          </div>
+      <div className="hidden xl:flex items-center justify-center mr-[56px] relative">
+        <img src={LoginBg} alt="로그인배경" className="rounded-xl w-full h-auto object-cover" />
+
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white text-start">
+          <h1 className="font-h1 w-[360px] leading-relaxed">전세계 97.24%가 모르는 오이의 진실</h1>
+          <h4 className="font-h4 mt-[20px]">- Oeasy</h4>
         </div>
       </div>
 
