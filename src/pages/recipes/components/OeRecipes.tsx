@@ -7,12 +7,46 @@ import instance from "@/api/axios";
 import Loading from "@/components/common/Loading";
 import useRecipesData from "@/hooks/useRecipesData";
 
+interface LikeType {
+  recipePk: number;
+  liked: boolean;
+}
+
 function OeRecipes() {
   const { data: recipes, fetchNextPage, hasNextPage, isLoading } = useRecipesData();
   const { user } = useUserStore();
   const loaderRef = useRef<HTMLDivElement | null>(null);
-  const [likedRecipes, setLikedRecipes] = useState<number[]>([]);
+  const [likedRecipesMap, setLikedRecipesMap] = useState<Record<number, boolean>>({});
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchLikeStatus = async () => {
+      const page = recipes?.pageParams.length || 0;
+      const index = page - 1;
+      const likeRecipes = recipes?.pages[index]?.list?.map((list) => list.id) || [];
+
+      try {
+        const res = await instance.post("api/recipe/board/like-check", {
+          memberPk: user?.memberPk,
+          recipeList: likeRecipes
+        });
+
+        setLikedRecipesMap((prev) => ({
+          ...prev,
+          ...res.data.reduce((acc: Record<number, boolean>, curr: LikeType) => {
+            acc[curr.recipePk] = curr.liked;
+            return acc;
+          }, {})
+        }));
+      } catch (error) {
+        console.error("좋아요 상태 확인 실패:", error);
+      }
+    };
+
+    if (user && recipes) {
+      fetchLikeStatus();
+    }
+  }, [recipes, user]);
 
   useEffect(() => {
     if (!loaderRef.current || !hasNextPage) return;
@@ -28,9 +62,7 @@ function OeRecipes() {
 
     observer.observe(loaderRef.current);
 
-    return () => {
-      observer.disconnect(); // 메모리 누수 방지
-    };
+    return () => observer.disconnect();
   }, [fetchNextPage, hasNextPage]);
 
   const handleLikeClick = async (recipeId: number) => {
@@ -39,19 +71,13 @@ function OeRecipes() {
       return;
     }
 
-    const isLiked = likedRecipes.push(recipeId);
-
-    const newLikedRecipes = isLiked ? likedRecipes.filter((id) => id !== recipeId) : [...likedRecipes, recipeId];
-
-    console.log(newLikedRecipes);
-
     try {
-      await instance.post("/api/recipe/board/like-check", {
-        memberPk: user.memberPk,
-        recipeList: !isLiked
-      });
+      await instance.get(`/api/recipe/like/${user?.memberPk}/${recipeId}`);
 
-      setLikedRecipes(newLikedRecipes);
+      setLikedRecipesMap((prev) => ({
+        ...prev,
+        [recipeId]: !prev[recipeId]
+      }));
     } catch (error) {
       console.error("좋아요 처리 실패:", error);
     }
@@ -69,33 +95,36 @@ function OeRecipes() {
     <>
       {recipes?.pages.map((page) => (
         <div key={page.nowPage} className="grid grid-cols-2 xl:grid-cols-4 gap-4 justify-items-center mb-4">
-          {page.list.map((recipe) => (
-            <div key={recipe.id}>
-              <Link to={`/recipe-detail/${recipe.id}`}>
-                <div className="relative">
-                  <img
-                    src={recipe.imgUrl}
-                    alt={recipe.title}
-                    className="w-[225px] h-[148px] object-cover rounded relative"
-                  />
-                  <button
-                    onClick={(e) => {
-                      e.preventDefault();
-                      handleLikeClick(recipe.id);
-                    }}
-                    className="absolute right-0 bottom-0"
-                  >
+          {page.list.map((recipe) => {
+            const isLiked = likedRecipesMap[recipe.id] || false;
+            return (
+              <div key={recipe.id}>
+                <Link to={`/recipe-detail/${recipe.id}`}>
+                  <div className="relative">
                     <img
-                      src={likedRecipes ? FullHeart : Heart}
-                      alt="레시피 좋아요 버튼"
-                      className="w-[48px] h-[48px]"
+                      src={recipe.imgUrl}
+                      alt={recipe.title}
+                      className="w-[225px] h-[148px] object-cover rounded relative"
                     />
-                  </button>
-                </div>
-                <div className="py-2 font-b1-semibold">{recipe.title}</div>
-              </Link>
-            </div>
-          ))}
+                    <button
+                      onClick={(e) => {
+                        e.preventDefault();
+                        handleLikeClick(recipe.id);
+                      }}
+                      className="absolute right-0 bottom-0"
+                    >
+                      {isLiked ? (
+                        <img src={FullHeart} alt="레시피 좋아요 버튼" className="w-[48px] h-[48px]" />
+                      ) : (
+                        <img src={Heart} alt="레시피 좋아요 버튼" className="w-[48px] h-[48px]" />
+                      )}
+                    </button>
+                  </div>
+                  <div className="py-2 font-b1-semibold">{recipe.title}</div>
+                </Link>
+              </div>
+            );
+          })}
         </div>
       ))}
 
