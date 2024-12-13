@@ -3,6 +3,7 @@ import { lazy, Suspense } from "react";
 import App from "../App";
 import PrivatePage from "./PrivatePage";
 import Loading from "../components/common/Loading";
+import LikeRecipes from "@/pages/like-recipes";
 
 const Home = lazy(() => import("../pages/home"));
 const Login = lazy(() => import("../pages/auth/components/Login"));
@@ -126,6 +127,14 @@ const router = createBrowserRouter([
         element: (
           <Suspense fallback={<Loading />}>
             <Upload />
+          </Suspense>
+        )
+      },
+      {
+        path: "/like-recipes",
+        element: (
+          <Suspense fallback={<Loading />}>
+            <LikeRecipes />
           </Suspense>
         )
       }
