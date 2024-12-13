@@ -7,6 +7,8 @@ import Down from "@/assets/icons/ArrowDown.webp";
 import Up from "@/assets/icons/ArrowUp.webp";
 import aioeIcon from "@/assets/img/chat_aioe.webp";
 import loading from "@/assets/icons/loading.webp";
+import aioe from "@/assets/icons/aioe.webp";
+import closeBtn from "@/assets/icons/Icon.webp";
 import { useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import { useUserStore } from "@/zustand/authStore";
@@ -129,16 +131,18 @@ function AiOe() {
   return (
     <>
       <button
-        className="fixed right-[10%] xl:right-[80px] bottom-[72px] xl:bottom-[80px] z-10 w-[40px] h-[40px] xl:w-[56px] xl:h-[56px] bg-aioe_icon rounded-xl xl:rounded-2xl bg-greenoe-50 bg-28px xl:bg-36px bg-no-repeat bg-aioe"
+        className="fixed right-[10%] xl:right-[80px] bottom-[72px] xl:bottom-[80px] flex justify-center items-center z-10 w-[40px] h-[40px] xl:w-[56px] xl:h-[56px] rounded-xl xl:rounded-2xl bg-greenoe-50"
         onClick={aiOeStart}
-      />
+      >
+        <img src={aioe} alt="aioe 버튼" className="w-[65%] h-[65%]" />
+      </button>
       {aiOe &&
         ReactDOM.createPortal(
           <div className="fixed left-1/2 top-[env(safe-area-inset-top)] xl:top-[140px] xl:left-auto transform xl:transform-none -translate-x-1/2 xl:right-[80px] w-full min-w-[360px] max-w-[520px] h-screen xl:w-[390px] xl:h-[600px] bg-grayoe-950 z-50 xl:rounded-2xl">
             <div className="w-full h-[56px] flex justify-center items-center relative">
               <div className="font-b2-semibold">AI OE</div>
               <button className="absolute right-[24px] " onClick={() => setAiOe(false)}>
-                <img src="/icons/Icon.webp" alt="닫기 버튼" />
+                <img src={closeBtn} alt="닫기 버튼" />
               </button>
             </div>
 
