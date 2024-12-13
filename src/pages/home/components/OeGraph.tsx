@@ -1,6 +1,7 @@
 import DangerCircle from "@/assets/icons/Danger Circle.webp";
 import { useEffect, useState } from "react";
 import IncIcon from "@/assets/icons/inc-icon.webp";
+import decIcon from "@/assets/icons/dec-icon.webp";
 import GraphIcon from "@/assets/icons/graphicon.webp";
 import ReactApexChart from "react-apexcharts";
 import { ApexOptions } from "apexcharts";
@@ -67,7 +68,7 @@ function OeGraph() {
   }, []);
 
   if (isLoading) {
-    return <Loading/>;
+    return <Loading />;
   }
 
   const series =
@@ -169,19 +170,35 @@ function OeGraph() {
           <div className="w-full xl:w-[30%]">
             <div className="flex space-x-4 mt-4 xl:space-x-0 w-full xl:flex-col xl:gap-4">
               <div className="grid items-center bg-white rounded-lg shadow-md py-1 w-[50%] xl:w-full h-[128px] px-4">
-                <div className="flex justify-start">
-                  <img src={IncIcon} alt="상승아이콘" className="w-[20px]" />
-                  <span className="text-sm text-black font-b1-semibold ml-1">전일대비</span>
-                </div>
-                <span className="font-h3 xl:font-h2 text-red-500 ml-auto">
-                  <SlotNumber
-                    targetValue={
-                      oePriceData.length > 0
-                        ? oePriceData[oePriceData.length - 1].price - oePriceData[oePriceData.length - 2].price
-                        : 0
-                    }
-                  />
-                </span>
+                {oePriceData.length > 0 ? (
+                  <>
+                    <div className="flex justify-start">
+                      <img src={IncIcon} alt="상승아이콘" className="w-[20px]" />
+                      <span className="text-sm text-black font-b1-semibold ml-1">전일대비</span>
+                    </div>
+                    <span className="font-h3 xl:font-h2 redoe ml-auto">
+                      <SlotNumber
+                        targetValue={
+                          oePriceData[oePriceData.length - 1].price - oePriceData[oePriceData.length - 2].price
+                        }
+                      />
+                    </span>
+                  </>
+                ) : (
+                  <>
+                    <div className="flex justify-start">
+                      <img src={decIcon} alt="하강아이콘" className="w-[20px]" />
+                      <span className="text-sm text-black font-b1-semibold ml-1">전일대비</span>
+                    </div>
+                    <span className="font-h3 xl:font-h2 text-[#0A84FF] ml-auto">
+                      <SlotNumber
+                        targetValue={
+                          oePriceData[oePriceData.length - 2].price - oePriceData[oePriceData.length - 1].price
+                        }
+                      />
+                    </span>
+                  </>
+                )}
               </div>
 
               <div className="grid items-center bg-white rounded-lg shadow-md py-1 w-[50%] xl:w-full h-[128px] px-4">
