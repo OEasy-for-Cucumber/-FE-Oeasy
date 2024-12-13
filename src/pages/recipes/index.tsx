@@ -4,9 +4,13 @@ import Hat from "@/assets/img/hat.webp";
 import Heart from "@/assets/img/recipe_heart.webp";
 import ArrowRight from "@/assets/icons/rightArrow.webp";
 import instance from "@/api/axios";
+import { useUserStore } from "@/zustand/authStore";
+import useAlert from "@/hooks/useAlert";
 
 function Recipes() {
   const navigate = useNavigate();
+  const { user } = useUserStore();
+  const { showAlert } = useAlert();
 
   const randomRecipeBtn = async () => {
     const res = await instance("/api/recipe/random");
@@ -38,6 +42,13 @@ function Recipes() {
           <h5 className="font-h5 mb-2">나 오이 좋아하네</h5>
           <button
             onClick={() => {
+              if (!user) {
+                showAlert({
+                  message: "로그인 후 이용해주세요"
+                });
+                navigate("/login");
+                return;
+              }
               navigate("/like-recipes");
             }}
             className="flex flex-row justify-between items-center w-[132px] h-[20px] px-2 py-[2px] bg-greenoe-800 rounded-full font-c2"
