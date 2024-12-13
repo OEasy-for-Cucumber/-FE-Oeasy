@@ -6,6 +6,7 @@ import { useUserStore } from "@/zustand/authStore";
 import instance from "@/api/axios";
 import Loading from "@/components/common/Loading";
 import useRecipesData from "@/hooks/useRecipesData";
+import useAlert from "@/hooks/useAlert";
 
 interface LikeType {
   recipePk: number;
@@ -18,18 +19,18 @@ function OeRecipes() {
   const loaderRef = useRef<HTMLDivElement | null>(null);
   const [likedRecipesMap, setLikedRecipesMap] = useState<Record<number, boolean>>({});
   const navigate = useNavigate();
+  const { showAlert } = useAlert();
 
   useEffect(() => {
     const fetchLikeStatus = async () => {
       const page = recipes?.pageParams.length || 0;
       const index = page - 1;
       const likeRecipes = recipes?.pages[index]?.list?.map((list) => list.id) || [];
+      const memberPk = user?.memberPk;
+      const recipeList = likeRecipes;
 
       try {
-        const res = await instance.post("api/recipe/board/like-check", {
-          memberPk: user?.memberPk,
-          recipeList: likeRecipes
-        });
+        const res = await instance.get(`api/recipe/board/like-check/${memberPk}/${recipeList}`);
 
         setLikedRecipesMap((prev) => ({
           ...prev,
@@ -66,13 +67,20 @@ function OeRecipes() {
   }, [fetchNextPage, hasNextPage]);
 
   const handleLikeClick = async (recipeId: number) => {
+    const memberPk = user?.memberPk;
     if (!user) {
+      showAlert({
+        message: "로그인 후 이용해주세요"
+      });
       navigate("/login");
       return;
     }
 
     try {
-      await instance.get(`/api/recipe/like/${user?.memberPk}/${recipeId}`);
+      await instance.post(`/api/recipe/like`, {
+        recipePk: recipeId,
+        memberPk: memberPk
+      });
 
       setLikedRecipesMap((prev) => ({
         ...prev,
@@ -113,11 +121,7 @@ function OeRecipes() {
                       }}
                       className="absolute right-0 bottom-0"
                     >
-                      {isLiked ? (
-                        <img src={FullHeart} alt="레시피 좋아요 버튼" className="w-[48px] h-[48px]" />
-                      ) : (
-                        <img src={Heart} alt="레시피 좋아요 버튼" className="w-[48px] h-[48px]" />
-                      )}
+                      <img src={isLiked ? FullHeart : Heart} alt="레시피 좋아요 버튼" className="w-[48px] h-[48px]" />
                     </button>
                   </div>
                   <div className="py-2 font-b1-semibold">{recipe.title}</div>
@@ -127,8 +131,7 @@ function OeRecipes() {
           })}
         </div>
       ))}
-
-      <div ref={loaderRef}></div>
+      {!isLoading && <div ref={loaderRef}></div>}
     </>
   );
 }
