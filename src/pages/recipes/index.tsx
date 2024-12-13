@@ -16,8 +16,8 @@ function Recipes() {
 
   return (
     <section className="px-6 xl:px-0 xl:w-[864px] xl:mx-auto">
-      <div className="my-[24px]">
-        <div className="w-full border border-greenoe-800 py-[16px] pl-[24px] mb-4 rounded-lg relative">
+      <div className="my-[24px] xl:flex xl:gap-4">
+        <div className="w-full border border-greenoe-800 py-[16px] pl-[24px] mb-4 xl:m-0 rounded-lg relative">
           <h5 className="font-h5 mb-2">오이로 뭐 해먹지?</h5>
           <button
             onClick={randomRecipeBtn}
@@ -29,15 +29,17 @@ function Recipes() {
 
           <img
             src={Hat}
-            alt="랜덤레시피 버튼 오븐 이미지"
-            className="w-[62px] h-[68px] absolute right-[23px] top-[11px]"
+            alt="랜덤레시피 버튼 이미지"
+            className="w-[62px] h-[68px] xl:w-[67px] xl:h-[73px] absolute right-[23px] xl:right-[30px] top-[11px] xl:top-[9px]"
           />
         </div>
 
         <div className="w-full border border-greenoe-800 py-[16px] pl-[24px] rounded-lg relative">
           <h5 className="font-h5 mb-2">나 오이 좋아하네</h5>
           <button
-            onClick={randomRecipeBtn}
+            onClick={() => {
+              navigate("/like-recipes");
+            }}
             className="flex flex-row justify-between items-center w-[132px] h-[20px] px-2 py-[2px] bg-greenoe-800 rounded-full font-c2"
           >
             내가 좋아요한 레시피
@@ -46,8 +48,8 @@ function Recipes() {
 
           <img
             src={Heart}
-            alt="랜덤레시피 버튼 오븐 이미지"
-            className="w-[63px] h-[60px] absolute right-[23px] top-[15px]"
+            alt="랜덤레시피 버튼 이미지"
+            className="w-[63px] h-[60px] xl:w-[68px] xl:h-[65px] absolute right-[23px] xl:right-[30px] top-[15px] xl:top-[13px]"
           />
         </div>
       </div>
