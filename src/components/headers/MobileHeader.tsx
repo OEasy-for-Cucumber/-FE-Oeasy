@@ -1,9 +1,9 @@
 import { useLocation, useNavigate } from "react-router-dom";
-import HamburgerIcon from "../../assets/Icon.svg";
+import HamburgerIcon from "@/assets/Icon.svg";
 import { useState } from "react";
 import HamburgerModal from "./HamburgerModal";
-import { useUserStore } from "../../zustand/authStore";
-import Sample from "../../../public/img/defaultProfile.png";
+import Sample from "@/assets/img/defaultProfile.webp";
+import { useUserStore } from "@/zustand/authStore";
 
 function MobileHeader() {
   const navigate = useNavigate();
@@ -51,7 +51,7 @@ function MobileHeader() {
 
   return (
     <div
-      className={`w-full min-w-[360px] max-w-[520px] xl:max-w-none px-3 py-[18px] h-[56px] flex justify-between items-center fixed
+      className={`w-full min-w-[360px] max-w-[520px] xl:max-w-none px-3 py-[18px] h-[56px] flex justify-between items-center fixed z-50
     ${pathname === "/" ? "bg-greenoe-950" : "bg-grayoe-950"}`}
     >
       {SIGNUP ? (
@@ -59,7 +59,7 @@ function MobileHeader() {
       ) : (
         <>
           <button onClick={toggleModal}>
-            <img src={HamburgerIcon} alt="메뉴아이콘" className="p-2"/>
+            <img src={HamburgerIcon} alt="메뉴아이콘" className="p-2" />
           </button>
           {isModalOpen && (
             <HamburgerModal toggleModal={isModalOpen} onClose={toggleModal} setIsModalOpen={setIsModalOpen} />

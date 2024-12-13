@@ -4,14 +4,14 @@ import PasswordStep from "./PasswordStep";
 import Nickname from "./Nickname";
 import Complete from "./Complete";
 import ProgressBar from "./ProgressBar";
-import Button from "../../../components/common/Button";
 import { useNavigate } from "react-router-dom";
-import FullSquare from "../../../../public/icons/full-Square.png";
-import EmptySquare from "../../../../public/icons/empty-Square.png";
-import instance from "../../../api/axios";
-import { useUserStore } from "../../../zustand/authStore";
+import FullSquare from "@/assets/icons/full-Square.webp";
+import EmptySquare from "@/assets/icons/empty-Square.webp";
 import Cookies from "js-cookie";
-import useAlert from "../../../hooks/useAlert";
+import { useUserStore } from "@/zustand/authStore";
+import useAlert from "@/hooks/useAlert";
+import instance from "@/api/axios";
+import Button from "@/components/common/Button";
 
 function Signup() {
   const [email, setEmail] = useState<string>("");
@@ -138,7 +138,6 @@ function Signup() {
           message: "이미 사용중인 이메일입니다."
         });
         return;
-  
       }
     }
     if (isPassword && isConfirmPassword) {
@@ -160,7 +159,7 @@ function Signup() {
       <ProgressBar step={step} />
       <form
         onSubmit={(e) => {
-          e.preventDefault(); 
+          e.preventDefault();
           if (step === "닉네임" && isNickname && isCheckedAccept) {
             checkedNicknameHandler();
           } else {

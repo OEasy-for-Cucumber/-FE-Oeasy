@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from "react";
-import Button from "../../../components/common/Button";
-import Input from "../../../components/common/Input";
-import { useActiveStore } from "../../../zustand/isActiveStore";
 import { useNavigate } from "react-router-dom";
-import kakaologo from "../../../../public/icons/kakaologo.png";
-import instance from "../../../api/axios";
-import { useUserStore } from "../../../zustand/authStore";
+import kakaologo from "@/assets/icons/kakaologo.webp";
 import Cookies from "js-cookie";
-import PasswordInput from "../../../components/common/PasswordInput";
-import Logo from "../../../../public/icons/logo.png";
+import Logo from "@/assets/icons/logo.webp";
 import { AxiosError } from "axios";
-import useAlert from "../../../hooks/useAlert";
+import { useUserStore } from "@/zustand/authStore";
+import { useActiveStore } from "@/zustand/isActiveStore";
+import useAlert from "@/hooks/useAlert";
+import instance from "@/api/axios";
+import PasswordInput from "@/components/common/PasswordInput";
+import Button from "@/components/common/Button";
+import Input from "@/components/common/Input";
 
 function Login() {
   const [email, setEmail] = useState<string>("");
@@ -114,7 +114,7 @@ function Login() {
             <h4 className="font-h4 mt-[40px]">- Oeasy</h4>
           </div>
         </div>
-      </div> 
+      </div>
 
       <form onSubmit={loginHandler} className="w-full xl:w-[35%] flex flex-col justify-center">
         <div className="w-full mx-auto xl:w-[312px]">
@@ -125,7 +125,7 @@ function Login() {
             <p
               className={`${!isEmail ? "redoe" : "text-grayoe-300"} ${
                 email ? "label-visible" : "label-hidden"
-          } base-label`}
+              } base-label`}
             >
               이메일
             </p>
@@ -144,7 +144,7 @@ function Login() {
             <p
               className={`${!isPassword ? "redoe" : "text-grayoe-300"} ${
                 password ? "label-visible" : "label-hidden"
-          } base-label`}
+              } base-label`}
             >
               비밀번호
             </p>

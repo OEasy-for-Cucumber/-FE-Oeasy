@@ -1,9 +1,9 @@
 import { FC, useEffect, useState } from "react";
-import quotes from "../../../../public/img/quotes.png";
-import instance from "../../../api/axios";
-import { OeData } from "../../../types/oeTip";
-import { useScrollEvent } from "../../../hooks/useScrollEvent";
-import { scrollRefProps } from "../../../types/scrollRef";
+import quotes from "@/assets/img/quotes.webp";
+import { scrollRefProps } from "@/types/scrollRef";
+import { OeData } from "@/types/oeTip";
+import instance from "@/api/axios";
+import { useScrollEvent } from "@/hooks/useScrollEvent";
 
 const OeTip: FC<scrollRefProps> = ({ scrollRef }) => {
   const [tipList, setTipList] = useState<OeData | null>(null);

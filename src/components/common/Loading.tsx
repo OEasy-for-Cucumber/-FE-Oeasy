@@ -1,14 +1,21 @@
-import loading from "../../../public/img/loading.gif";
+import loading from "@/assets/img/loading.webm";
 
-interface LoadingProps {
-  className?: string;
-}
-
-function Loading({ className }: LoadingProps) {
+function Loading() {
   return (
-    <>
-      <img src={loading} alt="로딩 중.." className={className} />
-    </>
+    <div className="w-full h-svh">
+    <video autoPlay muted loop 
+     playsInline
+     style={{
+       width: "500px", 
+       height: "400px",
+       position: "absolute",
+       top: "50%",   
+       left: "50%",
+       transform: "translate(-50%, -50%)", 
+     }}>
+      <source src={loading} type="video/webm" />
+    </video>
+    </div>
   );
 }
 

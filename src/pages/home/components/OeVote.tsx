@@ -1,9 +1,9 @@
 import { useNavigate } from "react-router-dom";
-import instance from "../../../api/axios";
 import { useQuery } from "@tanstack/react-query";
-import { scrollRefProps } from "../../../types/scrollRef";
 import { FC, useState } from "react";
-import { useScrollEvent } from "../../../hooks/useScrollEvent";
+import { scrollRefProps } from "@/types/scrollRef";
+import instance from "@/api/axios";
+import { useScrollEvent } from "@/hooks/useScrollEvent";
 
 const OeVote: FC<scrollRefProps> = ({ scrollRef }) => {
   const [animation, setAnimation] = useState({ animationOne: false, animationTwo: false });
@@ -42,8 +42,8 @@ const OeVote: FC<scrollRefProps> = ({ scrollRef }) => {
     hateVotes > likeVotes ? "font-h4 xl:font-h3 text-white" : "font-b1-semibold xl:font-h4 text-grayoe-200";
   const likeFont =
     likeVotes > hateVotes ? "font-h4 xl:font-h3 text-white" : "font-b1-semibold xl:font-h4 text-grayoe-200";
-  const hateWinImg = likeVotes < hateVotes ? "/img/hateOeWin.png" : "/img/hateOeLoose.png";
-  const likeWinImg = likeVotes > hateVotes ? "/img/likeOeWin.png" : "/img/likeOeLoose.png";
+  const hateWinImg = likeVotes < hateVotes ? "src/assets/img/hateOeWin.webp" : "src/assets/img/hateOeLoose.webp";
+  const likeWinImg = likeVotes > hateVotes ? "src/assets/img/likeOeWin.webp" : "src/assets/img/likeOeLoose.webp";
   const hateBg = hateVotes > likeVotes ? "bg-redoe-500 " : "bg-redoe-50";
   const likeBg = likeVotes > hateVotes ? "bg-redoe-500" : "bg-redoe-50";
 

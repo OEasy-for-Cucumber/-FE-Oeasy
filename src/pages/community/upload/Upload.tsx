@@ -1,11 +1,11 @@
 import imageCompression from "browser-image-compression";
 import { useEffect, useState } from "react";
-import uploadImg from "../../../../public/img/uploadImg.png";
+import uploadImg from "@/assets/icons/uploadImg.webp";
 import { useLocation, useNavigate } from "react-router-dom";
-import instance from "../../../api/axios";
-import { useUserStore } from "../../../zustand/authStore";
-import useAlert from "../../../hooks/useAlert";
-import useConfirm from "../../../hooks/useConfirm";
+import { useUserStore } from "@/zustand/authStore";
+import useAlert from "@/hooks/useAlert";
+import useConfirm from "@/hooks/useConfirm";
+import instance from "@/api/axios";
 
 function Upload() {
   const navigate = useNavigate();
@@ -13,7 +13,7 @@ function Upload() {
   const postData = location.state;
   const [images, setImages] = useState<{ file?: File; url?: string }[]>([]);
   const [deleteList, setDeleteList] = useState<string[]>([]);
-  const [title, setTitle] = useState(""); // 제목 상태
+  const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const user = useUserStore((state) => state.user);
   const { showAlert } = useAlert();

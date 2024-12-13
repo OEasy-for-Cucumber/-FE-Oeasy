@@ -1,12 +1,12 @@
-import Heart from "../../../../public/icons/heart.png";
-import Show from "../../../../public/icons/show.png";
-import Coment from "../../../../public/icons/comment.png";
+import Heart from "@/assets/icons/heart.webp";
+import Show from "@/assets/icons/show.webp";
+import Coment from "@/assets/icons/comment.webp";
 import { useEffect, useState } from "react";
-import { Contents } from "../../../types/myContentsTypes";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { useUserStore } from "../../../zustand/authStore";
-import instance from "../../../api/axios";
-import Pagination from "../../community/components/Pagination";
+import { Contents } from "@/types/myContentsTypes";
+import { useUserStore } from "@/zustand/authStore";
+import instance from "@/api/axios";
+import Pagination from "@/pages/community/components/Pagination";
 
 function MyLiked() {
   const [myLikedPosts, setMyLikedPosts] = useState<Contents[]>();
@@ -33,8 +33,8 @@ function MyLiked() {
           memberId: user?.memberPk
         }
       });
-      const {contents, totalPages} = response.data;
-      setToTalPages(totalPages)
+      const { contents, totalPages } = response.data;
+      setToTalPages(totalPages);
       const formattedPosts = contents.map((post: Contents) => ({
         ...post,
         createTime: formatDate(post.createTime) // 날짜 포맷 변환
@@ -55,6 +55,8 @@ function MyLiked() {
       {myLikedPosts?.length === 0 ? (
         <div className="text-center mt-8">좋아요한 게시글이 없습니다.</div>
       ) : (
+        <div className="w-full xl:h-[500px]">
+        {
         myLikedPosts?.map((post) => (
           <div key={post.boardPk}>
             <hr className="border-grayoe-900" />
@@ -81,9 +83,9 @@ function MyLiked() {
             </div>
           </div>
         ))
-      )}
-      {myLikedPosts?.length! > 0 && (
-        <div className="flex justify-center">
+      }</div>)}
+      {myLikedPosts && myLikedPosts.length > 0 && (
+        <div className="flex justify-center mt-[20px] xl:mt-[50px]">
           <Pagination
             totalPageNumber={totalPages}
             currentPage={currentPage}

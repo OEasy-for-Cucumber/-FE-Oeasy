@@ -1,12 +1,14 @@
-import DangerCircle from "../../../../public/icons/Danger Circle.png";
+import DangerCircle from "@/assets/icons/Danger Circle.webp";
 import { useEffect, useState } from "react";
-import instance from "../../../api/axios";
-import IncIcon from "../../../../public/icons/inc-icon.png";
-import GraphIcon from "../../../../public/icons/graphicon.png";
+import IncIcon from "@/assets/icons/inc-icon.webp";
+import decIcon from "@/assets/icons/dec-icon.webp";
+import GraphIcon from "@/assets/icons/graphicon.webp";
 import ReactApexChart from "react-apexcharts";
 import { ApexOptions } from "apexcharts";
-import Loading from "../../../components/common/Loading";
+
 import SlotNumber from "./SlotNumber";
+import instance from "@/api/axios";
+import Loading from "@/components/common/Loading";
 
 interface PriceData {
   date: string;
@@ -48,7 +50,7 @@ function OeGraph() {
   };
   const formattedStartDate = formatDate(startDate);
   const formattedEndDate = formatDate(currentDate);
-  
+
   useEffect(() => {
     const getOePrice = async () => {
       try {
@@ -66,7 +68,7 @@ function OeGraph() {
   }, []);
 
   if (isLoading) {
-    return <Loading className="w-[30%] mx-auto mt-[200px]" />;
+    return <Loading />;
   }
 
   const series =
@@ -168,19 +170,35 @@ function OeGraph() {
           <div className="w-full xl:w-[30%]">
             <div className="flex space-x-4 mt-4 xl:space-x-0 w-full xl:flex-col xl:gap-4">
               <div className="grid items-center bg-white rounded-lg shadow-md py-1 w-[50%] xl:w-full h-[128px] px-4">
-                <div className="flex justify-start">
-                  <img src={IncIcon} alt="상승아이콘" className="w-[20px]" />
-                  <span className="text-sm text-black font-b1-semibold ml-1">전일대비</span>
-                </div>
-                <span className="font-h3 xl:font-h2 text-red-500 ml-auto">
-                  <SlotNumber
-                    targetValue={
-                      oePriceData.length > 0
-                        ? oePriceData[oePriceData.length - 1].price - oePriceData[oePriceData.length - 2].price
-                        : 0
-                    }
-                  />
-                </span>
+                {oePriceData.length > 0 ? (
+                  <>
+                    <div className="flex justify-start">
+                      <img src={IncIcon} alt="상승아이콘" className="w-[20px]" />
+                      <span className="text-sm text-black font-b1-semibold ml-1">전일대비</span>
+                    </div>
+                    <span className="font-h3 xl:font-h2 redoe ml-auto">
+                      <SlotNumber
+                        targetValue={
+                          oePriceData[oePriceData.length - 1].price - oePriceData[oePriceData.length - 2].price
+                        }
+                      />
+                    </span>
+                  </>
+                ) : (
+                  <>
+                    <div className="flex justify-start">
+                      <img src={decIcon} alt="인하아이콘" className="w-[20px]" />
+                      <span className="text-sm text-black font-b1-semibold ml-1">전일대비</span>
+                    </div>
+                    <span className="font-h3 xl:font-h2 text-[#0A84FF] ml-auto">
+                      <SlotNumber
+                        targetValue={
+                          oePriceData[oePriceData.length - 2].price - oePriceData[oePriceData.length - 1].price
+                        }
+                      />
+                    </span>
+                  </>
+                )}
               </div>
 
               <div className="grid items-center bg-white rounded-lg shadow-md py-1 w-[50%] xl:w-full h-[128px] px-4">

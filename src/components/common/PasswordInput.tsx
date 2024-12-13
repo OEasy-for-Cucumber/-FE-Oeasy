@@ -1,5 +1,5 @@
-import ShowIcon from "../../../public/icons/ShowPW.png";
-import HideIcon from "../../../public/icons/Hide.png";
+import ShowIcon from "@/assets/icons/ShowPW.webp";
+import HideIcon from "@/assets/icons/Hide.webp";
 import { useState } from "react";
 
 interface InputProps {
@@ -21,11 +21,7 @@ const PasswordInput: React.FC<InputProps> = ({ value, minLength, onChange, place
     setIsClicked((prev) => !prev);
   };
 
-  const borderColorClass = isFocused
-    ? isValid
-      ? "border-[#008CCC]" 
-      : "border-[#FF453A]"
-    : "border-grayoe-700";
+  const borderColorClass = isFocused ? (isValid ? "border-[#008CCC]" : "border-[#FF453A]") : "border-grayoe-700";
 
   return (
     <div className="relative">

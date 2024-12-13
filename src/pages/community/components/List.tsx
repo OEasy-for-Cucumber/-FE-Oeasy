@@ -1,18 +1,18 @@
 import { formatDistanceToNow, parseISO, format } from "date-fns";
 import { ko } from "date-fns/locale";
-import postHeart from "../../../../public/icons/heart.png";
-import commentIcon from "../../../../public/icons/comment.png";
-import filter from "../../../../public/icons/filterIcon.png";
-import search from "../../../../public/icons/Search.png";
-import close from "../../../../public/icons/Icon.png";
+import postHeart from "@/assets/icons/heart.webp";
+import commentIcon from "@/assets/icons/comment.webp";
+import filter from "@/assets/icons/filterIcon.webp";
+import search from "@/assets/icons/Search.webp";
+import close from "@/assets/icons/Icon.webp";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
+import { useUserStore } from "@/zustand/authStore";
+import useAlert from "@/hooks/useAlert";
+import instance from "@/api/axios";
 import Search from "./Search";
-import instance from "../../../api/axios";
-import Pagination from "./Pagination";
-import { useUserStore } from "../../../zustand/authStore";
-import useAlert from "../../../hooks/useAlert";
 import WebSearch from "./WebSearch";
+import Pagination from "./Pagination";
 
 interface contentTypes {
   boardPk: string;

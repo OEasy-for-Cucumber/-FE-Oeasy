@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
-import instance from "../../../api/axios";
-import { useUserStore } from "../../../zustand/authStore";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { Contents } from "../../../types/myContentsTypes";
-import Heart from "../../../../public/icons/heart.png";
-import Show from "../../../../public/icons/show.png";
-import Coment from "../../../../public/icons/comment.png";
-import Pagination from "../../community/components/Pagination";
+import Heart from "@/assets/icons/heart.webp";
+import Show from "@/assets/icons/show.webp";
+import Coment from "@/assets/icons/comment.webp";
+import { Contents } from "@/types/myContentsTypes";
+import { useUserStore } from "@/zustand/authStore";
+import instance from "@/api/axios";
+import Pagination from "@/pages/community/components/Pagination";
 
 function MyPost() {
   const [myPosts, setMyPosts] = useState<Contents[]>();
@@ -55,10 +55,11 @@ function MyPost() {
       {myPosts?.length === 0 ? (
         <div className="text-center mt-8">작성한 게시글이 없습니다.</div>
       ) : (
-        myPosts?.map((post) => (
+        <div className="w-full xl:h-[500px]">
+        {myPosts?.map((post) => (
           <div key={post.boardPk}>
             <hr className="border-grayoe-900" />
-            <div className="w-full py-4 px-6 ">
+            <div className="w-full py-4 px-6">
               <button className="flex flex-col" onClick={() => goToPost(post.boardPk!)}>
                 <p className="text-grayoe-300 font-c2 mb-1">{post.createTime}</p>
                 <p className="font-b2-semibold line-clamp-1">{post.title}</p>
@@ -81,10 +82,10 @@ function MyPost() {
             </div>
           </div>
         ))
-      )}
+      }</div>)}
 
-      {myPosts?.length! > 0 && (
-        <div className="flex justify-center">
+      {myPosts && myPosts.length > 0 && (
+        <div className="flex justify-center xl:mt-[50px]">
           <Pagination
             totalPageNumber={totalPages}
             currentPage={currentPage}

@@ -1,9 +1,10 @@
-import { useState } from "react";
-import Button from "../../../components/common/Button";
+import { useEffect, useState } from "react";
 import EditPassword from "./EditPassword";
-import { useUserStore } from "../../../zustand/authStore";
-import instance from "../../../api/axios";
-import useAlert from "../../../hooks/useAlert";
+import "./modalStyle.css";
+import { useUserStore } from "@/zustand/authStore";
+import useAlert from "@/hooks/useAlert";
+import instance from "@/api/axios";
+import Button from "@/components/common/Button";
 
 export interface ConfirmPasswordModalProp {
   handleNewPasswordModal: () => void;
@@ -14,6 +15,12 @@ function ConfirmPasswordModal({ handleNewPasswordModal }: ConfirmPasswordModalPr
   const [newPasswordModalOpen, setNewPasswordModalOpen] = useState(false);
   const user = useUserStore((state) => state.user);
   const { showAlert } = useAlert();
+  const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
+
+  useEffect(() => {
+    setIsModalVisible(true);
+    return () => setIsModalVisible(false);
+  }, []);
 
   const handleCancel = () => {
     handleNewPasswordModal();
@@ -31,6 +38,7 @@ function ConfirmPasswordModal({ handleNewPasswordModal }: ConfirmPasswordModalPr
       });
       setNewPasswordModalOpen(true);
     } catch (error) {
+      console.log(error);
       showAlert({
         message: "인증 실패",
         subMessage: "비밀번호를 다시 확인해주세요."
@@ -40,7 +48,7 @@ function ConfirmPasswordModal({ handleNewPasswordModal }: ConfirmPasswordModalPr
   };
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-80">
+    <div className={`modal ${isModalVisible ? "open" : ""} z-50`}>
       <div className="bg-grayoe-900 text-white rounded-lg p-6 w-[350px] max-w-md">
         <h2 className="text-lg font-bold text-center mb-4">비밀번호 변경</h2>
         <input

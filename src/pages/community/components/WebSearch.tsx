@@ -1,7 +1,7 @@
 import { useState } from "react";
-import search from "../../../../public/icons/searchG.png";
-import down from "../../../../public/icons/dropDown.png";
-import up from "../../../../public/icons/dropUp.png";
+import search from "@/assets/icons/searchG.webp";
+import down from "@/assets/icons/dropDown.webp";
+import up from "@/assets/icons/dropUp.webp";
 
 interface SearchProps {
   message: React.RefObject<HTMLInputElement>;

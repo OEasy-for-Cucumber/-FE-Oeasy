@@ -1,19 +1,19 @@
-import edit from "../../../../../public/icons/moreIcon.png";
-import show from "../../../../../public/icons/show.png";
-import commentIcon from "../../../../../public/icons/comment.png";
-import emptyHeart from "../../../../../public/icons/heart.png";
-import fullHeart from "../../../../../public/icons/fullHeart.png";
-import defaultImg from "../../../../../public/img/defaultProfile.png";
-import Comment from "../../components/Comment";
+import edit from "@/assets/icons/moreIcon.webp";
+import show from "@/assets/icons/show.webp";
+import commentIcon from "@/assets/icons/comment.webp";
+import emptyHeart from "@/assets/icons/heart.webp";
+import fullHeart from "@/assets/icons/fullHeart.webp";
+import defaultImg from "@/assets/img/defaultProfile.webp";
 import { useEffect, useRef, useState } from "react";
 import { parseISO, format, formatDistanceToNow } from "date-fns";
 import { ko } from "date-fns/locale";
-import instance from "../../../../api/axios";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useUserStore } from "../../../../zustand/authStore";
-import useConfirm from "../../../../hooks/useConfirm";
-import useAlert from "../../../../hooks/useAlert";
-import { PostData } from "../../../../types/postDataTypes";
+import { PostData } from "@/types/postDataTypes";
+import { useUserStore } from "@/zustand/authStore";
+import useConfirm from "@/hooks/useConfirm";
+import useAlert from "@/hooks/useAlert";
+import instance from "@/api/axios";
+import Comment from "../../components/Comment";
 
 function Detail() {
   const navigate = useNavigate();
@@ -242,13 +242,13 @@ function Detail() {
             {isModalOpen && postData && selectedImage !== null && (
               <>
                 <div
-                  className="fixed top-0 left-0 w-full h-full z-10 bg-black "
+                  className="fixed top-0 left-0 w-full h-full z-60 bg-black "
                   onClick={() => setIsModalOpen(false)}
                 />
-                <button className="fixed top-[80px] left-4 text-white text-2xl z-30" onClick={handleCloseModal}>
+                <button className="fixed top-4 left-4 text-white text-2xl z-70" onClick={handleCloseModal}>
                   ✕
                 </button>
-                <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-auto h-auto flex flex-col items-center justify-center z-20">
+                <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-auto h-auto flex flex-col items-center justify-center z-70">
                   <div>
                     <img
                       src={postData.imageUrlList[selectedImage]}
