@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import OeRecipes from "./components/OeRecipes";
-import Hat from "@/assets/img/oven.webp";
+import Hat from "@/assets/img/hat.webp";
 import Heart from "@/assets/img/recipe_heart.webp";
 import ArrowRight from "@/assets/icons/rightArrow.webp";
 import instance from "@/api/axios";
