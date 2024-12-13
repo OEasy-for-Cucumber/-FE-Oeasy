@@ -25,17 +25,6 @@ const PriceMap: FC<scrollRefProps> = ({ scrollRef }) => {
     price?: string;
   }>({ visible: false, x: 0, y: 0 });
 
-  // const toggleTooltip = (x: number, y: number, region?: string, price?: string) => {
-  //   setIsSvgTooltipVisible((prev) => !prev);
-  //   setTooltip({
-  //     visible: !isSvgTooltipVisible,
-  //     x,
-  //     y,
-  //     region,
-  //     price,
-  //   });
-  // };
-
   const hideTooltip = () => {
     setIsSvgTooltipVisible(false);
     setTooltip((prev) => ({ ...prev, visible: false }));

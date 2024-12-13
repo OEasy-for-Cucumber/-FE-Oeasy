@@ -1,6 +1,5 @@
 import { useScrollEvent } from "@/hooks/useScrollEvent";
 import { useEffect, useRef, useState } from "react";
-import React, { Suspense } from "react";
 import AiOe from "./components/AiOe";
 import TopBtn from "@/components/common/TopBtn";
 import Landing from "./components/Landing";
@@ -8,17 +7,15 @@ import OeTip from "./components/OeTip";
 import OeVote from "./components/OeVote";
 import OeTemperature from "./components/OeTemperature";
 import PriceMap from "./components/PriceMap";
-import Loading from "@/components/common/Loading";
 import Recipe from "./components/recipe/Recipe";
 import Footer from "@/components/common/Footer";
+import OeGraph from "./components/OeGraph";
 
 function Home() {
   const outerDivRef = useRef<HTMLDivElement | null>(null);
   const isScrolling = useRef(false);
   const [headerHeight, setHeaderHeight] = useState(0);
   const [showTopBtn, setShowTopBtn] = useState(false);
-
-  const OeChart = React.lazy(() => import("./components/OeGraph"));
 
   const outerDivRefCurrent = outerDivRef.current;
 
@@ -115,9 +112,7 @@ function Home() {
           <OeVote scrollRef={outerDivRef} />
           <OeTemperature scrollRef={outerDivRef} />
           <PriceMap scrollRef={outerDivRef} />
-          <Suspense fallback={<Loading />}>
-            <OeChart />
-          </Suspense>
+          <OeGraph/>
           <Recipe />
           <Footer/>
         </div>
