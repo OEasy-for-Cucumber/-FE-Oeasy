@@ -5,6 +5,10 @@ import { useNavigate } from "react-router-dom";
 import { useUserStore } from "@/zustand/authStore";
 import useAlert from "@/hooks/useAlert";
 import useConfirm from "@/hooks/useConfirm";
+import likeOeWin from "@/assets/img/likeOeWin.webp";
+import likeOeLoose from "@/assets/img/likeOeLoose.webp";
+import hateOeWin from "@/assets/img/hateOeWin.webp";
+import hateOeLoose from "@/assets/img/hateOeLoose.webp";
 
 interface VoteProps {
   active: "vote" | "chat";
@@ -118,8 +122,8 @@ function Vote({ active, initialVotes, isVoting }: VoteProps) {
     likeVotes > hateVotes ? "font-h4 xl:font-h3 text-white" : "font-b1-semibold xl:font-h4 text-grayoe-200";
   const hateBg = hateVotes > likeVotes ? "bg-redoe-500 " : "bg-redoe-50";
   const likeBg = likeVotes > hateVotes ? "bg-redoe-500" : "bg-redoe-50";
-  const hateWinImg = hateVotes > likeVotes ? "src/assets/img/hateOeWin.webp" : "src/assets/img/hateOeLoose.webp";
-  const likeWinImg = likeVotes > hateVotes ? "src/assets/img/likeOeWin.webp" : "src/assets/img/likeOeLoose.webp";
+  const hateWinImg = likeVotes < hateVotes ? hateOeWin : hateOeLoose;
+  const likeWinImg = likeVotes > hateVotes ? likeOeWin : likeOeLoose;
 
   return (
     <>
