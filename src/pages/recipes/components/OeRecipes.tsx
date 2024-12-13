@@ -126,8 +126,7 @@ function OeRecipes() {
           })}
         </div>
       ))}
-
-      <div ref={loaderRef}></div>
+      {!isLoading && <div ref={loaderRef}></div>}
     </>
   );
 }

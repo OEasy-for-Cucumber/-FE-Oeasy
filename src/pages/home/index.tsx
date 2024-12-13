@@ -10,6 +10,7 @@ import OeTemperature from "./components/OeTemperature";
 import PriceMap from "./components/PriceMap";
 import Loading from "@/components/common/Loading";
 import Recipe from "./components/recipe/Recipe";
+import Footer from "@/components/common/Footer";
 
 function Home() {
   const outerDivRef = useRef<HTMLDivElement | null>(null);
@@ -64,7 +65,7 @@ function Home() {
       isScrolling.current = true;
       const { scrollTop } = outerDivRefCurrent;
       const pageHeight = window.innerHeight - headerHeight;
-      const totalPages = 7;
+      const totalPages = 8;
       const currentPage = Math.round(scrollTop / pageHeight);
 
       if (deltaY > 0) {
@@ -118,6 +119,7 @@ function Home() {
             <OeChart />
           </Suspense>
           <Recipe />
+          <Footer/>
         </div>
       </div>
     </>

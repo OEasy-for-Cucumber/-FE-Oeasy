@@ -55,6 +55,8 @@ function MyLiked() {
       {myLikedPosts?.length === 0 ? (
         <div className="text-center mt-8">좋아요한 게시글이 없습니다.</div>
       ) : (
+        <div className="w-full xl:h-[500px]">
+        {
         myLikedPosts?.map((post) => (
           <div key={post.boardPk}>
             <hr className="border-grayoe-900" />
@@ -81,9 +83,9 @@ function MyLiked() {
             </div>
           </div>
         ))
-      )}
+      }</div>)}
       {myLikedPosts && myLikedPosts.length > 0 && (
-        <div className="flex justify-center">
+        <div className="flex justify-center mt-[20px] xl:mt-[50px]">
           <Pagination
             totalPageNumber={totalPages}
             currentPage={currentPage}

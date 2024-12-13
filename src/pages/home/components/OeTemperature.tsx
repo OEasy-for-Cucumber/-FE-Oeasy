@@ -110,12 +110,12 @@ const OeTemperature: FC<scrollRefProps> = ({ scrollRef }) => {
           className={`${animation.animationTwo ? "animate-fade-in-up" : "opacity-0"} w-full xl:w-[650px] ml-auto absolute right-0 top-[180px]`}
         >
           <div className="w-full flex justify-end">
-            <img src={oeIndexData?.imgUrl} alt="날뛰는오이" className="w-[220px] xl:w-[400px]" />
+            <img src={oeIndexData?.imgUrl} alt="오이캐릭터" className="w-[220px] xl:w-[400px]" />
           </div>
 
           <div className="flex flex-col w-[285px] xl:w-[462px] relative">
             <img src={Union} alt="말풍선" className="w-[285px] xl:w-[462px] left-0" />
-            <p className="w-full px-4 text-center absolute top-[45%] text-black font-b1-semibold xl:font-h5">
+            <p className="w-full px-4 text-center absolute top-[48%] text-black font-b1-semibold xl:font-h5">
               {oeIndexData?.word}
             </p>
           </div>
