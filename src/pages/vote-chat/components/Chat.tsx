@@ -29,7 +29,7 @@ function Chat({ chattingList }: ChatProps) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [isComposing, setComposing] = useState(false);
   const messageEndRef = useRef<HTMLDivElement>(null);
-  const DEFAULT_PROFILE_IMG = "src/assets/img/defaultProfile.webp";
+  const DEFAULT_PROFILE_IMG = "@/assets/img/defaultProfile.webp";
   const { showAlert } = useAlert();
   const navigate = useNavigate();
 
@@ -93,9 +93,12 @@ function Chat({ chattingList }: ChatProps) {
 
   useEffect(() => {
     const scrollToBottom = () => {
-      messageEndRef.current?.scrollIntoView();
+      if (messageEndRef.current) {
+        messageEndRef.current.scrollIntoView({
+          block: "end" // 하단 정렬
+        });
+      }
     };
-
     scrollToBottom();
     const handleResize = () => scrollToBottom();
     window.addEventListener("resize", handleResize);
