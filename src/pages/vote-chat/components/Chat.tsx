@@ -6,6 +6,7 @@ import sendIcon from "@/assets/icons/send.webp";
 import { useNavigate } from "react-router-dom";
 import { useUserStore } from "@/zustand/authStore";
 import useAlert from "@/hooks/useAlert";
+import defaultProfile from "@/assets/img/defaultProfile.webp";
 
 type Message = {
   id: string | number;
@@ -29,7 +30,6 @@ function Chat({ chattingList }: ChatProps) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [isComposing, setComposing] = useState(false);
   const messageEndRef = useRef<HTMLDivElement>(null);
-  const DEFAULT_PROFILE_IMG = "src/assets/img/defaultProfile.webp";
   const { showAlert } = useAlert();
   const navigate = useNavigate();
 
@@ -42,7 +42,7 @@ function Chat({ chattingList }: ChatProps) {
           id: msg.id,
           nickname: msg.nickname,
           content: msg.content,
-          profileImg: msg.profileImg || DEFAULT_PROFILE_IMG
+          profileImg: msg.profileImg || defaultProfile
         })),
       ...prevMessages
     ]);
@@ -67,7 +67,7 @@ function Chat({ chattingList }: ChatProps) {
             id,
             nickname,
             content,
-            profileImg: profileImg || DEFAULT_PROFILE_IMG
+            profileImg: profileImg || defaultProfile
           };
 
           setMessages((prevMessages) => [...prevMessages, newMessage]);
@@ -93,9 +93,12 @@ function Chat({ chattingList }: ChatProps) {
 
   useEffect(() => {
     const scrollToBottom = () => {
-      messageEndRef.current?.scrollIntoView();
+      if (messageEndRef.current) {
+        messageEndRef.current.scrollIntoView({
+          block: "end" // 하단 정렬
+        });
+      }
     };
-
     scrollToBottom();
     const handleResize = () => scrollToBottom();
     window.addEventListener("resize", handleResize);
