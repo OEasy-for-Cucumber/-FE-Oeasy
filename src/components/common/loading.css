@@ -1,0 +1,34 @@
+.loader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+  }
+  
+  .loader img {
+    width: 80px;
+    height: 80px;
+    animation: rotateOnce 3s infinite;
+  }
+  
+  .loader img:nth-child(1) {
+    animation-delay: 0s;
+  }
+  
+  .loader img:nth-child(2) {
+    animation-delay: 0.5s;
+  }
+  
+  .loader img:nth-child(3) {
+    animation-delay: 1s;
+  }
+  
+  @keyframes rotateOnce {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+  
