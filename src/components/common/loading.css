@@ -2,35 +2,33 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 20px; /* 이미지 간격 */
+    gap: 20px;
   }
   
   .loader img {
     width: 80px;
     height: 80px;
-    animation: rotateOnce 3s infinite; /* 전체 사이클 시간 */
+    animation: rotateOnce 3s infinite;
   }
   
-  /* 각 이미지에 애니메이션 딜레이 적용 */
   .loader img:nth-child(1) {
-    animation-delay: 0s; /* 첫 번째 이미지 즉시 시작 */
+    animation-delay: 0s;
   }
   
   .loader img:nth-child(2) {
-    animation-delay: 0.5s; /* 두 번째 이미지 1.5초 후 시작 */
+    animation-delay: 0.5s;
   }
   
   .loader img:nth-child(3) {
-    animation-delay: 1s; /* 세 번째 이미지 3초 후 시작 */
+    animation-delay: 1s;
   }
   
-  /* 회전 애니메이션 키프레임 */
   @keyframes rotateOnce {
     0% {
       transform: rotate(0deg);
     }
     100% {
-      transform: rotate(360deg); /* 한 바퀴 회전 */
+      transform: rotate(360deg);
     }
   }
   
