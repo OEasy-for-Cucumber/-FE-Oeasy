@@ -14,7 +14,6 @@ import useConfirm from "@/hooks/useConfirm";
 import useAlert from "@/hooks/useAlert";
 import instance from "@/api/axios";
 import Comment from "../../components/Comment";
-import ScrollToTop from "@/components/common/ScrollToTop";
 
 function Detail() {
   const navigate = useNavigate();
