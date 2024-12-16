@@ -14,6 +14,7 @@ import useConfirm from "@/hooks/useConfirm";
 import useAlert from "@/hooks/useAlert";
 import instance from "@/api/axios";
 import Comment from "../../components/Comment";
+import ScrollToTop from "@/components/common/ScrollToTop";
 
 function Detail() {
   const navigate = useNavigate();
@@ -160,7 +161,7 @@ function Detail() {
   };
   return (
     <>
-      <div className="xl:w-[864px] mx-auto">
+      <div className="xl:w-[864px] xl:min-h-[calc(100vh-180px)] mx-auto">
         <div className="px-6 py-6 divide-y divide-grayoe-800">
           {!postData ? (
             <p>로딩중</p>
@@ -210,7 +211,7 @@ function Detail() {
             </div>
           )}
           <div className="pt-6">
-            <p className="font-b2-regular xl:font-b1-regular">{postData?.content ?? "내용이 없습니다."}</p>
+            <p className="font-b2-regular xl:font-b1-regular xl:min-h-[100px]">{postData?.content ?? "내용이 없습니다."}</p>
             {postData?.imageUrlList && postData.imageUrlList.length > 0 && (
               <div
                 className={`pt-6 ${

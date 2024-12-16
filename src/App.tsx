@@ -7,6 +7,7 @@ import { useUserStore } from "./zustand/authStore";
 import useUserInitialize from "./utils/initAuth";
 import Loading from "./components/common/Loading";
 import Footer from "./components/common/Footer";
+import ScrollToTop from "./components/common/ScrollToTop";
 
 function App(): React.JSX.Element {
   const { pathname } = useLocation();
@@ -20,6 +21,7 @@ function App(): React.JSX.Element {
 
   return (
     <>
+    <ScrollToTop/>
       <Layout>
         <div className="xl:hidden w-full flex justify-center">{!hideHeader && <MobileHeader />}</div>
         <div className="hidden w-full xl:flex justify-center">

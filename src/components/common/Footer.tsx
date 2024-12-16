@@ -8,17 +8,17 @@ function Footer() {
 
   return (
     <div
-      className={`mx-auto min-w-[360px] max-w-[520px] xl:max-w-none h-[328px] xl:h-[216px] mt-[64px] mb-[40px] flex items-center ${pathname === "/" ? "bg-greenoe-950" : "bg-grayoe-950"} px-[24px] xl:px-0`}
+      className={`mx-auto w-full xl:h-[216px] pt-[62px] pb-[40px] mt-[100px] flex items-center ${pathname === "/" ? "bg-greenoe-950" : "bg-grayoe-800"} px-[24px] ${pathname === "/" ? "xl:px-0" : "xl:px-[200px]"}`}
     >
       <div>
-        <img src={Logo} alt="로고" className="w-[160px] h-auto xl:mb-4" />
+        <img src={Logo} alt="로고" className="w-[130px] h-auto xl:mb-4" />
         <Link
           to={"https://github.com/OEasy-for-Cucumber"}
           target="_blank"
           className="hover:underline font-h5 flex gap-[4px] xl:mb-[10px] items-center w-[100px]"
         >
           Github
-          <img src={CrossArrow} alt="링크화살표" className="w-[32px] h-[32px]" />
+          <img src={CrossArrow} alt="화살표" className="w-[32px] h-[32px]" />
         </Link>
         <div className="xl:flex gap-[8px] xl:mb-2 text-grayoe-100 font-b2 items-center whitespace-nowrap hidden">
           <p className="font-b2-semibold mr-4">Developer</p>
