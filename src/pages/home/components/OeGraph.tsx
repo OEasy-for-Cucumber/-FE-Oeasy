@@ -132,6 +132,7 @@ function OeGraph() {
   };
 
   const difference = oePriceData[oePriceData.length - 2].price - oePriceData[oePriceData.length - 1].price;
+  const differencePrice = Math.abs(oePriceData[oePriceData.length - 2].price - oePriceData[oePriceData.length - 1].price);
   const lastIndex = oePriceData.length - 1;
   const todayPrice = oePriceData.length > 0 ? oePriceData[lastIndex] : { price: 0, date: "" };
 
@@ -181,7 +182,7 @@ function OeGraph() {
                 </div>
                 <div className={`font-h3 xl:font-h2 ${difference > 0 ? "text-[#0A84FF]" : "redoe"} ml-auto flex gap-2`}>
                   <span>{difference > 0 ? "-" : "+"}</span>
-                  <SlotNumber targetValue={difference} />
+                  <SlotNumber targetValue={differencePrice} />
                 </div>
               </div>
 
