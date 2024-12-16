@@ -32,6 +32,10 @@ function Detail() {
   const [selectedImage, setSelectedImage] = useState<number | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  useEffect(()=>{
+      window.scrollTo(0, 0);
+  },[])
+
   useEffect(() => {
     if (cmnId) {
       fetchPostData();
