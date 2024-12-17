@@ -125,7 +125,7 @@ const PriceMap: FC<scrollRefProps> = ({ scrollRef }) => {
 
   return (
     <div className="w-full flex flex-col justify-center px-6 pt-2 h-[calc(100vh-56px)] xl:h-[calc(100vh-80px)]">
-      <div className="w-full xl:flex xl:justify-between xl:h-[600px]">
+      <div className="w-full xl:flex xl:justify-between xl:h-[700px]">
         <div className="w-full xl:w-[40%]">
           <h3 className="font-h3 xl:font-h2 mb-2">지역별 오이가격</h3>
           <div className="flex gap-1 items-center relative">

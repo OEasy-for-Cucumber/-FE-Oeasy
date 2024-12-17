@@ -32,11 +32,6 @@ instance.interceptors.response.use(
 
     const errorCode: string | undefined = error.response?.data?.code;
 
-    // if ((originalRequest.url === "/aioe/start" && error.response?.status === 401) || error.response?.status === 400) {
-    //   console.warn("오류 무시");
-    //   return Promise.reject(error);
-    // }
-
     if (
       (originalRequest.url === "/aioe/start" && errorCode === "EXPIRED_ACCESS_TOKEN") ||
       error.response?.status === 400
@@ -53,7 +48,10 @@ instance.interceptors.response.use(
       try {
         const { data } = await instance.post("/auth/refresh");
 
-        Cookies.set("accessToken", data.accessToken);
+        Cookies.set("accessToken", data.accessToken, {
+          secure: process.env.NODE_ENV === "production",
+          sameSite: "Strict"
+        });
         console.log("토큰 재발급");
 
         originalRequest.headers["Authorization"] = `Bearer ${data.accessToken}`;
