@@ -20,7 +20,7 @@ function LikeRecipes() {
   return (
     <section className="px-6 xl:px-0 xl:w-[864px] h-[calc(100vh-56px)] xl:h-[calc(100vh-80px)] mt-[24px] xl:mx-auto">
       <div className="grid grid-cols-2 xl:grid-cols-4 gap-4 justify-items-center mb-4">
-        {reversedRecipes?.map((like, index) => (
+        {reversedRecipes && reversedRecipes.length > 0 ? reversedRecipes?.map((like, index) => (
           <Link to={`/recipe-detail/${like.id}`} key={index}>
             <div className="relative">
               <img src={like.imgUrl} alt={like.title} className="w-[225px] h-[148px] object-cover rounded relative" />
@@ -33,7 +33,7 @@ function LikeRecipes() {
             </div>
             <div className="py-2 font-b1-semibold">{like.title}</div>
           </Link>
-        ))}
+        )) : <p className="truncate mx-auto">좋아요한 레시피가 없습니다.</p>}
       </div>
     </section>
   );

@@ -131,6 +131,8 @@ function OeGraph() {
     }
   };
 
+  const difference = oePriceData[oePriceData.length - 2].price - oePriceData[oePriceData.length - 1].price;
+  const differencePrice = Math.abs(oePriceData[oePriceData.length - 2].price - oePriceData[oePriceData.length - 1].price);
   const lastIndex = oePriceData.length - 1;
   const todayPrice = oePriceData.length > 0 ? oePriceData[lastIndex] : { price: 0, date: "" };
 
@@ -170,35 +172,18 @@ function OeGraph() {
           <div className="w-full xl:w-[30%]">
             <div className="flex space-x-4 mt-4 xl:space-x-0 w-full xl:flex-col xl:gap-4">
               <div className="grid items-center bg-white rounded-lg shadow-md py-1 w-[50%] xl:w-full h-[128px] px-4">
-                {oePriceData.length > 0 ? (
-                  <>
-                    <div className="flex justify-start">
-                      <img src={IncIcon} alt="상승아이콘" className="w-[20px]" />
-                      <span className="text-sm text-black font-b1-semibold ml-1">전일대비</span>
-                    </div>
-                    <span className="font-h3 xl:font-h2 redoe ml-auto">
-                      <SlotNumber
-                        targetValue={
-                          oePriceData[oePriceData.length - 1].price - oePriceData[oePriceData.length - 2].price
-                        }
-                      />
-                    </span>
-                  </>
-                ) : (
-                  <>
-                    <div className="flex justify-start">
-                      <img src={decIcon} alt="인하아이콘" className="w-[20px]" />
-                      <span className="text-sm text-black font-b1-semibold ml-1">전일대비</span>
-                    </div>
-                    <span className="font-h3 xl:font-h2 text-[#0A84FF] ml-auto">
-                      <SlotNumber
-                        targetValue={
-                          oePriceData[oePriceData.length - 2].price - oePriceData[oePriceData.length - 1].price
-                        }
-                      />
-                    </span>
-                  </>
-                )}
+                <div className="flex justify-start">
+                  <img
+                    src={difference > 0 ? decIcon : IncIcon}
+                    alt={`${difference > 0 ? "인하화살표" : "상승화살표"}`}
+                    className="w-[20px]"
+                  />
+                  <span className="text-sm text-black font-b1-semibold ml-1">전일대비</span>
+                </div>
+                <div className={`font-h3 xl:font-h2 ${difference > 0 ? "text-[#0A84FF]" : "redoe"} ml-auto flex gap-2`}>
+                  <span>{difference > 0 ? "-" : "+"}</span>
+                  <SlotNumber targetValue={differencePrice} />
+                </div>
               </div>
 
               <div className="grid items-center bg-white rounded-lg shadow-md py-1 w-[50%] xl:w-full h-[128px] px-4">
