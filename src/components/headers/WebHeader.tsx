@@ -34,6 +34,10 @@ function WebHeader() {
     navigate("/mypage");
   };
 
+  const goToOeInfo = () => {
+    navigate("/oe-info");
+  };
+
   return (
     <div
       className={`w-full min-w-[1440px] h-[80px] px-[80px] z-10 flex items-center fixed ${pathname === "/" ? "bg-greenoe-950" : "bg-grayoe-950"}`}
@@ -44,6 +48,12 @@ function WebHeader() {
         </button>
       </div>
       <div className="flex flex-1 justify-end items-center space-x-8">
+        <button
+          onClick={goToOeInfo}
+          className={`${pathname === "/oe-Info" ? "text-greenoe-600" : "text-white"} hover:text-greenoe-600`}
+        >
+          오이백과
+        </button>
         <button
           onClick={goToCommunity}
           className={`${pathname === "/community" ? "text-greenoe-600" : "text-white"} hover:text-greenoe-600`}
