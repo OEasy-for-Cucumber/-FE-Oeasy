@@ -33,6 +33,30 @@
   }
 }
 
+@keyframes glowing {
+  0% {
+    box-shadow:
+      0 0 10px #fffd00,
+      0 0 20px #fffd00,
+      0 0 30px #fffd00,
+      0 0 40px #fffd00;
+  }
+  50% {
+    box-shadow:
+      0 0 20px #fffd00,
+      0 0 30px #fffd00,
+      0 0 40px #fffd00,
+      0 0 50px #fffd00;
+  }
+  100% {
+    box-shadow:
+      0 0 10px #fffd00,
+      0 0 20px #fffd00,
+      0 0 30px #fffd00,
+      0 0 40px #fffd00;
+  }
+}
+
 body {
   font-family: "Pretendard";
   color: #fff;
@@ -97,4 +121,8 @@ img {
 }
 .animate-slide-up {
   animation: slideUp 0.5s ease-out forwards;
+}
+.glowing-image {
+  position: relative;
+  animation: glowing 1.5s infinite ease-in-out;
 }

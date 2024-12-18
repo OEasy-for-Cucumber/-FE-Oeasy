@@ -33,6 +33,11 @@ function HamburgerModal({
     setIsModalOpen(false);
   };
 
+  const goToOeInfo = () => {
+    navigate("/oe-info");
+    setIsModalOpen(false);
+  };
+
   const closeHandler = () => {
     setIsModalOpen(false);
   };
@@ -49,6 +54,10 @@ function HamburgerModal({
               <div className="text-grayoe-400 font-h4 mt-[90px]">
                 <button onClick={goToHome} className="hover:text-white py-2">
                   홈
+                </button>
+                <hr className="border-grayoe-900" />
+                <button onClick={goToOeInfo} className="hover:text-white py-2">
+                  오이백과
                 </button>
                 <hr className="border-grayoe-900" />
                 <button onClick={goToCommunity} className="hover:text-white py-2">

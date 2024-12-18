@@ -239,11 +239,11 @@ function OeInfo() {
                   <img
                     src={growOE6}
                     alt="새싹 발아"
-                    className="rounded-lg w-[312px] h-[184px] xl:w-[668px] xl:h-[336px] object-cover"
+                    className="rounded-lg w-[312px] h-[184px] xl:w-[668px] xl:h-[336px] object-cover glowing-image"
                     ref={addToRefs}
                   />
-                  <p className="pt-2" ref={addToRefs}>
-                    6. 오이 재배 완료
+                  <p className="pt-4" ref={addToRefs}>
+                    6. 오이의 탄생
                   </p>
                 </div>
               </div>
