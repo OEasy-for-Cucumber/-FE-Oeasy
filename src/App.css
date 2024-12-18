@@ -22,6 +22,50 @@
   font-style: normal;
 }
 
+@keyframes slideUp {
+  0% {
+    transform: translateY(70px); /* 아래에서 시작 */
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0); /* 원래 위치 */
+    opacity: 1;
+  }
+}
+
+@keyframes rotating {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes glowing {
+  0% {
+    box-shadow:
+      0 0 10px #fffd00,
+      0 0 20px #fffd00,
+      0 0 30px #fffd00,
+      0 0 40px #fffd00;
+  }
+  50% {
+    box-shadow:
+      0 0 20px #fffd00,
+      0 0 30px #fffd00,
+      0 0 40px #fffd00,
+      0 0 50px #fffd00;
+  }
+  100% {
+    box-shadow:
+      0 0 10px #fffd00,
+      0 0 20px #fffd00,
+      0 0 30px #fffd00,
+      0 0 40px #fffd00;
+  }
+}
+
 body {
   font-family: "Pretendard";
   color: #fff;
@@ -83,4 +127,15 @@ img {
 .scrollbar-custom {
   overflow-y: auto;
   overflow-x: auto;
+}
+.animate-slide-up {
+  animation: slideUp 0.5s ease-out forwards;
+}
+.glowing-image {
+  position: relative;
+  animation: glowing 1.2s infinite ease-in-out;
+}
+.rotating-text {
+  display: inline-block;
+  animation: rotating 3s linear 1 forwards;
 }
