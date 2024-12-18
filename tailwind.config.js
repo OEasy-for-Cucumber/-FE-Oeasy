@@ -54,7 +54,8 @@ module.exports = {
       },
       backgroundImage: {
         mobile_cucumber: "url(/img/mobile_group.webp)",
-        web_cucumber: "url(/img/web_group.webp)"
+        web_cucumber: "url(/img/web_group.webp)",
+        info_cucumber: "url(@/assets/img/infoOEbanner.webp)"
       },
       backgroundSize: {
         "81%": "81%",

@@ -16,6 +16,7 @@ const MyPage = lazy(() => import("@/pages/mypage/MyPage"));
 const RecipeDetail = lazy(() => import("@/pages/recipes/detail/[id]"));
 const Detail = lazy(() => import("@/pages/community/detail/[id]/Detail"));
 const Upload = lazy(() => import("@/pages/community/upload/Upload"));
+const OeInfo = lazy(() => import("@/pages/oe-info"));
 
 const router = createBrowserRouter([
   {
@@ -135,6 +136,14 @@ const router = createBrowserRouter([
         element: (
           <Suspense fallback={<Loading />}>
             <LikeRecipes />
+          </Suspense>
+        )
+      },
+      {
+        path: "/oe-info",
+        element: (
+          <Suspense fallback={<Loading />}>
+            <OeInfo />
           </Suspense>
         )
       }
