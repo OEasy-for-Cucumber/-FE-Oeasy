@@ -107,7 +107,7 @@ function Home() {
         className={`overflow-y-auto h-[calc(100vh-56px)] xl:h-[calc(100vh-80px)] [&::-webkit-scrollbar]:hidden `}
       >
         <Landing />
-        <div className="xl:px-[200px]">
+        <div className="xl:px-[200px] xl:w-[1440px] mx-auto">
           <OeTip scrollRef={outerDivRef} />
           <OeVote scrollRef={outerDivRef} />
           <OeTemperature scrollRef={outerDivRef} />
