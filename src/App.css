@@ -33,6 +33,15 @@
   }
 }
 
+@keyframes rotating {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
 @keyframes glowing {
   0% {
     box-shadow:
@@ -124,5 +133,9 @@ img {
 }
 .glowing-image {
   position: relative;
-  animation: glowing 1.5s infinite ease-in-out;
+  animation: glowing 1.2s infinite ease-in-out;
+}
+.rotating-text {
+  display: inline-block;
+  animation: rotating 3s linear 1 forwards;
 }
