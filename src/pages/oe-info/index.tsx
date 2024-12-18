@@ -57,7 +57,7 @@ function OeInfo() {
         <p>cucumber</p>
       </div>
       <div className="w-full flex flex-col">
-        <div className=" mx-6 xl:w-[1040px] my-20 flex flex-col gap-[104px] xl:mx-auto">
+        <div className=" mx-6 xl:w-[1040px] mt-20 flex flex-col gap-[104px] xl:mx-auto">
           <div className="w-full h-auto flex flex-col ">
             <p className="mx-auto font-h3 xl:font-h2 text-greenoe-600 mb-10">오이의 효능</p>
             <p className="mb-5 font-b1-semibold xl:font-h5" ref={addToRefs}>
@@ -98,7 +98,7 @@ function OeInfo() {
                     <p ref={addToRefs}>
                       이 오이는 전국에서 연중 재배되며 특히 <span className="text-greenoe-600">4월과 5월이 제철</span>
                       입니다. 한국농촌경제연구원에 따르면 2018년 기준으로 가정에서
-                      <span className="text-greenoe-600">가장 많이 소비된 오이 품종</span>이기도 합니다. 소비 비중이
+                      <span className="text-greenoe-600"> 가장 많이 소비된 오이 품종</span>이기도 합니다. 소비 비중이
                       무려 75%에 달하며 전국적으로 많은 사랑을 받고 있습니다.
                     </p>
                   </div>
@@ -190,7 +190,7 @@ function OeInfo() {
                   ref={addToRefs}
                 />
                 <p className="pt-2" ref={addToRefs}>
-                  2. 오이 파종 후 새싹 발아
+                  2. 꽃이 피고 수정의 과정
                 </p>
               </div>
 
@@ -202,7 +202,7 @@ function OeInfo() {
                   ref={addToRefs}
                 />
                 <p className="pt-2" ref={addToRefs}>
-                  3. 오이 파종 후 새싹 발아
+                  3. 꽃이 지고 과실 발육
                 </p>
               </div>
 
@@ -214,7 +214,7 @@ function OeInfo() {
                   ref={addToRefs}
                 />
                 <p className="pt-2" ref={addToRefs}>
-                  4. 오이 파종 후 새싹 발아
+                  4. 무럭무럭 자라는 오이의 모습
                 </p>
               </div>
 
@@ -226,7 +226,7 @@ function OeInfo() {
                   ref={addToRefs}
                 />
                 <p className="pt-2" ref={addToRefs}>
-                  5. 오이 파종 후 새싹 발아
+                  5.
                 </p>
               </div>
               <div
