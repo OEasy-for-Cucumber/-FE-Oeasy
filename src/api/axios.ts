@@ -46,7 +46,7 @@ instance.interceptors.response.use(
       console.log("토큰 만료 - EXPIRED_ACCESS_TOKEN, 재발급 요청");
 
       try {
-        const { data } = await instance.post("/auth/refresh");
+        const { data } = await instance.post("/auth/refresh", {});
 
         Cookies.set("accessToken", data.accessToken, {
           secure: process.env.NODE_ENV === "production",
@@ -58,7 +58,7 @@ instance.interceptors.response.use(
         return instance(originalRequest);
       } catch (refreshError) {
         console.error("토큰 갱신 실패:", refreshError);
-        
+
         Cookies.remove("accessToken");
         setIsLoggedIn(false);
         window.location.href = "/login";
