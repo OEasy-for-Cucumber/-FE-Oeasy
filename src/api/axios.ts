@@ -30,20 +30,29 @@ instance.interceptors.response.use(
     const originalRequest = error.config;
     const { setIsLoggedIn } = useUserStore.getState();
 
-    const errorCode: string | undefined = error.response?.data?.code;
+    const errorMsg: string = error.response?.data?.message;
 
-    if (
-      (originalRequest.url === "/aioe/start" && errorCode === "EXPIRED_ACCESS_TOKEN") ||
-      error.response?.status === 400
-    ) {
-      console.warn("오류 무시");
+    if (errorMsg === "리프레시 토큰이 만료되었습니다.") {
+      console.error("리프레시 토큰 만료: 로그인 페이지로 이동합니다.");
+      Cookies.remove("accessToken");
+      setIsLoggedIn(false);
+      window.location.href = "/login";
       return Promise.reject(error);
     }
 
-    if (errorCode === "EXPIRED_ACCESS_TOKEN" && !originalRequest._retry) {
-      originalRequest._retry = true;
+    if (
+      ["유효하지 않은 액세스 토큰입니다.", "지원하지 않는 토큰입니다.", "잘못된 토큰 형식입니다."].includes(errorMsg)
+    ) {
+      console.warn(`유효하지 않은 토큰: ${errorMsg}`);
+      Cookies.remove("accessToken");
+      setIsLoggedIn(false);
+      window.location.href = "/login";
+      return Promise.reject(error);
+    }
 
-      console.log("토큰 만료 - EXPIRED_ACCESS_TOKEN, 재발급 요청");
+    if (errorMsg === "액세스 토큰이 만료되었습니다." && !originalRequest._retry) {
+      originalRequest._retry = true;
+      console.log("토큰 만료 - 재발급 요청 중...");
 
       try {
         const { data } = await instance.post("/auth/refresh", {});
@@ -52,23 +61,14 @@ instance.interceptors.response.use(
           secure: process.env.NODE_ENV === "production",
           sameSite: "Strict"
         });
-        console.log("토큰 재발급");
+        console.log("새로운 토큰 발급 완료");
 
         originalRequest.headers["Authorization"] = `Bearer ${data.accessToken}`;
         return instance(originalRequest);
       } catch (refreshError) {
         console.error("토큰 갱신 실패:", refreshError);
 
-        Cookies.remove("accessToken");
-        setIsLoggedIn(false);
-        window.location.href = "/login";
-        return Promise.reject(refreshError);
       }
-    }
-
-    if (error.response?.status === 401) {
-      console.warn("401 인증 에러 발생");
-      return Promise.reject(error);
     }
 
     return Promise.reject(error);
