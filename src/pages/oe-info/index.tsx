@@ -84,7 +84,7 @@ function OeInfo() {
                   <img
                     src={dadagi}
                     alt="백다다기 오이"
-                    className="w-full h-[312px] rounded-lg my-6 xl:mb-10 xl:mt-0"
+                    className="w-full h-[312px] xl:h-[336px] rounded-lg my-6 xl:mb-10 xl:mt-0 object-cover"
                     ref={addToRefs}
                   />
                   <div className="font-b1-semibold xl:font-h5 flex flex-col gap-5">
@@ -114,7 +114,7 @@ function OeInfo() {
                   <img
                     src={jeanOE}
                     alt="취청 오이"
-                    className="w-full h-[312px] rounded-lg my-6 xl:mb-10 xl:mt-0"
+                    className="w-full h-[312px] xl:h-[336px] rounded-lg my-6 xl:mb-10 xl:mt-0 object-cover"
                     ref={addToRefs}
                   />
                   <div className="font-b1-semibold xl:font-h5 flex flex-col gap-5">
@@ -145,7 +145,7 @@ function OeInfo() {
                     src={nidOE}
                     alt="가시 오이"
                     ref={addToRefs}
-                    className="w-full h-[312px] rounded-lg my-6 xl:mb-10 xl:mt-0"
+                    className="w-full h-[312px] xl:h-[336px] rounded-lg my-6 xl:mb-10 xl:mt-0 object-cover"
                   />
                   <div className="font-b1-semibold xl:font-h5 flex flex-col gap-5">
                     <p ref={addToRefs}>
