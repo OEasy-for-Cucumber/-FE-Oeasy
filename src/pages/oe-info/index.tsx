@@ -1,4 +1,6 @@
-import dadagi from "@/assets/img/info_cucumber.webp";
+import dadagi from "@/assets/img/dadagiOE.webp";
+import nidOE from "@/assets/img/nidOE.webp";
+import jeanOE from "@/assets/img/jeanOE.webp";
 import growOE1 from "@/assets/img/oe1.webp";
 import growOE2 from "@/assets/img/oe2.webp";
 import growOE3 from "@/assets/img/oe3.webp";
@@ -82,7 +84,7 @@ function OeInfo() {
                   <img
                     src={dadagi}
                     alt="백다다기 오이"
-                    className="w-full h-[312px] rounded-lg my-6 xl:mb-10 xl:mt-0"
+                    className="w-full h-[312px] xl:h-[336px] rounded-lg my-6 xl:mb-10 xl:mt-0 object-cover"
                     ref={addToRefs}
                   />
                   <div className="font-b1-semibold xl:font-h5 flex flex-col gap-5">
@@ -110,9 +112,9 @@ function OeInfo() {
                 </p>
                 <div className="flex flex-col xl:w-[688px]">
                   <img
-                    src={dadagi}
+                    src={jeanOE}
                     alt="취청 오이"
-                    className="w-full h-[312px] rounded-lg my-6 xl:mb-10 xl:mt-0"
+                    className="w-full h-[312px] xl:h-[336px] rounded-lg my-6 xl:mb-10 xl:mt-0 object-cover"
                     ref={addToRefs}
                   />
                   <div className="font-b1-semibold xl:font-h5 flex flex-col gap-5">
@@ -140,10 +142,10 @@ function OeInfo() {
                 </p>
                 <div className="flex flex-col xl:w-[688px]">
                   <img
-                    src={dadagi}
+                    src={nidOE}
                     alt="가시 오이"
                     ref={addToRefs}
-                    className="w-full h-[312px] rounded-lg my-6 xl:mb-10 xl:mt-0"
+                    className="w-full h-[312px] xl:h-[336px] rounded-lg my-6 xl:mb-10 xl:mt-0 object-cover"
                   />
                   <div className="font-b1-semibold xl:font-h5 flex flex-col gap-5">
                     <p ref={addToRefs}>
@@ -226,7 +228,7 @@ function OeInfo() {
                   ref={addToRefs}
                 />
                 <p className="pt-2" ref={addToRefs}>
-                  5.
+                  5. 멋진 오이가 되기까지의 기다림
                 </p>
               </div>
               <div
