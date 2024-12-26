@@ -1,7 +1,7 @@
 import { FC, useEffect, useState } from "react";
 import { ReactSVG } from "react-svg";
 import mapSvg from "@/assets/southKoreaLow.svg";
-import DangerCircle from "@/assets/icons/Danger Circle.webp";
+import DangerCircle from "@/assets/icons/Danger-Circle.webp";
 import { scrollRefProps } from "@/types/scrollRef";
 import { useScrollEvent } from "@/hooks/useScrollEvent";
 import instance from "@/api/axios";
@@ -124,8 +124,8 @@ const PriceMap: FC<scrollRefProps> = ({ scrollRef }) => {
   }, [regionData]);
 
   return (
-    <div className="w-full flex flex-col justify-center px-6 pt-2 h-[calc(100vh-56px)] xl:h-[calc(100vh-80px)]">
-      <div className="w-full xl:flex xl:justify-between xl:h-[700px]">
+    <div className="w-full flex flex-col my-auto justify-center px-6 pt-2 h-[calc(100vh-56px)] xl:h-[calc(100vh-80px)]">
+      <div className="w-full xl:flex xl:justify-between xl:h-[530px]">
         <div className="w-full xl:w-[40%]">
           <h3 className="font-h3 xl:font-h2 mb-2">지역별 오이가격</h3>
           <div className="flex gap-1 items-center relative">
@@ -133,7 +133,7 @@ const PriceMap: FC<scrollRefProps> = ({ scrollRef }) => {
               <img
                 src={DangerCircle}
                 alt="참고사항"
-                className="w-[13px] h-[13px] xl:w-[16px] xl:h-[16px] cursor-pointer"
+                className="w-[13px] h-[13px] xl:w-[16px] xl:h-[16px] cursor-pointer filter-color"
               />
             </button>
             {isTooltipVisible && isTooltipHover && (
@@ -151,6 +151,7 @@ const PriceMap: FC<scrollRefProps> = ({ scrollRef }) => {
         >
           <ReactSVG
             src={mapSvg}
+            className="xl:h-[530px]"
             beforeInjection={(svg) => {
               svg.setAttribute("class", "w-full h-full");
               svg.setAttribute("style", "cursor: pointer");
