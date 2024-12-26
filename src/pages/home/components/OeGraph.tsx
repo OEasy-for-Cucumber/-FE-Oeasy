@@ -1,4 +1,4 @@
-import DangerCircle from "@/assets/icons/Danger Circle.webp";
+import DangerCircle from "@/assets/icons/Danger-Circle.webp";
 import { useEffect, useState } from "react";
 import IncIcon from "@/assets/icons/inc-icon.webp";
 import decIcon from "@/assets/icons/dec-icon.webp";
@@ -151,7 +151,7 @@ function OeGraph() {
             <img
               src={DangerCircle}
               alt="참고사항"
-              className="w-[13px] h-[13px] xl:w-[16px] xl:h-[16px] cursor-pointer"
+              className="w-[13px] h-[13px] xl:w-[16px] xl:h-[16px] cursor-pointer filter-color"
             />
           </button>
 

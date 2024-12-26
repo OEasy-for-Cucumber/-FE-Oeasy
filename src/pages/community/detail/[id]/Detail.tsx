@@ -214,7 +214,7 @@ function Detail() {
             </div>
           )}
           <div className="pt-6">
-            <p className="font-b2-regular xl:font-b1-regular xl:min-h-[100px]">{postData?.content ?? "내용이 없습니다."}</p>
+            <p className={`font-b2-regular xl:font-b1-regular ${postData?.imageUrlList.length === 0 && "xl:min-h-[400px]" }`}>{postData?.content ?? "내용이 없습니다."}</p>
             {postData?.imageUrlList && postData.imageUrlList.length > 0 && (
               <div
                 className={`pt-6 ${
