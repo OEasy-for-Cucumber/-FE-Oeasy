@@ -8,7 +8,7 @@ function Footer() {
 
   return (
     <div
-      className={`mx-auto w-full xl:h-[216px] pt-[62px] pb-[40px] mt-[100px] flex items-center ${pathname === "/" ? "bg-greenoe-950" : "bg-grayoe-800"} px-[24px] ${pathname === "/" ? "xl:px-0" : "xl:px-[200px]"}`}
+      className={`mx-auto w-full xl:h-[216px] pt-[62px] pb-[40px] ${pathname !== "/vote-chat" && "mt-[100px]"} flex items-center ${pathname === "/" ? "bg-greenoe-950" : "bg-grayoe-800"} px-[24px] ${pathname === "/" ? "xl:px-0" : "xl:px-[200px]"}`}
     >
       <div>
         <img src={Logo} alt="로고" className="w-[130px] h-auto xl:mb-4" />

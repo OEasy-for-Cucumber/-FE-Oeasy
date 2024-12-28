@@ -33,7 +33,6 @@ instance.interceptors.response.use(
     const errorMsg: string = error.response?.data?.message;
 
     if (errorMsg === "리프레시 토큰이 만료되었습니다.") {
-      console.error("리프레시 토큰 만료: 로그인 페이지로 이동합니다.");
       Cookies.remove("accessToken");
       setIsLoggedIn(false);
       window.location.href = "/login";
@@ -52,7 +51,6 @@ instance.interceptors.response.use(
 
     if (errorMsg === "액세스 토큰이 만료되었습니다." && !originalRequest._retry) {
       originalRequest._retry = true;
-      console.log("토큰 만료 - 재발급 요청 중...");
 
       try {
         const { data } = await instance.post("/auth/refresh", {});
@@ -61,7 +59,6 @@ instance.interceptors.response.use(
           secure: process.env.NODE_ENV === "production",
           sameSite: "Strict"
         });
-        console.log("새로운 토큰 발급 완료");
 
         originalRequest.headers["Authorization"] = `Bearer ${data.accessToken}`;
         return instance(originalRequest);
