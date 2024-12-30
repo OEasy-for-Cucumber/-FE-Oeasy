@@ -139,3 +139,11 @@ img {
   display: inline-block;
   animation: rotating 3s linear 1 forwards;
 }
+
+.filter-color {
+  filter: invert(43%) sepia(2%) saturate(10%) hue-rotate(7deg) brightness(99%) contrast(96%);
+}
+
+.location-color {
+  filter: invert(23%) sepia(2%) saturate(10%) hue-rotate(7deg) brightness(99%) contrast(96%);
+}
