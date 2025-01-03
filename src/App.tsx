@@ -16,12 +16,12 @@ function App(): React.JSX.Element {
   const hideHeader = pathname === "/login";
 
   if (!isInitialize) {
-    return <Loading/>;
+    return <Loading />;
   }
 
   return (
     <>
-    <ScrollToTop/>
+      <ScrollToTop />
       <Layout>
         <div className="xl:hidden w-full flex justify-center">{!hideHeader && <MobileHeader />}</div>
         <div className="hidden w-full xl:flex justify-center">
@@ -29,7 +29,7 @@ function App(): React.JSX.Element {
         </div>
         <div className="pt-[56px] xl:pt-[80px]">
           <Outlet />
-          {pathname !== "/" && (<Footer/>)} 
+          {pathname !== "/" && pathname !== "/vote-chat" && <Footer />}
         </div>
       </Layout>
     </>

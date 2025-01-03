@@ -100,11 +100,16 @@ function Chat({ chattingList }: ChatProps) {
       }
     };
     scrollToBottom();
-    const handleResize = () => scrollToBottom();
+    const handleResize = () => {
+      setTimeout(scrollToBottom, 100);
+    };
+
     window.addEventListener("resize", handleResize);
+    document.addEventListener("focus", handleResize, true);
 
     return () => {
       window.removeEventListener("resize", handleResize);
+      document.removeEventListener("focus", handleResize, true);
     };
   }, [messages]);
 
@@ -140,7 +145,7 @@ function Chat({ chattingList }: ChatProps) {
     <div className="flex flex-col justify-between w-full xl:w-[488px] xl:h-[686px] xl:my-auto xl:bg-grayoe-900 xl:rounded-2xl">
       <div className="relative flex-1 overflow-hidden">
         <div className="flex flex-col h-full overflow-y-auto scrollbar-hidden">
-          <div className="flex-1 pt-4 px-4  space-y-4">
+          <div className="flex-1 px-4  space-y-2">
             {messages.map((msg, index) =>
               msg.nickname === user?.nickname ? (
                 <div key={`${msg.id}-${index}`} className="flex justify-end items-start">
