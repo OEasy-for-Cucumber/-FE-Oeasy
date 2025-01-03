@@ -122,7 +122,7 @@ const OeTemperature: FC<scrollRefProps> = ({ scrollRef }) => {
 
           <div className="flex flex-col w-[285px] h-[108px] xl:w-[462px] xl:h-[157px] absolute bottom-0 xl:bottom-0 xl:left-[2%]">
             <img src={Union} alt="말풍선" className="w-[285px] xl:w-[462px]" />
-            <p className="w-full px-4 text-center text-grayoe-950 font-b1-semibold xl:font-h5 absolute bottom-[14%] xl:bottom-[15%]">
+            <p className="w-full h-[80px] mt-[20px] xl:w-full xl:h-[140px] xl:mt-[30px] flex flex-col justify-center items-center px-4 text-grayoe-950 font-b1-semibold xl:font-h5 absolute">
               {(() => {
                 const text = oeIndexData?.word || "";
                 const parts = text.includes("(") ? text.replace(/ *\(/g, "\n(").split("\n") : [text, ""];
