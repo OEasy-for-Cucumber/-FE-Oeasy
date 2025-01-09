@@ -238,9 +238,9 @@ function OeInfo() {
                 <img
                   src={growOE6}
                   alt="새싹 발아"
-                  className="rounded-lg w-[312px] h-[184px] xl:w-[668px] xl:h-[336px] object-cover glowing-image"
+                  className="rounded-lg w-[312px] h-[184px] xl:w-[668px] xl:h-[336px] object-cover "
                 />
-                <p className="pt-4 rotating-text">6. 오이의 탄생</p>
+                <p className="pt-4 ">6. 오이의 탄생</p>
               </div>
             </div>
           </div>
